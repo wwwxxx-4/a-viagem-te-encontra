@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>A Viagem te Encontra</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   A VIAGEM TE ENCONTRA — Design System
+   Azul celeste #42AEDE · Navy #1A4F8A · Branco
+═══════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --sky:#42AEDE;--sky-lt:#7DCFF0;--sky-pale:#EBF7FD;--sky-dk:#2A9ECE;
+  --navy:#1A4F8A;--navy-dk:#0F3260;--navy-lt:#2A6AB5;
+  --white:#FFFFFF;--ice:#F4F8FB;--border:#C8DFEF;
+  --text:#0D2840;--muted:#5B7A96;--muted-lt:#8FAEC4;
+  --like:#27AE60;--nope:#E74C3C;
+  --r:18px;--r-sm:12px;
+  --sh:0 4px 20px rgba(26,79,138,.10);
+  --sh-lg:0 12px 40px rgba(26,79,138,.18);
+  --tr:.24s cubic-bezier(.4,0,.2,1);
+  --f:'Plus Jakarta Sans',sans-serif;
+  --fd:'Lora',Georgia,serif;
+}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:flex;align-items:center;justify-content:center}
+
+/* PHONE */
+.phone{width:min(390px,100vw);height:min(844px,100vh);background:var(--ice);border-radius:min(44px,0px);box-shadow:0 40px 100px rgba(0,0,0,.5);display:flex;flex-direction:column;overflow:hidden;position:relative}
+@media(max-width:390px){.phone{border-radius:0}}
+
+/* STATUS BAR */
+.sb{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:12px;font-weight:700;flex-shrink:0;position:relative;z-index:100;background:transparent}
+.sb.dark{color:#fff}.sb.light{color:var(--navy)}
+
+/* SCREENS */
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;transition:opacity .4s ease,transform .4s cubic-bezier(.4,0,.2,1);pointer-events:none;opacity:0;transform:translateX(30px)}
+.screen.active{pointer-events:all;opacity:1;transform:translateX(0)}
+.screen.exit{opacity:0;transform:translateX(-30px)}
+
+/* ══ LANDING ══ */
+#s-land{background:linear-gradient(170deg,var(--navy-dk) 0%,var(--navy) 55%,#1A7AB5 100%);justify-content:flex-end;overflow:hidden}
+.land-orbs{position:absolute;inset:0;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);animation:drift 7s ease-in-out infinite alternate}
+.o1{width:320px;height:320px;background:rgba(66,174,222,.2);top:-80px;right:-60px}
+.o2{width:280px;height:280px;background:rgba(26,79,138,.3);bottom:-60px;left:-60px;animation-delay:2s}
+.o3{width:180px;height:180px;background:rgba(66,174,222,.15);top:40%;left:30%;animation-delay:4s}
+@keyframes drift{from{transform:scale(1) translate(0,0)}to{transform:scale(1.12) translate(15px,-20px)}}
+.land-wave{position:absolute;bottom:-1px;left:0;right:0;height:110px;background:var(--ice);clip-path:ellipse(58% 100% at 50% 100%)}
+.land-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 28px;position:relative;z-index:1;text-align:center;margin-bottom:40px}
+.land-logo{height:80px;object-fit:contain;margin-bottom:22px;filter:drop-shadow(0 8px 24px rgba(0,0,0,.35))}
+.land-title{font-family:var(--fd);font-size:30px;font-weight:600;color:#fff;line-height:1.1;margin-bottom:10px;letter-spacing:-.01em}
+.land-title em{font-style:italic;color:var(--sky-lt)}
+.land-sub{font-size:14px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.65;margin-bottom:32px;max-width:300px}
+.btn-land{display:inline-flex;align-items:center;gap:10px;background:var(--sky);color:#fff;border:none;border-radius:100px;padding:15px 36px;font-family:var(--f);font-size:15px;font-weight:700;cursor:pointer;transition:var(--tr);box-shadow:0 8px 28px rgba(66,174,222,.45)}
+.btn-land:hover{background:var(--sky-lt);transform:translateY(-2px);box-shadow:0 14px 36px rgba(66,174,222,.55)}
+.btn-land:active{transform:translateY(0)}
+.btn-land-arr{font-size:18px;transition:transform var(--tr)}
+.btn-land:hover .btn-land-arr{transform:translateX(4px)}
+.land-stats{display:flex;justify-content:center;gap:32px;padding:18px 0 0}
+.ls-n{font-family:var(--fd);font-size:22px;font-weight:600;color:#fff;text-align:center}
+.ls-l{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:1px;text-align:center}
+
+/* ══ SWIPE ══ */
+#s-swipe{background:var(--white);padding-top:44px}
+.sw-top{padding:10px 18px 0;flex-shrink:0;background:var(--white);border-bottom:1px solid var(--border)}
+.sw-top-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.sw-logo{height:26px;object-fit:contain}
+.sw-likes{display:flex;align-items:center;gap:5px;background:var(--sky-pale);border:1px solid rgba(66,174,222,.25);border-radius:100px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--navy)}
+.sw-likes-n{font-weight:800;color:var(--sky-dk)}
+.reg-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+.reg-row::-webkit-scrollbar{display:none}
+.rc{white-space:nowrap;padding:5px 13px;border-radius:100px;border:1.5px solid var(--border);background:transparent;font-family:var(--f);font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:var(--tr);flex-shrink:0}
+.rc.on{border-color:var(--navy);background:var(--navy);color:#fff}
+.sw-area{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:10px 14px}
+.card-stack{position:relative;width:100%;max-width:340px;height:100%}
+/* Cards */
+.scard{position:absolute;inset:0;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-lg);user-select:none;cursor:grab;touch-action:none}
+.scard:active{cursor:grabbing}
+.scard-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .3s ease}
+.scard-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:72px}
+.scard-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,25,55,.95) 0%,rgba(8,25,55,.35) 50%,transparent 100%)}
+.scard-body{position:absolute;bottom:0;left:0;right:0;padding:18px}
+.scard-reg{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sky-lt);font-weight:600;margin-bottom:3px}
+.scard-dest{font-family:var(--fd);font-size:26px;font-weight:600;color:#fff;line-height:1.05;margin-bottom:3px}
+.scard-hotel{font-size:12px;color:rgba(255,255,255,.55);margin-bottom:8px}
+.scard-row{display:flex;align-items:center;justify-content:space-between}
+.scard-price{font-size:18px;font-weight:800;color:var(--sky-lt)}
+.scard-meta{font-size:11px;color:rgba(255,255,255,.5)}
+/* Under-cards */
+.scard:nth-child(2){transform:scale(.955) translateY(10px);z-index:-1}
+.scard:nth-child(3){transform:scale(.91) translateY(20px);z-index:-2}
+.scard:nth-child(n+4){transform:scale(.865) translateY(30px);z-index:-3;opacity:.35}
+/* Stamps */
+.stamp{position:absolute;top:26px;padding:5px 14px;border-radius:8px;font-size:20px;font-weight:800;letter-spacing:.08em;opacity:0;border-width:3px;border-style:solid}
+.stamp-like{left:18px;color:var(--like);border-color:var(--like);transform:rotate(-12deg)}
+.stamp-nope{right:18px;color:var(--nope);border-color:var(--nope);transform:rotate(12deg)}
+/* Action btns */
+.sw-btns{display:flex;align-items:center;justify-content:center;gap:20px;padding:8px 20px 14px;flex-shrink:0}
+.sbtn{border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--tr);font-size:20px}
+.sbtn-nope{width:54px;height:54px;background:rgba(231,76,60,.1);border:2px solid rgba(231,76,60,.25);color:var(--nope)}
+.sbtn-like{width:70px;height:70px;background:rgba(39,174,96,.12);border:2px solid rgba(39,174,96,.3);color:var(--like);font-size:26px}
+.sbtn-skip{width:42px;height:42px;background:rgba(0,0,0,.05);border:1.5px solid var(--border);color:var(--muted);font-size:17px}
+.sbtn:hover{transform:scale(1.08)}.sbtn:active{transform:scale(.94)}
+.sw-hint{text-align:center;font-size:11px;color:var(--muted-lt);padding-bottom:2px;flex-shrink:0}
+
+/* ══ HOOK ══ */
+#s-hook{background:linear-gradient(160deg,var(--navy-dk),var(--navy));align-items:center;justify-content:center;text-align:center;padding:40px 28px}
+.hook-inner{max-width:320px}
+.hook-emoji{font-size:54px;margin-bottom:18px;animation:bounce .8s ease-in-out infinite alternate}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-8px)}}
+.hook-title{font-family:var(--fd);font-size:28px;font-weight:600;color:#fff;line-height:1.1;margin-bottom:10px}
+.hook-title em{font-style:italic;color:var(--sky-lt)}
+.hook-sub{font-size:13px;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:20px}
+.hook-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-bottom:24px}
+.hook-tag{display:inline-flex;align-items:center;gap:4px;background:rgba(66,174,222,.15);border:1px solid rgba(66,174,222,.3);border-radius:100px;padding:5px 12px;font-size:12px;font-weight:600;color:rgba(255,255,255,.85)}
+.hook-insight{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 16px;margin-bottom:22px;font-size:12px;color:rgba(255,255,255,.6);line-height:1.6;text-align:left}
+.hook-insight strong{color:var(--sky-lt)}
+.btn-hook{width:100%;padding:14px;border-radius:100px;border:none;background:var(--sky);color:#fff;font-family:var(--f);font-size:14px;font-weight:700;cursor:pointer;transition:var(--tr);margin-bottom:10px;box-shadow:0 6px 24px rgba(66,174,222,.4)}
+.btn-hook:hover{background:var(--sky-lt);transform:translateY(-1px)}
+.btn-hook-skip{background:none;border:none;color:rgba(255,255,255,.4);font-family:var(--f);font-size:13px;cursor:pointer;padding:8px;transition:var(--tr)}
+.btn-hook-skip:hover{color:rgba(255,255,255,.7)}
+
+/* ══ QUIZ ══ */
+#s-quiz{background:var(--white);padding-top:44px}
+.qhdr{padding:10px 18px 0;flex-shrink:0;border-bottom:1px solid var(--border);background:var(--white)}
+.qhdr-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.qhdr-logo{height:22px;object-fit:contain}
+.qhdr-step{font-size:11px;color:var(--muted);font-weight:500}
+.prog{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--sky),var(--navy));border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.qbody{flex:1;overflow-y:auto;padding:22px 18px 60px;scrollbar-width:none}
+.qbody::-webkit-scrollbar{display:none}
+.qblock{display:none}
+.qblock.active{display:block;animation:slideQ .35s cubic-bezier(.4,0,.2,1)}
+@keyframes slideQ{from{opacity:0;transform:translateX(22px)}to{opacity:1;transform:translateX(0)}}
+.q-tag{display:inline-flex;align-items:center;gap:5px;background:var(--sky-pale);border:1px solid rgba(66,174,222,.2);border-radius:100px;padding:3px 12px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sky-dk);margin-bottom:10px}
+.q-title{font-family:var(--fd);font-size:22px;font-weight:600;color:var(--text);line-height:1.15;margin-bottom:5px}
+.q-sub{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:18px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opts2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{display:flex;align-items:center;gap:11px;padding:12px 13px;background:var(--ice);border:2px solid var(--border);border-radius:var(--r-sm);cursor:pointer;transition:var(--tr);user-select:none}
+.opt:hover{border-color:var(--sky);background:var(--sky-pale);transform:translateY(-1px)}
+.opt.sel{border-color:var(--navy);background:rgba(26,79,138,.04)}
+.opt-ic{width:36px;height:36px;border-radius:9px;background:var(--white);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;transition:background var(--tr)}
+.opt.sel .opt-ic{background:rgba(26,79,138,.08)}
+.opt-tx{flex:1}
+.opt-lbl{font-size:13px;font-weight:600;color:var(--text)}
+.opt-desc{font-size:11px;color:var(--muted);margin-top:1px;line-height:1.3}
+.opt-ck{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;transition:var(--tr)}
+.opt.sel .opt-ck{background:var(--navy);border-color:var(--navy);color:#fff}
+.qnav{display:flex;gap:10px;margin-top:18px;align-items:center}
+.btn-qb{display:inline-flex;align-items:center;gap:5px;padding:11px 15px;border-radius:100px;border:2px solid var(--border);background:transparent;font-family:var(--f);font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:var(--tr)}
+.btn-qb:hover{border-color:var(--sky);color:var(--navy)}
+.btn-qn{flex:1;max-width:200px;display:flex;align-items:center;justify-content:center;gap:7px;padding:12px 18px;border-radius:100px;border:none;background:var(--navy);font-family:var(--f);font-size:13px;font-weight:700;color:#fff;cursor:pointer;transition:var(--tr)}
+.btn-qn:hover{background:var(--sky-dk);transform:translateY(-1px)}
+.btn-qn:disabled{background:var(--border);color:var(--muted-lt);cursor:not-allowed;transform:none}
+
+/* ══ ANALYZING ══ */
+#s-analyze{background:linear-gradient(160deg,var(--navy-dk),var(--navy));align-items:center;justify-content:center;padding:40px 24px;text-align:center}
+.az-ring{position:relative;width:120px;height:120px;margin:0 auto 28px}
+.az-r{position:absolute;border-radius:50%;inset:0}
+.az-r1{border:3px solid transparent;border-top-color:var(--sky);border-right-color:rgba(66,174,222,.2);animation:spin 2s linear infinite}
+.az-r2{border:2px solid transparent;border-top-color:rgba(255,255,255,.6);border-left-color:rgba(255,255,255,.1);inset:12px;animation:spin 1.4s linear infinite reverse}
+.az-r3{border:1.5px solid transparent;border-bottom-color:rgba(66,174,222,.5);inset:24px;animation:spin 3.5s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.az-mid{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.az-mid img{width:44px;height:44px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))}
+.az-title{font-family:var(--fd);font-size:24px;font-weight:600;color:#fff;margin-bottom:6px}
+.az-sub{font-size:13px;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:24px}
+.az-steps{display:flex;flex-direction:column;gap:8px;text-align:left;max-width:300px;margin:0 auto}
+.az-step{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:12px;color:rgba(255,255,255,.35);transition:all .5s ease}
+.az-step.done{color:rgba(255,255,255,.8);background:rgba(66,174,222,.1);border-color:rgba(66,174,222,.25)}
+.az-step.act{color:rgba(255,255,255,.95);background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18)}
+.az-step-ic{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;background:rgba(255,255,255,.06);flex-shrink:0}
+.az-step.done .az-step-ic{background:rgba(66,174,222,.25)}
+.az-step.act .az-step-ic{background:rgba(255,255,255,.12);animation:pulse-ic 1s ease-in-out infinite}
+@keyframes pulse-ic{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ══ RESULTS ══ */
+#s-results{background:var(--ice);padding-top:44px}
+.res-hero{background:linear-gradient(135deg,var(--navy-dk) 0%,var(--navy) 55%,#1A7AB5 100%);padding:16px 18px 28px;flex-shrink:0;position:relative;overflow:hidden}
+.res-hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:26px;background:var(--ice);clip-path:ellipse(55% 100% at 50% 100%)}
+.rh-logo{height:24px;object-fit:contain;margin-bottom:12px;display:block}
+.rh-eye{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:5px}
+.rh-title{font-family:var(--fd);font-size:22px;font-weight:600;color:#fff;margin-bottom:5px;line-height:1.1}
+.rh-sub{font-size:13px;color:rgba(255,255,255,.6);line-height:1.5;margin-bottom:12px}
+.rh-pills{display:flex;flex-wrap:wrap;gap:6px}
+.rh-pill{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:100px;padding:4px 10px;font-size:11px;font-weight:500;color:rgba(255,255,255,.85)}
+/* Score breakdown mini */
+.rh-score-bar{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:11px;color:rgba(255,255,255,.5)}
+.rh-sb-track{flex:1;height:4px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden}
+.rh-sb-fill{height:100%;background:linear-gradient(90deg,var(--sky-lt),var(--sky));border-radius:2px}
+
+/* Tabs */
+.res-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--white);flex-shrink:0}
+.rtab{flex:1;padding:11px 8px;border:none;background:transparent;font-family:var(--f);font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:var(--tr);border-bottom:2px solid transparent}
+.rtab.on{color:var(--navy);border-bottom-color:var(--navy)}
+.tab-dot{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--sky);color:#fff;font-size:9px;font-weight:800;margin-left:4px;vertical-align:middle}
+
+/* Views */
+.res-view{flex:1;overflow-y:auto;scrollbar-width:none}
+.res-view::-webkit-scrollbar{display:none}
+#v-match{padding:14px 14px 60px}
+#v-explore{padding:10px 10px 60px}
+
+/* Match cards */
+.mcard{background:var(--white);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh);overflow:hidden;margin-bottom:12px;transition:var(--tr);animation:cardUp .4s ease both}
+.mcard:nth-child(2){animation-delay:.08s}.mcard:nth-child(3){animation-delay:.16s}.mcard:nth-child(4){animation-delay:.24s}.mcard:nth-child(5){animation-delay:.32s}
+@keyframes cardUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.mcard:hover{transform:translateY(-2px);box-shadow:var(--sh-lg)}
+.mc-img{position:relative;height:170px;overflow:hidden}
+.mc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.mcard:hover .mc-img img{transform:scale(1.04)}
+.mc-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:36px}
+.mc-score{position:absolute;top:10px;left:10px;border-radius:100px;padding:5px 11px;font-size:12px;font-weight:700;backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.2)}
+.sc1{background:rgba(26,79,138,.88);color:#fff}.sc2{background:rgba(66,174,222,.88);color:#fff}.sc3{background:rgba(0,0,0,.65);color:#fff}
+.mc-rank{position:absolute;top:10px;right:10px;font-size:20px}
+.mc-body{padding:13px 14px}
+.mc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:9px}
+.mc-dest{font-family:var(--fd);font-size:19px;font-weight:600;line-height:1.1}
+.mc-tipo{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-top:2px}
+.mc-price{text-align:right;flex-shrink:0}
+.mc-pv{font-size:17px;font-weight:800;color:var(--navy)}
+.mc-pl{font-size:10px;color:var(--muted)}
+/* Score breakdown in card */
+.mc-score-detail{background:var(--sky-pale);border-radius:8px;padding:8px 10px;margin-bottom:9px;font-size:11px;color:var(--navy)}
+.mc-score-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.mc-score-row:last-child{margin-bottom:0}
+.mc-score-bar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin:0 8px}
+.mc-score-fill{height:100%;border-radius:2px}
+.fill-impl{background:linear-gradient(90deg,#27AE60,#52b788)}
+.fill-expl{background:linear-gradient(90deg,var(--sky),var(--navy))}
+.compat-row{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.compat-lbl{font-size:11px;color:var(--muted);font-weight:500;flex-shrink:0}
+.compat-track{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.compat-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--sky),var(--navy));animation:bGrow 1s .3s ease both}
+@keyframes bGrow{from{width:0!important}}
+.compat-pct{font-size:12px;font-weight:700;color:var(--navy);flex-shrink:0}
+.mc-hotel{font-size:12px;color:var(--muted);margin-bottom:7px}
+.mc-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:9px}
+.mc-chip{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:6px;background:var(--sky-pale);font-size:11px;color:var(--navy);font-weight:500}
+.why-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.wtag{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:100px;background:rgba(39,174,96,.08);border:1px solid rgba(39,174,96,.2);font-size:11px;color:#1A7A4A;font-weight:500}
+.btn-wa{width:100%;padding:11px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--navy),var(--sky-dk));color:#fff;font-family:var(--f);font-size:13px;font-weight:700;cursor:pointer;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:7px}
+.btn-wa:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 6px 18px rgba(26,79,138,.3)}
+
+/* ══ EXPLORER ══ */
+.fbox{background:var(--white);border-radius:var(--r);border:1px solid var(--border);padding:12px;margin-bottom:10px;box-shadow:var(--sh)}
+.fbox-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.fbox-title{font-size:13px;font-weight:700;color:var(--text)}
+.fbox-count{font-size:11px;color:var(--muted)}
+.fsearch{display:flex;align-items:center;gap:7px;background:var(--ice);border:1px solid var(--border);border-radius:8px;padding:0 11px;margin-bottom:9px}
+.fsearch-ic{width:14px;height:14px;color:var(--muted);flex-shrink:0}
+.fsearch input{flex:1;border:none;background:transparent;font-family:var(--f);font-size:12px;padding:8px 0;color:var(--text);outline:none}
+.fsearch input::placeholder{color:var(--muted-lt)}
+.fchips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.fc{padding:4px 11px;border-radius:100px;border:1.5px solid var(--border);background:transparent;font-family:var(--f);font-size:11px;font-weight:600;color:var(--muted);cursor:pointer;transition:var(--tr)}
+.fc:hover{border-color:var(--sky);color:var(--sky)}
+.fc.on{border-color:var(--navy);background:var(--navy);color:#fff}
+.sort-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.sort-lbl{font-size:11px;color:var(--muted);font-weight:500;flex-shrink:0}
+.sort-btns{display:flex;gap:4px;flex-wrap:wrap}
+.sb{padding:4px 9px;border-radius:7px;border:1.5px solid var(--border);background:transparent;font-family:var(--f);font-size:10px;font-weight:600;color:var(--muted);cursor:pointer;transition:var(--tr)}
+.sb:hover{border-color:var(--sky);color:var(--sky)}
+.sb.on{border-color:var(--navy);background:var(--sky-pale);color:var(--navy)}
+.sort-dir{width:26px;height:26px;border-radius:6px;border:1.5px solid var(--border);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted);font-family:var(--f);transition:var(--tr)}
+.sort-dir:hover{border-color:var(--sky);color:var(--sky)}
+.pkg-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.pcard{background:var(--white);border-radius:var(--r-sm);border:1px solid var(--border);box-shadow:var(--sh);overflow:hidden;transition:var(--tr);display:flex;flex-direction:column}
+.pcard:hover{transform:translateY(-2px);box-shadow:var(--sh-lg)}
+.pc-img{position:relative;height:115px;overflow:hidden}
+.pc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.pcard:hover .pc-img img{transform:scale(1.06)}
+.pc-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px}
+.pc-badge{position:absolute;top:7px;left:7px;background:rgba(26,79,138,.85);backdrop-filter:blur(8px);border-radius:5px;padding:2px 7px;font-size:9px;font-weight:700;color:#fff;letter-spacing:.05em;text-transform:uppercase}
+.pc-sc{position:absolute;top:7px;right:7px;background:rgba(66,174,222,.9);backdrop-filter:blur(8px);border-radius:5px;padding:2px 7px;font-size:9px;font-weight:700;color:#fff}
+.pc-body{padding:9px;flex:1;display:flex;flex-direction:column}
+.pc-dest{font-family:var(--fd);font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pc-hotel{font-size:10px;color:var(--muted);margin-bottom:6px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pc-chips{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px}
+.pc-chip{padding:2px 5px;border-radius:4px;background:var(--sky-pale);font-size:9px;color:var(--navy);font-weight:500}
+.pc-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:5px;border-top:1px solid var(--border)}
+.pc-price{font-size:13px;font-weight:800;color:var(--navy)}
+.pc-pp{font-size:9px;color:var(--muted)}
+.btn-pc{padding:5px 9px;border-radius:6px;border:none;background:var(--navy);color:#fff;font-family:var(--f);font-size:10px;font-weight:700;cursor:pointer;transition:var(--tr)}
+.btn-pc:hover{background:var(--sky-dk)}
+.no-res{grid-column:1/-1;text-align:center;padding:36px 16px;color:var(--muted)}
+.no-res-ic{font-size:32px;margin-bottom:8px}
+
+/* BOTTOM BTNS */
+.res-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;padding:0 2px}
+.btn-sec{flex:1;min-width:110px;padding:10px 12px;border-radius:100px;border:2px solid var(--border);background:var(--white);font-family:var(--f);font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:5px}
+.btn-sec:hover{border-color:var(--sky);color:var(--navy)}
+
+/* TOAST */
+.toast{position:absolute;bottom:68px;left:50%;transform:translateX(-50%) translateY(14px);background:rgba(10,30,60,.92);border:1px solid rgba(66,174,222,.25);border-radius:100px;padding:9px 16px;font-size:12px;font-weight:500;color:#fff;white-space:nowrap;opacity:0;transition:all .3s ease;pointer-events:none;z-index:999;backdrop-filter:blur(12px)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* EMPTY SWIPE */
+.sw-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--muted);text-align:center;padding:20px}
+.sw-empty-ic{font-size:40px}
+.sw-empty-title{font-size:14px;font-weight:600}
+.sw-empty-sub{font-size:12px}
+.btn-sw-match{margin-top:6px;padding:11px 24px;border-radius:100px;border:none;background:var(--navy);color:#fff;font-family:var(--f);font-size:13px;font-weight:700;cursor:pointer;transition:var(--tr)}
+.btn-sw-match:hover{background:var(--sky-dk)}
+</style>
+</head>
+<body>
+<div class="phone">
+
+<div class="sb dark" id="status-bar">
+  <span>9:41</span>
+  <div style="display:flex;align-items:center;gap:5px;font-size:11px"><span>●●●</span><span>📶</span><span>🔋</span></div>
+</div>
+
+<!-- ══ LANDING ══ -->
+<div class="screen active" id="s-land">
+  <div class="land-orbs"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+  <div class="land-body">
+    <img class="land-logo" id="logo-land" src="" alt="A Viagem te Encontra">
+    <h1 class="land-title">A viagem <em>perfeita</em><br>te encontra</h1>
+    <p class="land-sub">Dê likes em destinos — nosso algoritmo aprende seu perfil e apresenta os pacotes ideais para você.</p>
+    <button class="btn-land" onclick="goSwipe()">
+      Começar a explorar
+      <span class="btn-land-arr">→</span>
+    </button>
+    <div class="land-stats">
+      <div><div class="ls-n">204</div><div class="ls-l">Pacotes</div></div>
+      <div><div class="ls-n">45</div><div class="ls-l">Destinos</div></div>
+      <div><div class="ls-n">100%</div><div class="ls-l">Personalizado</div></div>
+    </div>
+  </div>
+  <div class="land-wave"></div>
+</div>
+
+<!-- ══ SWIPE ══ -->
+<div class="screen" id="s-swipe">
+  <div class="sw-top">
+    <div class="sw-top-row">
+      <img class="sw-logo" id="logo-sw" src="" alt="A Viagem te Encontra">
+      <div class="sw-likes">♥ <span class="sw-likes-n" id="likes-num">0</span> curtidos</div>
+    </div>
+    <div class="reg-row" id="reg-row">
+      <button class="rc on" data-r="all" onclick="setRegion(this,'all')">Todos</button>
+      <button class="rc" data-r="Nordeste" onclick="setRegion(this,'Nordeste')">🌊 Nordeste</button>
+      <button class="rc" data-r="Bahia" onclick="setRegion(this,'Bahia')">🌴 Bahia</button>
+      <button class="rc" data-r="Sul" onclick="setRegion(this,'Sul')">🏔 Sul</button>
+      <button class="rc" data-r="Internacional" onclick="setRegion(this,'Internacional')">✈️ Intl</button>
+      <button class="rc" data-r="Centro-Oeste" onclick="setRegion(this,'Centro-Oeste')">🌿 Centro</button>
+    </div>
+  </div>
+  <div class="sw-area">
+    <div class="card-stack" id="card-stack"></div>
+  </div>
+  <div class="sw-hint" id="sw-hint">Arraste ou use os botões · ♥ curtir · ✕ não curtir</div>
+  <div class="sw-btns">
+    <button class="sbtn sbtn-nope" onclick="doSwipe('left')">✕</button>
+    <button class="sbtn sbtn-like" onclick="doSwipe('right')">♥</button>
+    <button class="sbtn sbtn-skip" onclick="doSwipe('skip')">↷</button>
+  </div>
+</div>
+
+<!-- ══ HOOK ══ -->
+<div class="screen" id="s-hook">
+  <div class="hook-inner">
+    <div class="hook-emoji">🎯</div>
+    <h2 class="hook-title">Quer viagens <em>perfeitas</em><br>para você?</h2>
+    <p class="hook-sub">Você já nos mostrou o que curte. Agora 5 perguntas rápidas e encontramos os pacotes com maior compatibilidade.</p>
+    <div class="hook-tags" id="hook-tags"></div>
+    <div class="hook-insight">
+      <strong>Como funciona:</strong> Seus curtidos revelam seu estilo de viagem. O quiz revela sua intenção. Juntos criam um perfil preciso — <strong>os pacotes te encontram.</strong>
+    </div>
+    <button class="btn-hook" onclick="goQuiz()">Sim! Quero meus matches ✨</button>
+    <button class="btn-hook-skip" onclick="skipToResults()">Pular e ver resultados →</button>
+  </div>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div class="screen" id="s-quiz">
+  <div class="qhdr">
+    <div class="qhdr-row">
+      <img class="qhdr-logo" id="logo-quiz" src="" alt="">
+      <span class="qhdr-step" id="q-lbl">Pergunta 1 de 5</span>
+    </div>
+    <div class="prog"><div class="prog-fill" id="q-prog" style="width:20%"></div></div>
+  </div>
+  <div class="qbody">
+
+    <div class="qblock active" id="qq1">
+      <div class="q-tag">💰 Orçamento</div>
+      <h2 class="q-title">Qual é o seu orçamento por pessoa?</h2>
+      <p class="q-sub">Valor de hospedagem + passeios, sem passagem.</p>
+      <div class="opts">
+        <div class="opt" data-q="bud" data-v="b1" onclick="qpick(this)"><div class="opt-ic">💛</div><div class="opt-tx"><div class="opt-lbl">Até R$ 1.500</div><div class="opt-desc">Custo-benefício, pousadas e hostels</div></div><div class="opt-ck">✓</div></div>
+        <div class="opt" data-q="bud" data-v="b2" onclick="qpick(this)"><div class="opt-ic">🌊</div><div class="opt-tx"><div class="opt-lbl">R$ 1.500 a R$ 3.000</div><div class="opt-desc">Conforto, hotel 3–4★ com café da manhã</div></div><div class="opt-ck">✓</div></div>
+        <div class="opt" data-q="bud" data-v="b3" onclick="qpick(this)"><div class="opt-ic">🏨</div><div class="opt-tx"><div class="opt-lbl">R$ 3.000 a R$ 6.000</div><div class="opt-desc">Resort e hotéis superiores selecionados</div></div><div class="opt-ck">✓</div></div>
+        <div class="opt" data-q="bud" data-v="b4" onclick="qpick(this)"><div class="opt-ic">✨</div><div class="opt-tx"><div class="opt-lbl">Acima de R$ 6.000</div><div class="opt-desc">Luxo, all-inclusive e resorts premium</div></div><div class="opt-ck">✓</div></div>
+      </div>
+      <div class="qnav"><div></div><button class="btn-qn" id="qn1" disabled onclick="goQQ(2)">Continuar →</button></div>
+    </div>
+
+    <div class="qblock" id="qq2">
+      <div class="q-tag">👥 Companhia</div>
+      <h2 class="q-title">Com quem você vai viajar?</h2>
+      <p class="q-sub">Personalizamos as sugestões para o seu grupo.</p>
+      <div class="opts2">
+        <div class="opt" data-q="comp" data-v="solo" onclick="qpick(this)"><div class="opt-ic">🧳</div><div class="opt-tx"><div class="opt-lbl">Sozinho(a)</div></div><div class="opt-ck">✓</div></div>
+        <div class="opt" data-q="comp" data-v="casal" onclick="qpick(this)"><div class="opt-ic">💑</div><div class="opt-tx"><div class="opt-lbl">Em casal</div></div><div class="opt-ck">✓</div></div>
+        <div class="opt" data-q="comp" data-v="familia" onclick="qpick(this)"><div class="opt-ic">👨‍👩‍👧</div><div class="opt-tx"><div class="opt-lbl">Família</div></div><div class="opt-ck">✓</div></div>
+        <div class="opt" data-q="comp" data-v="amigos" onclick="qpick(this)"><div class="opt-ic">🎉</div><div class="opt-tx"><div class="opt-lbl">Amigos</div></div><div class="opt-ck">✓</div></div>
+      </div>
+      <div class="qnav"><button class="btn-qb" onclick="goQQ(1)">← Voltar</button><button class="btn-qn" id="qn2" disabled onclick="goQQ(3)">Continuar →</button></div>
+    </div>
+
+    <div class="qblock" id="qq3">
+      <div class="q-tag">🏨 Hospedagem</div>
+      <h2 class="q-title">Como você prefere se hospedar?</h2>
+      <p class="q-sub">Seu estilo de acomodação ideal para essa viagem.</p>
+      <div class="opts">
+        <div class="opt" data-q="hosp" data-v="economico" onclick="qpick(this)"><div class="opt-ic">🎒</div><div class="opt-tx"><div class="opt-lbl">Econômico</div><div class="opt-desc">Pousada ou hostel — valor para experiências</div></div><div class="opt-ck">✓</div></div>
+        <div class="opt" data-q="hosp" data-v="conforto" onclick="qpick(this)"><div class="opt-ic">☕</div><div class="opt-tx"><div class="opt-lbl">Conforto c/ café da manhã</div><div class="opt-desc">Hotel 3–4★ com boa localização</div></div><div class="opt-ck">✓</div></div>
+        <div class="opt" data-q="hosp" data-v="luxo" onclick="qpick(this)"><div class="opt-ic">🥂</div><div class="opt-tx"><div class="opt-lbl">Luxo ou resort 5★</div><div class="opt-desc">Serviço premium e estrutura completa</div></div><div class="opt-ck">✓</div></div>
+        <div class="opt" data-q="hosp" data-v="allinclusive" onclick="qpick(this)"><div class="opt-ic">🍹</div><div class="opt-tx"><div class="opt-lbl">All Inclusive</div><div class="opt-desc">Tudo incluso — sem preocupação alguma</div></div><div class="opt-ck">✓</div></div>
+      </div>
+      <div class="qnav"><button class="btn-qb" onclick="goQQ(2)">← Voltar</button><button class="btn-qn" id="qn3" disabled onclick="goQQ(4)">Continuar →</button></div>
+    </div>
+
+    <div class="qblock" id="qq4">
+      <div class="q-tag">🎯 Objetivo</div>
+      <h2 class="q-title">O que você mais quer nessa viagem?</h2>
+      <p class="q-sub">A essência da experiência que você está buscando.</p>
+      <div class="opts2">
+        <div class="opt" data-q="goal" data-v="descanso" onclick="qpick(this)"><div class="opt-ic">😴</div><div class="opt-tx"><div class="opt-lbl">Descanso</div><div class="opt-desc">Desligar e relaxar</div></div><div class="opt-ck">✓</div></div>
+        <div class="opt" data-q="goal" data-v="aventura" onclick="qpick(this)"><div class="opt-ic">🧗</div><div class="opt-tx"><div class="opt-lbl">Aventura</div><div class="opt-desc">Trilhas e emoção</div></div><div class="opt-ck">✓</div></div>
+        <div class="opt" data-q="goal" data-v="romantico" onclick="qpick(this)"><div class="opt-ic">🥂</div><div class="opt-tx"><div class="opt-lbl">Romântico</div><div class="opt-desc">Momentos especiais</div></div><div class="opt-ck">✓</div></div>
+        <div class="opt" data-q="goal" data-v="gastronomia" onclick="qpick(this)"><div class="opt-ic">🍽️</div><div class="opt-tx"><div class="opt-lbl">Gastronomia</div><div class="opt-desc">Sabores e cultura local</div></div><div class="opt-ck">✓</div></div>
+      </div>
+      <div class="qnav"><button class="btn-qb" onclick="goQQ(3)">← Voltar</button><button class="btn-qn" id="qn4" disabled onclick="goQQ(5)">Continuar →</button></div>
+    </div>
+
+    <div class="qblock" id="qq5">
+      <div class="q-tag">📅 Datas</div>
+      <h2 class="q-title">Você tem flexibilidade de datas?</h2>
+      <p class="q-sub">Datas flexíveis abrem mais opções e melhores preços.</p>
+      <div class="opts">
+        <div class="opt" data-q="flex" data-v="alta" onclick="qpick(this)"><div class="opt-ic">🗓️</div><div class="opt-tx"><div class="opt-lbl">Muito flexível</div><div class="opt-desc">Posso viajar em qualquer período</div></div><div class="opt-ck">✓</div></div>
+        <div class="opt" data-q="flex" data-v="media" onclick="qpick(this)"><div class="opt-ic">📅</div><div class="opt-tx"><div class="opt-lbl">Parcialmente</div><div class="opt-desc">Tenho preferência mas posso ajustar</div></div><div class="opt-ck">✓</div></div>
+        <div class="opt" data-q="flex" data-v="nao" onclick="qpick(this)"><div class="opt-ic">📌</div><div class="opt-tx"><div class="opt-lbl">Datas fixas</div><div class="opt-desc">Sei exatamente quando quero viajar</div></div><div class="opt-ck">✓</div></div>
+      </div>
+      <div class="qnav"><button class="btn-qb" onclick="goQQ(4)">← Voltar</button><button class="btn-qn" id="qn5" disabled onclick="doAnalyze()">Ver meus matches ✨</button></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ ANALYZING ══ -->
+<div class="screen" id="s-analyze">
+  <div class="az-ring">
+    <div class="az-r az-r1"></div><div class="az-r az-r2"></div><div class="az-r az-r3"></div>
+    <div class="az-mid"><img id="logo-az" src="" alt="" style="filter:brightness(0) invert(1)"></div>
+  </div>
+  <div class="az-title">Calculando seus matches</div>
+  <div class="az-sub">Combinando curtidas + quiz para encontrar os pacotes com maior compatibilidade com você.</div>
+  <div class="az-steps">
+    <div class="az-step act" id="az1"><div class="az-step-ic">♥</div>Lendo seus <span id="az-like-count">0</span> curtidos…</div>
+    <div class="az-step" id="az2"><div class="az-step-ic">🔍</div>Analisando 204 pacotes disponíveis…</div>
+    <div class="az-step" id="az3"><div class="az-step-ic">⚖️</div>Calculando score implícito + explícito…</div>
+    <div class="az-step" id="az4"><div class="az-step-ic">🏆</div>Ordenando por compatibilidade total…</div>
+  </div>
+</div>
+
+<!-- ══ RESULTS ══ -->
+<div class="screen" id="s-results">
+  <div class="res-hero">
+    <img class="rh-logo" id="logo-res" src="" alt="">
+    <div class="rh-eye">Resultado personalizado · <span id="rh-packages-count">0</span> pacotes compatíveis</div>
+    <div class="rh-title" id="rh-title">A viagem te encontrou! ✈️</div>
+    <div class="rh-sub" id="rh-sub">Pacotes selecionados com base no seu perfil.</div>
+    <div class="rh-pills" id="rh-pills"></div>
+  </div>
+  <div class="res-tabs">
+    <button class="rtab on" id="rt-match" onclick="switchView('match')">🎯 Seus matches<span class="tab-dot" id="match-dot">5</span></button>
+    <button class="rtab" id="rt-explore" onclick="switchView('explore')">🔍 Explorar todos (204)</button>
+  </div>
+  <div class="res-view" id="v-match">
+    <div id="match-list"></div>
+    <div class="res-btns">
+      <button class="btn-sec" onclick="switchView('explore')">🔍 Ver todos os 204 pacotes</button>
+      <button class="btn-sec" onclick="restart()">↺ Refazer</button>
+    </div>
+  </div>
+  <div class="res-view" id="v-explore" style="display:none">
+    <div class="fbox">
+      <div class="fbox-top"><span class="fbox-title">Filtrar pacotes</span><span class="fbox-count" id="pkg-count">204 pacotes</span></div>
+      <div class="fsearch">
+        <svg class="fsearch-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4"/><path d="M10.5 10.5L14 14" stroke-linecap="round"/></svg>
+        <input type="text" id="search-in" placeholder="Destino ou hotel…" oninput="renderPkgs()">
+      </div>
+      <div class="fchips">
+        <span style="font-size:11px;color:#5B7A96;font-weight:500;flex-shrink:0;align-self:center">Tipo:</span>
+        <button class="fc on" data-t="all" onclick="setTipo(this,'all')">Todos</button>
+        <button class="fc" data-t="praia" onclick="setTipo(this,'praia')">🏖 Praia</button>
+        <button class="fc" data-t="montanha" onclick="setTipo(this,'montanha')">🏔 Serra</button>
+        <button class="fc" data-t="natureza" onclick="setTipo(this,'natureza')">🌿 Natureza</button>
+        <button class="fc" data-t="cidade" onclick="setTipo(this,'cidade')">🌆 Cidade</button>
+      </div>
+      <div class="fchips">
+        <span style="font-size:11px;color:#5B7A96;font-weight:500;flex-shrink:0;align-self:center">Região:</span>
+        <button class="fc on" data-rg="all" onclick="setReg(this,'all')">Todas</button>
+        <button class="fc" data-rg="Nordeste" onclick="setReg(this,'Nordeste')">Nordeste</button>
+        <button class="fc" data-rg="Bahia" onclick="setReg(this,'Bahia')">Bahia</button>
+        <button class="fc" data-rg="Sul" onclick="setReg(this,'Sul')">Sul</button>
+        <button class="fc" data-rg="Internacional" onclick="setReg(this,'Internacional')">Internacional</button>
+        <button class="fc" data-rg="Centro-Oeste" onclick="setReg(this,'Centro-Oeste')">Centro</button>
+      </div>
+      <div class="sort-row">
+        <span class="sort-lbl">Ordenar:</span>
+        <div class="sort-btns">
+          <button class="sb on" data-s="score" onclick="setSort(this,'score')">⭐ Match</button>
+          <button class="sb" data-s="preco" onclick="setSort(this,'preco')">💰 Preço</button>
+          <button class="sb" data-s="data" onclick="setSort(this,'data')">📅 Data</button>
+          <button class="sb" data-s="destino" onclick="setSort(this,'destino')">🗺️ Destino</button>
+          <button class="sb" data-s="hotel" onclick="setSort(this,'hotel')">🏨 Hotel</button>
+        </div>
+        <button class="sort-dir" id="sort-dir-btn" onclick="toggleDir()">↕</button>
+      </div>
+    </div>
+    <div class="pkg-grid" id="pkg-grid"></div>
+    <div class="res-btns" style="margin-top:12px">
+      <button class="btn-sec" onclick="switchView('match')">← Meus matches</button>
+      <button class="btn-sec" onclick="restart()">↺ Refazer</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+</div><!-- /phone -->
+
+<script>
+// ═══════════════════════════════════════
+//  DATA — 204 pacotes reais
+// ═══════════════════════════════════════
+const PKGS = [{"id":1,"d":"Canela","h":"Golden Tulip Canela - Café da manhã","p":1461,"i":"11/09/2026","v":"16/09/2026","o":"Congonhas","t":"montanha","r":"Sul","ai":false,"cm":true,"lx":false},{"id":2,"d":"Gramado","h":"Colina Lagos Hotel - Café da manhã","p":1522,"i":"02/10/2026","v":"07/10/2026","o":"Congonhas","t":"montanha","r":"Sul","ai":false,"cm":true,"lx":false},{"id":3,"d":"Arraial D'Ajuda","h":"Arraial do Sol Beach Hotel - Café da manhã","p":1669,"i":"16/05/2026","v":"23/05/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":4,"d":"Arraial D'Ajuda","h":"Hotel Shangrilá - Café da manhã","p":1689,"i":"01/08/2026","v":"08/08/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":5,"d":"Florianópolis","h":"Ingleses Palace Hotel - Café da manhã","p":1767,"i":"12/07/2026","v":"19/07/2026","o":"Viracopos","t":"praia","r":"Sul","ai":false,"cm":true,"lx":false},{"id":6,"d":"Caraiva","h":"Pousada Aquarela Caraíva - BB","p":1769,"i":"04/07/2026","v":"09/07/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":false,"lx":false},{"id":7,"d":"Gramado","h":"Hotel Bertoluci - Café da manhã","p":1819,"i":"20/09/2026","v":"25/09/2026","o":"Congonhas","t":"montanha","r":"Sul","ai":false,"cm":true,"lx":false},{"id":8,"d":"Florianópolis","h":"Hotel Porto Sol Ingleses - Café da manhã","p":1928,"i":"06/08/2026","v":"13/08/2026","o":"Viracopos","t":"praia","r":"Sul","ai":false,"cm":true,"lx":false},{"id":9,"d":"Maceio","h":"Marinas Maceió Hotel - Café da manhã","p":1957,"i":"16/05/2026","v":"21/05/2026","o":"Confins","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":10,"d":"Aracajú","h":"Real Praia Hotel - Café da manhã","p":1963,"i":"19/07/2026","v":"26/07/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":11,"d":"Gramado","h":"Golden Tulip Canela - Café da manhã","p":2004,"i":"19/06/2026","v":"24/06/2026","o":"Congonhas","t":"montanha","r":"Sul","ai":false,"cm":true,"lx":false},{"id":12,"d":"Foz do Iguaçu","h":"Hotel Viale Tower - Café da manhã","p":2014,"i":"26/09/2026","v":"03/10/2026","o":"Viracopos","t":"natureza","r":"Centro-Oeste","ai":false,"cm":true,"lx":false},{"id":13,"d":"Trancoso","h":"Calypso INN - Café da manhã","p":2053,"i":"29/06/2026","v":"04/07/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":14,"d":"Porto Seguro","h":"Hotel Portal Ville - Café da manhã","p":2073,"i":"22/08/2026","v":"29/08/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":15,"d":"Aracajú","h":"Sandrin Praia Hotel - Café da manhã","p":2078,"i":"26/07/2026","v":"02/08/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":16,"d":"Gramado","h":"Hotel Laghetto Toscana - Café da manhã","p":2096,"i":"06/12/2026","v":"11/12/2026","o":"Congonhas","t":"montanha","r":"Sul","ai":false,"cm":true,"lx":false},{"id":17,"d":"Florianópolis","h":"Hotel Évora - Café da manhã","p":2098,"i":"16/08/2026","v":"23/08/2026","o":"Viracopos","t":"praia","r":"Sul","ai":false,"cm":true,"lx":false},{"id":18,"d":"Ilheus","h":"Hotel Aldeia da Praia - Café da manhã","p":2100,"i":"15/08/2026","v":"22/08/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":19,"d":"Ilheus","h":"Pousada do Mar - Café da manhã","p":2121,"i":"23/05/2026","v":"30/05/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":20,"d":"Punta del Este","h":"Punta del Este Shelton Hotel - SÓ ALOJAMENTO","p":2122,"i":"27/09/2026","v":"01/10/2026","o":"Guarulhos","t":"praia","r":"Internacional","ai":false,"cm":false,"lx":false},{"id":21,"d":"Una","h":"Opaba Praia Hotel - Café da manhã","p":2134,"i":"28/06/2026","v":"05/07/2026","o":"Congonhas","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":22,"d":"Praia dos Carneiros","h":"Hotel Ancoradouro - Tamandaré - Café da manhã","p":2146,"i":"07/07/2026","v":"12/07/2026","o":"Confins","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":23,"d":"Una","h":"Pousada do Mar - Café da manhã","p":2210,"i":"03/05/2026","v":"10/05/2026","o":"Congonhas","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":24,"d":"Natal","h":"Hotel Areia de Ouro - Café da manhã","p":2356,"i":"03/11/2026","v":"08/11/2026","o":"Confins","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":25,"d":"Una","h":"Eco Village Indaiá - Café da manhã","p":2362,"i":"29/11/2026","v":"06/12/2026","o":"Congonhas","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":26,"d":"Florianópolis","h":"Villas Jurerê Hotel Boutique - RO","p":2365,"i":"27/08/2026","v":"03/09/2026","o":"Viracopos","t":"praia","r":"Sul","ai":false,"cm":false,"lx":false},{"id":27,"d":"Barra De Sao Miguel","h":"Vivá Barra Hotel Pousada - Café da manhã","p":2380,"i":"02/07/2026","v":"07/07/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":28,"d":"Porto Seguro","h":"Porto Cálem Praia Hotel - Café da manhã","p":2382,"i":"06/09/2026","v":"13/09/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":29,"d":"Recife","h":"El Aram Beach Boa Viagem Hotel - Café da manhã","p":2508,"i":"22/07/2026","v":"27/07/2026","o":"Confins","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":30,"d":"Ilheus","h":"Eco Village Indaiá - Café da manhã","p":2547,"i":"25/07/2026","v":"01/08/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":31,"d":"Bonito","h":"Pousada Maritaca - Café da manhã","p":2550,"i":"28/05/2026","v":"04/06/2026","o":"Viracopos","t":"natureza","r":"Centro-Oeste","ai":false,"cm":true,"lx":false},{"id":32,"d":"Itacare","h":"Pousada Villa N'kara - Café da manhã","p":2567,"i":"20/09/2026","v":"27/09/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":33,"d":"Itacare","h":"Pousada Raisis - Café da manhã","p":2581,"i":"22/11/2026","v":"29/11/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":34,"d":"Maceio","h":"Flix Hotel - Café da manhã","p":2600,"i":"04/07/2026","v":"11/07/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":35,"d":"Itacare","h":"Ecoporan Hotel Charme Spa & Eventos - Café da manhã","p":2609,"i":"16/05/2026","v":"23/05/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":36,"d":"Trancoso","h":"Villa Mediterraneo Trancoso - BB","p":2609,"i":"08/09/2026","v":"13/09/2026","o":"Confins","t":"praia","r":"Bahia","ai":false,"cm":false,"lx":false},{"id":37,"d":"Pipa","h":"Pousada Arriba Pipa - Café da manhã","p":2627,"i":"24/05/2026","v":"31/05/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":38,"d":"Foz do Iguaçu","h":"Foz Plaza Hotel - Café da manhã","p":2698,"i":"28/01/2027","v":"02/02/2027","o":"Confins","t":"natureza","r":"Centro-Oeste","ai":false,"cm":true,"lx":false},{"id":39,"d":"Maceio","h":"Hotel Praia Bonita Jatiúca - Café da manhã","p":2711,"i":"17/05/2026","v":"24/05/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":40,"d":"Natal","h":"Serhs Natal Grand Hotel & Resort - Café da manhã","p":2716,"i":"19/06/2026","v":"24/06/2026","o":"Confins","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":41,"d":"Foz do Iguaçu","h":"Hotel Viale Cataratas - Café da manhã","p":2716,"i":"02/05/2026","v":"09/05/2026","o":"Viracopos","t":"natureza","r":"Centro-Oeste","ai":false,"cm":true,"lx":false},{"id":42,"d":"Itacare","h":"Resende Imperial Hotel & Spa - Café da manhã","p":2732,"i":"30/05/2026","v":"06/06/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":43,"d":"João Pessoa","h":"Tambau Beach Hotel - Café da manhã","p":2746,"i":"14/06/2026","v":"21/06/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":44,"d":"Foz do Iguaçu","h":"Complexo Eco Cataratas Resort by SJ - Café da manhã","p":2774,"i":"06/06/2026","v":"13/06/2026","o":"Viracopos","t":"natureza","r":"Centro-Oeste","ai":false,"cm":true,"lx":false},{"id":45,"d":"Porto Seguro","h":"Vila Angatu Eco Resort & SPA - Café da manhã","p":2775,"i":"01/08/2026","v":"06/08/2026","o":"Confins","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":46,"d":"Bonito","h":"Hotel Pousada Arauna - Café da manhã","p":2777,"i":"13/12/2026","v":"20/12/2026","o":"Viracopos","t":"natureza","r":"Centro-Oeste","ai":false,"cm":true,"lx":false},{"id":47,"d":"Florianópolis","h":"IL Campanario Villaggio Resort - Café da manhã","p":2783,"i":"06/09/2026","v":"13/09/2026","o":"Viracopos","t":"praia","r":"Sul","ai":false,"cm":true,"lx":false},{"id":48,"d":"Navegantes","h":"Pousada Pedra da Ilha - Café da manhã","p":2817,"i":"10/05/2026","v":"17/05/2026","o":"Viracopos","t":"praia","r":"Sul","ai":false,"cm":true,"lx":false},{"id":49,"d":"Bonito","h":"Ibis Styles Bonito - Café da manhã","p":2905,"i":"06/09/2026","v":"13/09/2026","o":"Viracopos","t":"natureza","r":"Centro-Oeste","ai":false,"cm":true,"lx":false},{"id":50,"d":"Porto De Galinhas","h":"Pousada Porto Tropical - Café da manhã","p":2935,"i":"07/06/2026","v":"14/06/2026","o":"Viracopos","t":"praia","r":"Centro-Oeste","ai":false,"cm":true,"lx":false},{"id":51,"d":"Mendoza Província","h":"Hotel Crillon Mendoza - Café da manhã","p":3024,"i":"28/06/2026","v":"03/07/2026","o":"Viracopos","t":"montanha","r":"Internacional","ai":false,"cm":true,"lx":false},{"id":52,"d":"Ilheus","h":"Opaba Praia Hotel - Café da manhã","p":3069,"i":"14/11/2026","v":"21/11/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":53,"d":"Maceio","h":"Maceió Atlantic Suites - Café da manhã","p":3130,"i":"03/05/2026","v":"10/05/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":54,"d":"Mendoza Província","h":"Raices Aconcagua Hotel - Café da manhã","p":3166,"i":"12/07/2026","v":"17/07/2026","o":"Viracopos","t":"montanha","r":"Internacional","ai":false,"cm":true,"lx":false},{"id":55,"d":"Cumbuco","h":"VM Hotel Cumbuco - Café da manhã","p":3186,"i":"22/11/2026","v":"29/11/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":56,"d":"Maceio","h":"Mercure Maceio Pajucara Hotel - Somente Quarto","p":3196,"i":"13/09/2026","v":"20/09/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":false,"lx":false},{"id":57,"d":"Bonito","h":"Tekoha Eco Hotel - Café da manhã","p":3235,"i":"03/05/2026","v":"10/05/2026","o":"Viracopos","t":"natureza","r":"Centro-Oeste","ai":false,"cm":true,"lx":false},{"id":58,"d":"Pipa","h":"Xamã Senses - Hotel Pousada - Café da manhã","p":3289,"i":"30/05/2026","v":"06/06/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":59,"d":"Bonito","h":"Marrua Hotel - Café da manhã","p":3318,"i":"23/08/2026","v":"30/08/2026","o":"Viracopos","t":"natureza","r":"Centro-Oeste","ai":false,"cm":true,"lx":false},{"id":60,"d":"João Pessoa","h":"El Aram Beach & Convention - Café da manhã","p":3328,"i":"16/08/2026","v":"23/08/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":61,"d":"Maceio","h":"Ipioca Beach Resort - Café da manhã","p":3412,"i":"23/05/2026","v":"30/05/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":62,"d":"Beberibe","h":"Bruno Marambaia Charme Hotel - Café da manhã","p":3428,"i":"04/07/2026","v":"09/07/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":63,"d":"Maceio","h":"San Marino Suíte Hotel - Café da manhã","p":3458,"i":"11/10/2026","v":"18/10/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":64,"d":"Itacare","h":"Pousada Abaré - Café da manhã","p":3521,"i":"19/12/2026","v":"26/12/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":65,"d":"Jericoacoara","h":"Pousada Casa Do Angelo - Café da manhã","p":3521,"i":"02/05/2026","v":"09/05/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":66,"d":"Aracajú","h":"Celi Hotel Aracaju - Café da manhã","p":3546,"i":"25/07/2026","v":"01/08/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":67,"d":"Costa do Sauipe","h":"Resort Costa Dos Coqueiros - Half Board","p":3561,"i":"02/07/2026","v":"07/07/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":false,"lx":false},{"id":68,"d":"Porto De Galinhas","h":"Pousada Amada Terra - Café da manhã","p":3578,"i":"09/07/2026","v":"16/07/2026","o":"Viracopos","t":"praia","r":"Centro-Oeste","ai":false,"cm":true,"lx":false},{"id":69,"d":"Arraial D'Ajuda","h":"Cores do Arraial Residence Hotel - CAFE DA MANHA","p":3594,"i":"20/12/2026","v":"25/12/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":70,"d":"Caraiva","h":"Villa Rio - Somente Quarto","p":3598,"i":"27/06/2026","v":"02/07/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":false,"lx":false},{"id":71,"d":"Itacare","h":"pousada pedra torta - Café da manhã","p":3627,"i":"11/10/2026","v":"18/10/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":72,"d":"Itacare","h":"Pousada Vira Canoa - Café da manhã","p":3677,"i":"14/11/2026","v":"21/11/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":73,"d":"Pipa","h":"Hotel Pipa Atlântico - Café da manhã","p":3707,"i":"15/08/2026","v":"22/08/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":74,"d":"Jericoacoara","h":"Mansomar Pousada - Café da manhã","p":3720,"i":"06/05/2026","v":"13/05/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":75,"d":"Maragogi","h":"Costa Dourada Village - BB","p":3794,"i":"07/06/2026","v":"14/06/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":false,"lx":false},{"id":76,"d":"Fernando de Noronha","h":"Pousada Mar Aberto - Café da manhã","p":3795,"i":"03/05/2026","v":"08/05/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":77,"d":"Natal","h":"Praiamar Natal Hotel & Convention - Café da manhã","p":3885,"i":"30/01/2027","v":"06/02/2027","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":78,"d":"Caldas Novas","h":"diRoma Resort - Café da manhã","p":3896,"i":"02/07/2026","v":"09/07/2026","o":"Congonhas","t":"natureza","r":"Centro-Oeste","ai":false,"cm":true,"lx":false},{"id":79,"d":"Pipa","h":"Pousada dos Girassóis - Café da manhã","p":3933,"i":"31/01/2027","v":"07/02/2027","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":80,"d":"Natal","h":"Wish Natal - Half Board","p":3936,"i":"05/07/2026","v":"10/07/2026","o":"Confins","t":"praia","r":"Nordeste","ai":false,"cm":false,"lx":false},{"id":81,"d":"Caraiva","h":"Casa das Conchas Caraiva - Café da manhã","p":3965,"i":"20/07/2026","v":"25/07/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":82,"d":"Cumbuco","h":"Vila Galé Collection Sunset Cumbuco - Café da manhã","p":3973,"i":"05/12/2026","v":"10/12/2026","o":"Confins","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":83,"d":"Fernando de Noronha","h":"Pousada Alto da Vila Noronha by Alto da Ilha - Café da manhã","p":4131,"i":"23/06/2026","v":"28/06/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":84,"d":"Fernando de Noronha","h":"Pousada Alto da Floresta Noronha by Alto da Ilha - Café da manhã","p":4140,"i":"07/05/2026","v":"12/05/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":85,"d":"Jericoacoara","h":"Mansomar Pousada - ALOJAMENTO E CAFÉ DA MANHÃ","p":4219,"i":"02/05/2026","v":"09/05/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":86,"d":"João Pessoa","h":"Hardman Praia Hotel - Café da manhã","p":4235,"i":"24/01/2027","v":"31/01/2027","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":87,"d":"Fernando de Noronha","h":"Pousada Estrela Lunar by Alto da Ilha. - Café da manhã","p":4238,"i":"15/07/2026","v":"20/07/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":88,"d":"Praia dos Carneiros","h":"Baia Branca Beach Resort - Café da manhã","p":4256,"i":"11/01/2027","v":"16/01/2027","o":"Confins","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":89,"d":"Natal","h":"Vogal Luxury Beach Hotel & SPA - Half Board","p":4261,"i":"10/07/2026","v":"15/07/2026","o":"Confins","t":"praia","r":"Nordeste","ai":false,"cm":false,"lx":false},{"id":90,"d":"Praia Do Forte","h":"Resort Costa Dos Coqueiros - Half Board","p":4303,"i":"16/05/2026","v":"23/05/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":false,"lx":false},{"id":91,"d":"Fernando de Noronha","h":"Pousada Nascer Do Sol - Café da manhã","p":4395,"i":"22/05/2026","v":"27/05/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":92,"d":"Maragogi","h":"Hotel Praia Dourada Maragogi Park - Café da manhã","p":4504,"i":"23/05/2026","v":"30/05/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":93,"d":"Florianópolis","h":"Hotel Boutique Quinta das Videiras - Café da manhã","p":4587,"i":"02/08/2026","v":"09/08/2026","o":"Viracopos","t":"praia","r":"Sul","ai":false,"cm":true,"lx":false},{"id":94,"d":"Barra De Sao Miguel","h":"Village Barra Hotel - Café da manhã","p":4606,"i":"29/11/2026","v":"06/12/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":95,"d":"Natal","h":"D Beach Resort - Café da manhã","p":4628,"i":"24/01/2027","v":"31/01/2027","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":96,"d":"Aquiraz","h":"Oceani Beach Park Hotel - Café da manhã","p":4646,"i":"01/11/2026","v":"08/11/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":97,"d":"Trancoso","h":"Villa dos Nativos Boutique Hotel - Café da manhã","p":4688,"i":"16/05/2026","v":"21/05/2026","o":"Confins","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":false},{"id":98,"d":"Cumbuco","h":"Carmel Cumbuco Resort - Café da manhã","p":4741,"i":"18/08/2026","v":"23/08/2026","o":"Confins","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":99,"d":"Maragogi","h":"ibis Styles Maragogi - Half Board","p":4848,"i":"18/10/2026","v":"25/10/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":false,"lx":false},{"id":100,"d":"Orlando","h":"Rosen Inn International - Somente Quarto","p":4963,"i":"26/08/2026","v":"02/09/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":false},{"id":101,"d":"Maragogi","h":"Villa Pantai Boutique Hotel Maragogi - Café da manhã","p":4997,"i":"23/05/2026","v":"30/05/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":102,"d":"Caldas Novas","h":"Riviera Park Hotel by WAM Experience - Café da manhã","p":5052,"i":"28/06/2026","v":"05/07/2026","o":"Congonhas","t":"natureza","r":"Centro-Oeste","ai":false,"cm":true,"lx":false},{"id":103,"d":"Porto Seguro","h":"Nauticomar Resort All Inclusive & Beach Club - All Inclusive","p":5055,"i":"24/05/2026","v":"31/05/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":true,"cm":false,"lx":false},{"id":104,"d":"Arraial D'Ajuda","h":"Arraial d'Ajuda Eco Resort - MEIA PENSAO","p":5084,"i":"28/08/2026","v":"02/09/2026","o":"Confins","t":"praia","r":"Bahia","ai":false,"cm":false,"lx":false},{"id":105,"d":"Bonito","h":"Zagaia Eco Resort - Café da manhã","p":5109,"i":"30/07/2026","v":"06/08/2026","o":"Viracopos","t":"natureza","r":"Centro-Oeste","ai":false,"cm":true,"lx":false},{"id":106,"d":"Beberibe","h":"Hotel Parque das Fontes - All Inclusive","p":5154,"i":"06/06/2026","v":"13/06/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":true,"cm":false,"lx":false},{"id":107,"d":"Sao Miguel dos Milagres","h":"Pousada Reserva De Tatuamunha - Café da manhã","p":5154,"i":"02/01/2027","v":"09/01/2027","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":108,"d":"San Carlos De Bariloche","h":"Villa Sofía Apart Hotel - RO","p":5158,"i":"27/06/2026","v":"02/07/2026","o":"Viracopos","t":"montanha","r":"Sul","ai":false,"cm":false,"lx":false},{"id":109,"d":"Fernando de Noronha","h":"Pousada Tubarão - Café da manhã","p":5243,"i":"19/01/2027","v":"24/01/2027","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":110,"d":"Natal","h":"Wish Natal - Café da manhã","p":5246,"i":"06/06/2026","v":"13/06/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":111,"d":"Aracajú","h":"Real Classic Hotel - Café da manhã","p":5358,"i":"20/06/2026","v":"27/06/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":112,"d":"Sao Miguel dos Milagres","h":"Casa Brasileira - Hotel Galeria - BB","p":5382,"i":"29/06/2026","v":"04/07/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":false,"lx":false},{"id":113,"d":"Aracajú","h":"Pedra do Sino Hotel - BB","p":5408,"i":"02/08/2026","v":"09/08/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":false,"lx":false},{"id":114,"d":"Caldas Novas","h":"Piazza diRoma - Café da manhã","p":5445,"i":"12/07/2026","v":"19/07/2026","o":"Congonhas","t":"natureza","r":"Centro-Oeste","ai":false,"cm":true,"lx":false},{"id":115,"d":"Fernando de Noronha","h":"Pousada Sao Silmares - Café da manhã","p":5485,"i":"26/12/2026","v":"31/12/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":116,"d":"Pipa","h":"Kilombo Villas E Spa - Café da manhã","p":5595,"i":"14/06/2026","v":"21/06/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":117,"d":"Florianópolis","h":"LK Design Hotel Florianópolis - Café da manhã","p":5595,"i":"01/10/2026","v":"08/10/2026","o":"Viracopos","t":"praia","r":"Sul","ai":false,"cm":true,"lx":false},{"id":118,"d":"Sintra","h":"Casas da Biquinha - Somente Quarto","p":5703,"i":"06/05/2026","v":"11/05/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":false},{"id":119,"d":"Sao Miguel dos Milagres","h":"Pousada Tatuá - Café da manhã","p":5723,"i":"29/08/2026","v":"05/09/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":120,"d":"Fort Lauderdale","h":"Rodeway Inn & Suites Fort Lauderdale Airport & Cruise Port - Café da manhã","p":5799,"i":"10/09/2026","v":"17/09/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":true,"lx":false},{"id":121,"d":"Madri","h":"Eurostars Madrid Congress - Room Only","p":5799,"i":"05/08/2026","v":"10/08/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":false},{"id":122,"d":"Maragogi","h":"Maragogi Brisa Exclusive Hotel - Half Board","p":5801,"i":"06/06/2026","v":"13/06/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":false,"lx":false},{"id":123,"d":"Aracajú","h":"Aruanã Eco Praia Hotel - Café da manhã","p":5865,"i":"19/07/2026","v":"26/07/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":false},{"id":124,"d":"Sintra","h":"Casa das Hortensias - Charming Guest House - SÓ ALOJAMENTO","p":5989,"i":"28/11/2026","v":"03/12/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":false},{"id":125,"d":"Aracajú","h":"Makai Resort All Inclusive Convention Aracaju - All Inclusive","p":5995,"i":"12/07/2026","v":"19/07/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":true,"cm":false,"lx":false},{"id":126,"d":"Orlando","h":"Hotel Monreale Express International Drive Orlando - Somente Quarto","p":6031,"i":"26/11/2026","v":"01/12/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":127,"d":"Sao Miguel dos Milagres","h":"Zai Patacho - BB","p":6037,"i":"29/06/2026","v":"04/07/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":false,"lx":true},{"id":128,"d":"Orlando","h":"Vacation Village at Parkway - Somente Quarto","p":6068,"i":"08/05/2026","v":"15/05/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":129,"d":"Porto Seguro","h":"Resort Arcobaleno All Inclusive - All Inclusive","p":6075,"i":"27/07/2026","v":"01/08/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":true,"cm":false,"lx":true},{"id":130,"d":"Maceio","h":"Jatiúca Hotel & Resort - Half Board","p":6120,"i":"25/10/2026","v":"01/11/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":false,"lx":true},{"id":131,"d":"Sintra","h":"Villas De Cintra - RO","p":6206,"i":"16/05/2026","v":"21/05/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":132,"d":"Maceio","h":"Pratagy Beach Resort All Inclusive - All Inclusive","p":6209,"i":"22/07/2026","v":"27/07/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":true,"cm":false,"lx":true},{"id":133,"d":"Praia Do Forte","h":"Sauipe Terra Resort - All Inclusive - All Inclusive","p":6240,"i":"26/09/2026","v":"03/10/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":true,"cm":false,"lx":true},{"id":134,"d":"Trancoso","h":"Etnia Pousada And Boutique - CAFE DA MANHA","p":6286,"i":"15/07/2026","v":"20/07/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":true},{"id":135,"d":"Natal","h":"Ocean Palace All Inclusive Premium - All Inclusive","p":6405,"i":"17/08/2026","v":"22/08/2026","o":"Confins","t":"praia","r":"Nordeste","ai":true,"cm":false,"lx":true},{"id":136,"d":"Fort Lauderdale","h":"B Ocean Resort Fort Lauderdale - Somente Quarto","p":6425,"i":"25/09/2026","v":"02/10/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":137,"d":"Arraial D'Ajuda","h":"Kûara Hotel - Café da manhã","p":6495,"i":"03/05/2026","v":"10/05/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":false,"cm":true,"lx":true},{"id":138,"d":"San Carlos De Bariloche","h":"Hotel Plaza Bariloche - ALOJAMENTO E CAFÉ DA MANHÃ","p":6522,"i":"19/07/2026","v":"24/07/2026","o":"Viracopos","t":"montanha","r":"Sul","ai":false,"cm":true,"lx":true},{"id":139,"d":"Porto Seguro","h":"Coroa Vermelha Beach - All Inclusive - All Inclusive","p":6637,"i":"11/01/2027","v":"16/01/2027","o":"Viracopos","t":"praia","r":"Bahia","ai":true,"cm":false,"lx":true},{"id":140,"d":"Caldas Novas","h":"Hotel Roma - Café da manhã","p":6704,"i":"09/07/2026","v":"16/07/2026","o":"Congonhas","t":"natureza","r":"Centro-Oeste","ai":false,"cm":true,"lx":true},{"id":141,"d":"Maragogi","h":"Grand Oca Maragogi - All Inclusive","p":6746,"i":"01/08/2026","v":"08/08/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":true,"cm":false,"lx":true},{"id":142,"d":"San Carlos De Bariloche","h":"Hotel Patagonia - Café da manhã","p":6784,"i":"09/07/2026","v":"14/07/2026","o":"Viracopos","t":"montanha","r":"Sul","ai":false,"cm":true,"lx":true},{"id":143,"d":"Praia de Pitimbu","h":"Asenza Beach Resort All Inclusive - All Inclusive","p":6796,"i":"17/05/2026","v":"24/05/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":true,"cm":false,"lx":true},{"id":144,"d":"Curacao","h":"Brion City Hotel BW Signature Collection - Café da manhã","p":6798,"i":"02/09/2026","v":"09/09/2026","o":"Confins","t":"praia","r":"Internacional","ai":false,"cm":true,"lx":true},{"id":145,"d":"Pipa","h":"Sombra e Agua Fresca Floresta - Café da manhã","p":6893,"i":"12/07/2026","v":"19/07/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":true},{"id":146,"d":"Fort Lauderdale","h":"Comfort Suites Fort Lauderdale Airport & Cruise Port - Café da manhã","p":6905,"i":"12/09/2026","v":"19/09/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":true,"lx":true},{"id":147,"d":"Praia Do Forte","h":"Grand Palladium Imbassaí Resort & Spa - All Inclusive","p":6983,"i":"21/11/2026","v":"28/11/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":true,"cm":false,"lx":true},{"id":148,"d":"Fort Lauderdale","h":"Sonesta Fort Lauderdale Beach - Somente Quarto","p":7086,"i":"27/08/2026","v":"03/09/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":149,"d":"Porto","h":"Hotel HF Tuela Porto - Room Only","p":7175,"i":"03/11/2026","v":"08/11/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":150,"d":"Cumbuco","h":"Hotel Vila Galé Cumbuco - All Inclusive","p":7199,"i":"25/10/2026","v":"01/11/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":true,"cm":false,"lx":true},{"id":151,"d":"Orlando","h":"Four Points by Sheraton Orlando International Drive - Room Only","p":7243,"i":"27/06/2026","v":"04/07/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":152,"d":"Sao Miguel dos Milagres","h":"Taboo Milagres - Café da manhã","p":7450,"i":"16/01/2027","v":"23/01/2027","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":true},{"id":153,"d":"Pipa","h":"Hotel Sombra e Água Fresca - Café da manhã","p":7505,"i":"13/06/2026","v":"20/06/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":true},{"id":154,"d":"San Carlos De Bariloche","h":"Cacique Inacayal Lake & Spa Hotel - Café da manhã","p":7530,"i":"31/07/2026","v":"05/08/2026","o":"Viracopos","t":"montanha","r":"Sul","ai":false,"cm":true,"lx":true},{"id":155,"d":"Porto","h":"Oca Oriental Porto Hotel - Room Only","p":7670,"i":"29/11/2026","v":"06/12/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":156,"d":"Barra De Sao Miguel","h":"Ritz Barra de São Miguel - Café da manhã","p":7680,"i":"29/08/2026","v":"05/09/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":true},{"id":157,"d":"Fernando de Noronha","h":"Pousada Maria Bonita Noronha - Café da manhã","p":7731,"i":"24/11/2026","v":"29/11/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":true},{"id":158,"d":"Fernando de Noronha","h":"Pousada Morena - Café da manhã","p":7797,"i":"22/06/2026","v":"27/06/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":true},{"id":159,"d":"Lisboa","h":"Wilde Aparthotels Lisbon Liberdade - SÓ ALOJAMENTO","p":7897,"i":"04/11/2026","v":"09/11/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":160,"d":"Orlando","h":"SpringHill Suites Orlando Convention Center/International Drive Area - ALOJAMENTO E CAFÉ DA MANHÃ AMERICANO","p":8020,"i":"09/10/2026","v":"16/10/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":true,"lx":true},{"id":161,"d":"Sao Miguel dos Milagres","h":"Angá Hotel - Café da manhã","p":8084,"i":"30/01/2027","v":"06/02/2027","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":true},{"id":162,"d":"Sintra","h":"Casa do Vinho Sintra Guest House - RO","p":8159,"i":"26/01/2027","v":"31/01/2027","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":163,"d":"Fernando de Noronha","h":"Pousada Zé Maria - Café da manhã","p":8192,"i":"17/07/2026","v":"22/07/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":true},{"id":164,"d":"San Carlos De Bariloche","h":"Design Suites Bariloche - Café da manhã","p":8257,"i":"10/08/2026","v":"15/08/2026","o":"Viracopos","t":"montanha","r":"Sul","ai":false,"cm":true,"lx":true},{"id":165,"d":"Costa do Sauipe","h":"Grand Palladium Imbassaí Resort & Spa - All Inclusive","p":8320,"i":"09/01/2027","v":"16/01/2027","o":"Viracopos","t":"praia","r":"Bahia","ai":true,"cm":false,"lx":true},{"id":166,"d":"Porto","h":"Hotel HF Tuela Porto - Somente Quarto","p":8358,"i":"27/09/2026","v":"04/10/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":167,"d":"Jericoacoara","h":"Mini Hotel Jericoacoara - Café da manhã","p":8363,"i":"06/01/2027","v":"13/01/2027","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":true},{"id":168,"d":"Rio Quente via Goiania","h":"Rio Quente Resorts - Hotel Giardino - Half Board","p":8623,"i":"02/07/2026","v":"09/07/2026","o":"Congonhas","t":"natureza","r":"Centro-Oeste","ai":false,"cm":false,"lx":true},{"id":169,"d":"Orlando","h":"Rosen Shingle Creek - Room Only","p":8624,"i":"07/11/2026","v":"12/11/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":170,"d":"Madri","h":"Zleep Hotel Madrid Airport - ALOJAMENTO E CAFÉ DA MANHÃ","p":8729,"i":"27/10/2026","v":"03/11/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":true,"lx":true},{"id":171,"d":"Costa do Sauipe","h":"Vila Galé Marés Resort - All Inclusive","p":8788,"i":"02/01/2027","v":"09/01/2027","o":"Viracopos","t":"praia","r":"Bahia","ai":true,"cm":false,"lx":true},{"id":172,"d":"Orlando","h":"Hyatt Regency Orlando - Room Only","p":8967,"i":"03/08/2026","v":"08/08/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":173,"d":"Orlando","h":"JW Marriott Orlando, Grande Lakes - Somente Quarto","p":8987,"i":"05/08/2026","v":"12/08/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":174,"d":"Porto Seguro","h":"Porto Seguro Praia Resort - All Inclusive","p":9007,"i":"14/06/2026","v":"21/06/2026","o":"Viracopos","t":"praia","r":"Bahia","ai":true,"cm":false,"lx":true},{"id":175,"d":"San Carlos De Bariloche","h":"Llao Llao Resort, Golf-Spa - ALOJAMENTO E CAFÉ DA MANHÃ","p":9013,"i":"22/08/2026","v":"27/08/2026","o":"Viracopos","t":"montanha","r":"Sul","ai":false,"cm":true,"lx":true},{"id":176,"d":"Orlando","h":"Hyatt Regency Orlando International Airport - Room Only","p":9136,"i":"13/07/2026","v":"18/07/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":177,"d":"Jericoacoara","h":"Vila Jeri Hotel - Café da manhã","p":9145,"i":"30/01/2027","v":"06/02/2027","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":true},{"id":178,"d":"Curacao","h":"Avila Beach Hotel - Room Only","p":9563,"i":"15/08/2026","v":"22/08/2026","o":"Confins","t":"praia","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":179,"d":"Fernando de Noronha","h":"Teju-Açu Ecopousada - Café da manhã","p":9567,"i":"11/05/2026","v":"16/05/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":true},{"id":180,"d":"Curacao","h":"The Kontiki - Somente Quarto","p":9765,"i":"08/08/2026","v":"15/08/2026","o":"Confins","t":"praia","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":181,"d":"Orlando","h":"Hyatt Regency Grand Cypress Resort - SÓ ALOJAMENTO","p":9951,"i":"10/07/2026","v":"17/07/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":182,"d":"Fernando de Noronha","h":"Pousada do Vale - Café da manhã","p":9986,"i":"09/11/2026","v":"14/11/2026","o":"Congonhas","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":true},{"id":183,"d":"Caldas Novas","h":"Rio Quente Resorts - Hotel Giardino - Half Board","p":10054,"i":"23/07/2026","v":"30/07/2026","o":"Congonhas","t":"natureza","r":"Centro-Oeste","ai":false,"cm":false,"lx":true},{"id":184,"d":"Orlando","h":"Rosen Centre Hotel - SÓ ALOJAMENTO","p":10113,"i":"13/09/2026","v":"20/09/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":185,"d":"Madri","h":"Hotel Espahotel Gran Vía Madrid - Room Only","p":10194,"i":"21/10/2026","v":"26/10/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":186,"d":"Curacao","h":"Avila Beach Hotel - RO","p":10375,"i":"19/07/2026","v":"24/07/2026","o":"Confins","t":"praia","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":187,"d":"Curacao","h":"Curaçao Marriott Beach Resort - Room Only","p":10834,"i":"16/12/2026","v":"23/12/2026","o":"Congonhas","t":"praia","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":188,"d":"Curacao","h":"Sunscape Curaçao Resort, Spa & Casino - All Inclusive","p":11304,"i":"05/09/2026","v":"12/09/2026","o":"Confins","t":"praia","r":"Internacional","ai":true,"cm":false,"lx":true},{"id":189,"d":"Orlando","h":"Waldorf Astoria Orlando - Room Only","p":11358,"i":"13/09/2026","v":"20/09/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":190,"d":"Curacao","h":"Renaissance Wind Creek Curacao Resort - Room Only","p":11424,"i":"03/07/2026","v":"08/07/2026","o":"Congonhas","t":"praia","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":191,"d":"Pipa","h":"Sombra e Agua Fresca Resort - Café da manhã","p":11656,"i":"20/09/2026","v":"27/09/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":true},{"id":192,"d":"Madri","h":"Axor Feria Hotel - SÓ ALOJAMENTO","p":11694,"i":"01/06/2026","v":"08/06/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":193,"d":"Sao Miguel dos Milagres","h":"Monan Boutique Hotel - All Inclusive","p":11966,"i":"06/09/2026","v":"13/09/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":true,"cm":false,"lx":true},{"id":194,"d":"Curacao","h":"Mangrove Beach Corendon Curacao All-Inclusive Resort, Curio by Hilton - All Inclusive","p":12112,"i":"15/07/2026","v":"20/07/2026","o":"Confins","t":"praia","r":"Internacional","ai":true,"cm":false,"lx":true},{"id":195,"d":"Curacao","h":"Avila Beach Hotel - Somente Quarto","p":12490,"i":"17/07/2026","v":"22/07/2026","o":"Congonhas","t":"praia","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":196,"d":"Miami Beach","h":"Hotel Riu Plaza Miami Beach - Café da manhã","p":12503,"i":"22/12/2026","v":"27/12/2026","o":"Viracopos","t":"praia","r":"Internacional","ai":false,"cm":true,"lx":true},{"id":197,"d":"Curacao","h":"The Rif at Mangrove Beach Corendon Curacao All-Inclusive, Curio by Hilton - All Inclusive","p":13118,"i":"13/12/2026","v":"20/12/2026","o":"Congonhas","t":"praia","r":"Internacional","ai":true,"cm":false,"lx":true},{"id":198,"d":"Curacao","h":"The Kontiki - Room Only","p":13142,"i":"08/08/2026","v":"15/08/2026","o":"Congonhas","t":"praia","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":199,"d":"Madri","h":"Hotel Nuevo Boston - SÓ ALOJAMENTO","p":13386,"i":"07/07/2026","v":"14/07/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":200,"d":"Curacao","h":"Avila Beach Hotel - SÓ ALOJAMENTO","p":14176,"i":"30/05/2026","v":"06/06/2026","o":"Congonhas","t":"praia","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":201,"d":"Curacao","h":"The Kontiki - RO","p":14332,"i":"20/05/2026","v":"27/05/2026","o":"Congonhas","t":"praia","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":202,"d":"Curacao","h":"Sandals Royal Curacao - All Inclusive","p":22089,"i":"13/06/2026","v":"20/06/2026","o":"Confins","t":"praia","r":"Internacional","ai":true,"cm":false,"lx":true},{"id":203,"d":"Orlando","h":"Four Seasons Resort Orlando at Walt Disney World® Resort - Somente Quarto","p":25493,"i":"04/08/2026","v":"11/08/2026","o":"Viracopos","t":"cidade","r":"Internacional","ai":false,"cm":false,"lx":true},{"id":204,"d":"Maragogi","h":"Pousada dos Jangadeiros - Café da manhã","p":73238,"i":"03/05/2026","v":"15/11/2026","o":"Viracopos","t":"praia","r":"Nordeste","ai":false,"cm":true,"lx":true}];
+
+// Swipe card pool — 1 representative card per unique destination from PKGS
+const SWIPE_POOL = (()=>{
+  const seen = new Set();
+  return PKGS.filter(p => {
+    if(seen.has(p.d)) return false;
+    seen.add(p.d);
+    return true;
+  });
+})();
+
+// Image mapping — Unsplash photos for known destinations
+const IMG = {
+  'Canela':'https://images.unsplash.com/photo-1544979590-37e9b47eb705?w=600&q=70',
+  'Gramado':'https://images.unsplash.com/photo-1494548162494-384bba4ab999?w=600&q=70',
+  "Arraial D'Ajuda":'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=600&q=70',
+  'Florianópolis':'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=70',
+  'Caraiva':'https://images.unsplash.com/photo-1563284223-333497472a04?w=600&q=70',
+  'Maceio':'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=600&q=70',
+  'Aracajú':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=70',
+  'Foz do Iguaçu':'https://images.unsplash.com/photo-1578894381163-e72c17f2d45f?w=600&q=70',
+  'Trancoso':'https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?w=600&q=70',
+  'Porto Seguro':'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=70',
+  'Ilheus':'https://images.unsplash.com/photo-1519780397685-09d066d86a7d?w=600&q=70',
+  'Punta del Este':'https://images.unsplash.com/photo-1583422409516-2895a77efded?w=600&q=70',
+  'Una':'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=600&q=70',
+  'Praia dos Carneiros':'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=70',
+  'Natal':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=70',
+  'Barra De Sao Miguel':'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=600&q=70',
+  'Recife':'https://images.unsplash.com/photo-1519780397685-09d066d86a7d?w=600&q=70',
+  'Bonito':'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=70',
+  'Itacare':'https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?w=600&q=70',
+  'Pipa':'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=600&q=70',
+  'João Pessoa':'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=70',
+  'Porto De Galinhas':'https://images.unsplash.com/photo-1563284223-333497472a04?w=600&q=70',
+  'Navegantes':'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=70',
+  'Mendoza Província':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=70',
+  'Cumbuco':'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=600&q=70',
+  'Beberibe':'https://images.unsplash.com/photo-1563284223-333497472a04?w=600&q=70',
+  'Jericoacoara':'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=600&q=70',
+  'Maragogi':'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=600&q=70',
+  'Fernando de Noronha':'https://images.unsplash.com/photo-1563284223-333497472a04?w=600&q=70',
+  'Caldas Novas':'https://images.unsplash.com/photo-1578894381163-e72c17f2d45f?w=600&q=70',
+  'Orlando':'https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=600&q=70',
+  'Lisboa':'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=600&q=70',
+  'Fort Lauderdale':'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=70',
+  'Curacao':'https://images.unsplash.com/photo-1586500036706-41963de24d8b?w=600&q=70',
+  'Costa do Sauipe':'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=600&q=70',
+  'San Carlos De Bariloche':'https://images.unsplash.com/photo-1494548162494-384bba4ab999?w=600&q=70',
+  'Praia Do Forte':'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=70',
+  'Aquiraz':'https://images.unsplash.com/photo-1563284223-333497472a04?w=600&q=70',
+};
+const BG = {praia:'#0077B6',montanha:'#2D6A4F',natureza:'#386641',cidade:'#1A4F8A'};
+const E = {praia:'🏖️',montanha:'🏔️',natureza:'🌿',cidade:'🌆'};
+
+// ═══════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════
+const ST = {
+  likes:[], nopes:[], cur:'s-land',
+  queue:[], regFilter:'all',
+  hookShown:false, quizDone:false,
+  answers:{}, curQ:1,
+  sortKey:'score', sortDir:1,
+  tipoFilter:'all', regExpFilter:'all',
+  scores:{},
+};
+const HOOK_AFTER = 3;
+
+// ═══════════════════════════════════════
+//  LOGO INJECT
+// ═══════════════════════════════════════
+const LOGO_SRC = 'data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAQABgADASIAAhEBAxEB/8QAHQABAAAHAQEAAAAAAAAAAAAAAAECAwQFBgcICf/EAFsQAQABAwIDBAQIBwoMBAUDBQABAgMEBREGEiEHMUFRE2FxgRQiMlKRobHRIzNCcrLB8AgVFjVVYnSSk6IXJCZDU2Nkc4LC0uElNkWUREZUhOIng/E0N3Wzw//EABwBAQABBQEBAAAAAAAAAAAAAAAFAgMEBgcBCP/EAEIRAQACAQICBgcFBQgCAgMBAAABAgMEEQUhBhIxQVFxE2GRobHB0RQiU4HwFTIzcuEWIyQ0QlKS8UOCNWIlorLC/9oADAMBAAIRAxEAPwDxkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKtjHyL9XLZsXbk+VFEz9i7uaHrVunmuaRqFFPnVjVxH2PYrM9kKZvWO2WPFW/jZFirlv2LtqfKuiaftUnirtAAAAAAAAAAAAAAAAAAAAAAA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AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//2Q==';
+function injectLogos(){
+  ['logo-land','logo-sw','logo-quiz','logo-az','logo-res'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.src=LOGO_SRC;
+  });
+}
+
+// ═══════════════════════════════════════
+//  SCREEN NAV
+// ═══════════════════════════════════════
+function goScreen(id){
+  const cur=document.getElementById(ST.cur);
+  const nxt=document.getElementById(id);
+  if(cur===nxt) return;
+  cur.classList.add('exit');
+  setTimeout(()=>{cur.classList.remove('active','exit');},400);
+  nxt.classList.add('active');
+  ST.cur=id;
+  const dark=['s-land','s-hook','s-analyze'].includes(id);
+  document.getElementById('status-bar').className='sb '+(dark?'dark':'light');
+}
+function goSwipe(){buildQueue();goScreen('s-swipe')}
+function goQuiz(){goScreen('s-quiz')}
+function skipToResults(){ST.quizDone=false;doAnalyze()}
+
+// ═══════════════════════════════════════
+//  SWIPE CARDS
+// ═══════════════════════════════════════
+function buildQueue(){
+  const likedIds=new Set(ST.likes.map(l=>l.id));
+  const nopedIds=new Set(ST.nopes);
+  let pool=SWIPE_POOL.filter(p=>!likedIds.has(p.id)&&!nopedIds.has(p.id));
+  if(ST.regFilter!=='all') pool=pool.filter(p=>p.r===ST.regFilter);
+  ST.queue=[...pool];
+  renderStack();
+}
+
+function renderStack(){
+  const stack=document.getElementById('card-stack');
+  stack.innerHTML='';
+  if(ST.queue.length===0){
+    const empty=document.createElement('div');
+    empty.className='sw-empty';
+    empty.innerHTML=`<div class="sw-empty-ic">✈️</div><div class="sw-empty-title">Você viu todos os destinos!</div><div class="sw-empty-sub">${ST.likes.length} curtido${ST.likes.length!==1?'s':''} — hora de ver seus matches</div><button class="btn-sw-match" onclick="doAnalyze()">Ver meus matches ✨</button>`;
+    stack.appendChild(empty);
+    document.getElementById('sw-hint').textContent='';
+    return;
+  }
+  const show=ST.queue.slice(0,4).reverse();
+  show.forEach((p,i)=>{
+    const isTop=(i===show.length-1);
+    const card=document.createElement('div');
+    card.className='scard';
+    card.dataset.id=p.id;
+    const img=IMG[p.d];
+    const bg=BG[p.t]||'#1A4F8A';
+    const em=E[p.t]||'✈️';
+    card.innerHTML=`
+      ${img?`<div class="scard-bg" style="background-image:url('${img}')"></div>`:''}
+      <div class="scard-ph" style="background:${bg};${img?'display:none':''}">${em}</div>
+      <div class="scard-grad"></div>
+      <div class="scard-body">
+        <div class="scard-reg">${p.r.toUpperCase()} · ${p.t.toUpperCase()}</div>
+        <div class="scard-dest">${p.d}</div>
+        <div class="scard-hotel">🏨 ${p.h}</div>
+        <div class="scard-row">
+          <div class="scard-price">R$ ${p.p.toLocaleString('pt-BR')}</div>
+          <div class="scard-meta">✈️ ${p.o}</div>
+        </div>
+      </div>
+      <div class="stamp stamp-like">LIKE</div>
+      <div class="stamp stamp-nope">NOPE</div>
+    `;
+    if(isTop) setupDrag(card);
+    stack.appendChild(card);
+  });
+}
+
+// ═══════════════════════════════════════
+//  DRAG
+// ═══════════════════════════════════════
+let DG={active:false,startX:0,startY:0,dx:0,card:null};
+function setupDrag(card){
+  DG.card=card;
+  const LS=card.querySelector('.stamp-like');
+  const NS=card.querySelector('.stamp-nope');
+  const start=e=>{
+    DG.active=true;DG.dx=0;
+    const pt=e.touches?e.touches[0]:e;
+    DG.startX=pt.clientX;DG.startY=pt.clientY;
+    card.style.transition='none';
+  };
+  const move=e=>{
+    if(!DG.active) return;
+    const pt=e.touches?e.touches[0]:e;
+    DG.dx=pt.clientX-DG.startX;
+    const dy=(pt.clientY-DG.startY)*0.25;
+    const rot=DG.dx*0.07;
+    card.style.transform=`translateX(${DG.dx}px) translateY(${dy}px) rotate(${rot}deg)`;
+    const ratio=Math.min(Math.abs(DG.dx)/70,1);
+    if(DG.dx>15){LS.style.opacity=ratio;NS.style.opacity=0}
+    else if(DG.dx<-15){NS.style.opacity=ratio;LS.style.opacity=0}
+    else{LS.style.opacity=0;NS.style.opacity=0}
+  };
+  const end=()=>{
+    if(!DG.active) return;
+    DG.active=false;
+    card.style.transition='';
+    if(DG.dx>70) doSwipe('right');
+    else if(DG.dx<-70) doSwipe('left');
+    else{card.style.transform='';LS.style.opacity=0;NS.style.opacity=0}
+    DG.dx=0;
+  };
+  card.addEventListener('mousedown',start);
+  card.addEventListener('touchstart',start,{passive:true});
+  document.addEventListener('mousemove',move);
+  document.addEventListener('touchmove',move,{passive:true});
+  document.addEventListener('mouseup',end);
+  document.addEventListener('touchend',end);
+}
+
+function doSwipe(dir){
+  const stack=document.getElementById('card-stack');
+  const top=stack.lastElementChild;
+  if(!top||!top.classList.contains('scard')) return;
+  const id=parseInt(top.dataset.id);
+  const pkg=SWIPE_POOL.find(p=>p.id===id);
+  if(!pkg) return;
+  top.style.transition='transform .38s cubic-bezier(.4,0,.2,1),opacity .38s';
+  if(dir==='right'){
+    top.style.transform='translateX(150%) rotate(22deg)';top.style.opacity='0';
+    ST.likes.push({id:pkg.id,d:pkg.d,t:pkg.t,r:pkg.r});
+    document.getElementById('likes-num').textContent=ST.likes.length;
+    showToast('♥ '+pkg.d+' curtido!');
+  } else if(dir==='left'){
+    top.style.transform='translateX(-150%) rotate(-22deg)';top.style.opacity='0';
+    ST.nopes.push(id);
+  } else {
+    top.style.transform='translateX(-150%) rotate(-12deg)';top.style.opacity='0';
+  }
+  setTimeout(()=>{
+    ST.queue.shift();renderStack();
+    if(ST.likes.length>=HOOK_AFTER&&!ST.hookShown&&!ST.quizDone){
+      ST.hookShown=true;setTimeout(showHook,500);
+    }
+  },400);
+}
+
+function setRegion(btn,r){
+  document.querySelectorAll('.rc').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');ST.regFilter=r;buildQueue();
+}
+
+// ═══════════════════════════════════════
+//  HOOK
+// ═══════════════════════════════════════
+function showHook(){
+  const tags=document.getElementById('hook-tags');
+  tags.innerHTML=ST.likes.map(l=>`<div class="hook-tag">${E[l.t]||'✈️'} ${l.d}</div>`).join('');
+  goScreen('s-hook');
+}
+
+// ═══════════════════════════════════════
+//  QUIZ
+// ═══════════════════════════════════════
+function qpick(el){
+  const q=el.dataset.q;
+  el.parentNode.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+  ST.answers[q]=el.dataset.v;
+  const nb=document.getElementById('qn'+ST.curQ);
+  if(nb) nb.disabled=false;
+}
+function goQQ(n){
+  document.getElementById('qq'+ST.curQ).classList.remove('active');
+  ST.curQ=n;
+  document.getElementById('qq'+n).classList.add('active');
+  document.getElementById('q-prog').style.width=(n/5*100)+'%';
+  document.getElementById('q-lbl').textContent=`Pergunta ${n} de 5`;
+  document.querySelector('.qbody').scrollTop=0;
+}
+
+// ═══════════════════════════════════════
+//  SCORING ENGINE — HYBRID
+//  Implicit (swipe behavior) + Explicit (quiz intent)
+// ═══════════════════════════════════════
+const BUD_MAP={b1:[0,1500],b2:[1500,3000],b3:[3000,6000],b4:[6000,99999]};
+
+function scorePkg(pkg){
+  const a=ST.answers;
+  let si=0, se=0;
+  const reasons=[];
+
+  // ── IMPLICIT: comportamento de swipe ──
+  const likedTypes=ST.likes.map(l=>l.t);
+  const likedRegs=ST.likes.map(l=>l.r);
+  const likedDests=ST.likes.map(l=>l.d.toLowerCase());
+  const typeCount=likedTypes.filter(t=>t===pkg.t).length;
+  const regCount=likedRegs.filter(r=>r===pkg.r).length;
+
+  if(typeCount>0){
+    const pts=Math.min(20+(typeCount-1)*5,30);
+    si+=pts;reasons.push(`tipo ${pkg.t} curtido (${typeCount}x)`);
+  }
+  if(regCount>0){
+    const pts=Math.min(15+(regCount-1)*3,22);
+    si+=pts;reasons.push(`região ${pkg.r} (${regCount}x)`);
+  }
+  if(likedDests.includes(pkg.d.toLowerCase())){
+    si+=10;reasons.push('destino curtido diretamente');
+  }
+
+  // ── EXPLICIT: respostas do quiz ──
+  if(ST.quizDone && a.bud){
+    const[lo,hi]=BUD_MAP[a.bud]||[0,99999];
+    if(pkg.p>=lo&&pkg.p<=hi){se+=25;reasons.push('orçamento ideal');}
+    else if(pkg.p>hi&&pkg.p-hi<800){se+=10;}
+    else if(pkg.p<lo&&lo-pkg.p<400){se+=12;}
+  }
+  if(ST.quizDone && a.hosp){
+    if(a.hosp==='allinclusive'&&pkg.ai){se+=15;reasons.push('all inclusive');}
+    else if(a.hosp==='conforto'&&pkg.cm){se+=15;reasons.push('café da manhã incluso');}
+    else if(a.hosp==='luxo'&&pkg.lx){se+=15;reasons.push('categoria luxo');}
+    else if(a.hosp==='economico'&&pkg.p<2000){se+=15;reasons.push('opção econômica');}
+    else se+=3;
+  }
+  if(ST.quizDone && a.goal){
+    const gm={descanso:['praia','montanha'],aventura:['natureza','praia'],romantico:['praia','cidade'],gastronomia:['cidade','montanha']};
+    if((gm[a.goal]||[]).includes(pkg.t)){se+=10;reasons.push(`objetivo: ${a.goal}`);}
+  }
+  if(ST.quizDone && a.comp){
+    const cm={casal:['praia','cidade','montanha'],familia:['praia','natureza'],amigos:['praia','cidade'],solo:['cidade','natureza','montanha']};
+    if((cm[a.comp]||[]).includes(pkg.t)){se+=5;reasons.push(`ideal para ${a.comp}`);}
+  }
+
+  const total=Math.min(si+se,100);
+  return{score:total,si,se,reasons};
+}
+
+// ═══════════════════════════════════════
+//  ANALYZE ANIMATION
+// ═══════════════════════════════════════
+function doAnalyze(){
+  ST.quizDone=true;
+  document.getElementById('az-like-count').textContent=ST.likes.length;
+  goScreen('s-analyze');
+  const steps=['az1','az2','az3','az4'];
+  let i=0;
+  const iv=setInterval(()=>{
+    if(i>0){
+      const p=document.getElementById(steps[i-1]);
+      p.classList.remove('act');p.classList.add('done');
+      p.querySelector('.az-step-ic').textContent='✓';
+    }
+    if(i<steps.length){document.getElementById(steps[i]).classList.add('act');i++;}
+    else{clearInterval(iv);setTimeout(showResults,700);}
+  },900);
+}
+
+// ═══════════════════════════════════════
+//  RESULTS
+// ═══════════════════════════════════════
+function showResults(){
+  // Score all 204 packages
+  const scored=PKGS.map(p=>{const r=scorePkg(p);return{...p,...r};}).sort((a,b)=>b.score-a.score);
+  // Cache scores for explorer
+  scored.forEach(p=>{ST.scores[p.id]=p;});
+
+  const compatible=scored.filter(p=>p.score>0).length;
+  document.getElementById('rh-packages-count').textContent=compatible;
+
+  // Hero title
+  const top=scored[0]?.score||0;
+  const titles={high:'Match perfeito encontrado! 🎯',mid:'Ótimas opções para você! ✨',low:'Suas viagens personalizadas ✈️'};
+  document.getElementById('rh-title').textContent=top>=70?titles.high:top>=45?titles.mid:titles.low;
+  const lk=ST.likes.length;
+  const qd=ST.quizDone&&Object.keys(ST.answers).length>0;
+  document.getElementById('rh-sub').textContent=`${lk} destino${lk!==1?'s':''} curtido${lk!==1?'s':''}${qd?' + quiz respondido':''} · ${compatible} pacotes compatíveis`;
+
+  // Pills
+  const bmap={b1:'💛 Até R$1.5k',b2:'🌊 R$1.5–3k',b3:'🏨 R$3–6k',b4:'✨ +R$6k'};
+  const cmap={solo:'🧳 Solo',casal:'💑 Casal',familia:'👨‍👩‍👧 Família',amigos:'🎉 Amigos'};
+  const hmap={economico:'🎒 Econômico',conforto:'☕ Café',luxo:'🥂 Luxo',allinclusive:'🍹 All Inc'};
+  const gmap={descanso:'😴 Descanso',aventura:'🧗 Aventura',romantico:'🥂 Romance',gastronomia:'🍽️ Gastro'};
+  const pills=[
+    ...ST.likes.slice(0,3).map(l=>`<div class="rh-pill">${E[l.t]||'✈️'} ${l.d}</div>`),
+    ...(ST.answers.bud?[`<div class="rh-pill">${bmap[ST.answers.bud]}</div>`]:[]),
+    ...(ST.answers.comp?[`<div class="rh-pill">${cmap[ST.answers.comp]}</div>`]:[]),
+    ...(ST.answers.hosp?[`<div class="rh-pill">${hmap[ST.answers.hosp]}</div>`]:[]),
+    ...(ST.answers.goal?[`<div class="rh-pill">${gmap[ST.answers.goal]}</div>`]:[]),
+  ];
+  document.getElementById('rh-pills').innerHTML=pills.join('');
+
+  // Top 5 match cards
+  const top5=scored.slice(0,5);
+  document.getElementById('match-dot').textContent=top5.length;
+  document.getElementById('match-list').innerHTML=top5.map((p,i)=>{
+    const sc=['sc1','sc2','sc3','sc3','sc3'][i];
+    const rank=['🥇','🥈','🥉','4️⃣','5️⃣'][i];
+    const img=IMG[p.d];
+    const bg=BG[p.t]||'#1A4F8A';
+    const em=E[p.t]||'✈️';
+    const siPct=Math.min(Math.round((p.si/52)*100),100);
+    const sePct=Math.min(Math.round((p.se/65)*100),100);
+    const wamsg=encodeURIComponent(`Olá! Fiz o quiz em A Viagem te Encontra e ${p.d} apareceu com ${p.score}% de compatibilidade!
+
+🏨 ${p.h}
+📅 ${p.i} → ${p.v}
+✈️ ${p.o}
+💰 R$ ${p.p.toLocaleString('pt-BR')}/pessoa
+
+Pode me enviar mais informações?`);
+    return `<div class="mcard">
+      <div class="mc-img">
+        ${img?`<img src="${img}" alt="${p.d}" loading="lazy" onerror="this.parentNode.style.background='${bg}';this.remove()">`:`<div class="mc-ph" style="background:${bg}">${em}</div>`}
+        <div class="mc-score ${sc}">🔥 ${p.score}% match</div>
+        <div class="mc-rank">${rank}</div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-top">
+          <div><div class="mc-dest">${p.d}</div><div class="mc-tipo">${p.t} · ${p.r}</div></div>
+          <div class="mc-price"><div class="mc-pv">R$${p.p.toLocaleString('pt-BR')}</div><div class="mc-pl">por pessoa</div></div>
+        </div>
+        <div class="compat-row"><span class="compat-lbl">Compatibilidade</span><div class="compat-track"><div class="compat-fill" style="width:${p.score}%"></div></div><span class="compat-pct">${p.score}%</span></div>
+        <div class="mc-score-detail">
+          <div class="mc-score-row"><span>♥ Comportamento (swipe)</span><div class="mc-score-bar"><div class="mc-score-fill fill-impl" style="width:${siPct}%"></div></div><span>${p.si} pts</span></div>
+          <div class="mc-score-row"><span>📋 Intenção (quiz)</span><div class="mc-score-bar"><div class="mc-score-fill fill-expl" style="width:${sePct}%"></div></div><span>${p.se} pts</span></div>
+        </div>
+        <div class="mc-hotel">🏨 ${p.h}</div>
+        <div class="mc-chips">
+          <div class="mc-chip">✈️ ${p.o}</div><div class="mc-chip">📅 ${p.i}</div><div class="mc-chip">🔙 ${p.v}</div>
+          ${p.cm?'<div class="mc-chip">☕ Café</div>':''}
+          ${p.ai?'<div class="mc-chip">🍹 All Inc.</div>':''}
+          ${p.lx?'<div class="mc-chip">⭐ Luxo</div>':''}
+        </div>
+        ${p.reasons.length?`<div class="why-tags">${p.reasons.slice(0,3).map(r=>`<div class="wtag">✓ ${r}</div>`).join('')}</div>`:''}
+        <button class="btn-wa" onclick="window.open('https://wa.me/5511953967095?text=${wamsg}','_blank')">💬 Quero saber mais sobre ${p.d}</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  renderPkgs();
+  goScreen('s-results');
+}
+
+// ═══════════════════════════════════════
+//  EXPLORER
+// ═══════════════════════════════════════
+function switchView(v){
+  const mv=document.getElementById('v-match');
+  const ev=document.getElementById('v-explore');
+  const tm=document.getElementById('rt-match');
+  const te=document.getElementById('rt-explore');
+  if(v==='match'){mv.style.display='';ev.style.display='none';tm.classList.add('on');te.classList.remove('on');}
+  else{mv.style.display='none';ev.style.display='';te.classList.add('on');tm.classList.remove('on');renderPkgs();}
+}
+function setTipo(btn,t){document.querySelectorAll('[data-t]').forEach(b=>b.classList.remove('on'));btn.classList.add('on');ST.tipoFilter=t;renderPkgs()}
+function setReg(btn,r){document.querySelectorAll('[data-rg]').forEach(b=>b.classList.remove('on'));btn.classList.add('on');ST.regExpFilter=r;renderPkgs()}
+function setSort(btn,k){document.querySelectorAll('.sb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');ST.sortKey=k;renderPkgs()}
+function toggleDir(){ST.sortDir*=-1;renderPkgs()}
+
+function renderPkgs(){
+  const q=(document.getElementById('search-in')?.value||'').toLowerCase();
+  let list=PKGS.filter(p=>{
+    if(ST.tipoFilter!=='all'&&p.t!==ST.tipoFilter) return false;
+    if(ST.regExpFilter!=='all'&&p.r!==ST.regExpFilter) return false;
+    if(q&&!p.d.toLowerCase().includes(q)&&!p.h.toLowerCase().includes(q)) return false;
+    return true;
+  });
+  list=[...list].sort((a,b)=>{
+    if(ST.sortKey==='score'){const sa=ST.scores[a.id]?.score||0,sb=ST.scores[b.id]?.score||0;return(sb-sa)*ST.sortDir}
+    if(ST.sortKey==='preco') return(a.p-b.p)*ST.sortDir;
+    if(ST.sortKey==='data'){const pa=a.i.split('/').reverse().join(''),pb=b.i.split('/').reverse().join('');return pa<pb?-ST.sortDir:ST.sortDir}
+    if(ST.sortKey==='destino') return a.d.localeCompare(b.d,'pt-BR')*ST.sortDir;
+    if(ST.sortKey==='hotel') return a.h.localeCompare(b.h,'pt-BR')*ST.sortDir;
+    return 0;
+  });
+  document.getElementById('pkg-count').textContent=list.length+' pacotes';
+  const grid=document.getElementById('pkg-grid');
+  if(!list.length){grid.innerHTML=`<div class="no-res"><div class="no-res-ic">🔍</div>Nenhum pacote encontrado com esses filtros.</div>`;return}
+  grid.innerHTML=list.map(p=>{
+    const sc=ST.scores[p.id]?.score;
+    const img=IMG[p.d];
+    const bg=BG[p.t]||'#1A4F8A';
+    const em=E[p.t]||'✈️';
+    const wamsg=encodeURIComponent(`Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i}→${p.v}) por R$${p.p.toLocaleString('pt-BR')}/pessoa. Pode me enviar mais informações?`);
+    return `<div class="pcard">
+      <div class="pc-img">
+        ${img?`<img src="${img}" alt="${p.d}" loading="lazy" onerror="this.parentNode.style.background='${bg}';this.remove()">`:`<div class="pc-ph" style="background:${bg}">${em}</div>`}
+        <div class="pc-badge">${p.t}</div>
+        ${sc!=null?`<div class="pc-sc">${sc}%</div>`:''}
+      </div>
+      <div class="pc-body">
+        <div class="pc-dest">${p.d}</div>
+        <div class="pc-hotel">${p.h}</div>
+        <div class="pc-chips">
+          <div class="pc-chip">✈️ ${p.o}</div>
+          <div class="pc-chip">📅 ${p.i}</div>
+          ${p.cm?'<div class="pc-chip">☕</div>':''}
+          ${p.ai?'<div class="pc-chip">🍹</div>':''}
+          ${p.lx?'<div class="pc-chip">⭐</div>':''}
+        </div>
+        <div class="pc-foot">
+          <div><span class="pc-price">R$${p.p.toLocaleString('pt-BR')}</span><span class="pc-pp">/pax</span></div>
+          <button class="btn-pc" onclick="window.open('https://wa.me/5511953967095?text=${wamsg}','_blank')">💬</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════
+let _tt;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+// ═══════════════════════════════════════
+//  RESTART
+// ═══════════════════════════════════════
+function restart(){
+  Object.assign(ST,{likes:[],nopes:[],hookShown:false,quizDone:false,answers:{},curQ:1,sortKey:'score',sortDir:1,tipoFilter:'all',regExpFilter:'all',regFilter:'all',scores:{}});
+  document.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
+  document.querySelectorAll('.btn-qn').forEach(b=>b.disabled=true);
+  document.querySelectorAll('.qblock').forEach(b=>b.classList.remove('active'));
+  document.getElementById('qq1').classList.add('active');
+  document.querySelectorAll('.rc').forEach(b=>b.classList.toggle('on',b.dataset.r==='all'));
+  document.querySelectorAll('[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==='all'));
+  document.querySelectorAll('[data-rg]').forEach(b=>b.classList.toggle('on',b.dataset.rg==='all'));
+  document.querySelectorAll('.sb').forEach(b=>b.classList.toggle('on',b.dataset.s==='score'));
+  ['az1','az2','az3','az4'].forEach((id,i)=>{const el=document.getElementById(id);el.classList.remove('done','act');el.querySelector('.az-step-ic').textContent=['♥','🔍','⚖️','🏆'][i]});
+  document.getElementById('likes-num').textContent='0';
+  if(document.getElementById('search-in')) document.getElementById('search-in').value='';
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active','exit'));
+  document.getElementById('s-land').classList.add('active');
+  ST.cur='s-land';
+  document.getElementById('status-bar').className='sb dark';
+  buildQueue();
+}
+
+// INIT
+injectLogos();
+buildQueue();
+</script>
+</body>
+</html>

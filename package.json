@@ -1,0 +1,9 @@
+{
+  "name": "a-viagem-te-encontra",
+  "version": "1.0.0",
+  "description": "A Viagem te Encontra — Plataforma de matching de viagens",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "license": "MIT"
+}
