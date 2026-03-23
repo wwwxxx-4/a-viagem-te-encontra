@@ -1513,6 +1513,7 @@ function W_render(){
   const grid = document.getElementById('w-grid');
   if(!grid) return;
   if(!PKGS || !PKGS.length) return;
+
   const q  = (document.getElementById('w-search')?.value||'').toLowerCase().trim();
   const fd = document.getElementById('w-date')?.value||'';
   const s  = document.getElementById('w-sort')?.value||'preco_asc';
@@ -1532,12 +1533,10 @@ function W_render(){
   });
 
   list = [...list].sort((a,b)=>{
-    if(s==='preco_asc')  return a.p - b.p;
-    if(s==='preco_desc') return b.p - a.p;
+    if(s==='preco_asc')  return a.p-b.p;
+    if(s==='preco_desc') return b.p-a.p;
     if(s==='data'){
-      const pa = a.i.split('/').reverse().join('');
-      const pb = b.i.split('/').reverse().join('');
-      return pa < pb ? -1 : 1;
+      return a.i.split('/').reverse().join('')<b.i.split('/').reverse().join('')?-1:1;
     }
     if(s==='destino') return a.d.localeCompare(b.d,'pt-BR');
     return 0;
@@ -1546,8 +1545,8 @@ function W_render(){
   const n = list.length;
   const cnt = document.getElementById('w-count');
   const bdg = document.getElementById('w-badge');
-  if(cnt) cnt.textContent = n + ' pacotes';
-  if(bdg) bdg.textContent = n + ' pacotes';
+  if(cnt) cnt.textContent = n+' pacotes';
+  if(bdg) bdg.textContent = n+' pacotes';
 
   if(!n){
     grid.innerHTML = '<div class="w-no-res">🔍 Nenhum pacote encontrado.<br><small>Tente ajustar os filtros.</small></div>';
@@ -1556,7 +1555,7 @@ function W_render(){
 
   const BG_W = {praia:'#0077B6',montanha:'#2D6A4F',natureza:'#386641',cidade:'#1A4F8A'};
   const EM_W = {praia:'🏖️',montanha:'🏔️',natureza:'🌿',cidade:'🌆'};
-  const FB = {
+  const FB_W = {
     'Canela':'https://images.unsplash.com/photo-1544979590-37e9b47eb705?w=500&q=70',
     'Gramado':'https://images.unsplash.com/photo-1494548162494-384bba4ab999?w=500&q=70',
     "Arraial D'Ajuda":'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=500&q=70',
@@ -1578,39 +1577,47 @@ function W_render(){
     'Aracajú':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=70',
   };
 
-  grid.innerHTML = list.map(p => {
-    const img = p.img || FB[p.d] || null;
+  grid.innerHTML = list.map(p=>{
+    const img = p.img || FB_W[p.d] || null;
     const bg  = BG_W[p.t] || '#1A4F8A';
     const em  = EM_W[p.t] || '✈️';
-    const msg = 'Olá! Tenho interesse no pacote ' + p.d + ' – ' + p.h +
-                ' (' + p.i + '→' + p.v + ') por R$' + p.p.toLocaleString('pt-BR') +
-                ' para 2 pessoas. Pode me enviar mais informações?';
-    const waUrl = 'https://api.whatsapp.com/send?phone=5511953967095&text=' + encodeURIComponent(msg);
-    return '<div class="wpcard">'
-      + '<div class="wpc-img">'
-        + (img
-            ? '<img src="' + img + '" alt="' + p.d + '" loading="lazy" onerror="this.parentNode.style.background='' + bg + '';this.remove()">'
-            : '<div class="wpc-ph" style="background:' + bg + '">' + em + '</div>')
-        + '<div class="wpc-badge">' + p.t + ' · ' + p.r + '</div>'
-      + '</div>'
-      + '<div class="wpc-body">'
-        + '<div class="wpc-top">'
-          + '<div><div class="wpc-dest">' + p.d + '</div><div class="wpc-tipo">' + p.t + ' · ' + p.r + '</div></div>'
-          + '<div><div class="wpc-pv">R$' + p.p.toLocaleString('pt-BR') + '</div><div class="wpc-pp">para 2 pessoas</div></div>'
-        + '</div>'
-        + '<div class="wpc-hotel">🏨 ' + p.h + '</div>'
-        + '<div class="wpc-chips">'
-          + '<span class="wpc-chip">✈️ ' + p.o + '</span>'
-          + '<span class="wpc-chip">📅 ' + p.i + ' → ' + p.v + '</span>'
-          + (p.cm ? '<span class="wpc-chip">☕ Café</span>' : '')
-          + (p.ai ? '<span class="wpc-chip">🍹 All Inc.</span>' : '')
-          + (p.lx ? '<span class="wpc-chip">⭐ Luxo</span>' : '')
-        + '</div>'
-        + (p.voo_ida   ? '<div class="wpc-voo">🛫 ' + p.voo_ida   + '</div>' : '')
-        + (p.voo_volta ? '<div class="wpc-voo">🛬 ' + p.voo_volta + '</div>' : '')
-        + '<button type="button" class="wpc-btn" onclick="window.open('' + waUrl + '','_blank')">💬 Quero este pacote</button>'
-      + '</div>'
-    + '</div>';
+    const msg = encodeURIComponent(
+      `Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i}→${p.v}) por R$${p.p.toLocaleString('pt-BR')} para 2 pessoas. Pode me enviar mais informações?`
+    );
+    const waUrl = `https://api.whatsapp.com/send?phone=5511953967095&text=${msg}`;
+    const imgHtml = img
+      ? `<img src="${img}" alt="${p.d}" loading="lazy" onerror="this.parentNode.style.background='${bg}';this.remove()">`
+      : `<div class="wpc-ph" style="background:${bg}">${em}</div>`;
+    return `
+    <div class="wpcard">
+      <div class="wpc-img">
+        ${imgHtml}
+        <div class="wpc-badge">${p.t} · ${p.r}</div>
+      </div>
+      <div class="wpc-body">
+        <div class="wpc-top">
+          <div>
+            <div class="wpc-dest">${p.d}</div>
+            <div class="wpc-tipo">${p.t} · ${p.r}</div>
+          </div>
+          <div>
+            <div class="wpc-pv">R$${p.p.toLocaleString('pt-BR')}</div>
+            <div class="wpc-pp">para 2 pessoas</div>
+          </div>
+        </div>
+        <div class="wpc-hotel">🏨 ${p.h}</div>
+        <div class="wpc-chips">
+          <span class="wpc-chip">✈️ ${p.o}</span>
+          <span class="wpc-chip">📅 ${p.i} → ${p.v}</span>
+          ${p.cm?'<span class="wpc-chip">☕ Café</span>':''}
+          ${p.ai?'<span class="wpc-chip">🍹 All Inc.</span>':''}
+          ${p.lx?'<span class="wpc-chip">⭐ Luxo</span>':''}
+        </div>
+        ${p.voo_ida?`<div class="wpc-voo">🛫 ${p.voo_ida}</div>`:''}
+        ${p.voo_volta?`<div class="wpc-voo">🛬 ${p.voo_volta}</div>`:''}
+        <button type="button" class="wpc-btn" onclick="window.open('${waUrl}','_blank')">💬 Quero este pacote</button>
+      </div>
+    </div>`;
   }).join('');
 }
 
