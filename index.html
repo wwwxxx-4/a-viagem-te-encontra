@@ -20,7 +20,6 @@
 }
 html,body{height:100%;overflow:hidden}
 body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:flex;align-items:center;justify-content:center}
-/* Desktop layout */
 @media(min-width:768px){
   body{background:var(--navy-dk);justify-content:center;align-items:center}
   .phone{width:min(430px,45vw);height:min(900px,96vh);border-radius:32px}
@@ -47,7 +46,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .lm-viagem{font-family:var(--f);font-weight:800;color:var(--white)}
 .lm-te{font-family:var(--f);font-weight:300;font-style:italic;color:var(--sky-lt);margin:0 3px}
 .lm-encontra{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-style:italic;color:var(--white)}
-/* light versions */
 .logo-light .lm-a,.logo-light .lm-te{color:var(--sky-dk)}
 .logo-light .lm-viagem,.logo-light .lm-encontra{color:var(--navy)}
 
@@ -173,7 +171,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .btn-qn{flex:1;max-width:185px;display:flex;align-items:center;justify-content:center;gap:5px;padding:10px 14px;border-radius:100px;border:none;background:var(--navy);font-family:var(--f);font-size:12px;font-weight:700;color:#fff;cursor:pointer;transition:var(--tr)}
 .btn-qn:hover{background:var(--sky-dk)}
 .btn-qn:disabled{background:var(--border);color:var(--muted-lt);cursor:not-allowed}
-/* input fields in quiz */
 .q-input{width:100%;padding:10px 13px;border:2px solid var(--border);border-radius:var(--r-sm);background:var(--ice);font-family:var(--f);font-size:13px;color:var(--text);outline:none;transition:var(--tr);margin-top:5px}
 .q-input:focus{border-color:var(--sky);background:var(--white)}
 .q-input::placeholder{color:var(--muted-lt)}
@@ -201,12 +198,11 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .az-step.act .az-step-ic{background:rgba(255,255,255,.1);animation:pulse-ic 1s ease-in-out infinite}
 @keyframes pulse-ic{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* ══ RESULTS — hero MÍNIMO ══ */
+/* ══ RESULTS ══ */
 #s-results{background:var(--ice);padding-top:0}
 .res-hero{
   background:linear-gradient(135deg,var(--navy-dk) 0%,var(--navy) 55%,#1A7AB5 100%);
-  padding:8px 14px 16px;     /* ultra compacto */
-  flex-shrink:0;position:relative;overflow:hidden;
+  padding:8px 14px 16px;flex-shrink:0;position:relative;overflow:hidden;
 }
 .res-hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:16px;background:var(--ice);clip-path:ellipse(55% 100% at 50% 100%)}
 .rh-eye{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:2px}
@@ -214,7 +210,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .rh-sub{font-size:10px;color:rgba(255,255,255,.6);line-height:1.4;margin-bottom:6px}
 .rh-pills{display:flex;flex-wrap:wrap;gap:3px}
 .rh-pill{display:inline-flex;align-items:center;gap:3px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:100px;padding:3px 8px;font-size:10px;font-weight:500;color:rgba(255,255,255,.85)}
-/* Tabs */
 .res-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--white);flex-shrink:0}
 .rtab{flex:1;padding:10px 6px;border:none;background:transparent;font-family:var(--f);font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:var(--tr);border-bottom:2px solid transparent}
 .rtab.on{color:var(--navy);border-bottom-color:var(--navy)}
@@ -242,7 +237,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .mc-price-wrap{text-align:right;flex-shrink:0}
 .mc-pv{font-size:16px;font-weight:800;color:var(--navy)}
 .mc-pl{font-size:11px;color:var(--muted)}
-/* score detail — só em matches */
 .mc-score-detail{background:var(--sky-pale);border-radius:6px;padding:7px 10px;margin-bottom:6px;font-size:11px;color:var(--navy)}
 .mc-score-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
 .mc-score-row:last-child{margin-bottom:0}
@@ -259,12 +253,26 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .mc-hotel{font-size:12px;color:var(--muted);margin-bottom:5px}
 .mc-chips{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px}
 .mc-chip{display:inline-flex;align-items:center;gap:2px;padding:3px 8px;border-radius:5px;background:var(--sky-pale);font-size:11px;color:var(--navy);font-weight:500}
-.why-tags{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:8px}
+/* ── Why tags — improved explanation engine ── */
+.why-section{margin-bottom:8px}
+.why-title{font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:4px}
+.why-tags{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:0}
 .wtag{display:inline-flex;align-items:center;gap:2px;padding:3px 8px;border-radius:100px;background:rgba(39,174,96,.07);border:1px solid rgba(39,174,96,.2);font-size:11px;color:#1A7A4A;font-weight:500}
+.wtag-warn{background:rgba(255,152,0,.07);border-color:rgba(255,152,0,.3);color:#B45309}
+/* ── Match percentage ring ── */
+.match-ring-wrap{display:flex;flex-direction:column;align-items:center;gap:2px;flex-shrink:0}
+.match-ring{position:relative;width:46px;height:46px}
+.match-ring svg{transform:rotate(-90deg)}
+.match-ring-bg{fill:none;stroke:var(--border);stroke-width:4}
+.match-ring-fill{fill:none;stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset 1s .3s ease}
+.match-ring-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:var(--navy)}
+/* ── Save indicator ── */
+.save-indicator{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:100px;font-size:9px;font-weight:600;background:rgba(39,174,96,.1);color:#1A7A4A;border:1px solid rgba(39,174,96,.2)}
+.save-indicator.saving{background:rgba(66,174,222,.1);color:var(--sky-dk);border-color:rgba(66,174,222,.3)}
 .btn-wa{width:100%;padding:12px;border-radius:8px;border:none;background:linear-gradient(135deg,var(--navy),var(--sky-dk));color:#fff;font-family:var(--f);font-size:14px;font-weight:700;cursor:pointer;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:5px}
 .btn-wa:hover{opacity:.9}
 
-/* ══ EXPLORER — 1 coluna, sem score detail ══ */
+/* ══ EXPLORER ══ */
 .fbox{background:var(--white);border-radius:var(--r);border:1px solid var(--border);padding:9px;margin-bottom:7px;box-shadow:var(--sh)}
 .fbox-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
 .fbox-title{font-size:12px;font-weight:700;color:var(--text)}
@@ -278,7 +286,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .fc{padding:3px 9px;border-radius:100px;border:1.5px solid var(--border);background:transparent;font-family:var(--f);font-size:10px;font-weight:600;color:var(--muted);cursor:pointer;transition:var(--tr)}
 .fc:hover{border-color:var(--sky);color:var(--sky)}
 .fc.on{border-color:var(--navy);background:var(--navy);color:#fff}
-/* sort */
 .sort-row{display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-bottom:8px}
 .sort-lbl{font-size:10px;color:var(--muted);font-weight:500;flex-shrink:0}
 .sort-btns{display:flex;gap:3px;flex-wrap:wrap}
@@ -287,7 +294,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .sb.on{border-color:var(--navy);background:var(--sky-pale);color:var(--navy)}
 .sort-dir{width:24px;height:24px;border-radius:5px;border:1.5px solid var(--border);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted);font-family:var(--f);transition:var(--tr)}
 .sort-dir:hover{border-color:var(--sky);color:var(--sky)}
-/* user inputs */
 .fbox-inputs{display:flex;flex-direction:column;gap:5px;margin-top:5px;padding-top:5px;border-top:1px solid var(--border)}
 .fi-row{display:flex;align-items:center;gap:6px}
 .fi-lbl{font-size:10px;color:var(--muted);font-weight:600;flex-shrink:0;min-width:60px}
@@ -297,7 +303,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .fi-chips-mini{display:flex;gap:3px;flex-wrap:wrap}
 .fi-chip-mini{padding:3px 8px;border-radius:100px;border:1.5px solid var(--border);background:transparent;font-family:var(--f);font-size:10px;font-weight:600;color:var(--muted);cursor:pointer;transition:var(--tr)}
 .fi-chip-mini.on{border-color:var(--navy);background:var(--navy);color:#fff}
-/* package cards */
 .pkg-list{display:flex;flex-direction:column;gap:9px}
 .pcard{background:var(--white);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh);overflow:hidden;transition:var(--tr)}
 .pcard:hover{box-shadow:var(--sh-lg)}
@@ -439,15 +444,13 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
     <div class="prog"><div class="prog-fill" id="q-prog" style="width:16.6%"></div></div>
   </div>
   <div class="qbody">
-
-    <!-- Q0: Região preferida (NOVO) -->
+    <!-- Q0: Região preferida -->
     <div class="qblock active" id="qq0">
       <div class="q-tag">🗺️ Destino</div>
       <h2 class="q-title">Qual região você prefere?</h2>
       <p class="q-sub">Selecione uma ou mais regiões de interesse.</p>
       <div class="opts2">
         <div class="opt" data-q="reg" data-v="Nordeste" onclick="qpickMulti(this)"><div class="opt-ic">🌊</div><div class="opt-tx"><div class="opt-lbl">Nordeste</div></div><div class="opt-ck">✓</div></div>
-
         <div class="opt" data-q="reg" data-v="Sul" onclick="qpickMulti(this)"><div class="opt-ic">🏔</div><div class="opt-tx"><div class="opt-lbl">Sul</div></div><div class="opt-ck">✓</div></div>
         <div class="opt" data-q="reg" data-v="Sudeste" onclick="qpickMulti(this)"><div class="opt-ic">🏙</div><div class="opt-tx"><div class="opt-lbl">Sudeste</div></div><div class="opt-ck">✓</div></div>
         <div class="opt" data-q="reg" data-v="Norte" onclick="qpickMulti(this)"><div class="opt-ic">🌿</div><div class="opt-tx"><div class="opt-lbl">Norte</div></div><div class="opt-ck">✓</div></div>
@@ -469,7 +472,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <div class="opt" data-q="bud" data-v="b3" onclick="qpick(this)"><div class="opt-ic">🏨</div><div class="opt-tx"><div class="opt-lbl">R$ 8.000 a R$ 12.000</div><div class="opt-desc">Resort e hotéis superiores</div></div><div class="opt-ck">✓</div></div>
         <div class="opt" data-q="bud" data-v="b4" onclick="qpick(this)"><div class="opt-ic">✨</div><div class="opt-tx"><div class="opt-lbl">Acima de R$ 12.000</div><div class="opt-desc">Luxo, all-inclusive premium</div></div><div class="opt-ck">✓</div></div>
       </div>
-      <!-- Campo livre de orçamento -->
       <label class="q-input-label">Ou digite seu orçamento exato (opcional):</label>
       <input class="q-input" id="q-bud-custom" type="number" placeholder="Ex: 5500" min="0" oninput="ST.answers.budCustom=this.value">
       <div class="qnav"><button class="btn-qb" onclick="goQQ(0)">← Voltar</button><button class="btn-qn" id="qn1" disabled onclick="goQQ(2)">Continuar →</button></div>
@@ -522,16 +524,14 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <div class="q-tag">📅 Datas & Voo</div>
       <h2 class="q-title">Datas e aeroporto de origem</h2>
       <p class="q-sub">Informe para refinar ainda mais seus matches.</p>
-      <!-- Data -->
       <label class="q-input-label">📅 Período da viagem:</label>
       <div style="margin-top:5px;margin-bottom:8px">
         <button class="airport-chip on" id="any-date-btn" onclick="toggleAnyDate(this)">🗓️ Qualquer data</button>
       </div>
       <div id="date-inputs-wrap" style="display:none">
-      <input class="q-input" id="q-date-from" type="date" oninput="onDateFromChange(this.value)">
-      <input class="q-input" id="q-date-to" type="date" style="margin-top:4px" oninput="ST.answers.dateTo=this.value">
+        <input class="q-input" id="q-date-from" type="date" oninput="onDateFromChange(this.value)">
+        <input class="q-input" id="q-date-to" type="date" style="margin-top:4px" oninput="ST.answers.dateTo=this.value">
       </div>
-      <!-- Aeroporto -->
       <label class="q-input-label" style="margin-top:10px">✈️ Aeroporto de origem:</label>
       <div class="airport-chips" id="airport-chips">
         <button class="airport-chip on" data-a="all" onclick="toggleAirportAll(this)">🌍 Qualquer aeroporto</button>
@@ -539,11 +539,9 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <button class="airport-chip" data-a="Guarulhos" onclick="toggleAirport(this,'Guarulhos')">GRU — Guarulhos</button>
         <button class="airport-chip" data-a="Viracopos" onclick="toggleAirport(this,'Viracopos')">VCP — Viracopos</button>
       </div>
-
       <div class="qnav"><button class="btn-qb" onclick="goQQ(4)">← Voltar</button><button class="btn-qn" id="qn5" onclick="doAnalyze()" style="opacity:1">Ver meus matches ✨</button></div>
     </div>
   </div>
-  <!-- Pular quiz — always visible at bottom of quiz screen -->
   <div style="flex-shrink:0;text-align:center;padding:8px 0 10px;background:var(--white);border-top:1px solid var(--border)">
     <button onclick="skipToResults()" style="background:none;border:none;color:var(--muted-lt);font-family:var(--f);font-size:11px;cursor:pointer;padding:4px 12px;text-decoration:underline">Pular quiz e ver resultados diretamente →</button>
   </div>
@@ -577,7 +575,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 
   <!-- MATCH VIEW -->
   <div class="res-view" id="v-match">
-    <!-- Subtítulo só no matches -->
     <div style="padding:8px 11px 0;font-size:11px;color:var(--muted)" id="match-sub-txt"></div>
     <div id="match-list" style="padding:6px 11px 0"></div>
     <div class="res-btns" style="padding:0 11px">
@@ -586,7 +583,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
     </div>
   </div>
 
-  <!-- EXPLORE VIEW — sem subtítulo de match -->
+  <!-- EXPLORE VIEW -->
   <div class="res-view" id="v-explore" style="display:none">
     <div class="fbox">
       <div class="fbox-top"><span class="fbox-title">Filtrar pacotes</span><span class="fbox-count" id="pkg-count">—</span></div>
@@ -594,7 +591,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4"/><path d="M10.5 10.5L14 14" stroke-linecap="round"/></svg>
         <input type="text" id="search-in" placeholder="Destino ou hotel…" oninput="renderPkgs()">
       </div>
-      <!-- Tipo -->
       <div class="fchips">
         <span class="fc-lbl">Tipo:</span>
         <button class="fc on" data-t="all" onclick="setTipo(this,'all')">Todos</button>
@@ -603,7 +599,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <button class="fc" data-t="natureza" onclick="setTipo(this,'natureza')">🌿 Nat.</button>
         <button class="fc" data-t="cidade" onclick="setTipo(this,'cidade')">🌆 Cidade</button>
       </div>
-      <!-- Região -->
       <div class="fchips">
         <span class="fc-lbl">Região:</span>
         <button class="fc on" data-rg="all" onclick="setRegE(this,'all')">Todas</button>
@@ -614,7 +609,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <button class="fc" data-rg="Sudeste" onclick="setRegE(this,'Sudeste')">Sudeste</button>
         <button class="fc" data-rg="Centro-Oeste" onclick="setRegE(this,'Centro-Oeste')">Centro-Oeste</button>
       </div>
-      <!-- Ordenar -->
       <div class="sort-row">
         <span class="sort-lbl">Ordenar:</span>
         <div class="sort-btns">
@@ -625,9 +619,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         </div>
         <button class="sort-dir" id="sort-dir-btn" onclick="toggleDir()">↕</button>
       </div>
-      <!-- Inputs de filtro do usuário -->
       <div class="fbox-inputs">
-
         <div class="fi-row">
           <span class="fi-lbl">📅 Data saída:</span>
           <input class="fi-inp" type="date" id="fi-date" oninput="renderPkgs()">
@@ -662,20 +654,137 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 </div>
 
 <script>
-const SB_URL='https://ngickoakkyxhpjeixzyf.supabase.co';
-const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5naWNrb2Fra3l4aHBqZWl4enlmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcwMDc1MTQsImV4cCI6MjA2MjU4MzUxNH0.VDEwn1ENBOV8GE3ZSf8b-G-CBUhvt0RXQvWSn4SgiRM';
+// ═══════════════════════════════════════════════════════════════
+// CONFIGURATION
+// ═══════════════════════════════════════════════════════════════
+const CONFIG = {
+  SB_URL: 'https://ngickoakkyxhpjeixzyf.supabase.co',
+  SB_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5naWNrb2Fra3l4aHBqZWl4enlmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcwMDc1MTQsImV4cCI6MjA2MjU4MzUxNH0.VDEwn1ENBOV8GE3ZSf8b-G-CBUhvt0RXQvWSn4SgiRM',
+  WA_PHONE: '5511953967095',
+  HOOK_AFTER: 3,
+  TOP_RESULTS: 5,
+  PAGE_SIZE: 1000,
+};
 
-// ── WhatsApp ──────────────────────────────────────────
-function sendWa(btn){
-  const msg = btn.getAttribute('data-msg');
-  window.open(buildWaUrl('5511953967095', msg), '_blank');
+// ═══════════════════════════════════════════════════════════════
+// SCORING ENGINE — deterministic, expandable
+// Points budget: 100 total max
+// ═══════════════════════════════════════════════════════════════
+const SCORE_WEIGHTS = {
+  region_match:    20,  // quiz region preference
+  budget_exact:    15,  // price within budget range
+  goal_match:      20,  // travel goal matches package type
+  accommodation:   15,  // hosped preference match
+  airport_match:   10,  // airport preference
+  like_bonus:      30,  // directly swiped right on this package
+  like_type:       15,  // swiped right on same TYPE packages
+  like_region:     12,  // swiped right on same REGION
+  comp_match:       8,  // travel companion type
+  date_match:       7,  // departure date within desired range
+  budget_near:      8,  // price near but not exact budget
+};
+
+const BUD_MAP = { b1:[0,4000], b2:[4000,8000], b3:[8000,12000], b4:[12000,999999] };
+
+// ═══════════════════════════════════════════════════════════════
+// EXPLANATION ENGINE — maps score reasons to human strings
+// ═══════════════════════════════════════════════════════════════
+const REASON_LABELS = {
+  region_match:    '✓ Região preferida no quiz',
+  budget_exact:    '✓ Preço ideal para seu orçamento',
+  goal_match:      '✓ Perfeito para seu objetivo de viagem',
+  accommodation:   '✓ Hospedagem do seu estilo',
+  airport_match:   '✓ Parte do seu aeroporto preferido',
+  like_bonus:      '✓ Você curtiu este destino!',
+  like_type:       '✓ Tipo de viagem que você curte',
+  like_region:     '✓ Região que você demonstrou interesse',
+  comp_match:      '✓ Ótimo para o seu grupo',
+  date_match:      '✓ Dentro do período desejado',
+  budget_near:     '≈ Próximo do seu orçamento',
+};
+
+// ═══════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════
+let PKGS = [], SWIPE_POOL = [];
+const ST = {
+  likes: [], nopes: [], cur: 's-loading',
+  queue: [], regFilter: 'all',
+  hookShown: false, quizDone: false,
+  answers: { reg: [], airports: [] },
+  curQ: 0,
+  sortKey: 'preco_asc', sortDir: 1,
+  tipoFilter: 'all', regExpFilter: 'all',
+  apFilter: 'all',
+  scores: {},
+};
+
+// ═══════════════════════════════════════════════════════════════
+// ERROR UTILITIES — never show [object Object]
+// ═══════════════════════════════════════════════════════════════
+function safeErrorMsg(err) {
+  if (!err) return 'Erro desconhecido';
+  if (typeof err === 'string') return err;
+  if (err instanceof Error) return err.message || String(err);
+  try { return JSON.stringify(err, null, 2); }
+  catch { return String(err); }
 }
 
-// ── WhatsApp URL builder (preserves PT-BR chars) ──────
+function logError(context, err) {
+  console.error(`[${context}]`, err);
+  console.error('Details:', safeErrorMsg(err));
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SUPABASE FETCH HELPER — safe, paginated
+// ═══════════════════════════════════════════════════════════════
+async function sbFetch(path, opts = {}) {
+  const url = CONFIG.SB_URL + path;
+  const headers = {
+    'apikey': CONFIG.SB_KEY,
+    'Authorization': 'Bearer ' + CONFIG.SB_KEY,
+    'Content-Type': 'application/json',
+    ...opts.headers,
+  };
+  const res = await fetch(url, { ...opts, headers });
+  if (!res.ok) {
+    let errBody = '';
+    try { errBody = await res.text(); } catch {}
+    throw new Error(`HTTP ${res.status}${errBody ? ': ' + errBody : ''}`);
+  }
+  if (res.status === 204) return null; // no content (upsert)
+  return res.json();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// BEHAVIORAL LEARNING — record likes in Supabase user_actions
+// Fire-and-forget: does not block UX
+// ═══════════════════════════════════════════════════════════════
+async function recordLike(packageId) {
+  if (!packageId) return;
+  try {
+    await sbFetch('/rest/v1/user_actions', {
+      method: 'POST',
+      headers: { 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ package_id: String(packageId), action: 'like' }),
+    });
+    console.log('[Behavioral] Like recorded for package', packageId);
+  } catch (err) {
+    // Non-critical: log but don't crash
+    logError('recordLike', err);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// WHATSAPP
+// ═══════════════════════════════════════════════════════════════
+function sendWa(btn) {
+  const msg = btn.getAttribute('data-msg') || '';
+  window.open(buildWaUrl(CONFIG.WA_PHONE, msg), '_blank');
+}
+
 function buildWaUrl(phone, msg) {
-  // Encode only what's truly necessary — WhatsApp handles UTF-8 fine
-  // Replace problematic chars manually to avoid double-encoding
-  return 'https://wa.me/' + phone + '?text=' + 
+  return 'https://wa.me/' + phone + '?text=' +
     encodeURIComponent(msg)
       .replace(/%C3%A3/g,'ã').replace(/%C3%A7/g,'ç')
       .replace(/%C3%A9/g,'é').replace(/%C3%AA/g,'ê')
@@ -693,184 +802,302 @@ function buildWaUrl(phone, msg) {
       .replace(/%E2%9D%A4/g,'❤');
 }
 
-// ── Data helpers ──────────────────────
-function parseTipo(d,r){
-  d=(d||'').toLowerCase();r=(r||'').toLowerCase();
-  if(['gramado','canela','bariloche','mendoza','são carlos','bariloche'].some(x=>d.includes(x))) return 'montanha';
-  if(['orlando','lisboa','lauderdale','madri','sintra','porto,','miami'].some(x=>d.includes(x))) return 'cidade';
-  if(['bonito','iguaçu','quente','caldas','chapada','pantanal'].some(x=>d.includes(x))) return 'natureza';
+// ═══════════════════════════════════════════════════════════════
+// DATA NORMALIZERS — defensive, null-safe
+// ═══════════════════════════════════════════════════════════════
+function parseTipo(d, r) {
+  d = (d || '').toLowerCase();
+  r = (r || '').toLowerCase();
+  if (['gramado','canela','bariloche','mendoza','são carlos'].some(x => d.includes(x))) return 'montanha';
+  if (['orlando','lisboa','lauderdale','madri','sintra','miami'].some(x => d.includes(x))) return 'cidade';
+  if (['bonito','iguaçu','quente','caldas','chapada','pantanal'].some(x => d.includes(x))) return 'natureza';
   return 'praia';
 }
-function parseRegiao(r,d){
-  r=(r||'').toLowerCase();d=(d||'').toLowerCase();
-  if(r.includes('nordeste')||r.includes('norte brasil')) return 'Nordeste';
-  if(r.includes('bahia')) return 'Bahia';
-  if(r.includes('sul')||['gramado','canela','florianó','navegantes','bariloche','caxias'].some(x=>d.includes(x))) return 'Sul';
-  if(r.includes('sudeste')||['rio de janeiro','são paulo','minas','espírito','vitória'].some(x=>d.includes(x))) return 'Sudeste';
-  if(r.includes('norte')||['manaus','belém','macapá','palmas','porto velho'].some(x=>d.includes(x))) return 'Norte';
-  if(['orlando','lisboa','lauderdale','madri','sintra','porto,','miami','curacao','punta del este','mendoza'].some(x=>d.includes(x))) return 'Internacional';
-  if(r.includes('europa')||r.includes('america')) return 'Internacional';
-  if(['maceio','maragogi','pipa','natal','aracaj','recife','joão pessoa','cumbuco','beberibe','carneiros','noronha','jericoacoara'].some(x=>d.includes(x))) return 'Nordeste';
-  if(['porto seguro','trancoso','una','arraial','caraiva','ilheus','itacare'].some(x=>d.includes(x))) return 'Bahia';
-  if(['bonito','foz do iguaçu','caldas novas','rio quente'].some(x=>d.includes(x))) return 'Centro-Oeste';
+
+function parseRegiao(r, d) {
+  r = (r || '').toLowerCase();
+  d = (d || '').toLowerCase();
+  if (r.includes('nordeste') || r.includes('norte brasil')) return 'Nordeste';
+  if (r.includes('bahia')) return 'Bahia';
+  if (r.includes('sul') || ['gramado','canela','florianó','navegantes','bariloche','caxias'].some(x => d.includes(x))) return 'Sul';
+  if (r.includes('sudeste') || ['rio de janeiro','são paulo','minas','espírito','vitória'].some(x => d.includes(x))) return 'Sudeste';
+  if (r.includes('norte') || ['manaus','belém','macapá','palmas','porto velho'].some(x => d.includes(x))) return 'Norte';
+  if (['orlando','lisboa','lauderdale','madri','sintra','porto,','miami','curacao','punta del este','mendoza'].some(x => d.includes(x))) return 'Internacional';
+  if (r.includes('europa') || r.includes('america')) return 'Internacional';
+  if (['maceio','maragogi','pipa','natal','aracaj','recife','joão pessoa','cumbuco','beberibe','carneiros','noronha','jericoacoara'].some(x => d.includes(x))) return 'Nordeste';
+  if (['porto seguro','trancoso','una','arraial','caraiva','ilheus','itacare'].some(x => d.includes(x))) return 'Bahia';
+  if (['bonito','foz do iguaçu','caldas novas','rio quente'].some(x => d.includes(x))) return 'Centro-Oeste';
   return 'Centro-Oeste';
 }
-function parsePrice(v){if(!v)return 0;const n=parseFloat(String(v).replace(/[^0-9.,]/g,'').replace(',','.'));return isNaN(n)?0:Math.round(n)}
-function getFirstImg(img){if(!img)return null;return String(img).split('\n')[0].trim()||null}
-function normalizePost(p){
-  const destino=(p.destino||p.title||'').split(',')[0].trim();
-  const preco=parsePrice(p.preco);
-  const hotel=p.hotel||'';
-  return{
-    id:p.id,d:destino,h:hotel,p:preco,
-    i:p.ida||'',v:p.volta||'',o:p.origem||'',
-    t:parseTipo(destino,p.regiao||''),
-    r:parseRegiao(p.regiao,destino),
-    ai:hotel.toLowerCase().includes('all inclusive')||hotel.toLowerCase().includes('all-inclusive'),
-    cm:hotel.toLowerCase().includes('café da manhã')||hotel.toLowerCase().includes('cafe da manha')||hotel.toLowerCase().includes('breakfast'),
-    lx:preco>12000,
-    img:getFirstImg(p.imagem_destino||p.cover_image_url),
-    voo_ida:p.voo_ida||'',voo_volta:p.voo_volta||'',
-  };
+
+function parsePrice(v) {
+  if (v == null) return 0;
+  const n = parseFloat(String(v).replace(/[^0-9.,]/g,'').replace(',','.'));
+  return isNaN(n) ? 0 : Math.round(n);
 }
-// Images & colors
-const FB_IMG={
-  'Canela':'https://images.unsplash.com/photo-1544979590-37e9b47eb705?w=600&q=75',
-  'Gramado':'https://images.unsplash.com/photo-1494548162494-384bba4ab999?w=600&q=75',
-  "Arraial D'Ajuda":'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=600&q=75',
-  'Florianópolis':'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=75',
-  'Caraiva':'https://images.unsplash.com/photo-1563284223-333497472a04?w=600&q=75',
-  'Maceio':'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=600&q=75',
-  'Aracajú':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=75',
-  'Curacao':'https://images.unsplash.com/photo-1586500036706-41963de24d8b?w=600&q=75',
-  'Trancoso':'https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?w=600&q=75',
-  'Porto Seguro':'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=75',
-  'Natal':'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=75',
-  'Pipa':'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=600&q=75',
-  'Lisboa':'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=600&q=75',
-  'Orlando':'https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=600&q=75',
-  'Foz do Iguaçu':'https://images.unsplash.com/photo-1578894381163-e72c17f2d45f?w=600&q=75',
-  'Bonito':'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=75',
-  'Fernando de Noronha':'https://images.unsplash.com/photo-1563284223-333497472a04?w=600&q=75',
-  'Maragogi':'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=600&q=75',
-  'Porto De Galinhas':'https://images.unsplash.com/photo-1563284223-333497472a04?w=600&q=75',
-  'Jericoacoara':'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=600&q=75',
-};
-const BG={praia:'#0077B6',montanha:'#2D6A4F',natureza:'#386641',cidade:'#1A4F8A'};
-const E={praia:'🏖️',montanha:'🏔️',natureza:'🌿',cidade:'🌆'};
-function getImg(pkg){return pkg.img||FB_IMG[pkg.d]||null}
 
-// ── State ─────────────────────────────
-let PKGS=[],SWIPE_POOL=[];
-const ST={
-  likes:[],nopes:[],cur:'s-loading',
-  queue:[],regFilter:'all',
-  hookShown:false,quizDone:false,
-  answers:{reg:[],airports:[]},curQ:0,
-  sortKey:'preco_asc',sortDir:1,
-  tipoFilter:'all',regExpFilter:'all',
-  apFilter:'all',
-  scores:{},
-};
-const HOOK_AFTER=3;
+function getFirstImg(img) {
+  if (!img) return null;
+  const s = String(img).split('\n')[0].trim();
+  return s || null;
+}
 
-// ── Supabase load ─────────────────────
-async function loadPkgs(){
-  document.getElementById('load-err').style.display='none';
-  try{
-    let all=[],from=0;
-    while(true){
-      const res=await fetch(`${SB_URL}/rest/v1/posts?select=id,destino,hotel,preco,ida,volta,origem,regiao,imagem_destino,cover_image_url,voo_ida,voo_volta,status&status=eq.published&order=id.asc&limit=1000&offset=${from}`,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
-      if(!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
-      const data=await res.json();
-      all=all.concat(data);
-      if(data.length<1000) break;
-      from+=1000;
+// Safely parse tags — handle array, JSON string, or null
+function parseTags(raw) {
+  if (!raw) return [];
+  if (Array.isArray(raw)) return raw.filter(t => t != null).map(String);
+  if (typeof raw === 'string') {
+    try {
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed.map(String) : [];
+    } catch {
+      // Comma-separated fallback
+      return raw.split(',').map(s => s.trim()).filter(Boolean);
     }
-    if(!all.length) throw new Error('Nenhum pacote publicado encontrado.');
-    PKGS=all.map(normalizePost).filter(p=>p.p>0&&p.d);
-    const seen=new Set();
-    SWIPE_POOL=PKGS.filter(p=>{if(seen.has(p.d))return false;seen.add(p.d);return true;});
-    const uD=new Set(PKGS.map(p=>p.d)).size;
-    document.getElementById('stat-total').textContent=PKGS.length;
-    document.getElementById('stat-dests').textContent=uD;
-    document.getElementById('az-total-ct').textContent=PKGS.length;
-    document.getElementById('rt-explore').textContent=`🔍 Explorar todos (${PKGS.length})`;
-    buildQueue();goScreen('s-land');
-  }catch(err){
-    document.getElementById('load-err').style.display='block';
-    document.getElementById('load-err-msg').textContent=err.message;
-    console.error(err);
+  }
+  return [];
+}
+
+function normalizePost(p) {
+  if (!p || typeof p !== 'object') return null;
+  try {
+    const destino = String(p.destino || p.title || '').split(',')[0].trim();
+    const preco = parsePrice(p.preco);
+    const hotel = String(p.hotel || '');
+    const hotelLow = hotel.toLowerCase();
+    return {
+      id: p.id != null ? String(p.id) : null,
+      d: destino,
+      h: hotel,
+      p: preco,
+      i: String(p.ida || ''),
+      v: String(p.volta || ''),
+      o: String(p.origem || ''),
+      t: parseTipo(destino, p.regiao || ''),
+      r: parseRegiao(p.regiao || '', destino),
+      ai: hotelLow.includes('all inclusive') || hotelLow.includes('all-inclusive'),
+      cm: hotelLow.includes('café da manhã') || hotelLow.includes('cafe da manha') || hotelLow.includes('breakfast'),
+      lx: preco > 12000,
+      img: getFirstImg(p.imagem || p.imagem_destino || p.cover_image_url),
+      tags: parseTags(p.tags),
+      aeroporto: String(p.aeroporto || p.origem || ''),
+      data_saida: String(p.data_saida || p.ida || ''),
+      voo_ida: String(p.voo_ida || ''),
+      voo_volta: String(p.voo_volta || ''),
+    };
+  } catch (err) {
+    logError('normalizePost', err);
+    return null;
   }
 }
 
-// ── Nav ───────────────────────────────
-function goScreen(id){
-  const cur=document.getElementById(ST.cur),nxt=document.getElementById(id);
-  if(cur===nxt)return;
+// ═══════════════════════════════════════════════════════════════
+// IMAGE FALLBACKS
+// ═══════════════════════════════════════════════════════════════
+const FB_IMG = {
+  'Canela': 'https://images.unsplash.com/photo-1544979590-37e9b47eb705?w=600&q=75',
+  'Gramado': 'https://images.unsplash.com/photo-1494548162494-384bba4ab999?w=600&q=75',
+  "Arraial D'Ajuda": 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=600&q=75',
+  'Florianópolis': 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=75',
+  'Caraiva': 'https://images.unsplash.com/photo-1563284223-333497472a04?w=600&q=75',
+  'Maceio': 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=600&q=75',
+  'Aracajú': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=75',
+  'Curacao': 'https://images.unsplash.com/photo-1586500036706-41963de24d8b?w=600&q=75',
+  'Trancoso': 'https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e?w=600&q=75',
+  'Porto Seguro': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=75',
+  'Natal': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=75',
+  'Pipa': 'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=600&q=75',
+  'Lisboa': 'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=600&q=75',
+  'Orlando': 'https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=600&q=75',
+  'Foz do Iguaçu': 'https://images.unsplash.com/photo-1578894381163-e72c17f2d45f?w=600&q=75',
+  'Bonito': 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=75',
+  'Fernando de Noronha': 'https://images.unsplash.com/photo-1563284223-333497472a04?w=600&q=75',
+  'Maragogi': 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=600&q=75',
+  'Porto De Galinhas': 'https://images.unsplash.com/photo-1563284223-333497472a04?w=600&q=75',
+  'Jericoacoara': 'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=600&q=75',
+};
+const BG = { praia:'#0077B6', montanha:'#2D6A4F', natureza:'#386641', cidade:'#1A4F8A' };
+const E  = { praia:'🏖️', montanha:'🏔️', natureza:'🌿', cidade:'🌆' };
+
+function getImg(pkg) {
+  return (pkg && pkg.img) ? pkg.img : (pkg && FB_IMG[pkg.d]) ? FB_IMG[pkg.d] : null;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// LOAD — paginated, with packages table fallback
+// ═══════════════════════════════════════════════════════════════
+async function loadPkgs() {
+  const errEl = document.getElementById('load-err');
+  const errMsg = document.getElementById('load-err-msg');
+  if (errEl) errEl.style.display = 'none';
+
+  try {
+    let all = [], from = 0;
+    // Try `packages` table first (new schema), fallback to `posts`
+    const tables = ['packages', 'posts'];
+    let usedTable = null;
+
+    for (const tbl of tables) {
+      try {
+        const fields = tbl === 'packages'
+          ? 'id,destino,hotel,preco,regiao,tags,aeroporto,data_saida,imagem'
+          : 'id,destino,hotel,preco,ida,volta,origem,regiao,imagem_destino,cover_image_url,voo_ida,voo_volta,status';
+        const filter = tbl === 'posts' ? '&status=eq.published' : '';
+        const res = await sbFetch(
+          `/rest/v1/${tbl}?select=${fields}${filter}&order=id.asc&limit=1&offset=0`
+        );
+        if (Array.isArray(res)) { usedTable = tbl; break; }
+      } catch {}
+    }
+
+    if (!usedTable) throw new Error('Nenhuma tabela de pacotes encontrada (packages ou posts).');
+
+    while (true) {
+      const fields = usedTable === 'packages'
+        ? 'id,destino,hotel,preco,regiao,tags,aeroporto,data_saida,imagem'
+        : 'id,destino,hotel,preco,ida,volta,origem,regiao,imagem_destino,cover_image_url,voo_ida,voo_volta,status';
+      const filter = usedTable === 'posts' ? '&status=eq.published' : '';
+      const data = await sbFetch(
+        `/rest/v1/${usedTable}?select=${fields}${filter}&order=id.asc&limit=${CONFIG.PAGE_SIZE}&offset=${from}`
+      );
+      if (!Array.isArray(data)) break;
+      all = all.concat(data);
+      if (data.length < CONFIG.PAGE_SIZE) break;
+      from += CONFIG.PAGE_SIZE;
+    }
+
+    console.log(`[Load] ${all.length} raw records from table: ${usedTable}`);
+
+    if (!all.length) {
+      // Empty DB is valid — show empty state gracefully
+      PKGS = [];
+      SWIPE_POOL = [];
+      document.getElementById('stat-total').textContent = '0';
+      document.getElementById('stat-dests').textContent = '0';
+      document.getElementById('az-total-ct').textContent = '0';
+      document.getElementById('rt-explore').textContent = '🔍 Explorar todos (0)';
+      buildQueue();
+      goScreen('s-land');
+      return;
+    }
+
+    // Normalize — filter nulls and invalid entries
+    const normalized = all
+      .map(normalizePost)
+      .filter(p => p !== null && p.id && p.p > 0 && p.d);
+
+    PKGS = normalized;
+
+    // De-duplicate swipe pool by destination
+    const seen = new Set();
+    SWIPE_POOL = PKGS.filter(p => {
+      if (seen.has(p.d)) return false;
+      seen.add(p.d);
+      return true;
+    });
+
+    const uD = new Set(PKGS.map(p => p.d)).size;
+    document.getElementById('stat-total').textContent = PKGS.length;
+    document.getElementById('stat-dests').textContent = uD;
+    document.getElementById('az-total-ct').textContent = PKGS.length;
+    document.getElementById('rt-explore').textContent = `🔍 Explorar todos (${PKGS.length})`;
+
+    buildQueue();
+    goScreen('s-land');
+
+  } catch (err) {
+    logError('loadPkgs', err);
+    const msg = safeErrorMsg(err);
+    if (errEl) errEl.style.display = 'block';
+    if (errMsg) errMsg.textContent = msg;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════
+function goScreen(id) {
+  const cur = document.getElementById(ST.cur);
+  const nxt = document.getElementById(id);
+  if (!cur || !nxt || cur === nxt) return;
   cur.classList.add('exit');
-  setTimeout(()=>{cur.classList.remove('active','exit');},360);
-  nxt.classList.add('active');ST.cur=id;
-  document.getElementById('sb').className='sb '+(['s-loading','s-land','s-hook','s-analyze'].includes(id)?'dark':'light');
+  setTimeout(() => { cur.classList.remove('active', 'exit'); }, 360);
+  nxt.classList.add('active');
+  ST.cur = id;
+  const darkScreens = ['s-loading','s-land','s-hook','s-analyze'];
+  document.getElementById('sb').className = 'sb ' + (darkScreens.includes(id) ? 'dark' : 'light');
 }
-function goSwipe(){buildQueue();goScreen('s-swipe')}
-function goQuiz(){ST.curQ=0;document.querySelectorAll('.qblock').forEach(b=>b.classList.remove('active'));document.getElementById('qq0').classList.add('active');goScreen('s-quiz')}
-function skipToResults(){ST.quizDone=false;doAnalyze()}
+function goSwipe() { buildQueue(); goScreen('s-swipe'); }
+function goQuiz() {
+  ST.curQ = 0;
+  document.querySelectorAll('.qblock').forEach(b => b.classList.remove('active'));
+  document.getElementById('qq0').classList.add('active');
+  goScreen('s-quiz');
+}
+function skipToResults() { ST.quizDone = false; doAnalyze(); }
 
-// ── Swipe ─────────────────────────────
-function buildQueue(){
-  const likedIds=new Set(ST.likes.map(l=>l.id));
-  const nopedIds=new Set(ST.nopes);
-  let pool=SWIPE_POOL.filter(p=>!likedIds.has(p.id)&&!nopedIds.has(p.id));
-  if(ST.regFilter!=='all') pool=pool.filter(p=>p.r===ST.regFilter);
-  ST.queue=[...pool];renderStack();
+// ═══════════════════════════════════════════════════════════════
+// SWIPE
+// ═══════════════════════════════════════════════════════════════
+function buildQueue() {
+  const likedIds = new Set(ST.likes.map(l => l.id));
+  const nopedIds = new Set(ST.nopes);
+  let pool = SWIPE_POOL.filter(p => !likedIds.has(p.id) && !nopedIds.has(p.id));
+  if (ST.regFilter !== 'all') pool = pool.filter(p => p.r === ST.regFilter);
+  ST.queue = [...pool];
+  renderStack();
 }
-function renderStack(){
-  const stack=document.getElementById('card-stack');
-  stack.innerHTML='';
-  if(!ST.queue.length){
-    stack.innerHTML=`<div class="sw-empty"><span style="font-size:36px">✈️</span><div style="font-size:13px;font-weight:600">${ST.likes.length} curtido${ST.likes.length!==1?'s':''} — hora dos matches!</div><button style="margin-top:8px;padding:10px 22px;border-radius:100px;border:none;background:var(--navy);color:#fff;font-family:var(--f);font-size:13px;font-weight:700;cursor:pointer" onclick="doAnalyze()">Ver meus matches ✨</button></div>`;
+
+function renderStack() {
+  const stack = document.getElementById('card-stack');
+  stack.innerHTML = '';
+  if (!ST.queue.length) {
+    const lk = ST.likes.length;
+    stack.innerHTML = `<div class="sw-empty">
+      <span style="font-size:36px">✈️</span>
+      <div style="font-size:13px;font-weight:600">${lk} curtido${lk !== 1 ? 's' : ''} — hora dos matches!</div>
+      <button style="margin-top:8px;padding:10px 22px;border-radius:100px;border:none;background:var(--navy);color:#fff;font-family:var(--f);font-size:13px;font-weight:700;cursor:pointer" onclick="doAnalyze()">Ver meus matches ✨</button>
+    </div>`;
     _topCard = null; _topData = null;
-    document.getElementById('sw-hint').textContent='';return;
+    const hint = document.getElementById('sw-hint');
+    if (hint) hint.textContent = '';
+    return;
   }
-  ST.queue.slice(0,4).forEach((p,i)=>{ // queue[0] = first appended = nth-child(1) = on top
-    const isTop=(i===0); // i=0 = first appended = nth-child(1) = visually on top
-    const card=document.createElement('div');card.className='scard';card.setAttribute('data-id', String(p.id));
-    const img=getImg(p),bg=BG[p.t]||'#1A4F8A',em=E[p.t]||'✈️';
-    card.setAttribute('data-dest', p.d);
-    card.setAttribute('data-tipo', p.t);
-    card.setAttribute('data-reg', p.r);
-    card.innerHTML=`${img?`<div class="scard-bg" style="background-image:url('${img}')"></div>`:''}
-      <div class="scard-ph" style="background:${bg};${img?'display:none':''}">${em}</div>
+  ST.queue.slice(0, 4).forEach((p, i) => {
+    const isTop = (i === 0);
+    const card = document.createElement('div');
+    card.className = 'scard';
+    card.setAttribute('data-id', String(p.id));
+    const img = getImg(p), bg = BG[p.t] || '#1A4F8A', em = E[p.t] || '✈️';
+    card.innerHTML = `${img ? `<div class="scard-bg" style="background-image:url('${img}')"></div>` : ''}
+      <div class="scard-ph" style="background:${bg};${img ? 'display:none' : ''}">${em}</div>
       <div class="scard-grad"></div>
       <div class="scard-body">
-        <div class="scard-reg">${p.r} · ${p.t}</div>
-        <div class="scard-dest">${p.d}</div>
-        <div class="scard-hotel">🏨 ${p.h}</div>
-        <div class="scard-row"><div class="scard-price">R$ ${p.p.toLocaleString('pt-BR')}</div><div class="scard-meta">✈️ ${p.o}</div></div>
+        <div class="scard-reg">${p.r || ''} · ${p.t || ''}</div>
+        <div class="scard-dest">${p.d || ''}</div>
+        <div class="scard-hotel">🏨 ${p.h || ''}</div>
+        <div class="scard-row">
+          <div class="scard-price">R$ ${p.p.toLocaleString('pt-BR')}</div>
+          <div class="scard-meta">✈️ ${p.o || ''}</div>
+        </div>
       </div>
-      <div class="stamp stamp-like">LIKE</div><div class="stamp stamp-nope">NOPE</div>`;
-    if(isTop){
+      <div class="stamp stamp-like">LIKE</div>
+      <div class="stamp stamp-nope">NOPE</div>`;
+    if (isTop) {
       setupDrag(card);
       _topCard = card;
-      _topData = {id: String(p.id), d: p.d, t: p.t, r: p.r};
+      _topData = { id: String(p.id), d: p.d, t: p.t, r: p.r };
     }
     stack.appendChild(card);
   });
 }
-// Global top card reference — set by renderStack, read by doSwipe
-let _topCard = null;
-let _topData = null;
 
-// ── DRAG SYSTEM — AbortController ensures clean listener removal ──
-let _dragAbort = null; // tracks current drag controller
+let _topCard = null, _topData = null, _dragAbort = null;
 
 function setupDrag(card) {
-  // Remove ALL previous drag listeners from document before setting up new ones
-  if (_dragAbort) { _dragAbort.abort(); }
+  if (_dragAbort) _dragAbort.abort();
   _dragAbort = new AbortController();
   const sig = _dragAbort.signal;
-
   const LS = card.querySelector('.stamp-like');
   const NS = card.querySelector('.stamp-nope');
   let active = false, startX = 0, startY = 0, dx = 0;
@@ -881,7 +1108,6 @@ function setupDrag(card) {
     startX = pt.clientX; startY = pt.clientY;
     card.style.transition = 'none';
   };
-
   const move = e => {
     if (!active) return;
     const pt = e.touches ? e.touches[0] : e;
@@ -893,7 +1119,6 @@ function setupDrag(card) {
     else if (dx < -15) { NS.style.opacity = r; LS.style.opacity = 0; }
     else               { LS.style.opacity = 0; NS.style.opacity = 0; }
   };
-
   const end = () => {
     if (!active) return;
     active = false;
@@ -903,330 +1128,594 @@ function setupDrag(card) {
     else { card.style.transform = ''; LS.style.opacity = 0; NS.style.opacity = 0; }
     dx = 0;
   };
-
-  // Card-level listeners (auto-removed when card is removed from DOM)
   card.addEventListener('mousedown',  start, { signal: sig });
   card.addEventListener('touchstart', start, { passive: true, signal: sig });
-
-  // Document-level listeners — removed via AbortController when next card is set up
   document.addEventListener('mousemove',  move, { signal: sig });
   document.addEventListener('touchmove',  move, { passive: true, signal: sig });
   document.addEventListener('mouseup',    end,  { signal: sig });
   document.addEventListener('touchend',   end,  { signal: sig });
 }
-function doSwipe(dir){
-  // Use _topData — set directly by renderStack, 100% reliable
-  if(!_topData || !_topCard) return;
-  const snap = {..._topData}; // snapshot before any async
-  const cardEl = _topCard;
-  _topCard = null; // prevent double-swipe
-  _topData = null;
 
-  cardEl.style.transition='transform .34s cubic-bezier(.4,0,.2,1),opacity .34s';
-  if(dir==='right'){
-    cardEl.style.transform='translateX(150%) rotate(22deg)';
-    cardEl.style.opacity='0';
-    ST.likes.push({id:snap.id, d:snap.d, t:snap.t, r:snap.r});
-    document.getElementById('likes-num').textContent=ST.likes.length;
-    showToast('❤️ '+snap.d+' curtido!');
-  } else if(dir==='left'){
-    cardEl.style.transform='translateX(-150%) rotate(-22deg)';
-    cardEl.style.opacity='0';
+function doSwipe(dir) {
+  if (!_topData || !_topCard) return;
+  const snap = { ..._topData };
+  const cardEl = _topCard;
+  _topCard = null; _topData = null;
+
+  cardEl.style.transition = 'transform .34s cubic-bezier(.4,0,.2,1),opacity .34s';
+  if (dir === 'right') {
+    cardEl.style.transform = 'translateX(150%) rotate(22deg)';
+    cardEl.style.opacity = '0';
+    ST.likes.push({ id: snap.id, d: snap.d, t: snap.t, r: snap.r });
+    document.getElementById('likes-num').textContent = ST.likes.length;
+    showToast('❤️ ' + snap.d + ' curtido!');
+    // Behavioral learning — async, non-blocking
+    recordLike(snap.id);
+  } else if (dir === 'left') {
+    cardEl.style.transform = 'translateX(-150%) rotate(-22deg)';
+    cardEl.style.opacity = '0';
     ST.nopes.push(snap.id);
   } else {
-    cardEl.style.transform='translateX(-150%) rotate(-12deg)';
-    cardEl.style.opacity='0';
+    cardEl.style.transform = 'translateX(-150%) rotate(-12deg)';
+    cardEl.style.opacity = '0';
   }
-  setTimeout(()=>{
+  setTimeout(() => {
     ST.queue.shift();
     renderStack();
-    if(ST.likes.length>=HOOK_AFTER&&!ST.hookShown&&!ST.quizDone){
-      ST.hookShown=true;setTimeout(showHook,500);
+    if (ST.likes.length >= CONFIG.HOOK_AFTER && !ST.hookShown && !ST.quizDone) {
+      ST.hookShown = true;
+      setTimeout(showHook, 500);
     }
-  },360);
-}
-function setReg(btn,r,ctx){
-  if(ctx==='swipe'){document.querySelectorAll('#reg-row-swipe .rc').forEach(b=>b.classList.remove('on'));btn.classList.add('on');ST.regFilter=r;buildQueue();}
+  }, 360);
 }
 
-// ── Hook ──────────────────────────────
-function showHook(){
-  document.getElementById('hook-tags').innerHTML=ST.likes.map(l=>`<div class="hook-tag">${E[l.t]||'✈️'} ${l.d}</div>`).join('');
+function setReg(btn, r, ctx) {
+  if (ctx === 'swipe') {
+    document.querySelectorAll('#reg-row-swipe .rc').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    ST.regFilter = r;
+    buildQueue();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// HOOK
+// ═══════════════════════════════════════════════════════════════
+function showHook() {
+  document.getElementById('hook-tags').innerHTML = ST.likes
+    .map(l => `<div class="hook-tag">${E[l.t] || '✈️'} ${l.d}</div>`)
+    .join('');
   goScreen('s-hook');
 }
 
-// ── Quiz ──────────────────────────────
-const TOTAL_Q=6;
-function qpick(el){
-  const q=el.dataset.q;
-  el.parentNode.querySelectorAll(`.opt[data-q="${q}"]`).forEach(o=>o.classList.remove('sel'));
-  el.classList.add('sel');ST.answers[q]=el.dataset.v;
-  const nb=document.getElementById('qn'+ST.curQ);if(nb)nb.disabled=false;
+// ═══════════════════════════════════════════════════════════════
+// QUIZ
+// ═══════════════════════════════════════════════════════════════
+const TOTAL_Q = 6;
+function qpick(el) {
+  const q = el.dataset.q;
+  el.parentNode.querySelectorAll(`.opt[data-q="${q}"]`).forEach(o => o.classList.remove('sel'));
+  el.classList.add('sel');
+  ST.answers[q] = el.dataset.v;
+  const nb = document.getElementById('qn' + ST.curQ);
+  if (nb) nb.disabled = false;
 }
-function qpickMulti(el){
-  const v=el.dataset.v;
-  if(v==='all'){
-    // toggle all-selected
-    const allSel=el.classList.contains('sel');
-    document.querySelectorAll('[data-q="reg"]').forEach(o=>o.classList.remove('sel'));
-    if(!allSel){el.classList.add('sel');ST.answers.reg=['all'];}
-    else ST.answers.reg=[];
+function qpickMulti(el) {
+  const v = el.dataset.v;
+  if (v === 'all') {
+    const allSel = el.classList.contains('sel');
+    document.querySelectorAll('[data-q="reg"]').forEach(o => o.classList.remove('sel'));
+    if (!allSel) { el.classList.add('sel'); ST.answers.reg = ['all']; }
+    else ST.answers.reg = [];
   } else {
-    // deselect "all"
     document.querySelector('[data-q="reg"][data-v="all"]')?.classList.remove('sel');
     el.classList.toggle('sel');
-    const sel=[...document.querySelectorAll('[data-q="reg"].sel')].map(o=>o.dataset.v).filter(x=>x!=='all');
-    ST.answers.reg=sel;
+    const sel = [...document.querySelectorAll('[data-q="reg"].sel')].map(o => o.dataset.v).filter(x => x !== 'all');
+    ST.answers.reg = sel;
   }
-  const nb=document.getElementById('qn0');if(nb)nb.disabled=ST.answers.reg.length===0;
+  const nb = document.getElementById('qn0');
+  if (nb) nb.disabled = ST.answers.reg.length === 0;
 }
-function toggleAirport(btn,ap){
+function toggleAirport(btn, ap) {
   btn.classList.toggle('on');
-  const sel=[...document.querySelectorAll('.airport-chip.on')].map(b=>b.dataset.a);
-  ST.answers.airports=sel;
+  const sel = [...document.querySelectorAll('.airport-chip.on')].map(b => b.dataset.a);
+  ST.answers.airports = sel;
 }
-function goQQ(n){
-  if(n<0||n>TOTAL_Q-1)return;
-  document.getElementById('qq'+ST.curQ).classList.remove('active');
-  ST.curQ=n;document.getElementById('qq'+n).classList.add('active');
-  const pct=((n+1)/TOTAL_Q*100);
-  document.getElementById('q-prog').style.width=pct+'%';
-  document.getElementById('q-lbl').textContent=`Pergunta ${n+1} de ${TOTAL_Q}`;
-  document.querySelector('.qbody').scrollTop=0;
-}
-
-// ── Scoring ───────────────────────────
-const BUD_MAP={b1:[0,4000],b2:[4000,8000],b3:[8000,12000],b4:[12000,999999]};
-function scorePkg(pkg){
-  const a=ST.answers;let si=0,se=0,reasons=[];
-  const likedTypes=ST.likes.map(l=>l.t);
-  const likedRegs=ST.likes.map(l=>l.r);
-  const likedDests=ST.likes.map(l=>l.d.toLowerCase());
-  const tc=likedTypes.filter(t=>t===pkg.t).length;
-  const rc=likedRegs.filter(r=>r===pkg.r).length;
-  if(tc>0){const pts=Math.min(20+(tc-1)*5,30);si+=pts;reasons.push(`tipo ${pkg.t} curtido (${tc}x)`);}
-  if(rc>0){const pts=Math.min(15+(rc-1)*3,22);si+=pts;reasons.push(`região ${pkg.r} curtida`);}
-  if(likedDests.includes(pkg.d.toLowerCase())){si+=10;reasons.push('destino curtido diretamente');}
-  // Região preferida do quiz
-  if(a.reg&&a.reg.length>0&&!a.reg.includes('all')&&a.reg.includes(pkg.r)){si+=8;reasons.push('região preferida no quiz');}
-  // Budget
-  if(ST.quizDone&&a.bud){
-    let lo,hi;
-    if(a.budCustom&&parseInt(a.budCustom)>0){hi=parseInt(a.budCustom);lo=0;}
-    else{[lo,hi]=BUD_MAP[a.bud]||[0,999999];}
-    if(pkg.p>=lo&&pkg.p<=hi){se+=25;reasons.push('orçamento ideal');}
-    else if(pkg.p>hi&&pkg.p-hi<2000){se+=10;}
-    else if(pkg.p<lo&&lo-pkg.p<1000){se+=12;}
-  }
-  if(ST.quizDone&&a.hosp){
-    if(a.hosp==='allinclusive'&&pkg.ai){se+=15;reasons.push('all inclusive');}
-    else if(a.hosp==='conforto'&&pkg.cm){se+=15;reasons.push('café da manhã');}
-    else if(a.hosp==='luxo'&&pkg.lx){se+=15;reasons.push('categoria luxo');}
-    else if(a.hosp==='economico'&&pkg.p<4000){se+=15;reasons.push('opção econômica');}
-    else se+=3;
-  }
-  if(ST.quizDone&&a.goal){
-    const gm={descanso:['praia','montanha'],aventura:['natureza','praia'],romantico:['praia','cidade'],gastronomia:['cidade','montanha']};
-    if((gm[a.goal]||[]).includes(pkg.t)){se+=10;reasons.push(`objetivo: ${a.goal}`);}
-  }
-  if(ST.quizDone&&a.comp){
-    const cm={casal:['praia','cidade','montanha'],familia:['praia','natureza'],amigos:['praia','cidade'],solo:['cidade','natureza','montanha']};
-    if((cm[a.comp]||[]).includes(pkg.t)){se+=5;reasons.push(`ideal para ${a.comp}`);}
-  }
-  // Aeroporto
-  if(ST.quizDone&&a.airports&&a.airports.length>0&&a.airports.includes(pkg.o)){se+=8;reasons.push('aeroporto preferido');}
-  // Data
-  if(ST.quizDone&&a.dateFrom&&pkg.i){
-    const pDt=new Date(pkg.i.split('/').reverse().join('-'));
-    const from=new Date(a.dateFrom);
-    const to=a.dateTo?new Date(a.dateTo):null;
-    if(pDt>=from&&(!to||pDt<=to)){se+=7;reasons.push('dentro do período desejado');}
-  }
-  return{score:Math.min(si+se,100),si,se,reasons};
+function goQQ(n) {
+  if (n < 0 || n > TOTAL_Q - 1) return;
+  document.getElementById('qq' + ST.curQ).classList.remove('active');
+  ST.curQ = n;
+  document.getElementById('qq' + n).classList.add('active');
+  document.getElementById('q-prog').style.width = ((n + 1) / TOTAL_Q * 100) + '%';
+  document.getElementById('q-lbl').textContent = `Pergunta ${n + 1} de ${TOTAL_Q}`;
+  document.querySelector('.qbody').scrollTop = 0;
 }
 
-// ── Analyze ───────────────────────────
-function doAnalyze(){
-  ST.quizDone=true;
-  document.getElementById('az-likes-ct').textContent=ST.likes.length;
+// ═══════════════════════════════════════════════════════════════
+// SCORING ENGINE — deterministic, modular, safe
+// Returns: { score, breakdown: {key: pts}, reasons: [string] }
+// ═══════════════════════════════════════════════════════════════
+function scorePkg(pkg) {
+  if (!pkg) return { score: 0, breakdown: {}, reasons: [], si: 0, se: 0 };
+
+  const a = ST.answers || {};
+  const breakdown = {};
+  const reasons = [];
+
+  // Safe sets from likes
+  const likedTypes   = ST.likes.map(l => l.t).filter(Boolean);
+  const likedRegs    = ST.likes.map(l => l.r).filter(Boolean);
+  const likedDests   = ST.likes.map(l => (l.d || '').toLowerCase()).filter(Boolean);
+
+  // ── IMPLICIT SIGNALS (from swipe behavior) ──
+  // Direct like bonus
+  const directLike = likedDests.includes((pkg.d || '').toLowerCase());
+  if (directLike) {
+    breakdown.like_bonus = SCORE_WEIGHTS.like_bonus;
+    reasons.push(REASON_LABELS.like_bonus);
+  }
+
+  // Type affinity
+  const typeCount = likedTypes.filter(t => t === pkg.t).length;
+  if (typeCount > 0) {
+    const pts = Math.min(SCORE_WEIGHTS.like_type + (typeCount - 1) * 5, SCORE_WEIGHTS.like_type + 10);
+    breakdown.like_type = pts;
+    reasons.push(REASON_LABELS.like_type + ` (${pkg.t}, ${typeCount}x)`);
+  }
+
+  // Region affinity
+  const regionCount = likedRegs.filter(r => r === pkg.r).length;
+  if (regionCount > 0) {
+    const pts = Math.min(SCORE_WEIGHTS.like_region + (regionCount - 1) * 3, SCORE_WEIGHTS.like_region + 9);
+    breakdown.like_region = pts;
+    reasons.push(REASON_LABELS.like_region);
+  }
+
+  // ── EXPLICIT SIGNALS (from quiz) ──
+  if (ST.quizDone) {
+    // Region preference (+20)
+    const prefRegs = a.reg || [];
+    if (prefRegs.length > 0 && !prefRegs.includes('all') && prefRegs.includes(pkg.r)) {
+      breakdown.region_match = SCORE_WEIGHTS.region_match;
+      reasons.push(REASON_LABELS.region_match);
+    }
+
+    // Budget compatibility (+15 exact, +8 near)
+    if (a.bud) {
+      let lo, hi;
+      const customBud = parseInt(a.budCustom || '0', 10);
+      if (customBud > 0) { lo = 0; hi = customBud; }
+      else { [lo, hi] = BUD_MAP[a.bud] || [0, 999999]; }
+
+      if (pkg.p >= lo && pkg.p <= hi) {
+        breakdown.budget_exact = SCORE_WEIGHTS.budget_exact;
+        reasons.push(REASON_LABELS.budget_exact);
+      } else if ((pkg.p > hi && pkg.p - hi < 2000) || (pkg.p < lo && lo - pkg.p < 1000)) {
+        breakdown.budget_near = SCORE_WEIGHTS.budget_near;
+        reasons.push(REASON_LABELS.budget_near);
+      }
+    }
+
+    // Travel goal (+20)
+    if (a.goal) {
+      const goalMap = {
+        descanso:    ['praia', 'montanha'],
+        aventura:    ['natureza', 'praia'],
+        romantico:   ['praia', 'cidade', 'montanha'],
+        gastronomia: ['cidade', 'montanha'],
+      };
+      if ((goalMap[a.goal] || []).includes(pkg.t)) {
+        breakdown.goal_match = SCORE_WEIGHTS.goal_match;
+        reasons.push(REASON_LABELS.goal_match);
+      }
+    }
+
+    // Accommodation match (+15)
+    if (a.hosp) {
+      const hospMatch = (
+        (a.hosp === 'allinclusive' && pkg.ai) ||
+        (a.hosp === 'conforto'     && pkg.cm) ||
+        (a.hosp === 'luxo'         && pkg.lx) ||
+        (a.hosp === 'economico'    && pkg.p < 4000)
+      );
+      if (hospMatch) {
+        breakdown.accommodation = SCORE_WEIGHTS.accommodation;
+        reasons.push(REASON_LABELS.accommodation);
+      }
+    }
+
+    // Airport match (+10)
+    const airports = a.airports || [];
+    const pkgAirport = pkg.aeroporto || pkg.o || '';
+    if (airports.length > 0 && !airports.includes('all') && airports.some(ap => pkgAirport.includes(ap))) {
+      breakdown.airport_match = SCORE_WEIGHTS.airport_match;
+      reasons.push(REASON_LABELS.airport_match);
+    }
+
+    // Companion match (+8)
+    if (a.comp) {
+      const compMap = {
+        casal:   ['praia', 'cidade', 'montanha'],
+        familia: ['praia', 'natureza'],
+        amigos:  ['praia', 'cidade'],
+        solo:    ['cidade', 'natureza', 'montanha'],
+      };
+      if ((compMap[a.comp] || []).includes(pkg.t)) {
+        breakdown.comp_match = SCORE_WEIGHTS.comp_match;
+        reasons.push(REASON_LABELS.comp_match);
+      }
+    }
+
+    // Date match (+7)
+    if (a.dateFrom && pkg.i) {
+      try {
+        const parts = pkg.i.split('/');
+        const pDt = parts.length === 3
+          ? new Date(`${parts[2]}-${parts[1]}-${parts[0]}`)
+          : new Date(pkg.i);
+        const from = new Date(a.dateFrom);
+        const to = a.dateTo ? new Date(a.dateTo) : null;
+        if (!isNaN(pDt) && pDt >= from && (!to || pDt <= to)) {
+          breakdown.date_match = SCORE_WEIGHTS.date_match;
+          reasons.push(REASON_LABELS.date_match);
+        }
+      } catch {}
+    }
+  }
+
+  // Aggregate
+  const total = Object.values(breakdown).reduce((s, v) => s + v, 0);
+  const score = Math.min(Math.round(total), 100);
+
+  // Separate implicit vs explicit for display
+  const implicitKeys = ['like_bonus','like_type','like_region'];
+  const si = implicitKeys.reduce((s, k) => s + (breakdown[k] || 0), 0);
+  const se = score - si;
+
+  return { score, breakdown, reasons, si: Math.max(si, 0), se: Math.max(se, 0) };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SVG RING — match percentage visualization
+// ═══════════════════════════════════════════════════════════════
+function buildMatchRing(pct) {
+  const R = 18, C = 2 * Math.PI * R;
+  const offset = C - (pct / 100) * C;
+  const color = pct >= 70 ? '#1A7A4A' : pct >= 45 ? '#2A9ECE' : '#5B7A96';
+  return `<div class="match-ring-wrap">
+    <div class="match-ring">
+      <svg width="46" height="46" viewBox="0 0 46 46">
+        <circle class="match-ring-bg" cx="23" cy="23" r="${R}"/>
+        <circle class="match-ring-fill" cx="23" cy="23" r="${R}"
+          stroke="${color}"
+          stroke-dasharray="${C.toFixed(1)}"
+          stroke-dashoffset="${offset.toFixed(1)}"
+          style="transition:stroke-dashoffset 1s .3s ease"/>
+      </svg>
+      <div class="match-ring-pct">${pct}%</div>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ANALYZE → RESULTS
+// ═══════════════════════════════════════════════════════════════
+function doAnalyze() {
+  ST.quizDone = true;
+  document.getElementById('az-likes-ct').textContent = ST.likes.length;
   goScreen('s-analyze');
-  const steps=['az1','az2','az3','az4'];let i=0;
-  const iv=setInterval(()=>{
-    if(i>0){const p=document.getElementById(steps[i-1]);p.classList.remove('act');p.classList.add('done');p.querySelector('.az-step-ic').textContent='✓';}
-    if(i<steps.length){document.getElementById(steps[i]).classList.add('act');i++;}
-    else{clearInterval(iv);setTimeout(showResults,700);}
-  },900);
+  const steps = ['az1','az2','az3','az4'];
+  let i = 0;
+  const iv = setInterval(() => {
+    if (i > 0) {
+      const p = document.getElementById(steps[i - 1]);
+      if (p) { p.classList.remove('act'); p.classList.add('done'); p.querySelector('.az-step-ic').textContent = '✓'; }
+    }
+    if (i < steps.length) {
+      const s = document.getElementById(steps[i]);
+      if (s) s.classList.add('act');
+      i++;
+    } else {
+      clearInterval(iv);
+      setTimeout(showResults, 700);
+    }
+  }, 900);
 }
 
-// ── Results ───────────────────────────
-function showResults(){
-  const scored=PKGS.map(p=>{const r=scorePkg(p);return{...p,...r};}).sort((a,b)=>b.score-a.score);
-  scored.forEach(p=>{ST.scores[p.id]=p;});
-  const compat=scored.filter(p=>p.score>0).length;
-  document.getElementById('rh-compat-ct').textContent=compat;
-  const top=scored[0]?.score||0;
-  document.getElementById('rh-title').textContent=top>=70?'Match perfeito encontrado! 🎯':top>=45?'Ótimas opções para você! ✨':'Suas viagens personalizadas ✈️';
-  // Pills compactas
-  const bmap={b1:'💛 Até R$4k',b2:'🌊 R$4–8k',b3:'🏨 R$8–12k',b4:'✨ +R$12k'};
-  const cmap={solo:'🧳 Solo',casal:'💑 Casal',familia:'👨‍👩‍👧 Família',amigos:'🎉 Amigos'};
-  const hmap={economico:'🎒 Econômico',conforto:'☕ Café',luxo:'🥂 Luxo',allinclusive:'🍹 All Inc'};
-  const gmap={descanso:'😴 Descanso',aventura:'🧗 Aventura',romantico:'🥂 Romance',gastronomia:'🍽️ Gastro'};
-  const a=ST.answers;
-  const pills=[
-    ...ST.likes.slice(0,3).map(l=>`<div class="rh-pill">${E[l.t]||'✈️'} ${l.d}</div>`),
-    ...(a.bud?[`<div class="rh-pill">${a.budCustom?`💰 R$${parseInt(a.budCustom).toLocaleString('pt-BR')}`:bmap[a.bud]||''}</div>`]:[]),
-    ...(a.comp?[`<div class="rh-pill">${cmap[a.comp]||''}</div>`]:[]),
-    ...(a.hosp?[`<div class="rh-pill">${hmap[a.hosp]||''}</div>`]:[]),
-    ...(a.goal?[`<div class="rh-pill">${gmap[a.goal]||''}</div>`]:[]),
-    ...(a.airports&&a.airports.length?[`<div class="rh-pill">✈️ ${a.airports.join(', ')}</div>`]:[]),
+function showResults() {
+  // Score & sort all packages — O(n log n), done once
+  const scored = PKGS.map(p => {
+    const r = scorePkg(p);
+    return { ...p, ...r };
+  }).sort((a, b) => b.score - a.score);
+
+  // Cache scores for explorer sort
+  scored.forEach(p => { ST.scores[p.id] = p; });
+
+  const compat = scored.filter(p => p.score > 0).length;
+  document.getElementById('rh-compat-ct').textContent = compat;
+
+  const topScore = scored[0]?.score || 0;
+  document.getElementById('rh-title').textContent =
+    topScore >= 70 ? 'Match perfeito encontrado! 🎯' :
+    topScore >= 45 ? 'Ótimas opções para você! ✨' :
+    'Suas viagens personalizadas ✈️';
+
+  // Profile pills
+  const bmap = { b1:'💛 Até R$4k', b2:'🌊 R$4–8k', b3:'🏨 R$8–12k', b4:'✨ +R$12k' };
+  const cmap = { solo:'🧳 Solo', casal:'💑 Casal', familia:'👨‍👩‍👧 Família', amigos:'🎉 Amigos' };
+  const hmap = { economico:'🎒 Econômico', conforto:'☕ Café', luxo:'🥂 Luxo', allinclusive:'🍹 All Inc' };
+  const gmap = { descanso:'😴 Descanso', aventura:'🧗 Aventura', romantico:'🥂 Romance', gastronomia:'🍽️ Gastro' };
+  const a = ST.answers;
+  const pills = [
+    ...ST.likes.slice(0, 3).map(l => `<div class="rh-pill">${E[l.t] || '✈️'} ${l.d}</div>`),
+    ...(a.bud ? [`<div class="rh-pill">${a.budCustom ? `💰 R$${parseInt(a.budCustom).toLocaleString('pt-BR')}` : (bmap[a.bud] || '')}</div>`] : []),
+    ...(a.comp ? [`<div class="rh-pill">${cmap[a.comp] || ''}</div>`] : []),
+    ...(a.hosp ? [`<div class="rh-pill">${hmap[a.hosp] || ''}</div>`] : []),
+    ...(a.goal ? [`<div class="rh-pill">${gmap[a.goal] || ''}</div>`] : []),
+    ...(a.airports && a.airports.length ? [`<div class="rh-pill">✈️ ${a.airports.join(', ')}</div>`] : []),
   ];
-  document.getElementById('rh-pills').innerHTML=pills.join('');
-  // Sub em matches
-  const lk=ST.likes.length,qd=ST.quizDone&&Object.keys(a).length>0;
-  document.getElementById('match-sub-txt').textContent=`${lk} curtido${lk!==1?'s':''}${qd?' + quiz':''}  ·  ${compat} pacotes compatíveis`;
-  // Top 5
-  const top5=scored.slice(0,5);
-  document.getElementById('match-dot').textContent=top5.length;
-  document.getElementById('match-list').innerHTML=top5.map((p,i)=>{
-    const sc=['sc1','sc2','sc3','sc3','sc3'][i];
-    const rank=['🥇','🥈','🥉','4️⃣','5️⃣'][i];
-    const img=getImg(p);const bg=BG[p.t]||'#1A4F8A';const em=E[p.t]||'✈️';
-    const siPct=Math.min(Math.round((p.si/52)*100),100);
-    const sePct=Math.min(Math.round((p.se/65)*100),100);
-    const wamsg=`Olá! Fiz o quiz em A Viagem te Encontra e ${p.d} apareceu com ${p.score}% de compatibilidade!
+  document.getElementById('rh-pills').innerHTML = pills.join('');
 
-🏨 ${p.h}
-📅 ${p.i} → ${p.v}
-✈️ ${p.o}
-💰 R$ ${p.p.toLocaleString('pt-BR')}/pessoa
+  const lk = ST.likes.length;
+  const qd = ST.quizDone && Object.keys(a).length > 0;
+  document.getElementById('match-sub-txt').textContent =
+    `${lk} curtido${lk !== 1 ? 's' : ''}${qd ? ' + quiz' : ''}  ·  ${compat} pacotes compatíveis`;
 
-Pode me enviar mais informações?`;
+  // Top N match cards
+  const topN = scored.slice(0, CONFIG.TOP_RESULTS);
+  document.getElementById('match-dot').textContent = topN.length;
+  document.getElementById('match-list').innerHTML = topN.map((p, i) => {
+    const scClass = ['sc1','sc2','sc3','sc3','sc3'][i];
+    const rank    = ['🥇','🥈','🥉','4️⃣','5️⃣'][i];
+    const img = getImg(p);
+    const bg  = BG[p.t] || '#1A4F8A';
+    const em  = E[p.t]  || '✈️';
+
+    // Score bar percentages (safe denominators)
+    const MAX_SI = SCORE_WEIGHTS.like_bonus + SCORE_WEIGHTS.like_type + 10 + SCORE_WEIGHTS.like_region + 9;
+    const MAX_SE = SCORE_WEIGHTS.region_match + SCORE_WEIGHTS.budget_exact + SCORE_WEIGHTS.goal_match +
+                   SCORE_WEIGHTS.accommodation + SCORE_WEIGHTS.airport_match + SCORE_WEIGHTS.comp_match + SCORE_WEIGHTS.date_match;
+    const siPct = Math.min(Math.round((p.si / MAX_SI) * 100), 100);
+    const sePct = Math.min(Math.round((p.se / MAX_SE) * 100), 100);
+
+    // Why tags — top 3 most impactful reasons
+    const topReasons = (p.reasons || []).slice(0, 3);
+    const warnTags = []; // future: add "above budget" type warnings
+
+    const wamsg = `Olá! Fiz o quiz em A Viagem te Encontra e ${p.d} apareceu com ${p.score}% de compatibilidade!\n\n🏨 ${p.h}\n📅 ${p.i} → ${p.v}\n✈️ ${p.o}\n💰 R$ ${p.p.toLocaleString('pt-BR')}/pessoa\n\nPode me enviar mais informações?`;
+
+    const ringHtml = buildMatchRing(p.score);
+
     return `<div class="mcard">
       <div class="mc-img">
-        ${img?`<img src="${img}" alt="${p.d}" loading="lazy" onerror="this.parentNode.style.background='${bg}';this.remove()">`:`<div class="mc-ph" style="background:${bg}">${em}</div>`}
-        <div class="mc-score-badge ${sc}">🔥 ${p.score}% match</div>
+        ${img
+          ? `<img src="${img}" alt="${p.d}" loading="lazy" onerror="this.parentNode.style.background='${bg}';this.remove()">`
+          : `<div class="mc-ph" style="background:${bg}">${em}</div>`
+        }
+        <div class="mc-score-badge ${scClass}">🔥 ${p.score}% match</div>
         <div class="mc-rank">${rank}</div>
       </div>
       <div class="mc-body">
         <div class="mc-top">
-          <div><div class="mc-dest">${p.d}</div><div class="mc-tipo">${p.t} · ${p.r}</div></div>
-          <div class="mc-price-wrap"><div class="mc-pv">R$${p.p.toLocaleString('pt-BR')}</div><div class="mc-pl">para 2 pessoas</div></div>
+          <div>
+            <div class="mc-dest">${p.d}</div>
+            <div class="mc-tipo">${p.t} · ${p.r}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            ${ringHtml}
+            <div class="mc-price-wrap">
+              <div class="mc-pv">R$${p.p.toLocaleString('pt-BR')}</div>
+              <div class="mc-pl">para 2 pessoas</div>
+            </div>
+          </div>
         </div>
-        <div class="compat-row"><span class="compat-lbl">Compatibilidade</span><div class="compat-track"><div class="compat-fill" style="width:${p.score}%"></div></div><span class="compat-pct">${p.score}%</span></div>
+        <div class="compat-row">
+          <span class="compat-lbl">Compatibilidade</span>
+          <div class="compat-track"><div class="compat-fill" style="width:${p.score}%"></div></div>
+          <span class="compat-pct">${p.score}%</span>
+        </div>
         <div class="mc-score-detail">
           <div class="mc-score-row"><span>❤️ Comportamento</span><div class="mc-score-bar"><div class="mc-score-fill fill-impl" style="width:${siPct}%"></div></div><span>${p.si}pts</span></div>
           <div class="mc-score-row"><span>📋 Quiz</span><div class="mc-score-bar"><div class="mc-score-fill fill-expl" style="width:${sePct}%"></div></div><span>${p.se}pts</span></div>
         </div>
         <div class="mc-hotel">🏨 ${p.h}</div>
         <div class="mc-chips">
-          <div class="mc-chip">✈️ ${p.o}</div><div class="mc-chip">📅 ${p.i}</div><div class="mc-chip">🔙 ${p.v}</div>
-          ${p.cm?'<div class="mc-chip">☕ Café</div>':''}${p.ai?'<div class="mc-chip">🍹 All Inc.</div>':''}${p.lx?'<div class="mc-chip">⭐ Luxo</div>':''}
+          <div class="mc-chip">✈️ ${p.o}</div>
+          <div class="mc-chip">📅 ${p.i}</div>
+          <div class="mc-chip">🔙 ${p.v}</div>
+          ${p.cm ? '<div class="mc-chip">☕ Café</div>' : ''}
+          ${p.ai ? '<div class="mc-chip">🍹 All Inc.</div>' : ''}
+          ${p.lx ? '<div class="mc-chip">⭐ Luxo</div>' : ''}
         </div>
-        ${p.voo_ida?`<div class="mc-hotel" style="font-size:10px">🛫 ${p.voo_ida}</div>`:''}
-        ${p.voo_volta?`<div class="mc-hotel" style="font-size:10px;margin-bottom:6px">🛬 ${p.voo_volta}</div>`:''}
-        ${p.reasons.length?`<div class="why-tags">${p.reasons.slice(0,3).map(r=>`<div class="wtag">✓ ${r}</div>`).join('')}</div>`:''}
-        <button class="btn-wa" onclick="sendWa(this)" data-msg="${wamsg.replace(/"/g,'&quot;')}">💬 Quero saber mais sobre ${p.d}</button>
+        ${p.voo_ida   ? `<div class="mc-hotel" style="font-size:10px">🛫 ${p.voo_ida}</div>` : ''}
+        ${p.voo_volta ? `<div class="mc-hotel" style="font-size:10px;margin-bottom:6px">🛬 ${p.voo_volta}</div>` : ''}
+        ${topReasons.length ? `
+          <div class="why-section">
+            <div class="why-title">Por que essa viagem combina com você</div>
+            <div class="why-tags">
+              ${topReasons.map(r => `<div class="wtag">${r}</div>`).join('')}
+              ${warnTags.map(r => `<div class="wtag wtag-warn">${r}</div>`).join('')}
+            </div>
+          </div>` : ''}
+        <button class="btn-wa" onclick="sendWa(this)" data-msg="${wamsg.replace(/"/g,'&quot;')}">
+          💬 Quero saber mais sobre ${p.d}
+        </button>
       </div>
     </div>`;
   }).join('');
+
   renderPkgs();
   goScreen('s-results');
 }
 
-// ── Explorer ──────────────────────────
-function switchView(v){
-  const mv=document.getElementById('v-match'),ev=document.getElementById('v-explore');
-  const tm=document.getElementById('rt-match'),te=document.getElementById('rt-explore');
-  if(v==='match'){mv.style.display='';ev.style.display='none';tm.classList.add('on');te.classList.remove('on');}
-  else{mv.style.display='none';ev.style.display='';te.classList.add('on');tm.classList.remove('on');renderPkgs();}
+// ═══════════════════════════════════════════════════════════════
+// EXPLORER
+// ═══════════════════════════════════════════════════════════════
+function switchView(v) {
+  const mv = document.getElementById('v-match');
+  const ev = document.getElementById('v-explore');
+  const tm = document.getElementById('rt-match');
+  const te = document.getElementById('rt-explore');
+  if (v === 'match') {
+    mv.style.display = ''; ev.style.display = 'none';
+    tm.classList.add('on'); te.classList.remove('on');
+  } else {
+    mv.style.display = 'none'; ev.style.display = '';
+    te.classList.add('on'); tm.classList.remove('on');
+    renderPkgs();
+  }
 }
-function setTipo(btn,t){document.querySelectorAll('[data-t]').forEach(b=>b.classList.remove('on'));btn.classList.add('on');ST.tipoFilter=t;renderPkgs();}
-function setRegE(btn,r){document.querySelectorAll('[data-rg]').forEach(b=>b.classList.remove('on'));btn.classList.add('on');ST.regExpFilter=r;renderPkgs();}
-function setSort(btn,k){document.querySelectorAll('.sb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');ST.sortKey=k;renderPkgs();}
-function toggleDir(){ST.sortDir*=-1;renderPkgs();}
-function setAirportFilter(btn,ap){
-  document.querySelectorAll('.fi-chip-mini').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');ST.apFilter=ap;renderPkgs();
-}
-function openLightbox(src,dest){if(!src)return;document.getElementById('lightbox-img').src=src;document.getElementById('lightbox-dest').textContent=dest;document.getElementById('lightbox').classList.add('open');}
-function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
 
-function renderPkgs(){
-  const q=(document.getElementById('search-in')?.value||'').toLowerCase();
-  const fDate=document.getElementById('fi-date')?.value||'';
-  let list=PKGS.filter(p=>{
-    if(ST.tipoFilter!=='all'&&p.t!==ST.tipoFilter) return false;
-    if(ST.regExpFilter!=='all'&&p.r!==ST.regExpFilter) return false;
-    if(q&&!p.d.toLowerCase().includes(q)&&!p.h.toLowerCase().includes(q)) return false;
-    if(ST.apFilter!=='all'&&p.o!==ST.apFilter) return false;
-    if(fDate&&p.i){
-      const pDt=new Date(p.i.split('/').reverse().join('-'));
-      const fDt=new Date(fDate);
-      if(pDt<fDt) return false;
+function setTipo(btn, t) {
+  document.querySelectorAll('[data-t]').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on'); ST.tipoFilter = t; renderPkgs();
+}
+function setRegE(btn, r) {
+  document.querySelectorAll('[data-rg]').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on'); ST.regExpFilter = r; renderPkgs();
+}
+function setSort(btn, k) {
+  document.querySelectorAll('.sb').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on'); ST.sortKey = k; renderPkgs();
+}
+function toggleDir() { ST.sortDir *= -1; renderPkgs(); }
+function setAirportFilter(btn, ap) {
+  document.querySelectorAll('.fi-chip-mini').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on'); ST.apFilter = ap; renderPkgs();
+}
+function openLightbox(src, dest) {
+  if (!src) return;
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox-dest').textContent = dest;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+
+function renderPkgs() {
+  const q = (document.getElementById('search-in')?.value || '').toLowerCase();
+  const fDate = document.getElementById('fi-date')?.value || '';
+
+  let list = PKGS.filter(p => {
+    if (!p) return false;
+    if (ST.tipoFilter !== 'all' && p.t !== ST.tipoFilter) return false;
+    if (ST.regExpFilter !== 'all' && p.r !== ST.regExpFilter) return false;
+    if (q && !((p.d || '').toLowerCase().includes(q)) && !((p.h || '').toLowerCase().includes(q))) return false;
+    if (ST.apFilter !== 'all' && (p.aeroporto || p.o || '') !== ST.apFilter) return false;
+    if (fDate && p.i) {
+      try {
+        const parts = p.i.split('/');
+        const pDt = parts.length === 3
+          ? new Date(`${parts[2]}-${parts[1]}-${parts[0]}`)
+          : new Date(p.i);
+        if (!isNaN(pDt) && pDt < new Date(fDate)) return false;
+      } catch {}
     }
     return true;
   });
-  // Sort
-  list=[...list].sort((a,b)=>{
-    const d=ST.sortDir;
-    if(ST.sortKey==='score'){const sa=ST.scores[a.id]?.score||0,sb2=ST.scores[b.id]?.score||0;return(sb2-sa)*d;}
-    if(ST.sortKey==='preco_asc') return(a.p-b.p)*d;
-    if(ST.sortKey==='preco_desc') return(b.p-a.p)*d;
-    if(ST.sortKey==='data'){const pa=a.i.split('/').reverse().join(''),pb=b.i.split('/').reverse().join('');return pa<pb?-d:d;}
+
+  // Sort — computed once per render
+  list = [...list].sort((a, b) => {
+    const d = ST.sortDir;
+    if (ST.sortKey === 'score') {
+      const sa = ST.scores[a.id]?.score || 0;
+      const sb = ST.scores[b.id]?.score || 0;
+      return (sb - sa) * d;
+    }
+    if (ST.sortKey === 'preco_asc')  return (a.p - b.p) * d;
+    if (ST.sortKey === 'preco_desc') return (b.p - a.p) * d;
+    if (ST.sortKey === 'data') {
+      const pa = (a.i || '').split('/').reverse().join('');
+      const pb = (b.i || '').split('/').reverse().join('');
+      return pa < pb ? -d : d;
+    }
     return 0;
   });
-  document.getElementById('pkg-count').textContent=list.length+' pacotes';
-  const pl=document.getElementById('pkg-list');
-  if(!list.length){pl.innerHTML=`<div class="no-res" style="padding:20px 14px;text-align:center;font-size:12px;color:var(--muted);line-height:1.7;background:var(--white);border-radius:var(--r);border:1px solid var(--border);margin:4px 0">
-  ✈️ <strong style="display:block;font-size:13px;color:var(--navy);margin-bottom:6px">Nenhum pacote encontrado</strong>
-  Os pacotes que aparecem aqui são personalizados com base no seu perfil. Se aparecer vazio, reveja as informações do seu perfil, orçamento e datas — ou explore diretamente os pacotes sem filtros.
-  <br><br><button onclick="clearFilters()" style="padding:9px 20px;border-radius:100px;border:none;background:var(--navy);color:#fff;font-family:var(--f);font-size:12px;font-weight:700;cursor:pointer">Limpar filtros</button>
-</div>`;return;}
-  pl.innerHTML=list.map(p=>{
-    const sc=ST.scores[p.id]?.score;
-    const img=getImg(p);const bg=BG[p.t]||'#1A4F8A';const em=E[p.t]||'✈️';
-    const wamsg=`Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i}→${p.v}) por R$${p.p.toLocaleString('pt-BR')}/2 pessoas. Pode me enviar mais informações?`;
-    const imgSafe=img?(img.replace(/'/g,"\\'")):''
+
+  const countEl = document.getElementById('pkg-count');
+  if (countEl) countEl.textContent = list.length + ' pacotes';
+
+  const pl = document.getElementById('pkg-list');
+  if (!pl) return;
+
+  if (!list.length) {
+    pl.innerHTML = `<div class="no-res" style="padding:20px 14px;text-align:center;font-size:12px;color:var(--muted);line-height:1.7;background:var(--white);border-radius:var(--r);border:1px solid var(--border);margin:4px 0">
+      ✈️ <strong style="display:block;font-size:13px;color:var(--navy);margin-bottom:6px">Nenhum pacote encontrado</strong>
+      Reveja os filtros ou orçamento — ou explore sem filtros.
+      <br><br><button onclick="clearFilters()" style="padding:9px 20px;border-radius:100px;border:none;background:var(--navy);color:#fff;font-family:var(--f);font-size:12px;font-weight:700;cursor:pointer">Limpar filtros</button>
+    </div>`;
+    return;
+  }
+
+  pl.innerHTML = list.map(p => {
+    const sc  = ST.scores[p.id]?.score;
+    const img = getImg(p);
+    const bg  = BG[p.t] || '#1A4F8A';
+    const em  = E[p.t]  || '✈️';
+    const imgSafe = (img || '').replace(/'/g, "\\'");
+    const dSafe   = (p.d  || '').replace(/'/g, "\\'");
+    const wamsg   = `Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i}→${p.v}) por R$${p.p.toLocaleString('pt-BR')}/2 pessoas. Pode me enviar mais informações?`;
+
     return `<div class="pcard">
-      <div class="pc-img" onclick="openLightbox('${imgSafe}','${p.d.replace(/'/g,"\\'")}')">
-        ${img?`<img src="${img}" alt="${p.d}" loading="lazy" onerror="this.parentNode.style.background='${bg}';this.remove()">`:`<div class="pc-ph" style="background:${bg}">${em}</div>`}
+      <div class="pc-img" onclick="openLightbox('${imgSafe}','${dSafe}')">
+        ${img
+          ? `<img src="${img}" alt="${p.d}" loading="lazy" onerror="this.parentNode.style.background='${bg}';this.remove()">`
+          : `<div class="pc-ph" style="background:${bg}">${em}</div>`
+        }
         <div class="pc-img-overlay"><span class="pc-zoom-ic">🔍</span></div>
         <div class="pc-badge">${p.t} · ${p.r}</div>
-        ${sc!=null?`<div class="pc-sc-badge">⭐ ${sc}%</div>`:''}
+        ${sc != null ? `<div class="pc-sc-badge">⭐ ${sc}%</div>` : ''}
       </div>
       <div class="pc-body">
         <div class="pc-top-row">
           <div><div class="pc-dest">${p.d}</div></div>
-          <div class="pc-price-wrap"><div class="pc-price">R$${p.p.toLocaleString('pt-BR')}</div><div class="pc-pp">para 2 pessoas</div></div>
+          <div class="pc-price-wrap">
+            <div class="pc-price">R$${p.p.toLocaleString('pt-BR')}</div>
+            <div class="pc-pp">para 2 pessoas</div>
+          </div>
         </div>
         <div class="pc-hotel">🏨 ${p.h}</div>
         <div class="pc-chips">
-          <div class="pc-chip">✈️ ${p.o}</div>
+          <div class="pc-chip">✈️ ${p.o || ''}</div>
           <div class="pc-chip">📅 ${p.i} → ${p.v}</div>
-          ${p.cm?'<div class="pc-chip">☕ Café</div>':''}${p.ai?'<div class="pc-chip">🍹 All Inc.</div>':''}${p.lx?'<div class="pc-chip">⭐ Luxo</div>':''}
+          ${p.cm ? '<div class="pc-chip">☕ Café</div>' : ''}
+          ${p.ai ? '<div class="pc-chip">🍹 All Inc.</div>' : ''}
+          ${p.lx ? '<div class="pc-chip">⭐ Luxo</div>' : ''}
         </div>
-        ${p.voo_ida?`<div class="pc-voo">🛫 ${p.voo_ida}</div>`:''}
-        ${p.voo_volta?`<div class="pc-voo" style="margin-bottom:6px">🛬 ${p.voo_volta}</div>`:''}
-        <button class="btn-pc-wa" onclick="sendWa(this)" data-msg="${wamsg.replace(/"/g,'&quot;')}">💬 Quero este pacote</button>
+        ${p.voo_ida   ? `<div class="pc-voo">🛫 ${p.voo_ida}</div>` : ''}
+        ${p.voo_volta ? `<div class="pc-voo" style="margin-bottom:6px">🛬 ${p.voo_volta}</div>` : ''}
+        <button class="btn-pc-wa" onclick="sendWa(this)" data-msg="${wamsg.replace(/"/g,'&quot;')}">
+          💬 Quero este pacote
+        </button>
       </div>
     </div>`;
   }).join('');
 }
 
-// ── Toast & Restart ───────────────────
+// ═══════════════════════════════════════════════════════════════
+// TOAST & RESTART
+// ═══════════════════════════════════════════════════════════════
 let _tt;
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),2000);}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(_tt);
+  _tt = setTimeout(() => t.classList.remove('show'), 2000);
+}
 
-function goAllPkgs(){
-  // Skip swipe/quiz, go straight to explore tab
-  if(!PKGS.length){ showToast('Carregando pacotes...'); return; }
-  // Score with empty profile
-  PKGS.forEach(p=>{ ST.scores[p.id]={score:0,si:0,se:0,reasons:[]}; });
+function goAllPkgs() {
+  if (!PKGS.length) { showToast('Carregando pacotes...'); return; }
+  PKGS.forEach(p => { ST.scores[p.id] = { score: 0, si: 0, se: 0, reasons: [] }; });
   document.getElementById('rh-compat-ct').textContent = PKGS.length;
   document.getElementById('rh-title').textContent = 'Todos os pacotes disponíveis ✈️';
   document.getElementById('rh-pills').innerHTML = '';
   document.getElementById('match-sub-txt').textContent = '';
-  document.getElementById('match-list').innerHTML = '<div style="text-align:center;padding:30px 14px;color:var(--muted);font-size:13px">Faça o quiz para ver os seus matches personalizados 🎯<br><br><button onclick="goSwipe()" style="padding:11px 22px;border-radius:100px;border:none;background:var(--navy);color:#fff;font-family:var(--f);font-size:12px;font-weight:700;cursor:pointer">Começar o quiz →</button></div>';
+  document.getElementById('match-list').innerHTML = `<div style="text-align:center;padding:30px 14px;color:var(--muted);font-size:13px">
+    Faça o quiz para ver os seus matches personalizados 🎯<br><br>
+    <button onclick="goSwipe()" style="padding:11px 22px;border-radius:100px;border:none;background:var(--navy);color:#fff;font-family:var(--f);font-size:12px;font-weight:700;cursor:pointer">Começar o quiz →</button>
+  </div>`;
   document.getElementById('match-dot').textContent = '0';
   document.getElementById('rt-explore').textContent = `🔍 Explorar todos (${PKGS.length})`;
   renderPkgs();
@@ -1234,90 +1723,105 @@ function goAllPkgs(){
   switchView('explore');
 }
 
-function restart(){
-  Object.assign(ST,{likes:[],nopes:[],hookShown:false,quizDone:false,answers:{reg:[],airports:[]},curQ:0,sortKey:'preco_asc',sortDir:1,tipoFilter:'all',regExpFilter:'all',apFilter:'all',scores:{},regFilter:'all'});
-  document.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
-  document.querySelectorAll('.btn-qn').forEach(b=>b.disabled=true);
-  document.querySelectorAll('.qblock').forEach(b=>b.classList.remove('active'));
+function restart() {
+  Object.assign(ST, {
+    likes: [], nopes: [], hookShown: false, quizDone: false,
+    answers: { reg: [], airports: [] }, curQ: 0,
+    sortKey: 'preco_asc', sortDir: 1,
+    tipoFilter: 'all', regExpFilter: 'all', apFilter: 'all',
+    scores: {}, regFilter: 'all',
+  });
+  document.querySelectorAll('.opt').forEach(o => o.classList.remove('sel'));
+  document.querySelectorAll('.btn-qn').forEach(b => b.disabled = true);
+  document.querySelectorAll('.qblock').forEach(b => b.classList.remove('active'));
   document.getElementById('qq0').classList.add('active');
-  document.querySelectorAll('.rc').forEach(b=>b.classList.toggle('on',b.dataset.r==='all'));
-  document.querySelectorAll('[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==='all'));
-  document.querySelectorAll('[data-rg]').forEach(b=>b.classList.toggle('on',b.dataset.rg==='all'));
-  document.querySelectorAll('.sb').forEach(b=>b.classList.toggle('on',b.dataset.s==='preco_asc'));
-  document.querySelectorAll('.fi-chip-mini').forEach(b=>b.classList.toggle('on',b.dataset.ap==='all'));
-  document.querySelectorAll('.airport-chip').forEach(b=>b.classList.remove('on'));
-  ['az1','az2','az3','az4'].forEach((id,i)=>{const el=document.getElementById(id);el.classList.remove('done','act');el.querySelector('.az-step-ic').textContent=['❤️','🔍','⚖️','🏆'][i];});
-  document.getElementById('likes-num').textContent='0';
-  ['search-in','fi-date','q-bud-custom','q-date-from','q-date-to'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active','exit'));
+  document.querySelectorAll('.rc').forEach(b => b.classList.toggle('on', b.dataset.r === 'all'));
+  document.querySelectorAll('[data-t]').forEach(b => b.classList.toggle('on', b.dataset.t === 'all'));
+  document.querySelectorAll('[data-rg]').forEach(b => b.classList.toggle('on', b.dataset.rg === 'all'));
+  document.querySelectorAll('.sb').forEach(b => b.classList.toggle('on', b.dataset.s === 'preco_asc'));
+  document.querySelectorAll('.fi-chip-mini').forEach(b => b.classList.toggle('on', b.dataset.ap === 'all'));
+  document.querySelectorAll('.airport-chip').forEach(b => b.classList.remove('on'));
+  ['az1','az2','az3','az4'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.remove('done','act');
+    el.querySelector('.az-step-ic').textContent = ['❤️','🔍','⚖️','🏆'][i];
+  });
+  const likesNum = document.getElementById('likes-num');
+  if (likesNum) likesNum.textContent = '0';
+  ['search-in','fi-date','q-bud-custom','q-date-from','q-date-to'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active','exit'));
   document.getElementById('s-land').classList.add('active');
-  ST.cur='s-land';
-  document.getElementById('sb').className='sb dark';
+  ST.cur = 's-land';
+  document.getElementById('sb').className = 'sb dark';
   buildQueue();
 }
 
-// Clock
-function updateClock(){const n=new Date();document.getElementById('sb-time').textContent=n.getHours()+':'+(n.getMinutes()<10?'0':'')+n.getMinutes();}
-updateClock();setInterval(updateClock,15000);
-
-// Clear all filters
-function clearFilters(){
-  ST.tipoFilter='all';ST.regExpFilter='all';ST.apFilter='all';
-  document.querySelectorAll('[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==='all'));
-  document.querySelectorAll('[data-rg]').forEach(b=>b.classList.toggle('on',b.dataset.rg==='all'));
-  document.querySelectorAll('.fi-chip-mini').forEach(b=>b.classList.toggle('on',b.dataset.ap==='all'));
-  const si=document.getElementById('search-in');if(si)si.value='';
-  const fd=document.getElementById('fi-date');if(fd)fd.value='';
+function clearFilters() {
+  ST.tipoFilter = 'all'; ST.regExpFilter = 'all'; ST.apFilter = 'all';
+  document.querySelectorAll('[data-t]').forEach(b => b.classList.toggle('on', b.dataset.t === 'all'));
+  document.querySelectorAll('[data-rg]').forEach(b => b.classList.toggle('on', b.dataset.rg === 'all'));
+  document.querySelectorAll('.fi-chip-mini').forEach(b => b.classList.toggle('on', b.dataset.ap === 'all'));
+  const si = document.getElementById('search-in'); if (si) si.value = '';
+  const fd = document.getElementById('fi-date');   if (fd) fd.value = '';
   renderPkgs();
 }
 
-// INIT
-// Toggle any date
-function toggleAnyDate(btn){
+// ═══════════════════════════════════════════════════════════════
+// QUIZ HELPERS
+// ═══════════════════════════════════════════════════════════════
+function toggleAnyDate(btn) {
   const isAny = btn.classList.contains('on');
-  if(!isAny){
-    // Enable "any date" — hide inputs, clear dates
+  if (!isAny) {
     btn.classList.add('on');
-    document.getElementById('date-inputs-wrap').style.display='none';
-    ST.answers.dateFrom='';ST.answers.dateTo='';
-    document.getElementById('q-date-from').value='';
-    document.getElementById('q-date-to').value='';
+    document.getElementById('date-inputs-wrap').style.display = 'none';
+    ST.answers.dateFrom = ''; ST.answers.dateTo = '';
+    document.getElementById('q-date-from').value = '';
+    document.getElementById('q-date-to').value = '';
   } else {
-    // Show date inputs
     btn.classList.remove('on');
-    document.getElementById('date-inputs-wrap').style.display='block';
+    document.getElementById('date-inputs-wrap').style.display = 'block';
   }
 }
-// Toggle any airport
-function toggleAirportAll(btn){
-  const isAny=btn.classList.contains('on');
-  if(!isAny){
-    document.querySelectorAll('.airport-chip').forEach(b=>b.classList.remove('on'));
+function toggleAirportAll(btn) {
+  const isAny = btn.classList.contains('on');
+  if (!isAny) {
+    document.querySelectorAll('.airport-chip').forEach(b => b.classList.remove('on'));
     btn.classList.add('on');
-    ST.answers.airports=[];
+    ST.answers.airports = [];
   } else {
     btn.classList.remove('on');
   }
 }
-
-// Date from change — set min 5 days ahead for return date
-function onDateFromChange(val){
-  ST.answers.dateFrom=val;
-  if(!val) return;
-  const d=new Date(val);
-  d.setDate(d.getDate()+5);
-  const minTo=d.toISOString().split('T')[0];
-  const toEl=document.getElementById('q-date-to');
-  toEl.min=minTo;
-  if(toEl.value && toEl.value < minTo){toEl.value=minTo;ST.answers.dateTo=minTo;}
+function onDateFromChange(val) {
+  ST.answers.dateFrom = val;
+  if (!val) return;
+  const d = new Date(val);
+  d.setDate(d.getDate() + 5);
+  const minTo = d.toISOString().split('T')[0];
+  const toEl = document.getElementById('q-date-to');
+  if (!toEl) return;
+  toEl.min = minTo;
+  if (toEl.value && toEl.value < minTo) { toEl.value = minTo; ST.answers.dateTo = minTo; }
 }
 
-// Override showResults to check empty matches
-const _origShowResults = showResults;
-showResults = function(){
-  _origShowResults();
-};
+// ═══════════════════════════════════════════════════════════════
+// CLOCK
+// ═══════════════════════════════════════════════════════════════
+function updateClock() {
+  const n = new Date();
+  const el = document.getElementById('sb-time');
+  if (el) el.textContent = n.getHours() + ':' + (n.getMinutes() < 10 ? '0' : '') + n.getMinutes();
+}
+updateClock();
+setInterval(updateClock, 15000);
 
+// ═══════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════
 loadPkgs();
 </script>
 </body>
