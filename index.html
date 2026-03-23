@@ -455,9 +455,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <div class="opt" data-q="reg" data-v="all" onclick="qpickMulti(this)"><div class="opt-ic">🌍</div><div class="opt-tx"><div class="opt-lbl">Qualquer lugar</div></div><div class="opt-ck">✓</div></div>
       </div>
       <div class="qnav"><div></div><button class="btn-qn" id="qn0" disabled onclick="goQQ(1)">Continuar →</button></div>
-      <div style="text-align:center;margin-top:10px">
-        <button onclick="skipToResults()" style="background:none;border:none;color:var(--muted);font-family:var(--f);font-size:11px;cursor:pointer;padding:6px;text-decoration:underline">Pular quiz e ver resultados →</button>
-      </div>
     </div>
 
     <!-- Q1: Orçamento -->
@@ -544,6 +541,10 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 
       <div class="qnav"><button class="btn-qb" onclick="goQQ(4)">← Voltar</button><button class="btn-qn" id="qn5" onclick="doAnalyze()" style="opacity:1">Ver meus matches ✨</button></div>
     </div>
+  </div>
+  <!-- Pular quiz — always visible at bottom of quiz screen -->
+  <div style="flex-shrink:0;text-align:center;padding:8px 0 10px;background:var(--white);border-top:1px solid var(--border)">
+    <button onclick="skipToResults()" style="background:none;border:none;color:var(--muted-lt);font-family:var(--f);font-size:11px;cursor:pointer;padding:4px 12px;text-decoration:underline">Pular quiz e ver resultados diretamente →</button>
   </div>
 </div>
 
