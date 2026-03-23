@@ -971,7 +971,6 @@ async function loadPkgs(){
     document.getElementById('az-total-ct').textContent=PKGS.length;
     document.getElementById('rt-explore').textContent=`🔍 Explorar todos (${PKGS.length})`;
     buildQueue();goScreen('s-land');
-    if(typeof W_init==='function') setTimeout(W_init, 50);
   }catch(err){
     document.getElementById('load-err').style.display='block';
     document.getElementById('load-err-msg').textContent=err.message;
@@ -1512,8 +1511,9 @@ function W_chip(type, btn){
 function W_render(){
   const grid = document.getElementById('w-grid');
   if(!grid) return;
-  if(!window.PKGS || !PKGS.length){
-    grid.innerHTML = '<div class="w-no-res">⏳ Carregando pacotes…</div>';
+  // If PKGS not loaded yet, retry after 500ms
+  if(typeof PKGS === 'undefined' || !PKGS || !PKGS.length){
+    setTimeout(W_render, 500);
     return;
   }
   const q  = (document.getElementById('w-search')?.value||'').toLowerCase().trim();
@@ -1616,6 +1616,15 @@ function W_render(){
     + '</div>';
   }).join('');
 }
+
+// Fallback: poll until PKGS is ready (handles timing edge cases)
+(function W_poll(){
+  if(typeof PKGS !== 'undefined' && PKGS && PKGS.length > 0){
+    W_init();
+  } else {
+    setTimeout(W_poll, 300);
+  }
+})();
 
 // Called once after mobile loadPkgs finishes
 function W_init(){
