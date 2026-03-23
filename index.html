@@ -31,8 +31,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 }
 .phone{width:min(390px,100vw);height:min(844px,100svh);background:var(--ice);border-radius:min(40px,0px);box-shadow:0 30px 80px rgba(0,0,0,.5);display:flex;flex-direction:column;overflow:hidden;position:relative}
 @media(max-width:390px),(max-height:700px){.phone{border-radius:0;height:100svh;width:100vw}}
-/* Desktop: hide phone shell, show web layout */
-@media(min-width:768px){.phone{display:none}.web-shell{display:grid!important}}
 .sb{display:none}
 .sb.dark{color:#fff}.sb.light{color:var(--navy)}
 .screen{position:absolute;inset:0;display:flex;flex-direction:column;transition:opacity .35s ease,transform .35s cubic-bezier(.4,0,.2,1);pointer-events:none;opacity:0;transform:translateX(26px)}
@@ -343,348 +341,209 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .toast{position:fixed;bottom:14px;left:50%;transform:translateX(-50%) translateY(12px);background:rgba(10,30,60,.92);border:1px solid rgba(66,174,222,.25);border-radius:100px;padding:7px 14px;font-size:11px;font-weight:500;color:#fff;white-space:nowrap;opacity:0;transition:all .3s ease;pointer-events:none;z-index:999;backdrop-filter:blur(12px)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* ══════════════════════════════
-   WEB LAYOUT (≥768px)
-══════════════════════════════ */
-/* ── TABLET / DESKTOP ── */
+/* ═══════════════════════════════════════════════
+   RESPONSIVE: Desktop layout (≥768px)
+═══════════════════════════════════════════════ */
+@media(max-width:767px){
+  #web-layout{display:none!important}
+}
 @media(min-width:768px){
-  .mobile-shell{display:none}
-  .web-shell{
+  /* Hide phone shell */
+  body{background:#0F2545;align-items:flex-start}
+  .phone{display:none!important}
+  /* Show web layout */
+  #web-layout{
     display:grid;
+    width:100%;
     min-height:100vh;
-    grid-template-columns:280px 1fr;
-    grid-template-rows:64px 1fr;
-    grid-template-areas:"header header" "sidebar main";
+    grid-template-rows:60px 1fr;
+    grid-template-columns:260px 1fr;
+    grid-template-areas:"wh wh" "ws wm";
+    background:#F4F8FB;
   }
-
-  /* Header */
-  .web-header{
-    grid-area:header;
-    background:var(--navy-dk);
-    border-bottom:1px solid rgba(255,255,255,.08);
+  /* Web Header */
+  #wh{
+    grid-area:wh;
+    background:linear-gradient(135deg,#0F3260,#1A4F8A);
     display:flex;align-items:center;justify-content:space-between;
-    padding:0 28px;gap:20px;
-    position:sticky;top:0;z-index:100;
+    padding:0 24px;gap:16px;
+    position:sticky;top:0;z-index:200;
+    box-shadow:0 2px 12px rgba(0,0,0,.3);
   }
-  .web-logo{display:flex;align-items:center;gap:8px}
-  .web-logo-text{font-size:18px;font-weight:800;color:#fff;letter-spacing:-.01em}
-  .web-logo-text em{font-family:var(--fd);font-style:italic;color:var(--sky-lt);font-weight:500}
-  .web-header-stats{display:flex;gap:20px}
-  .web-stat{text-align:center}
-  .web-stat-n{font-size:16px;font-weight:800;color:#fff}
-  .web-stat-l{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4)}
-  .web-header-btns{display:flex;gap:8px}
-  .hbtn{padding:8px 18px;border-radius:100px;border:none;font-family:var(--f);font-size:13px;font-weight:600;cursor:pointer;transition:.2s}
-  .hbtn-outline{background:transparent;border:1.5px solid rgba(255,255,255,.25);color:rgba(255,255,255,.8)}
-  .hbtn-outline:hover{background:rgba(255,255,255,.1)}
-  .hbtn-sky{background:var(--sky);color:#fff;box-shadow:0 4px 16px rgba(66,174,222,.35)}
-  .hbtn-sky:hover{background:var(--sky-lt)}
-
-  /* Sidebar */
-  .web-sidebar{
-    grid-area:sidebar;
-    background:var(--white);
-    border-right:1px solid var(--border);
+  .wh-logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:800;color:#fff;white-space:nowrap}
+  .wh-logo em{font-family:'Playfair Display',serif;font-style:italic;color:#7DCFF0;font-weight:500}
+  .wh-stats{display:flex;gap:18px;flex:1;justify-content:center}
+  .wh-stat-n{font-size:15px;font-weight:800;color:#fff;text-align:center}
+  .wh-stat-l{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center}
+  .wh-btns{display:flex;gap:8px}
+  .wh-btn{padding:8px 16px;border-radius:100px;border:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap}
+  .wh-btn-ghost{background:transparent;border:1.5px solid rgba(255,255,255,.3);color:rgba(255,255,255,.85)}
+  .wh-btn-ghost:hover{background:rgba(255,255,255,.1)}
+  .wh-btn-sky{background:#42AEDE;color:#fff;box-shadow:0 3px 12px rgba(66,174,222,.4)}
+  .wh-btn-sky:hover{background:#7DCFF0}
+  /* Web Sidebar */
+  #ws{
+    grid-area:ws;
+    background:#fff;
+    border-right:1px solid #C8DFEF;
     overflow-y:auto;
-    padding:20px 16px;
-    display:flex;flex-direction:column;gap:12px;
+    padding:16px;
+    display:flex;flex-direction:column;gap:10px;
+    position:sticky;top:60px;height:calc(100vh - 60px);
   }
-  .sidebar-section{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;margin-top:8px}
-  .sidebar-section:first-child{margin-top:0}
-
-  /* Filter chips in sidebar */
-  .filter-chips{display:flex;flex-wrap:wrap;gap:5px}
-  .fc{padding:5px 12px;border-radius:100px;border:1.5px solid var(--border);background:transparent;font-family:var(--f);font-size:11px;font-weight:600;color:var(--muted);cursor:pointer;transition:.2s}
-  .fc:hover{border-color:var(--sky);color:var(--sky)}
-  .fc.on{border-color:var(--navy);background:var(--navy);color:#fff}
-  .search-box{display:flex;align-items:center;gap:6px;background:var(--ice);border:1px solid var(--border);border-radius:8px;padding:0 10px}
-  .search-box input{flex:1;border:none;background:transparent;font-family:var(--f);font-size:13px;padding:9px 0;color:var(--text);outline:none}
-  .search-box input::placeholder{color:#8FAEC4}
-  .sort-select{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:var(--f);font-size:12px;color:var(--text);background:var(--ice);outline:none;cursor:pointer}
-  .sort-select:focus{border-color:var(--sky)}
-  .fi-inp{width:100%;padding:8px 11px;border:1.5px solid var(--border);border-radius:7px;background:var(--ice);font-family:var(--f);font-size:12px;color:var(--text);outline:none;transition:.2s;margin-top:4px}
-  .fi-inp:focus{border-color:var(--sky)}
-  .fi-label{font-size:11px;font-weight:600;color:var(--muted);margin-top:10px;display:block}
-
-  /* Main content area */
-  .web-main{
-    grid-area:main;
-    background:var(--ice);
+  .ws-sec{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5B7A96;margin-top:6px;padding-top:6px;border-top:1px solid #C8DFEF}
+  .ws-sec:first-child{margin-top:0;padding-top:0;border-top:none}
+  .ws-search{display:flex;align-items:center;gap:6px;background:#F4F8FB;border:1px solid #C8DFEF;border-radius:8px;padding:0 10px}
+  .ws-search input{flex:1;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;padding:9px 0;color:#0D2840;outline:none}
+  .ws-search input::placeholder{color:#8FAEC4}
+  .ws-chips{display:flex;flex-wrap:wrap;gap:4px}
+  .wfc{padding:4px 10px;border-radius:100px;border:1.5px solid #C8DFEF;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:600;color:#5B7A96;cursor:pointer;transition:.2s}
+  .wfc:hover{border-color:#42AEDE;color:#42AEDE}
+  .wfc.on{border-color:#1A4F8A;background:#1A4F8A;color:#fff}
+  .ws-select{width:100%;padding:8px 10px;border:1.5px solid #C8DFEF;border-radius:7px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;color:#0D2840;background:#F4F8FB;outline:none;cursor:pointer}
+  .ws-select:focus{border-color:#42AEDE}
+  .ws-date{width:100%;padding:8px 10px;border:1.5px solid #C8DFEF;border-radius:7px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;color:#0D2840;background:#F4F8FB;outline:none}
+  .ws-date:focus{border-color:#42AEDE}
+  .ws-count{font-size:12px;color:#5B7A96;font-weight:600;margin-top:auto;padding-top:10px;border-top:1px solid #C8DFEF}
+  /* Web Main */
+  #wm{
+    grid-area:wm;
     overflow-y:auto;
-    padding:24px;
+    padding:20px 24px 40px;
   }
-  .web-main-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
-  .web-main-title{font-family:var(--fd);font-size:24px;font-weight:700;color:var(--text)}
-  .web-main-sub{font-size:13px;color:var(--muted);margin-top:3px}
-  .pkg-count-badge{background:var(--sky-pale);border:1px solid rgba(66,174,222,.25);border-radius:100px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--navy)}
-
-  /* Package grid — 2 or 3 cols on desktop */
-  .web-pkg-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-    gap:16px;
-  }
-
-  /* Package card — horizontal on wide */
-  .wpcard{
-    background:var(--white);border-radius:var(--r);border:1px solid var(--border);
-    box-shadow:var(--sh);overflow:hidden;transition:.2s;
-    display:flex;flex-direction:column;
-  }
-  .wpcard:hover{transform:translateY(-3px);box-shadow:var(--sh-lg)}
-  .wpcard-img{position:relative;height:160px;overflow:hidden;flex-shrink:0}
+  .wm-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+  .wm-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#0D2840}
+  .wm-sub{font-size:12px;color:#5B7A96;margin-top:3px}
+  .wm-badge{background:#EBF7FD;border:1px solid rgba(66,174,222,.25);border-radius:100px;padding:5px 14px;font-size:12px;font-weight:600;color:#1A4F8A}
+  /* Package Grid */
+  .w-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+  /* Package Card */
+  .wpcard{background:#fff;border-radius:14px;border:1px solid #C8DFEF;box-shadow:0 2px 10px rgba(26,79,138,.09);overflow:hidden;display:flex;flex-direction:column;transition:.2s;cursor:default}
+  .wpcard:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(26,79,138,.16)}
+  .wpcard-img{position:relative;height:165px;overflow:hidden;flex-shrink:0}
   .wpcard-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
   .wpcard:hover .wpcard-img img{transform:scale(1.04)}
   .wpcard-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:40px}
-  .wpcard-badge{position:absolute;top:8px;left:8px;background:rgba(26,79,138,.85);backdrop-filter:blur(8px);border-radius:5px;padding:2px 8px;font-size:9px;font-weight:700;color:#fff;text-transform:uppercase}
-  .wpcard-score{position:absolute;top:8px;right:8px;background:rgba(66,174,222,.9);backdrop-filter:blur(8px);border-radius:5px;padding:2px 8px;font-size:9px;font-weight:700;color:#fff}
-  .wpcard-body{padding:14px 16px;flex:1;display:flex;flex-direction:column}
-  .wpcard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
-  .wpcard-dest{font-family:var(--fd);font-size:17px;font-weight:700;color:var(--text)}
-  .wpcard-tipo{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
-  .wpcard-price{text-align:right;flex-shrink:0}
-  .wpcard-pv{font-size:16px;font-weight:800;color:var(--navy)}
-  .wpcard-pp{font-size:10px;color:var(--muted)}
-  .wpcard-hotel{font-size:12px;color:var(--muted);margin-bottom:8px}
-  .wpcard-chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px}
-  .wpcard-chip{padding:3px 8px;border-radius:5px;background:var(--sky-pale);font-size:11px;color:var(--navy);font-weight:500}
-  .wpcard-voo{font-size:11px;color:var(--muted);margin-bottom:3px}
-  .wpcard-btn{margin-top:auto;width:100%;padding:11px;border-radius:8px;border:none;background:linear-gradient(135deg,var(--navy),var(--sky-dk));color:#fff;font-family:var(--f);font-size:13px;font-weight:700;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px}
-  .wpcard-btn:hover{opacity:.9}
-
-  /* Match panel — sidebar-style on desktop */
-  .web-matches-panel{
-    background:var(--white);border-radius:var(--r);border:1px solid var(--border);
-    padding:16px;margin-bottom:20px;box-shadow:var(--sh);
-  }
-  .web-matches-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:6px}
-  .match-dot{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--sky);color:#fff;font-size:9px;font-weight:800}
-  .web-match-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-
-  /* No results */
-  .no-res{text-align:center;padding:60px 20px;color:var(--muted);grid-column:1/-1}
-  .no-res-ic{font-size:48px;margin-bottom:12px}
-  .no-res-title{font-size:16px;font-weight:600;color:var(--text);margin-bottom:6px}
+  .wpcard-badge{position:absolute;top:8px;left:8px;background:rgba(26,79,138,.85);backdrop-filter:blur(8px);border-radius:5px;padding:2px 8px;font-size:9px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.04em}
+  .wpcard-body{padding:14px;flex:1;display:flex;flex-direction:column;gap:4px}
+  .wpcard-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .wpcard-dest{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#0D2840}
+  .wpcard-tipo{font-size:10px;color:#5B7A96;text-transform:uppercase;letter-spacing:.06em}
+  .wpcard-pv{font-size:16px;font-weight:800;color:#1A4F8A;text-align:right}
+  .wpcard-pp{font-size:10px;color:#5B7A96;text-align:right}
+  .wpcard-hotel{font-size:12px;color:#5B7A96}
+  .wpcard-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+  .wpcard-chip{padding:3px 8px;border-radius:5px;background:#EBF7FD;font-size:11px;color:#1A4F8A;font-weight:500}
+  .wpcard-voo{font-size:11px;color:#5B7A96}
+  .wpcard-btn{margin-top:auto;padding-top:10px;width:100%;padding:10px;border-radius:8px;border:none;background:linear-gradient(135deg,#1A4F8A,#2A9ECE);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+  .wpcard-btn:hover{opacity:.88}
+  .w-no-res{grid-column:1/-1;text-align:center;padding:60px 20px;color:#5B7A96}
+  /* Loading skeleton */
+  .w-skel{background:#fff;border-radius:14px;height:320px;border:1px solid #C8DFEF;animation:wskel 1.4s ease infinite}
+  @keyframes wskel{0%,100%{opacity:1}50%{opacity:.45}}
 }
-
-/* ── LARGE DESKTOP ── */
 @media(min-width:1200px){
-  .web-shell{grid-template-columns:300px 1fr}
-  .web-pkg-grid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+  #ws{width:280px}
+  .w-grid{grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
 }
+
 </style>
 </head>
 <body>
 
-<!-- ═══ MOBILE SHELL (phone view) ═══ -->
-<div class="mobile-shell">
-  <div style="background:var(--navy);padding:20px;text-align:center;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
-    <div style="font-size:28px;font-weight:800;color:#fff">A <em style="font-family:Playfair Display,serif;font-style:italic;color:#7DCFF0">Viagem</em> te <em style="font-family:Playfair Display,serif;font-style:italic;color:#7DCFF0">Encontra</em></div>
-    <div style="font-size:13px;color:rgba(255,255,255,.5)">Use em tela maior para ver o layout web completo</div>
-    <div style="background:rgba(255,255,255,.08);border-radius:12px;padding:16px;font-size:12px;color:rgba(255,255,255,.5);line-height:1.7;max-width:300px">
-      Em mobile, o app usa o layout de phone otimizado para toque.<br>
-      Este protótipo demonstra o layout para <strong style="color:var(--sky-lt)">tablets e desktops (≥768px)</strong>.
-    </div>
-  </div>
-</div>
+<!-- ═══════════════════════════════════════
+     WEB LAYOUT — visible only on ≥768px
+     Hidden on mobile via CSS
+═══════════════════════════════════════════ -->
+<div id="web-layout">
 
-<!-- ═══ WEB SHELL (desktop/tablet) ═══ -->
-<div class="web-shell">
-
-  <!-- HEADER -->
-  <header class="web-header">
-    <div class="web-logo">
-      <span class="web-logo-text">A <em>Viagem</em> te <em>Encontra</em></span>
+  <!-- Header -->
+  <header id="wh">
+    <div class="wh-logo">A <em>Viagem</em> te <em>Encontra</em></div>
+    <div class="wh-stats">
+      <div><div class="wh-stat-n" id="w-stat-total">—</div><div class="wh-stat-l">Pacotes</div></div>
+      <div><div class="wh-stat-n" id="w-stat-dests">—</div><div class="wh-stat-l">Destinos</div></div>
+      <div><div class="wh-stat-n">100%</div><div class="wh-stat-l">Personalizado</div></div>
     </div>
-    <div class="web-header-stats">
-      <div class="web-stat"><div class="web-stat-n">960</div><div class="web-stat-l">Pacotes</div></div>
-      <div class="web-stat"><div class="web-stat-n">45</div><div class="web-stat-l">Destinos</div></div>
-      <div class="web-stat"><div class="web-stat-n">100%</div><div class="web-stat-l">Personalizado</div></div>
-    </div>
-    <div class="web-header-btns">
-      <button class="hbtn hbtn-outline" onclick="showSection('quiz')">🎯 Fazer quiz</button>
-      <button class="hbtn hbtn-sky" onclick="showSection('explore')">🔍 Ver pacotes</button>
+    <div class="wh-btns">
+      <button type="button" class="wh-btn wh-btn-ghost" onclick="goSwipe()">🎯 Fazer quiz</button>
+      <button type="button" class="wh-btn wh-btn-sky" onclick="W_render()">🔍 Ver pacotes</button>
     </div>
   </header>
 
-  <!-- SIDEBAR -->
-  <aside class="web-sidebar" id="sidebar">
-    <div class="sidebar-section">Buscar</div>
-    <div class="search-box">
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#8FAEC4" stroke-width="1.6"><circle cx="7" cy="7" r="4"/><path d="M10.5 10.5L14 14" stroke-linecap="round"/></svg>
-      <input type="text" placeholder="Destino ou hotel…" oninput="webFilterPkgs()">
+  <!-- Sidebar -->
+  <aside id="ws">
+    <div class="ws-sec">Buscar</div>
+    <div class="ws-search">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#8FAEC4" stroke-width="1.8"><circle cx="7" cy="7" r="4"/><path d="M10.5 10.5L14 14" stroke-linecap="round"/></svg>
+      <input type="text" id="w-search" placeholder="Destino ou hotel…" oninput="W_render()">
     </div>
 
-    <div class="sidebar-section">Tipo</div>
-    <div class="filter-chips" id="tipo-chips">
-      <button class="fc on" data-t="all" onclick="setFilter('tipo','all',this)">Todos</button>
-      <button class="fc" data-t="praia" onclick="setFilter('tipo','praia',this)">🏖 Praia</button>
-      <button class="fc" data-t="montanha" onclick="setFilter('tipo','montanha',this)">🏔 Serra</button>
-      <button class="fc" data-t="natureza" onclick="setFilter('tipo','natureza',this)">🌿 Natureza</button>
-      <button class="fc" data-t="cidade" onclick="setFilter('tipo','cidade',this)">🌆 Cidade</button>
+    <div class="ws-sec">Tipo</div>
+    <div class="ws-chips" id="w-tipo-chips">
+      <button type="button" class="wfc on" data-v="all" onclick="W_setFilter('tipo',this)">Todos</button>
+      <button type="button" class="wfc" data-v="praia" onclick="W_setFilter('tipo',this)">🏖 Praia</button>
+      <button type="button" class="wfc" data-v="montanha" onclick="W_setFilter('tipo',this)">🏔 Serra</button>
+      <button type="button" class="wfc" data-v="natureza" onclick="W_setFilter('tipo',this)">🌿 Natureza</button>
+      <button type="button" class="wfc" data-v="cidade" onclick="W_setFilter('tipo',this)">🌆 Cidade</button>
     </div>
 
-    <div class="sidebar-section">Região</div>
-    <div class="filter-chips" id="reg-chips">
-      <button class="fc on" data-r="all" onclick="setFilter('reg','all',this)">Todas</button>
-      <button class="fc" data-r="Internacional" onclick="setFilter('reg','Internacional',this)">🌍 Internacional</button>
-      <button class="fc" data-r="Nordeste" onclick="setFilter('reg','Nordeste',this)">🌊 Nordeste</button>
-      <button class="fc" data-r="Norte" onclick="setFilter('reg','Norte',this)">🌿 Norte</button>
-      <button class="fc" data-r="Sul" onclick="setFilter('reg','Sul',this)">🏔 Sul</button>
-      <button class="fc" data-r="Sudeste" onclick="setFilter('reg','Sudeste',this)">🏙 Sudeste</button>
-      <button class="fc" data-r="Centro-Oeste" onclick="setFilter('reg','Centro-Oeste',this)">🦜 Centro-Oeste</button>
-      <button class="fc" data-r="Bahia" onclick="setFilter('reg','Bahia',this)">🌴 Bahia</button>
+    <div class="ws-sec">Região</div>
+    <div class="ws-chips" id="w-reg-chips">
+      <button type="button" class="wfc on" data-v="all" onclick="W_setFilter('reg',this)">Todas</button>
+      <button type="button" class="wfc" data-v="Internacional" onclick="W_setFilter('reg',this)">🌍 Internacional</button>
+      <button type="button" class="wfc" data-v="Nordeste" onclick="W_setFilter('reg',this)">🌊 Nordeste</button>
+      <button type="button" class="wfc" data-v="Norte" onclick="W_setFilter('reg',this)">🌿 Norte</button>
+      <button type="button" class="wfc" data-v="Sul" onclick="W_setFilter('reg',this)">🏔 Sul</button>
+      <button type="button" class="wfc" data-v="Sudeste" onclick="W_setFilter('reg',this)">🏙 Sudeste</button>
+      <button type="button" class="wfc" data-v="Centro-Oeste" onclick="W_setFilter('reg',this)">🦜 Centro-Oeste</button>
+      <button type="button" class="wfc" data-v="Bahia" onclick="W_setFilter('reg',this)">🌴 Bahia</button>
     </div>
 
-    <div class="sidebar-section">Ordenar</div>
-    <select class="sort-select" onchange="setSort(this.value)">
+    <div class="ws-sec">Ordenar</div>
+    <select class="ws-select" id="w-sort" onchange="W_render()">
       <option value="preco_asc">💰 Menor preço</option>
       <option value="preco_desc">💰 Maior preço</option>
       <option value="data">📅 Data de saída</option>
-      <option value="destino">🗺️ Destino (A-Z)</option>
-      <option value="score">⭐ Match</option>
+      <option value="destino">🗺️ Destino A-Z</option>
     </select>
 
-    <div class="sidebar-section">Filtrar por data</div>
-    <label class="fi-label">Data de saída a partir de:</label>
-    <input class="fi-inp" type="date" id="fi-date" onchange="filterPkgs()">
+    <div class="ws-sec">Data de saída</div>
+    <input type="date" class="ws-date" id="w-date" onchange="W_render()">
 
-    <div class="sidebar-section">Aeroporto de origem</div>
-    <div class="filter-chips" id="ap-chips">
-      <button class="fc on" data-ap="all" onclick="setFilter('ap','all',this)">Todos</button>
-      <button class="fc" data-ap="Congonhas" onclick="setFilter('ap','Congonhas',this)">CGH</button>
-      <button class="fc" data-ap="Guarulhos" onclick="setFilter('ap','Guarulhos',this)">GRU</button>
-      <button class="fc" data-ap="Viracopos" onclick="setFilter('ap','Viracopos',this)">VCP</button>
+    <div class="ws-sec">Aeroporto</div>
+    <div class="ws-chips" id="w-ap-chips">
+      <button type="button" class="wfc on" data-v="all" onclick="W_setFilter('ap',this)">Todos</button>
+      <button type="button" class="wfc" data-v="Congonhas" onclick="W_setFilter('ap',this)">CGH — Congonhas</button>
+      <button type="button" class="wfc" data-v="Guarulhos" onclick="W_setFilter('ap',this)">GRU — Guarulhos</button>
+      <button type="button" class="wfc" data-v="Viracopos" onclick="W_setFilter('ap',this)">VCP — Viracopos</button>
     </div>
 
-    <div style="margin-top:auto;padding-top:16px;border-top:1px solid var(--border)">
-      <span id="pkg-count" style="font-size:12px;color:var(--muted);font-weight:600">— pacotes</span>
-    </div>
+    <div class="ws-count" id="w-count">— pacotes</div>
   </aside>
 
-  <!-- MAIN -->
-  <main class="web-main" id="web-main">
-    <div class="web-main-header">
+  <!-- Main -->
+  <main id="wm">
+    <div class="wm-header">
       <div>
-        <div class="web-main-title">Pacotes disponíveis</div>
-        <div class="web-main-sub">Carregando ofertas do banco de dados…</div>
+        <div class="wm-title">Pacotes disponíveis</div>
+        <div class="wm-sub" id="w-sub">Carregando…</div>
       </div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <span class="pkg-count-badge" id="pkg-count-badge">— pacotes</span>
-      </div>
+      <div class="wm-badge" id="w-badge">—</div>
     </div>
-
-    <div class="web-pkg-grid" id="pkg-grid">
-      <!-- loading skeletons -->
-      <div style="background:var(--white);border-radius:var(--r);height:320px;border:1px solid var(--border);animation:pulse 1.5s ease infinite" id="skel1"></div>
-      <div style="background:var(--white);border-radius:var(--r);height:320px;border:1px solid var(--border);animation:pulse 1.5s ease infinite;animation-delay:.2s"></div>
-      <div style="background:var(--white);border-radius:var(--r);height:320px;border:1px solid var(--border);animation:pulse 1.5s ease infinite;animation-delay:.4s"></div>
+    <div class="w-grid" id="w-grid">
+      <div class="w-skel"></div>
+      <div class="w-skel" style="animation-delay:.15s"></div>
+      <div class="w-skel" style="animation-delay:.3s"></div>
+      <div class="w-skel" style="animation-delay:.45s"></div>
+      <div class="w-skel" style="animation-delay:.6s"></div>
+      <div class="w-skel" style="animation-delay:.75s"></div>
     </div>
   </main>
 
 </div>
+<!-- /web-layout -->
 
-<style>
-
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-</style>
-</head>
-<body>
-<!-- ═══ WEB SHELL (desktop/tablet) ═══ -->
-<div class="web-shell">
-
-  <!-- HEADER -->
-  <header class="web-header">
-    <div class="web-logo">
-      <span class="web-logo-text">A <em>Viagem</em> te <em>Encontra</em></span>
-    </div>
-    <div class="web-header-stats">
-      <div class="web-stat"><div class="web-stat-n">960</div><div class="web-stat-l">Pacotes</div></div>
-      <div class="web-stat"><div class="web-stat-n">45</div><div class="web-stat-l">Destinos</div></div>
-      <div class="web-stat"><div class="web-stat-n">100%</div><div class="web-stat-l">Personalizado</div></div>
-    </div>
-    <div class="web-header-btns">
-      <button class="hbtn hbtn-outline" onclick="showSection('quiz')">🎯 Fazer quiz</button>
-      <button class="hbtn hbtn-sky" onclick="showSection('explore')">🔍 Ver pacotes</button>
-    </div>
-  </header>
-
-  <!-- SIDEBAR -->
-  <aside class="web-sidebar" id="sidebar">
-    <div class="sidebar-section">Buscar</div>
-    <div class="search-box">
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#8FAEC4" stroke-width="1.6"><circle cx="7" cy="7" r="4"/><path d="M10.5 10.5L14 14" stroke-linecap="round"/></svg>
-      <input type="text" placeholder="Destino ou hotel…" oninput="webFilterPkgs()">
-    </div>
-
-    <div class="sidebar-section">Tipo</div>
-    <div class="filter-chips" id="tipo-chips">
-      <button class="fc on" data-t="all" onclick="setFilter('tipo','all',this)">Todos</button>
-      <button class="fc" data-t="praia" onclick="setFilter('tipo','praia',this)">🏖 Praia</button>
-      <button class="fc" data-t="montanha" onclick="setFilter('tipo','montanha',this)">🏔 Serra</button>
-      <button class="fc" data-t="natureza" onclick="setFilter('tipo','natureza',this)">🌿 Natureza</button>
-      <button class="fc" data-t="cidade" onclick="setFilter('tipo','cidade',this)">🌆 Cidade</button>
-    </div>
-
-    <div class="sidebar-section">Região</div>
-    <div class="filter-chips" id="reg-chips">
-      <button class="fc on" data-r="all" onclick="setFilter('reg','all',this)">Todas</button>
-      <button class="fc" data-r="Internacional" onclick="setFilter('reg','Internacional',this)">🌍 Internacional</button>
-      <button class="fc" data-r="Nordeste" onclick="setFilter('reg','Nordeste',this)">🌊 Nordeste</button>
-      <button class="fc" data-r="Norte" onclick="setFilter('reg','Norte',this)">🌿 Norte</button>
-      <button class="fc" data-r="Sul" onclick="setFilter('reg','Sul',this)">🏔 Sul</button>
-      <button class="fc" data-r="Sudeste" onclick="setFilter('reg','Sudeste',this)">🏙 Sudeste</button>
-      <button class="fc" data-r="Centro-Oeste" onclick="setFilter('reg','Centro-Oeste',this)">🦜 Centro-Oeste</button>
-      <button class="fc" data-r="Bahia" onclick="setFilter('reg','Bahia',this)">🌴 Bahia</button>
-    </div>
-
-    <div class="sidebar-section">Ordenar</div>
-    <select class="sort-select" onchange="setSort(this.value)">
-      <option value="preco_asc">💰 Menor preço</option>
-      <option value="preco_desc">💰 Maior preço</option>
-      <option value="data">📅 Data de saída</option>
-      <option value="destino">🗺️ Destino (A-Z)</option>
-      <option value="score">⭐ Match</option>
-    </select>
-
-    <div class="sidebar-section">Filtrar por data</div>
-    <label class="fi-label">Data de saída a partir de:</label>
-    <input class="fi-inp" type="date" id="fi-date" onchange="filterPkgs()">
-
-    <div class="sidebar-section">Aeroporto de origem</div>
-    <div class="filter-chips" id="ap-chips">
-      <button class="fc on" data-ap="all" onclick="setFilter('ap','all',this)">Todos</button>
-      <button class="fc" data-ap="Congonhas" onclick="setFilter('ap','Congonhas',this)">CGH</button>
-      <button class="fc" data-ap="Guarulhos" onclick="setFilter('ap','Guarulhos',this)">GRU</button>
-      <button class="fc" data-ap="Viracopos" onclick="setFilter('ap','Viracopos',this)">VCP</button>
-    </div>
-
-    <div style="margin-top:auto;padding-top:16px;border-top:1px solid var(--border)">
-      <span id="pkg-count" style="font-size:12px;color:var(--muted);font-weight:600">— pacotes</span>
-    </div>
-  </aside>
-
-  <!-- MAIN -->
-  <main class="web-main" id="web-main">
-    <div class="web-main-header">
-      <div>
-        <div class="web-main-title">Pacotes disponíveis</div>
-        <div class="web-main-sub">Carregando ofertas do banco de dados…</div>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <span class="pkg-count-badge" id="pkg-count-badge">— pacotes</span>
-      </div>
-    </div>
-
-    <div class="web-pkg-grid" id="pkg-grid">
-      <!-- loading skeletons -->
-      <div style="background:var(--white);border-radius:var(--r);height:320px;border:1px solid var(--border);animation:pulse 1.5s ease infinite" id="skel1"></div>
-      <div style="background:var(--white);border-radius:var(--r);height:320px;border:1px solid var(--border);animation:pulse 1.5s ease infinite;animation-delay:.2s"></div>
-      <div style="background:var(--white);border-radius:var(--r);height:320px;border:1px solid var(--border);animation:pulse 1.5s ease infinite;animation-delay:.4s"></div>
-    </div>
-  </main>
-
-</div>
 
 <div class="phone">
 
@@ -1143,6 +1002,7 @@ async function loadPkgs(){
     document.getElementById('az-total-ct').textContent=PKGS.length;
     document.getElementById('rt-explore').textContent=`🔍 Explorar todos (${PKGS.length})`;
     buildQueue();goScreen('s-land');
+    if(typeof W_init==='function') W_init();
   }catch(err){
     document.getElementById('load-err').style.display='block';
     document.getElementById('load-err-msg').textContent=err.message;
@@ -1666,102 +1526,99 @@ showResults = function(){
 
 loadPkgs();
 
-// ════════════════════════════
-// WEB LAYOUT JS
-// ════════════════════════════
-// ── Web layout uses same SB_URL, SB_KEY, PKGS from mobile ──
-// BG, E, FB_IMG defined in mobile section above
+// ════════════════════════════════════════════════════
+// WEB LAYOUT JS — all functions prefixed W_
+// Uses PKGS from mobile loadPkgs(), called after load
+// ════════════════════════════════════════════════════
+const W_F = { tipo:'all', reg:'all', ap:'all', sort:'preco_asc' };
 
-// ── State ────────────────────────────
-// PKGS shared with mobile
-const WF = { tipo:'all', reg:'all', ap:'all', search:'', sort:'preco_asc' };
-
-// ── Web uses normalize/parseTipo/parseReg/parsePrice/getImg from mobile ──
-
-// ── Web render — called after mobile loadPkgs() ──
-function showSection(s){
-  if(s==='quiz'){ goSwipe(); }
-  else { webLoad(); }
-}
-
-function webLoad(){
-  // PKGS already loaded by mobile loadPkgs()
-  const sub = document.querySelector('.web-main-sub');
-  if(sub) sub.textContent=PKGS.length+' pacotes carregados de '+new Set(PKGS.map(p=>p.d)).size+' destinos';
-  const rt = document.getElementById('rt-explore');
-  if(rt) rt.textContent='🔍 Explorar todos ('+PKGS.length+')';
-  webRender();
-}
-
-// ── Filter & Render ──────────────────
-function webFilterPkgs(){ const si=document.querySelector('.search-box input'); WF.search=si?si.value.toLowerCase():''; webRender(); }
-function setFilter(type,val,btn){
-  const group={'tipo':'tipo-chips','reg':'reg-chips','ap':'ap-chips'}[type];
-  document.querySelectorAll(`#${group} .fc`).forEach(b=>b.classList.remove('on'));
+function W_setFilter(type, btn){
+  const groupId = {'tipo':'w-tipo-chips','reg':'w-reg-chips','ap':'w-ap-chips'}[type];
+  document.querySelectorAll('#'+groupId+' .wfc').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
-  WF[type]=val; webRender();
+  W_F[type] = btn.dataset.v;
+  W_render();
 }
-function setSort(val){ WF.sort=val; webRender(); }
 
-function webRender(){
-  let list=PKGS.filter(p=>{
-    if(WF.tipo!=='all'&&p.t!==F.tipo) return false;
-    if(WF.reg!=='all'&&p.r!==F.reg) return false;
-    if(WF.ap!=='all'&&p.o!==F.ap) return false;
-    const fd=document.getElementById('fi-date-web')?.value;
-    if(fd&&p.i){ const pd=new Date(p.i.split('/').reverse().join('-')); if(pd<new Date(fd)) return false; }
-    if(WF.search&&!p.d.toLowerCase().includes(WF.search)&&!p.h.toLowerCase().includes(WF.search)) return false;
+function W_render(){
+  if(!window.PKGS || !PKGS.length) return;
+  const q = (document.getElementById('w-search')?.value||'').toLowerCase();
+  const fd = document.getElementById('w-date')?.value||'';
+  let list = PKGS.filter(p=>{
+    if(W_F.tipo!=='all' && p.t!==W_F.tipo) return false;
+    if(W_F.reg!=='all' && p.r!==W_F.reg) return false;
+    if(W_F.ap!=='all' && p.o!==W_F.ap) return false;
+    if(q && !p.d.toLowerCase().includes(q) && !p.h.toLowerCase().includes(q)) return false;
+    if(fd && p.i){
+      const pDt = new Date(p.i.split('/').reverse().join('-'));
+      if(pDt < new Date(fd)) return false;
+    }
     return true;
   });
-  list=[...list].sort((a,b)=>{
-    if(WF.sort==='preco_asc') return a.p-b.p;
-    if(WF.sort==='preco_desc') return b.p-a.p;
-    if(WF.sort==='data'){ const pa=a.i.split('/').reverse().join(''),pb=b.i.split('/').reverse().join(''); return pa<pb?-1:1; }
-    if(WF.sort==='destino') return a.d.localeCompare(b.d,'pt-BR');
+  const s = document.getElementById('w-sort')?.value || 'preco_asc';
+  list = [...list].sort((a,b)=>{
+    if(s==='preco_asc')  return a.p - b.p;
+    if(s==='preco_desc') return b.p - a.p;
+    if(s==='data'){ const pa=a.i.split('/').reverse().join(''), pb=b.i.split('/').reverse().join(''); return pa<pb?-1:1; }
+    if(s==='destino') return a.d.localeCompare(b.d,'pt-BR');
     return 0;
   });
-  const count=list.length;
-  document.getElementById('pkg-count').textContent=`${count} pacotes`;
-  document.getElementById('pkg-count-badge').textContent=`${count} pacotes`;
-  const grid=document.getElementById('pkg-grid');
-  if(!list.length){ grid.innerHTML=`<div class="no-res"><div class="no-res-ic">🔍</div><div class="no-res-title">Nenhum pacote encontrado</div><div>Tente ajustar os filtros</div></div>`; return; }
-  grid.innerHTML=list.map(p=>{
-    const img=getImg(p); const bg=BG[p.t]||'#1A4F8A'; const em=E[p.t]||'✈️';
-    const wamsg=encodeURIComponent(`Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i}→${p.v}) por R$${p.p.toLocaleString('pt-BR')} para 2 pessoas. Pode me enviar mais informações?`);
-    return `<div class="wpcard">
-      <div class="wpcard-img">
-        ${img?`<img src="${img}" alt="${p.d}" loading="lazy" onerror="this.parentNode.style.background='${bg}';this.remove()">`:`<div class="wpcard-ph" style="background:${bg}">${em}</div>`}
-        <div class="wpcard-badge">${p.t} · ${p.r}</div>
-      </div>
-      <div class="wpcard-body">
-        <div class="wpcard-top">
-          <div><div class="wpcard-dest">${p.d}</div><div class="wpcard-tipo">${p.t} · ${p.r}</div></div>
-          <div class="wpcard-price"><div class="wpcard-pv">R$${p.p.toLocaleString('pt-BR')}</div><div class="wpcard-pp">para 2 pessoas</div></div>
-        </div>
-        <div class="wpcard-hotel">🏨 ${p.h}</div>
-        <div class="wpcard-chips">
-          <span class="wpcard-chip">✈️ ${p.o}</span>
-          <span class="wpcard-chip">📅 ${p.i} → ${p.v}</span>
-          ${p.cm?'<span class="wpcard-chip">☕ Café</span>':''}
-          ${p.ai?'<span class="wpcard-chip">🍹 All Inc.</span>':''}
-        </div>
-        ${p.voo_ida?`<div class="wpcard-voo">🛫 ${p.voo_ida}</div>`:''}
-        ${p.voo_volta?`<div class="wpcard-voo">🛬 ${p.voo_volta}</div>`:''}
-        <button class="wpcard-btn" onclick="window.open('https://api.whatsapp.com/send?phone=5511953967095&text=${wamsg}','_blank')">💬 Quero este pacote</button>
-      </div>
-    </div>`;
+  const grid = document.getElementById('w-grid');
+  const count = document.getElementById('w-count');
+  const badge = document.getElementById('w-badge');
+  if(count) count.textContent = list.length + ' pacotes';
+  if(badge) badge.textContent = list.length + ' pacotes';
+  if(!list.length){
+    grid.innerHTML = '<div class="w-no-res">🔍 Nenhum pacote encontrado. Tente ajustar os filtros.</div>';
+    return;
+  }
+  const BG_W  = {praia:'#0077B6',montanha:'#2D6A4F',natureza:'#386641',cidade:'#1A4F8A'};
+  const EM_W  = {praia:'🏖️',montanha:'🏔️',natureza:'🌿',cidade:'🌆'};
+  grid.innerHTML = list.map(p=>{
+    const img = getImg(p);
+    const bg  = BG_W[p.t]||'#1A4F8A';
+    const em  = EM_W[p.t]||'✈️';
+    const msg = 'Olá! Tenho interesse no pacote '+p.d+' – '+p.h+' ('+p.i+'→'+p.v+') por R$'+p.p.toLocaleString('pt-BR')+' para 2 pessoas. Pode me enviar mais informações?';
+    const waUrl = 'https://api.whatsapp.com/send?phone=5511953967095&text='+encodeURIComponent(msg);
+    return '<div class="wpcard">'
+      +'<div class="wpcard-img">'
+        +(img ? '<img src="'+img+'" alt="'+p.d+'" loading="lazy" onerror="this.parentNode.style.background=''+bg+'';this.remove()">' : '<div class="wpcard-ph" style="background:'+bg+'">'+em+'</div>')
+        +'<div class="wpcard-badge">'+p.t+' · '+p.r+'</div>'
+      +'</div>'
+      +'<div class="wpcard-body">'
+        +'<div class="wpcard-row">'
+          +'<div><div class="wpcard-dest">'+p.d+'</div><div class="wpcard-tipo">'+p.t+' · '+p.r+'</div></div>'
+          +'<div><div class="wpcard-pv">R$'+p.p.toLocaleString('pt-BR')+'</div><div class="wpcard-pp">para 2 pessoas</div></div>'
+        +'</div>'
+        +'<div class="wpcard-hotel">🏨 '+p.h+'</div>'
+        +'<div class="wpcard-chips">'
+          +'<span class="wpcard-chip">✈️ '+p.o+'</span>'
+          +'<span class="wpcard-chip">📅 '+p.i+' → '+p.v+'</span>'
+          +(p.cm?'<span class="wpcard-chip">☕ Café</span>':'')
+          +(p.ai?'<span class="wpcard-chip">🍹 All Inc.</span>':'')
+          +(p.lx?'<span class="wpcard-chip">⭐ Luxo</span>':'')
+        +'</div>'
+        +(p.voo_ida?'<div class="wpcard-voo">🛫 '+p.voo_ida+'</div>':'')
+        +(p.voo_volta?'<div class="wpcard-voo">🛬 '+p.voo_volta+'</div>':'')
+        +'<button type="button" class="wpcard-btn" onclick="window.open(''+waUrl+'','_blank')">💬 Quero este pacote</button>'
+      +'</div>'
+    +'</div>';
   }).join('');
 }
 
-load();
+// Called after mobile loadPkgs() finishes
+function W_init(){
+  const total = PKGS.length;
+  const dests = new Set(PKGS.map(p=>p.d)).size;
+  const sub = document.getElementById('w-sub');
+  const st  = document.getElementById('w-stat-total');
+  const sd  = document.getElementById('w-stat-dests');
+  if(sub) sub.textContent = total+' pacotes · '+dests+' destinos';
+  if(st)  st.textContent  = total;
+  if(sd)  sd.textContent  = dests;
+  W_render();
+}
 
-// Hook web render into mobile loadPkgs
-const _origLoadPkgs = loadPkgs;
-loadPkgs = async function(){
-  await _origLoadPkgs();
-  // After mobile loads, also render web layout
-  if(typeof webLoad==='function') webLoad();
-};
 </script>
 </body>
 </html>
