@@ -78,6 +78,8 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .btn-land{display:inline-flex;align-items:center;gap:9px;background:var(--sky);color:#fff;border:none;border-radius:100px;padding:13px 30px;font-family:var(--f);font-size:14px;font-weight:700;cursor:pointer;transition:var(--tr);box-shadow:0 5px 22px rgba(66,174,222,.4)}
 .btn-land:hover{background:var(--sky-lt);transform:translateY(-2px)}
 .btn-land:active{transform:translateY(0)}
+.btn-all-pkgs{margin-top:12px;background:transparent;border:1.5px solid rgba(255,255,255,.35);color:rgba(255,255,255,.85);border-radius:100px;padding:12px 28px;font-family:var(--f);font-size:13px;font-weight:600;cursor:pointer;transition:var(--tr);letter-spacing:.01em;display:block}
+.btn-all-pkgs:hover,.btn-all-pkgs:active{background:rgba(255,255,255,.12)}
 .btn-arr{font-size:16px;transition:transform var(--tr)}
 .btn-land:hover .btn-arr{transform:translateX(4px)}
 .land-stats{display:flex;justify-content:center;gap:26px;margin-top:14px}
@@ -401,7 +403,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
     font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;color:#0D2840;background:#F4F8FB;outline:none}
   .ws-date:focus{border-color:#42AEDE}
   .ws-count{font-size:12px;color:#5B7A96;font-weight:600;margin-top:auto;padding-top:10px;border-top:1px solid #EBF7FD}
-  #wm{grid-area:wm;overflow-y:auto;padding:24px 28px 48px;background:#F4F8FB}
+  #wm{grid-area:wm;overflow-y:auto;overflow-x:hidden;padding:24px 28px 48px;background:#F4F8FB;height:calc(100vh - 60px)}
   .wm-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px}
   .wm-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:#0D2840}
   .wm-sub{font-size:12px;color:#5B7A96;margin-top:4px}
@@ -547,7 +549,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
     </div>
     <p class="land-tagline">Dê likes em destinos — nosso algoritmo encontra os pacotes perfeitos para o seu perfil.</p>
     <button class="btn-land" onclick="goSwipe()">Começar a explorar <span class="btn-arr">→</span></button>
-    <button onclick="goAllPkgs()" style="margin-top:12px;background:transparent;border:1.5px solid rgba(255,255,255,.35);color:rgba(255,255,255,.8);border-radius:100px;padding:11px 28px;font-family:var(--f);font-size:13px;font-weight:600;cursor:pointer;transition:var(--tr);letter-spacing:.01em" onmouseover="this.style.background='rgba(255,255,255,.1)'" onmouseout="this.style.background='transparent'">🔍 Ver todos os pacotes</button>
+    <button type="button" onclick="goAllPkgs()" class="btn-all-pkgs">🔍 Ver todos os pacotes</button>
     <div class="land-stats">
       <div><div class="ls-n" id="stat-total">—</div><div class="ls-l">Pacotes</div></div>
       <div><div class="ls-n" id="stat-dests">—</div><div class="ls-l">Destinos</div></div>
@@ -1644,29 +1646,28 @@ function W_loadMore(){
 }
 
 function W_setupScroll(){
-  // Disconnect previous observer
-  if(W_observer){ W_observer.disconnect(); W_observer = null; }
   const wm = document.getElementById('wm');
   if(!wm) return;
+  // Remove previous listener to avoid duplicates
+  if(W_observer){ wm.removeEventListener('scroll', W_observer); W_observer = null; }
 
-  W_observer = new IntersectionObserver((entries)=>{
-    if(entries[0].isIntersecting){
-      // Remove sentinel
-      const s = document.getElementById('w-sentinel');
-      if(s) s.remove();
-      // Load next batch
+  W_observer = function(){
+    // Fire when user scrolls within 400px of the bottom
+    if(wm.scrollHeight - wm.scrollTop - wm.clientHeight < 400){
       const hasMore = W_page * W_PAGE_SIZE < W_filtered.length;
       if(hasMore){
+        // Temporarily remove listener while loading to prevent double-fire
+        wm.removeEventListener('scroll', W_observer);
+        W_observer = null;
+        const s = document.getElementById('w-sentinel');
+        if(s) s.remove();
         W_loadMore();
-        // Re-observe new sentinel
-        const newS = document.getElementById('w-sentinel');
-        if(newS) W_observer.observe(newS);
+        // Re-attach after a small delay
+        requestAnimationFrame(()=>{ W_setupScroll(); });
       }
     }
-  }, { root: wm, rootMargin: '200px', threshold: 0.1 });
-
-  const sentinel = document.getElementById('w-sentinel');
-  if(sentinel) W_observer.observe(sentinel);
+  };
+  wm.addEventListener('scroll', W_observer, { passive: true });
 }
 
 // Called once after mobile loadPkgs finishes
