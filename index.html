@@ -850,27 +850,57 @@ function renderStack(){
     stack.appendChild(card);
   });
 }
-let DG={active:false,startX:0,startY:0,dx:0};
-function setupDrag(card){
-  const LS=card.querySelector('.stamp-like'),NS=card.querySelector('.stamp-nope');
-  const start=e=>{DG.active=true;DG.dx=0;const pt=e.touches?e.touches[0]:e;DG.startX=pt.clientX;DG.startY=pt.clientY;card.style.transition='none'};
-  const move=e=>{
-    if(!DG.active)return;const pt=e.touches?e.touches[0]:e;
-    DG.dx=pt.clientX-DG.startX;
-    const dy=(pt.clientY-DG.startY)*0.25;
-    card.style.transform=`translateX(${DG.dx}px) translateY(${dy}px) rotate(${DG.dx*0.07}deg)`;
-    const r=Math.min(Math.abs(DG.dx)/70,1);
-    if(DG.dx>15){LS.style.opacity=r;NS.style.opacity=0}else if(DG.dx<-15){NS.style.opacity=r;LS.style.opacity=0}else{LS.style.opacity=0;NS.style.opacity=0}
+// ── DRAG SYSTEM — AbortController ensures clean listener removal ──
+let _dragAbort = null; // tracks current drag controller
+
+function setupDrag(card) {
+  // Remove ALL previous drag listeners from document before setting up new ones
+  if (_dragAbort) { _dragAbort.abort(); }
+  _dragAbort = new AbortController();
+  const sig = _dragAbort.signal;
+
+  const LS = card.querySelector('.stamp-like');
+  const NS = card.querySelector('.stamp-nope');
+  let active = false, startX = 0, startY = 0, dx = 0;
+
+  const start = e => {
+    active = true; dx = 0;
+    const pt = e.touches ? e.touches[0] : e;
+    startX = pt.clientX; startY = pt.clientY;
+    card.style.transition = 'none';
   };
-  const end=()=>{
-    if(!DG.active)return;DG.active=false;card.style.transition='';
-    if(DG.dx>70)doSwipe('right');else if(DG.dx<-70)doSwipe('left');
-    else{card.style.transform='';LS.style.opacity=0;NS.style.opacity=0}
-    DG.dx=0;
+
+  const move = e => {
+    if (!active) return;
+    const pt = e.touches ? e.touches[0] : e;
+    dx = pt.clientX - startX;
+    const dy = (pt.clientY - startY) * 0.25;
+    card.style.transform = `translateX(${dx}px) translateY(${dy}px) rotate(${dx * 0.07}deg)`;
+    const r = Math.min(Math.abs(dx) / 70, 1);
+    if (dx > 15)       { LS.style.opacity = r; NS.style.opacity = 0; }
+    else if (dx < -15) { NS.style.opacity = r; LS.style.opacity = 0; }
+    else               { LS.style.opacity = 0; NS.style.opacity = 0; }
   };
-  card.addEventListener('mousedown',start);card.addEventListener('touchstart',start,{passive:true});
-  document.addEventListener('mousemove',move);document.addEventListener('touchmove',move,{passive:true});
-  document.addEventListener('mouseup',end);document.addEventListener('touchend',end);
+
+  const end = () => {
+    if (!active) return;
+    active = false;
+    card.style.transition = '';
+    if      (dx >  70) doSwipe('right');
+    else if (dx < -70) doSwipe('left');
+    else { card.style.transform = ''; LS.style.opacity = 0; NS.style.opacity = 0; }
+    dx = 0;
+  };
+
+  // Card-level listeners (auto-removed when card is removed from DOM)
+  card.addEventListener('mousedown',  start, { signal: sig });
+  card.addEventListener('touchstart', start, { passive: true, signal: sig });
+
+  // Document-level listeners — removed via AbortController when next card is set up
+  document.addEventListener('mousemove',  move, { signal: sig });
+  document.addEventListener('touchmove',  move, { passive: true, signal: sig });
+  document.addEventListener('mouseup',    end,  { signal: sig });
+  document.addEventListener('touchend',   end,  { signal: sig });
 }
 function doSwipe(dir){
   const stack=document.getElementById('card-stack');
