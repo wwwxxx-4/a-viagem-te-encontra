@@ -78,8 +78,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .btn-land{display:inline-flex;align-items:center;gap:9px;background:var(--sky);color:#fff;border:none;border-radius:100px;padding:13px 30px;font-family:var(--f);font-size:14px;font-weight:700;cursor:pointer;transition:var(--tr);box-shadow:0 5px 22px rgba(66,174,222,.4)}
 .btn-land:hover{background:var(--sky-lt);transform:translateY(-2px)}
 .btn-land:active{transform:translateY(0)}
-.btn-all-pkgs{margin-top:12px;background:transparent;border:1.5px solid rgba(255,255,255,.35);color:rgba(255,255,255,.85);border-radius:100px;padding:12px 28px;font-family:var(--f);font-size:13px;font-weight:600;cursor:pointer;transition:var(--tr);letter-spacing:.01em;display:block}
-.btn-all-pkgs:hover,.btn-all-pkgs:active{background:rgba(255,255,255,.12)}
 .btn-arr{font-size:16px;transition:transform var(--tr)}
 .btn-land:hover .btn-arr{transform:translateX(4px)}
 .land-stats{display:flex;justify-content:center;gap:26px;margin-top:14px}
@@ -340,211 +338,9 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 
 .toast{position:fixed;bottom:14px;left:50%;transform:translateX(-50%) translateY(12px);background:rgba(10,30,60,.92);border:1px solid rgba(66,174,222,.25);border-radius:100px;padding:7px 14px;font-size:11px;font-weight:500;color:#fff;white-space:nowrap;opacity:0;transition:all .3s ease;pointer-events:none;z-index:999;backdrop-filter:blur(12px)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* ═══════════════════════════════════════════════
-   RESPONSIVE: Desktop layout (≥768px)
-═══════════════════════════════════════════════ */
-@media(max-width:767px){
-  #web-layout{display:none!important}
-}
-@media(min-width:768px){
-  /* Hide phone shell */
-  body{background:#0F2545;align-items:flex-start}
-  .phone{display:none!important}
-  /* Show web layout */
-  #web-layout{
-    display:grid;
-    width:100%;
-    min-height:100vh;
-    grid-template-rows:60px 1fr;
-    grid-template-columns:260px 1fr;
-    grid-template-areas:"wh wh" "ws wm";
-    background:#F4F8FB;
-  }
-  /* Web Header */
-  #wh{
-    grid-area:wh;
-    background:linear-gradient(135deg,#0F3260,#1A4F8A);
-    display:flex;align-items:center;justify-content:space-between;
-    padding:0 24px;gap:16px;
-    position:sticky;top:0;z-index:200;
-    box-shadow:0 2px 12px rgba(0,0,0,.3);
-  }
-  .wh-logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:800;color:#fff;white-space:nowrap}
-  .wh-logo em{font-family:'Playfair Display',serif;font-style:italic;color:#7DCFF0;font-weight:500}
-  .wh-stats{display:flex;gap:18px;flex:1;justify-content:center}
-  .wh-stat-n{font-size:15px;font-weight:800;color:#fff;text-align:center}
-  .wh-stat-l{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:center}
-  .wh-btns{display:flex;gap:8px}
-  .wh-btn{padding:8px 16px;border-radius:100px;border:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap}
-  .wh-btn-ghost{background:transparent;border:1.5px solid rgba(255,255,255,.3);color:rgba(255,255,255,.85)}
-  .wh-btn-ghost:hover{background:rgba(255,255,255,.1)}
-  .wh-btn-sky{background:#42AEDE;color:#fff;box-shadow:0 3px 12px rgba(66,174,222,.4)}
-  .wh-btn-sky:hover{background:#7DCFF0}
-  /* Web Sidebar */
-  #ws{
-    grid-area:ws;
-    background:#fff;
-    border-right:1px solid #C8DFEF;
-    overflow-y:auto;
-    padding:16px;
-    display:flex;flex-direction:column;gap:10px;
-    position:sticky;top:60px;height:calc(100vh - 60px);
-  }
-  .ws-sec{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5B7A96;margin-top:6px;padding-top:6px;border-top:1px solid #C8DFEF}
-  .ws-sec:first-child{margin-top:0;padding-top:0;border-top:none}
-  .ws-search{display:flex;align-items:center;gap:6px;background:#F4F8FB;border:1px solid #C8DFEF;border-radius:8px;padding:0 10px}
-  .ws-search input{flex:1;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;padding:9px 0;color:#0D2840;outline:none}
-  .ws-search input::placeholder{color:#8FAEC4}
-  .ws-chips{display:flex;flex-wrap:wrap;gap:4px}
-  .wfc{padding:4px 10px;border-radius:100px;border:1.5px solid #C8DFEF;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:600;color:#5B7A96;cursor:pointer;transition:.2s}
-  .wfc:hover{border-color:#42AEDE;color:#42AEDE}
-  .wfc.on{border-color:#1A4F8A;background:#1A4F8A;color:#fff}
-  .ws-select{width:100%;padding:8px 10px;border:1.5px solid #C8DFEF;border-radius:7px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;color:#0D2840;background:#F4F8FB;outline:none;cursor:pointer}
-  .ws-select:focus{border-color:#42AEDE}
-  .ws-date{width:100%;padding:8px 10px;border:1.5px solid #C8DFEF;border-radius:7px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;color:#0D2840;background:#F4F8FB;outline:none}
-  .ws-date:focus{border-color:#42AEDE}
-  .ws-count{font-size:12px;color:#5B7A96;font-weight:600;margin-top:auto;padding-top:10px;border-top:1px solid #C8DFEF}
-  /* Web Main */
-  #wm{
-    grid-area:wm;
-    overflow-y:auto;
-    padding:20px 24px 40px;
-  }
-  .wm-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
-  .wm-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#0D2840}
-  .wm-sub{font-size:12px;color:#5B7A96;margin-top:3px}
-  .wm-badge{background:#EBF7FD;border:1px solid rgba(66,174,222,.25);border-radius:100px;padding:5px 14px;font-size:12px;font-weight:600;color:#1A4F8A}
-  /* Package Grid */
-  .w-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
-  /* Package Card */
-  .wpcard{background:#fff;border-radius:14px;border:1px solid #C8DFEF;box-shadow:0 2px 10px rgba(26,79,138,.09);overflow:hidden;display:flex;flex-direction:column;transition:.2s;cursor:default}
-  .wpcard:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(26,79,138,.16)}
-  .wpcard-img{position:relative;height:165px;overflow:hidden;flex-shrink:0}
-  .wpcard-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
-  .wpcard:hover .wpcard-img img{transform:scale(1.04)}
-  .wpcard-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:40px}
-  .wpcard-badge{position:absolute;top:8px;left:8px;background:rgba(26,79,138,.85);backdrop-filter:blur(8px);border-radius:5px;padding:2px 8px;font-size:9px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.04em}
-  .wpcard-body{padding:14px;flex:1;display:flex;flex-direction:column;gap:4px}
-  .wpcard-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-  .wpcard-dest{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#0D2840}
-  .wpcard-tipo{font-size:10px;color:#5B7A96;text-transform:uppercase;letter-spacing:.06em}
-  .wpcard-pv{font-size:16px;font-weight:800;color:#1A4F8A;text-align:right}
-  .wpcard-pp{font-size:10px;color:#5B7A96;text-align:right}
-  .wpcard-hotel{font-size:12px;color:#5B7A96}
-  .wpcard-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
-  .wpcard-chip{padding:3px 8px;border-radius:5px;background:#EBF7FD;font-size:11px;color:#1A4F8A;font-weight:500}
-  .wpcard-voo{font-size:11px;color:#5B7A96}
-  .wpcard-btn{margin-top:auto;padding-top:10px;width:100%;padding:10px;border-radius:8px;border:none;background:linear-gradient(135deg,#1A4F8A,#2A9ECE);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px}
-  .wpcard-btn:hover{opacity:.88}
-  .w-no-res{grid-column:1/-1;text-align:center;padding:60px 20px;color:#5B7A96}
-  /* Loading skeleton */
-  .w-skel{background:#fff;border-radius:14px;height:320px;border:1px solid #C8DFEF;animation:wskel 1.4s ease infinite}
-  @keyframes wskel{0%,100%{opacity:1}50%{opacity:.45}}
-}
-@media(min-width:1200px){
-  #ws{width:280px}
-  .w-grid{grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
-}
-
 </style>
 </head>
 <body>
-
-<!-- ═══════════════════════════════════════
-     WEB LAYOUT — visible only on ≥768px
-     Hidden on mobile via CSS
-═══════════════════════════════════════════ -->
-<div id="web-layout">
-
-  <!-- Header -->
-  <header id="wh">
-    <div class="wh-logo">A <em>Viagem</em> te <em>Encontra</em></div>
-    <div class="wh-stats">
-      <div><div class="wh-stat-n" id="w-stat-total">—</div><div class="wh-stat-l">Pacotes</div></div>
-      <div><div class="wh-stat-n" id="w-stat-dests">—</div><div class="wh-stat-l">Destinos</div></div>
-      <div><div class="wh-stat-n">100%</div><div class="wh-stat-l">Personalizado</div></div>
-    </div>
-    <div class="wh-btns">
-      <button type="button" class="wh-btn wh-btn-ghost" onclick="goSwipe()">🎯 Fazer quiz</button>
-      <button type="button" class="wh-btn wh-btn-sky" onclick="W_render()">🔍 Ver pacotes</button>
-    </div>
-  </header>
-
-  <!-- Sidebar -->
-  <aside id="ws">
-    <div class="ws-sec">Buscar</div>
-    <div class="ws-search">
-      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#8FAEC4" stroke-width="1.8"><circle cx="7" cy="7" r="4"/><path d="M10.5 10.5L14 14" stroke-linecap="round"/></svg>
-      <input type="text" id="w-search" placeholder="Destino ou hotel…" oninput="W_render()">
-    </div>
-
-    <div class="ws-sec">Tipo</div>
-    <div class="ws-chips" id="w-tipo-chips">
-      <button type="button" class="wfc on" data-v="all" onclick="W_setFilter('tipo',this)">Todos</button>
-      <button type="button" class="wfc" data-v="praia" onclick="W_setFilter('tipo',this)">🏖 Praia</button>
-      <button type="button" class="wfc" data-v="montanha" onclick="W_setFilter('tipo',this)">🏔 Serra</button>
-      <button type="button" class="wfc" data-v="natureza" onclick="W_setFilter('tipo',this)">🌿 Natureza</button>
-      <button type="button" class="wfc" data-v="cidade" onclick="W_setFilter('tipo',this)">🌆 Cidade</button>
-    </div>
-
-    <div class="ws-sec">Região</div>
-    <div class="ws-chips" id="w-reg-chips">
-      <button type="button" class="wfc on" data-v="all" onclick="W_setFilter('reg',this)">Todas</button>
-      <button type="button" class="wfc" data-v="Internacional" onclick="W_setFilter('reg',this)">🌍 Internacional</button>
-      <button type="button" class="wfc" data-v="Nordeste" onclick="W_setFilter('reg',this)">🌊 Nordeste</button>
-      <button type="button" class="wfc" data-v="Norte" onclick="W_setFilter('reg',this)">🌿 Norte</button>
-      <button type="button" class="wfc" data-v="Sul" onclick="W_setFilter('reg',this)">🏔 Sul</button>
-      <button type="button" class="wfc" data-v="Sudeste" onclick="W_setFilter('reg',this)">🏙 Sudeste</button>
-      <button type="button" class="wfc" data-v="Centro-Oeste" onclick="W_setFilter('reg',this)">🦜 Centro-Oeste</button>
-      <button type="button" class="wfc" data-v="Bahia" onclick="W_setFilter('reg',this)">🌴 Bahia</button>
-    </div>
-
-    <div class="ws-sec">Ordenar</div>
-    <select class="ws-select" id="w-sort" onchange="W_render()">
-      <option value="preco_asc">💰 Menor preço</option>
-      <option value="preco_desc">💰 Maior preço</option>
-      <option value="data">📅 Data de saída</option>
-      <option value="destino">🗺️ Destino A-Z</option>
-    </select>
-
-    <div class="ws-sec">Data de saída</div>
-    <input type="date" class="ws-date" id="w-date" onchange="W_render()">
-
-    <div class="ws-sec">Aeroporto</div>
-    <div class="ws-chips" id="w-ap-chips">
-      <button type="button" class="wfc on" data-v="all" onclick="W_setFilter('ap',this)">Todos</button>
-      <button type="button" class="wfc" data-v="Congonhas" onclick="W_setFilter('ap',this)">CGH — Congonhas</button>
-      <button type="button" class="wfc" data-v="Guarulhos" onclick="W_setFilter('ap',this)">GRU — Guarulhos</button>
-      <button type="button" class="wfc" data-v="Viracopos" onclick="W_setFilter('ap',this)">VCP — Viracopos</button>
-    </div>
-
-    <div class="ws-count" id="w-count">— pacotes</div>
-  </aside>
-
-  <!-- Main -->
-  <main id="wm">
-    <div class="wm-header">
-      <div>
-        <div class="wm-title">Pacotes disponíveis</div>
-        <div class="wm-sub" id="w-sub">Carregando…</div>
-      </div>
-      <div class="wm-badge" id="w-badge">—</div>
-    </div>
-    <div class="w-grid" id="w-grid">
-      <div class="w-skel"></div>
-      <div class="w-skel" style="animation-delay:.15s"></div>
-      <div class="w-skel" style="animation-delay:.3s"></div>
-      <div class="w-skel" style="animation-delay:.45s"></div>
-      <div class="w-skel" style="animation-delay:.6s"></div>
-      <div class="w-skel" style="animation-delay:.75s"></div>
-    </div>
-  </main>
-
-</div>
-<!-- /web-layout -->
-
-
 <div class="phone">
 
 <div class="sb dark" id="sb">
@@ -562,7 +358,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   <div class="load-txt"><strong>Carregando pacotes...</strong>Buscando ofertas no banco de dados</div>
   <div class="load-err" id="load-err">
     <strong>⚠️ Erro ao carregar</strong><br><span id="load-err-msg"></span>
-    <br><button type="button" class="btn-retry" onclick="loadPkgs()">↺ Tentar novamente</button>
+    <br><button class="btn-retry" onclick="loadPkgs()">↺ Tentar novamente</button>
   </div>
 </div>
 
@@ -577,8 +373,8 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       </div>
     </div>
     <p class="land-tagline">Dê likes em destinos — nosso algoritmo encontra os pacotes perfeitos para o seu perfil.</p>
-    <button type="button" class="btn-land" onclick="goSwipe()">Começar a explorar <span class="btn-arr">→</span></button>
-    <button type="button" onclick="goAllPkgs()" class="btn-all-pkgs">🔍 Ver todos os pacotes</button>
+    <button class="btn-land" onclick="goSwipe()">Começar a explorar <span class="btn-arr">→</span></button>
+    <button onclick="goAllPkgs()" style="margin-top:12px;background:transparent;border:1.5px solid rgba(255,255,255,.35);color:rgba(255,255,255,.8);border-radius:100px;padding:11px 28px;font-family:var(--f);font-size:13px;font-weight:600;cursor:pointer;transition:var(--tr);letter-spacing:.01em" onmouseover="this.style.background='rgba(255,255,255,.1)'" onmouseout="this.style.background='transparent'">🔍 Ver todos os pacotes</button>
     <div class="land-stats">
       <div><div class="ls-n" id="stat-total">—</div><div class="ls-l">Pacotes</div></div>
       <div><div class="ls-n" id="stat-dests">—</div><div class="ls-l">Destinos</div></div>
@@ -599,21 +395,21 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <div class="sw-badge">❤️ <span class="sw-badge-n" id="likes-num">0</span> curtidos</div>
     </div>
     <div class="reg-row" id="reg-row-swipe">
-      <button type="button" class="rc on" data-r="all" onclick="setReg(this,'all','swipe')">Todos</button>
-      <button type="button" class="rc" data-r="Internacional" onclick="setReg(this,'Internacional','swipe')">🌍 Internacional</button>
-      <button type="button" class="rc" data-r="Nordeste" onclick="setReg(this,'Nordeste','swipe')">🌊 Nordeste</button>
-      <button type="button" class="rc" data-r="Norte" onclick="setReg(this,'Norte','swipe')">🌿 Norte</button>
-      <button type="button" class="rc" data-r="Sul" onclick="setReg(this,'Sul','swipe')">🏔 Sul</button>
-      <button type="button" class="rc" data-r="Sudeste" onclick="setReg(this,'Sudeste','swipe')">🏙 Sudeste</button>
-      <button type="button" class="rc" data-r="Centro-Oeste" onclick="setReg(this,'Centro-Oeste','swipe')">🦜 Centro-Oeste</button>
+      <button class="rc on" data-r="all" onclick="setReg(this,'all','swipe')">Todos</button>
+      <button class="rc" data-r="Internacional" onclick="setReg(this,'Internacional','swipe')">🌍 Internacional</button>
+      <button class="rc" data-r="Nordeste" onclick="setReg(this,'Nordeste','swipe')">🌊 Nordeste</button>
+      <button class="rc" data-r="Norte" onclick="setReg(this,'Norte','swipe')">🌿 Norte</button>
+      <button class="rc" data-r="Sul" onclick="setReg(this,'Sul','swipe')">🏔 Sul</button>
+      <button class="rc" data-r="Sudeste" onclick="setReg(this,'Sudeste','swipe')">🏙 Sudeste</button>
+      <button class="rc" data-r="Centro-Oeste" onclick="setReg(this,'Centro-Oeste','swipe')">🦜 Centro-Oeste</button>
     </div>
   </div>
   <div class="sw-area"><div class="card-stack" id="card-stack"></div></div>
   <div class="sw-hint" id="sw-hint">Arraste ou use os botões · ❤️ curtir · ✕ não curtir</div>
   <div class="sw-btns">
-    <button type="button" class="sbtn sbtn-nope" onclick="doSwipe('left')" aria-label="Não curtir">✕</button>
-    <button type="button" class="sbtn sbtn-like" onclick="doSwipe('right')" aria-label="Curtir">❤️</button>
-    <button type="button" class="sbtn sbtn-skip" onclick="doSwipe('skip')" aria-label="Pular">↷</button>
+    <button class="sbtn sbtn-nope" onclick="doSwipe('left')" aria-label="Não curtir">✕</button>
+    <button class="sbtn sbtn-like" onclick="doSwipe('right')" aria-label="Curtir">❤️</button>
+    <button class="sbtn sbtn-skip" onclick="doSwipe('skip')" aria-label="Pular">↷</button>
   </div>
 </div>
 
@@ -625,8 +421,8 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
     <p class="hook-sub">Você já mostrou o que curte. Agora 6 perguntas rápidas para encontrarmos os pacotes ideais.</p>
     <div class="hook-tags" id="hook-tags"></div>
     <div class="hook-insight"><strong>Como funciona:</strong> Curtidas = estilo. Quiz = intenção. Juntos = perfil preciso — <strong>os pacotes te encontram.</strong></div>
-    <button type="button" class="btn-hook" onclick="goQuiz()">Sim! Quero meus matches ✨</button>
-    <button type="button" class="btn-hook-skip" onclick="skipToResults()">Pular e ver resultados →</button>
+    <button class="btn-hook" onclick="goQuiz()">Sim! Quero meus matches ✨</button>
+    <button class="btn-hook-skip" onclick="skipToResults()">Pular e ver resultados →</button>
   </div>
 </div>
 
@@ -659,7 +455,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <div class="opt" data-q="reg" data-v="Internacional" onclick="qpickMulti(this)"><div class="opt-ic">✈️</div><div class="opt-tx"><div class="opt-lbl">Internacional</div></div><div class="opt-ck">✓</div></div>
         <div class="opt" data-q="reg" data-v="all" onclick="qpickMulti(this)"><div class="opt-ic">🌍</div><div class="opt-tx"><div class="opt-lbl">Qualquer lugar</div></div><div class="opt-ck">✓</div></div>
       </div>
-      <div class="qnav"><div></div><button type="button" class="btn-qn" id="qn0" disabled onclick="goQQ(1)">Continuar →</button></div>
+      <div class="qnav"><div></div><button class="btn-qn" id="qn0" disabled onclick="goQQ(1)">Continuar →</button></div>
     </div>
 
     <!-- Q1: Orçamento -->
@@ -676,7 +472,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <!-- Campo livre de orçamento -->
       <label class="q-input-label">Ou digite seu orçamento exato (opcional):</label>
       <input class="q-input" id="q-bud-custom" type="number" placeholder="Ex: 5500" min="0" oninput="ST.answers.budCustom=this.value">
-      <div class="qnav"><button type="button" class="btn-qb" onclick="goQQ(0)">← Voltar</button><button type="button" class="btn-qn" id="qn1" disabled onclick="goQQ(2)">Continuar →</button></div>
+      <div class="qnav"><button class="btn-qb" onclick="goQQ(0)">← Voltar</button><button class="btn-qn" id="qn1" disabled onclick="goQQ(2)">Continuar →</button></div>
     </div>
 
     <!-- Q2: Companhia -->
@@ -690,7 +486,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <div class="opt" data-q="comp" data-v="familia" onclick="qpick(this)"><div class="opt-ic">👨‍👩‍👧</div><div class="opt-tx"><div class="opt-lbl">Família</div></div><div class="opt-ck">✓</div></div>
         <div class="opt" data-q="comp" data-v="amigos" onclick="qpick(this)"><div class="opt-ic">🎉</div><div class="opt-tx"><div class="opt-lbl">Amigos</div></div><div class="opt-ck">✓</div></div>
       </div>
-      <div class="qnav"><button type="button" class="btn-qb" onclick="goQQ(1)">← Voltar</button><button type="button" class="btn-qn" id="qn2" disabled onclick="goQQ(3)">Continuar →</button></div>
+      <div class="qnav"><button class="btn-qb" onclick="goQQ(1)">← Voltar</button><button class="btn-qn" id="qn2" disabled onclick="goQQ(3)">Continuar →</button></div>
     </div>
 
     <!-- Q3: Hospedagem -->
@@ -704,7 +500,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <div class="opt" data-q="hosp" data-v="luxo" onclick="qpick(this)"><div class="opt-ic">🥂</div><div class="opt-tx"><div class="opt-lbl">Luxo ou resort 5★</div><div class="opt-desc">Serviço premium e estrutura completa</div></div><div class="opt-ck">✓</div></div>
         <div class="opt" data-q="hosp" data-v="allinclusive" onclick="qpick(this)"><div class="opt-ic">🍹</div><div class="opt-tx"><div class="opt-lbl">All Inclusive</div><div class="opt-desc">Tudo incluso, zero preocupação</div></div><div class="opt-ck">✓</div></div>
       </div>
-      <div class="qnav"><button type="button" class="btn-qb" onclick="goQQ(2)">← Voltar</button><button type="button" class="btn-qn" id="qn3" disabled onclick="goQQ(4)">Continuar →</button></div>
+      <div class="qnav"><button class="btn-qb" onclick="goQQ(2)">← Voltar</button><button class="btn-qn" id="qn3" disabled onclick="goQQ(4)">Continuar →</button></div>
     </div>
 
     <!-- Q4: Objetivo -->
@@ -718,7 +514,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <div class="opt" data-q="goal" data-v="romantico" onclick="qpick(this)"><div class="opt-ic">🥂</div><div class="opt-tx"><div class="opt-lbl">Romântico</div><div class="opt-desc">Momentos especiais</div></div><div class="opt-ck">✓</div></div>
         <div class="opt" data-q="goal" data-v="gastronomia" onclick="qpick(this)"><div class="opt-ic">🍽️</div><div class="opt-tx"><div class="opt-lbl">Gastronomia</div><div class="opt-desc">Sabores e cultura local</div></div><div class="opt-ck">✓</div></div>
       </div>
-      <div class="qnav"><button type="button" class="btn-qb" onclick="goQQ(3)">← Voltar</button><button type="button" class="btn-qn" id="qn4" disabled onclick="goQQ(5)">Continuar →</button></div>
+      <div class="qnav"><button class="btn-qb" onclick="goQQ(3)">← Voltar</button><button class="btn-qn" id="qn4" disabled onclick="goQQ(5)">Continuar →</button></div>
     </div>
 
     <!-- Q5: Datas + Aeroporto -->
@@ -729,27 +525,27 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <!-- Data -->
       <label class="q-input-label">📅 Período da viagem:</label>
       <div style="margin-top:5px;margin-bottom:8px">
-        <button type="button" class="airport-chip on" id="any-date-btn" onclick="toggleAnyDate(this)">🗓️ Qualquer data</button>
+        <button class="airport-chip on" id="any-date-btn" onclick="toggleAnyDate(this)">🗓️ Qualquer data</button>
       </div>
       <div id="date-inputs-wrap" style="display:none">
-      <input class="q-input" id="q-date-from" type="date" onchange="onDateFromChange(this.value)">
-      <input class="q-input" id="q-date-to" type="date" style="margin-top:4px" onchange="ST.answers.dateTo=this.value">
+      <input class="q-input" id="q-date-from" type="date" oninput="onDateFromChange(this.value)">
+      <input class="q-input" id="q-date-to" type="date" style="margin-top:4px" oninput="ST.answers.dateTo=this.value">
       </div>
       <!-- Aeroporto -->
       <label class="q-input-label" style="margin-top:10px">✈️ Aeroporto de origem:</label>
       <div class="airport-chips" id="airport-chips">
-        <button type="button" class="airport-chip on" data-a="all" onclick="toggleAirportAll(this)">🌍 Qualquer aeroporto</button>
-        <button type="button" class="airport-chip" data-a="Congonhas" onclick="toggleAirport(this,'Congonhas')">CGH — Congonhas</button>
-        <button type="button" class="airport-chip" data-a="Guarulhos" onclick="toggleAirport(this,'Guarulhos')">GRU — Guarulhos</button>
-        <button type="button" class="airport-chip" data-a="Viracopos" onclick="toggleAirport(this,'Viracopos')">VCP — Viracopos</button>
+        <button class="airport-chip on" data-a="all" onclick="toggleAirportAll(this)">🌍 Qualquer aeroporto</button>
+        <button class="airport-chip" data-a="Congonhas" onclick="toggleAirport(this,'Congonhas')">CGH — Congonhas</button>
+        <button class="airport-chip" data-a="Guarulhos" onclick="toggleAirport(this,'Guarulhos')">GRU — Guarulhos</button>
+        <button class="airport-chip" data-a="Viracopos" onclick="toggleAirport(this,'Viracopos')">VCP — Viracopos</button>
       </div>
 
-      <div class="qnav"><button type="button" class="btn-qb" onclick="goQQ(4)">← Voltar</button><button type="button" class="btn-qn" id="qn5" onclick="doAnalyze()" style="opacity:1">Ver meus matches ✨</button></div>
+      <div class="qnav"><button class="btn-qb" onclick="goQQ(4)">← Voltar</button><button class="btn-qn" id="qn5" onclick="doAnalyze()" style="opacity:1">Ver meus matches ✨</button></div>
     </div>
   </div>
   <!-- Pular quiz — always visible at bottom of quiz screen -->
   <div style="flex-shrink:0;text-align:center;padding:8px 0 10px;background:var(--white);border-top:1px solid var(--border)">
-    <button type="button" onclick="skipToResults()" style="background:none;border:none;color:var(--muted-lt);font-family:var(--f);font-size:11px;cursor:pointer;padding:4px 12px;text-decoration:underline">Pular quiz e ver resultados diretamente →</button>
+    <button onclick="skipToResults()" style="background:none;border:none;color:var(--muted-lt);font-family:var(--f);font-size:11px;cursor:pointer;padding:4px 12px;text-decoration:underline">Pular quiz e ver resultados diretamente →</button>
   </div>
 </div>
 
@@ -769,14 +565,14 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 <!-- ══ RESULTS ══ -->
 <div class="screen" id="s-results">
   <div class="res-hero">
-    <button type="button" onclick="goScreen('s-land')" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);border-radius:100px;padding:4px 12px;font-family:var(--f);font-size:11px;font-weight:600;cursor:pointer;margin-bottom:7px;display:inline-flex;align-items:center;gap:4px">← Início</button>
+    <button onclick="goScreen('s-land')" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);border-radius:100px;padding:4px 12px;font-family:var(--f);font-size:11px;font-weight:600;cursor:pointer;margin-bottom:7px;display:inline-flex;align-items:center;gap:4px">← Início</button>
     <div class="rh-eye">Resultado personalizado · <span id="rh-compat-ct">0</span> compatíveis</div>
     <div class="rh-title" id="rh-title">A viagem te encontrou! ✈️</div>
     <div class="rh-pills" id="rh-pills"></div>
   </div>
   <div class="res-tabs">
-    <button type="button" class="rtab on" id="rt-match" onclick="switchView('match')">🎯 Matches<span class="tab-dot" id="match-dot">5</span></button>
-    <button type="button" class="rtab" id="rt-explore" onclick="switchView('explore')">🔍 Explorar todos</button>
+    <button class="rtab on" id="rt-match" onclick="switchView('match')">🎯 Matches<span class="tab-dot" id="match-dot">5</span></button>
+    <button class="rtab" id="rt-explore" onclick="switchView('explore')">🔍 Explorar todos</button>
   </div>
 
   <!-- MATCH VIEW -->
@@ -785,8 +581,8 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
     <div style="padding:8px 11px 0;font-size:11px;color:var(--muted)" id="match-sub-txt"></div>
     <div id="match-list" style="padding:6px 11px 0"></div>
     <div class="res-btns" style="padding:0 11px">
-      <button type="button" class="btn-sec" onclick="switchView('explore')">🔍 Ver todos</button>
-      <button type="button" class="btn-sec" onclick="restart()">↺ Refazer</button>
+      <button class="btn-sec" onclick="switchView('explore')">🔍 Ver todos</button>
+      <button class="btn-sec" onclick="restart()">↺ Refazer</button>
     </div>
   </div>
 
@@ -801,63 +597,63 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <!-- Tipo -->
       <div class="fchips">
         <span class="fc-lbl">Tipo:</span>
-        <button type="button" class="fc on" data-t="all" onclick="setTipo(this,'all')">Todos</button>
-        <button type="button" class="fc" data-t="praia" onclick="setTipo(this,'praia')">🏖 Praia</button>
-        <button type="button" class="fc" data-t="montanha" onclick="setTipo(this,'montanha')">🏔 Serra</button>
-        <button type="button" class="fc" data-t="natureza" onclick="setTipo(this,'natureza')">🌿 Nat.</button>
-        <button type="button" class="fc" data-t="cidade" onclick="setTipo(this,'cidade')">🌆 Cidade</button>
+        <button class="fc on" data-t="all" onclick="setTipo(this,'all')">Todos</button>
+        <button class="fc" data-t="praia" onclick="setTipo(this,'praia')">🏖 Praia</button>
+        <button class="fc" data-t="montanha" onclick="setTipo(this,'montanha')">🏔 Serra</button>
+        <button class="fc" data-t="natureza" onclick="setTipo(this,'natureza')">🌿 Nat.</button>
+        <button class="fc" data-t="cidade" onclick="setTipo(this,'cidade')">🌆 Cidade</button>
       </div>
       <!-- Região -->
       <div class="fchips">
         <span class="fc-lbl">Região:</span>
-        <button type="button" class="fc on" data-rg="all" onclick="setRegE(this,'all')">Todas</button>
-        <button type="button" class="fc" data-rg="Internacional" onclick="setRegE(this,'Internacional')">Internacional</button>
-        <button type="button" class="fc" data-rg="Nordeste" onclick="setRegE(this,'Nordeste')">Nordeste</button>
-        <button type="button" class="fc" data-rg="Norte" onclick="setRegE(this,'Norte')">Norte</button>
-        <button type="button" class="fc" data-rg="Sul" onclick="setRegE(this,'Sul')">Sul</button>
-        <button type="button" class="fc" data-rg="Sudeste" onclick="setRegE(this,'Sudeste')">Sudeste</button>
-        <button type="button" class="fc" data-rg="Centro-Oeste" onclick="setRegE(this,'Centro-Oeste')">Centro-Oeste</button>
+        <button class="fc on" data-rg="all" onclick="setRegE(this,'all')">Todas</button>
+        <button class="fc" data-rg="Internacional" onclick="setRegE(this,'Internacional')">Internacional</button>
+        <button class="fc" data-rg="Nordeste" onclick="setRegE(this,'Nordeste')">Nordeste</button>
+        <button class="fc" data-rg="Norte" onclick="setRegE(this,'Norte')">Norte</button>
+        <button class="fc" data-rg="Sul" onclick="setRegE(this,'Sul')">Sul</button>
+        <button class="fc" data-rg="Sudeste" onclick="setRegE(this,'Sudeste')">Sudeste</button>
+        <button class="fc" data-rg="Centro-Oeste" onclick="setRegE(this,'Centro-Oeste')">Centro-Oeste</button>
       </div>
       <!-- Ordenar -->
       <div class="sort-row">
         <span class="sort-lbl">Ordenar:</span>
         <div class="sort-btns">
-          <button type="button" class="sb" data-s="score" onclick="setSort(this,'score')">⭐ Match</button>
-          <button type="button" class="sb on" data-s="preco_asc" onclick="setSort(this,'preco_asc')">💰 Menor preço</button>
-          <button type="button" class="sb" data-s="preco_desc" onclick="setSort(this,'preco_desc')">💰 Maior preço</button>
-          <button type="button" class="sb" data-s="data" onclick="setSort(this,'data')">📅 Data saída</button>
+          <button class="sb" data-s="score" onclick="setSort(this,'score')">⭐ Match</button>
+          <button class="sb on" data-s="preco_asc" onclick="setSort(this,'preco_asc')">💰 Menor preço</button>
+          <button class="sb" data-s="preco_desc" onclick="setSort(this,'preco_desc')">💰 Maior preço</button>
+          <button class="sb" data-s="data" onclick="setSort(this,'data')">📅 Data saída</button>
         </div>
-        <button type="button" class="sort-dir" id="sort-dir-btn" onclick="toggleDir()">↕</button>
+        <button class="sort-dir" id="sort-dir-btn" onclick="toggleDir()">↕</button>
       </div>
       <!-- Inputs de filtro do usuário -->
       <div class="fbox-inputs">
 
         <div class="fi-row">
           <span class="fi-lbl">📅 Data saída:</span>
-          <input class="fi-inp" type="date" id="fi-date" onchange="renderPkgs()">
+          <input class="fi-inp" type="date" id="fi-date" oninput="renderPkgs()">
         </div>
         <div>
           <div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:4px">✈️ Aeroporto:</div>
           <div class="fi-chips-mini">
-            <button type="button" class="fi-chip-mini on" data-ap="all" onclick="setAirportFilter(this,'all')">Todos</button>
-            <button type="button" class="fi-chip-mini" data-ap="Congonhas" onclick="setAirportFilter(this,'Congonhas')">CGH — Congonhas</button>
-            <button type="button" class="fi-chip-mini" data-ap="Guarulhos" onclick="setAirportFilter(this,'Guarulhos')">GRU — Guarulhos</button>
-            <button type="button" class="fi-chip-mini" data-ap="Viracopos" onclick="setAirportFilter(this,'Viracopos')">VCP — Viracopos</button>
+            <button class="fi-chip-mini on" data-ap="all" onclick="setAirportFilter(this,'all')">Todos</button>
+            <button class="fi-chip-mini" data-ap="Congonhas" onclick="setAirportFilter(this,'Congonhas')">CGH — Congonhas</button>
+            <button class="fi-chip-mini" data-ap="Guarulhos" onclick="setAirportFilter(this,'Guarulhos')">GRU — Guarulhos</button>
+            <button class="fi-chip-mini" data-ap="Viracopos" onclick="setAirportFilter(this,'Viracopos')">VCP — Viracopos</button>
           </div>
         </div>
       </div>
     </div>
     <div class="pkg-list" id="pkg-list"></div>
     <div class="res-btns" style="margin-top:9px">
-      <button type="button" class="btn-sec" onclick="switchView('match')">← Matches</button>
-      <button type="button" class="btn-sec" onclick="restart()">↺ Refazer</button>
+      <button class="btn-sec" onclick="switchView('match')">← Matches</button>
+      <button class="btn-sec" onclick="restart()">↺ Refazer</button>
     </div>
   </div>
 </div>
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button type="button" class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
   <img id="lightbox-img" src="" alt="">
   <div class="lightbox-dest" id="lightbox-dest"></div>
 </div>
@@ -879,8 +675,7 @@ function sendWa(btn){
 function buildWaUrl(phone, msg) {
   // Encode only what's truly necessary — WhatsApp handles UTF-8 fine
   // Replace problematic chars manually to avoid double-encoding
-  // Use api.whatsapp.com for better mobile compatibility (works without app)
-  return 'https://api.whatsapp.com/send?phone=' + phone + '&text=' + 
+  return 'https://wa.me/' + phone + '?text=' + 
     encodeURIComponent(msg)
       .replace(/%C3%A3/g,'ã').replace(/%C3%A7/g,'ç')
       .replace(/%C3%A9/g,'é').replace(/%C3%AA/g,'ê')
@@ -1002,7 +797,6 @@ async function loadPkgs(){
     document.getElementById('az-total-ct').textContent=PKGS.length;
     document.getElementById('rt-explore').textContent=`🔍 Explorar todos (${PKGS.length})`;
     buildQueue();goScreen('s-land');
-    if(typeof W_init==='function') W_init();
   }catch(err){
     document.getElementById('load-err').style.display='block';
     document.getElementById('load-err-msg').textContent=err.message;
@@ -1525,100 +1319,6 @@ showResults = function(){
 };
 
 loadPkgs();
-
-// ════════════════════════════════════════════════════
-// WEB LAYOUT JS — all functions prefixed W_
-// Uses PKGS from mobile loadPkgs(), called after load
-// ════════════════════════════════════════════════════
-const W_F = { tipo:'all', reg:'all', ap:'all', sort:'preco_asc' };
-
-function W_setFilter(type, btn){
-  const groupId = {'tipo':'w-tipo-chips','reg':'w-reg-chips','ap':'w-ap-chips'}[type];
-  document.querySelectorAll('#'+groupId+' .wfc').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  W_F[type] = btn.dataset.v;
-  W_render();
-}
-
-function W_render(){
-  if(!window.PKGS || !PKGS.length) return;
-  const q = (document.getElementById('w-search')?.value||'').toLowerCase();
-  const fd = document.getElementById('w-date')?.value||'';
-  let list = PKGS.filter(p=>{
-    if(W_F.tipo!=='all' && p.t!==W_F.tipo) return false;
-    if(W_F.reg!=='all' && p.r!==W_F.reg) return false;
-    if(W_F.ap!=='all' && p.o!==W_F.ap) return false;
-    if(q && !p.d.toLowerCase().includes(q) && !p.h.toLowerCase().includes(q)) return false;
-    if(fd && p.i){
-      const pDt = new Date(p.i.split('/').reverse().join('-'));
-      if(pDt < new Date(fd)) return false;
-    }
-    return true;
-  });
-  const s = document.getElementById('w-sort')?.value || 'preco_asc';
-  list = [...list].sort((a,b)=>{
-    if(s==='preco_asc')  return a.p - b.p;
-    if(s==='preco_desc') return b.p - a.p;
-    if(s==='data'){ const pa=a.i.split('/').reverse().join(''), pb=b.i.split('/').reverse().join(''); return pa<pb?-1:1; }
-    if(s==='destino') return a.d.localeCompare(b.d,'pt-BR');
-    return 0;
-  });
-  const grid = document.getElementById('w-grid');
-  const count = document.getElementById('w-count');
-  const badge = document.getElementById('w-badge');
-  if(count) count.textContent = list.length + ' pacotes';
-  if(badge) badge.textContent = list.length + ' pacotes';
-  if(!list.length){
-    grid.innerHTML = '<div class="w-no-res">🔍 Nenhum pacote encontrado. Tente ajustar os filtros.</div>';
-    return;
-  }
-  const BG_W  = {praia:'#0077B6',montanha:'#2D6A4F',natureza:'#386641',cidade:'#1A4F8A'};
-  const EM_W  = {praia:'🏖️',montanha:'🏔️',natureza:'🌿',cidade:'🌆'};
-  grid.innerHTML = list.map(p=>{
-    const img = getImg(p);
-    const bg  = BG_W[p.t]||'#1A4F8A';
-    const em  = EM_W[p.t]||'✈️';
-    const msg = 'Olá! Tenho interesse no pacote '+p.d+' – '+p.h+' ('+p.i+'→'+p.v+') por R$'+p.p.toLocaleString('pt-BR')+' para 2 pessoas. Pode me enviar mais informações?';
-    const waUrl = 'https://api.whatsapp.com/send?phone=5511953967095&text='+encodeURIComponent(msg);
-    return '<div class="wpcard">'
-      +'<div class="wpcard-img">'
-        +(img ? '<img src="'+img+'" alt="'+p.d+'" loading="lazy" onerror="this.parentNode.style.background=''+bg+'';this.remove()">' : '<div class="wpcard-ph" style="background:'+bg+'">'+em+'</div>')
-        +'<div class="wpcard-badge">'+p.t+' · '+p.r+'</div>'
-      +'</div>'
-      +'<div class="wpcard-body">'
-        +'<div class="wpcard-row">'
-          +'<div><div class="wpcard-dest">'+p.d+'</div><div class="wpcard-tipo">'+p.t+' · '+p.r+'</div></div>'
-          +'<div><div class="wpcard-pv">R$'+p.p.toLocaleString('pt-BR')+'</div><div class="wpcard-pp">para 2 pessoas</div></div>'
-        +'</div>'
-        +'<div class="wpcard-hotel">🏨 '+p.h+'</div>'
-        +'<div class="wpcard-chips">'
-          +'<span class="wpcard-chip">✈️ '+p.o+'</span>'
-          +'<span class="wpcard-chip">📅 '+p.i+' → '+p.v+'</span>'
-          +(p.cm?'<span class="wpcard-chip">☕ Café</span>':'')
-          +(p.ai?'<span class="wpcard-chip">🍹 All Inc.</span>':'')
-          +(p.lx?'<span class="wpcard-chip">⭐ Luxo</span>':'')
-        +'</div>'
-        +(p.voo_ida?'<div class="wpcard-voo">🛫 '+p.voo_ida+'</div>':'')
-        +(p.voo_volta?'<div class="wpcard-voo">🛬 '+p.voo_volta+'</div>':'')
-        +'<button type="button" class="wpcard-btn" onclick="window.open(''+waUrl+'','_blank')">💬 Quero este pacote</button>'
-      +'</div>'
-    +'</div>';
-  }).join('');
-}
-
-// Called after mobile loadPkgs() finishes
-function W_init(){
-  const total = PKGS.length;
-  const dests = new Set(PKGS.map(p=>p.d)).size;
-  const sub = document.getElementById('w-sub');
-  const st  = document.getElementById('w-stat-total');
-  const sd  = document.getElementById('w-stat-dests');
-  if(sub) sub.textContent = total+' pacotes · '+dests+' destinos';
-  if(st)  st.textContent  = total;
-  if(sd)  sd.textContent  = dests;
-  W_render();
-}
-
 </script>
 </body>
 </html>
