@@ -78,6 +78,8 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .btn-land{display:inline-flex;align-items:center;gap:9px;background:var(--sky);color:#fff;border:none;border-radius:100px;padding:13px 30px;font-family:var(--f);font-size:14px;font-weight:700;cursor:pointer;transition:var(--tr);box-shadow:0 5px 22px rgba(66,174,222,.4)}
 .btn-land:hover{background:var(--sky-lt);transform:translateY(-2px)}
 .btn-land:active{transform:translateY(0)}
+.btn-all-pkgs{margin-top:12px;background:transparent;border:1.5px solid rgba(255,255,255,.35);color:rgba(255,255,255,.85);border-radius:100px;padding:12px 28px;font-family:var(--f);font-size:13px;font-weight:600;cursor:pointer;transition:var(--tr);letter-spacing:.01em;display:block}
+.btn-all-pkgs:hover,.btn-all-pkgs:active{background:rgba(255,255,255,.12)}
 .btn-arr{font-size:16px;transition:transform var(--tr)}
 .btn-land:hover .btn-arr{transform:translateX(4px)}
 .land-stats{display:flex;justify-content:center;gap:26px;margin-top:14px}
@@ -358,7 +360,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   <div class="load-txt"><strong>Carregando pacotes...</strong>Buscando ofertas no banco de dados</div>
   <div class="load-err" id="load-err">
     <strong>⚠️ Erro ao carregar</strong><br><span id="load-err-msg"></span>
-    <br><button class="btn-retry" onclick="loadPkgs()">↺ Tentar novamente</button>
+    <br><button type="button" class="btn-retry" onclick="loadPkgs()">↺ Tentar novamente</button>
   </div>
 </div>
 
@@ -373,8 +375,8 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       </div>
     </div>
     <p class="land-tagline">Dê likes em destinos — nosso algoritmo encontra os pacotes perfeitos para o seu perfil.</p>
-    <button class="btn-land" onclick="goSwipe()">Começar a explorar <span class="btn-arr">→</span></button>
-    <button onclick="goAllPkgs()" style="margin-top:12px;background:transparent;border:1.5px solid rgba(255,255,255,.35);color:rgba(255,255,255,.8);border-radius:100px;padding:11px 28px;font-family:var(--f);font-size:13px;font-weight:600;cursor:pointer;transition:var(--tr);letter-spacing:.01em" onmouseover="this.style.background='rgba(255,255,255,.1)'" onmouseout="this.style.background='transparent'">🔍 Ver todos os pacotes</button>
+    <button type="button" class="btn-land" onclick="goSwipe()">Começar a explorar <span class="btn-arr">→</span></button>
+    <button type="button" onclick="goAllPkgs()" class="btn-all-pkgs">🔍 Ver todos os pacotes</button>
     <div class="land-stats">
       <div><div class="ls-n" id="stat-total">—</div><div class="ls-l">Pacotes</div></div>
       <div><div class="ls-n" id="stat-dests">—</div><div class="ls-l">Destinos</div></div>
@@ -395,21 +397,21 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <div class="sw-badge">❤️ <span class="sw-badge-n" id="likes-num">0</span> curtidos</div>
     </div>
     <div class="reg-row" id="reg-row-swipe">
-      <button class="rc on" data-r="all" onclick="setReg(this,'all','swipe')">Todos</button>
-      <button class="rc" data-r="Internacional" onclick="setReg(this,'Internacional','swipe')">🌍 Internacional</button>
-      <button class="rc" data-r="Nordeste" onclick="setReg(this,'Nordeste','swipe')">🌊 Nordeste</button>
-      <button class="rc" data-r="Norte" onclick="setReg(this,'Norte','swipe')">🌿 Norte</button>
-      <button class="rc" data-r="Sul" onclick="setReg(this,'Sul','swipe')">🏔 Sul</button>
-      <button class="rc" data-r="Sudeste" onclick="setReg(this,'Sudeste','swipe')">🏙 Sudeste</button>
-      <button class="rc" data-r="Centro-Oeste" onclick="setReg(this,'Centro-Oeste','swipe')">🦜 Centro-Oeste</button>
+      <button type="button" class="rc on" data-r="all" onclick="setReg(this,'all','swipe')">Todos</button>
+      <button type="button" class="rc" data-r="Internacional" onclick="setReg(this,'Internacional','swipe')">🌍 Internacional</button>
+      <button type="button" class="rc" data-r="Nordeste" onclick="setReg(this,'Nordeste','swipe')">🌊 Nordeste</button>
+      <button type="button" class="rc" data-r="Norte" onclick="setReg(this,'Norte','swipe')">🌿 Norte</button>
+      <button type="button" class="rc" data-r="Sul" onclick="setReg(this,'Sul','swipe')">🏔 Sul</button>
+      <button type="button" class="rc" data-r="Sudeste" onclick="setReg(this,'Sudeste','swipe')">🏙 Sudeste</button>
+      <button type="button" class="rc" data-r="Centro-Oeste" onclick="setReg(this,'Centro-Oeste','swipe')">🦜 Centro-Oeste</button>
     </div>
   </div>
   <div class="sw-area"><div class="card-stack" id="card-stack"></div></div>
   <div class="sw-hint" id="sw-hint">Arraste ou use os botões · ❤️ curtir · ✕ não curtir</div>
   <div class="sw-btns">
-    <button class="sbtn sbtn-nope" onclick="doSwipe('left')" aria-label="Não curtir">✕</button>
-    <button class="sbtn sbtn-like" onclick="doSwipe('right')" aria-label="Curtir">❤️</button>
-    <button class="sbtn sbtn-skip" onclick="doSwipe('skip')" aria-label="Pular">↷</button>
+    <button type="button" class="sbtn sbtn-nope" onclick="doSwipe('left')" aria-label="Não curtir">✕</button>
+    <button type="button" class="sbtn sbtn-like" onclick="doSwipe('right')" aria-label="Curtir">❤️</button>
+    <button type="button" class="sbtn sbtn-skip" onclick="doSwipe('skip')" aria-label="Pular">↷</button>
   </div>
 </div>
 
@@ -421,8 +423,8 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
     <p class="hook-sub">Você já mostrou o que curte. Agora 6 perguntas rápidas para encontrarmos os pacotes ideais.</p>
     <div class="hook-tags" id="hook-tags"></div>
     <div class="hook-insight"><strong>Como funciona:</strong> Curtidas = estilo. Quiz = intenção. Juntos = perfil preciso — <strong>os pacotes te encontram.</strong></div>
-    <button class="btn-hook" onclick="goQuiz()">Sim! Quero meus matches ✨</button>
-    <button class="btn-hook-skip" onclick="skipToResults()">Pular e ver resultados →</button>
+    <button type="button" class="btn-hook" onclick="goQuiz()">Sim! Quero meus matches ✨</button>
+    <button type="button" class="btn-hook-skip" onclick="skipToResults()">Pular e ver resultados →</button>
   </div>
 </div>
 
@@ -455,7 +457,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <div class="opt" data-q="reg" data-v="Internacional" onclick="qpickMulti(this)"><div class="opt-ic">✈️</div><div class="opt-tx"><div class="opt-lbl">Internacional</div></div><div class="opt-ck">✓</div></div>
         <div class="opt" data-q="reg" data-v="all" onclick="qpickMulti(this)"><div class="opt-ic">🌍</div><div class="opt-tx"><div class="opt-lbl">Qualquer lugar</div></div><div class="opt-ck">✓</div></div>
       </div>
-      <div class="qnav"><div></div><button class="btn-qn" id="qn0" disabled onclick="goQQ(1)">Continuar →</button></div>
+      <div class="qnav"><div></div><button type="button" class="btn-qn" id="qn0" disabled onclick="goQQ(1)">Continuar →</button></div>
     </div>
 
     <!-- Q1: Orçamento -->
@@ -472,7 +474,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <!-- Campo livre de orçamento -->
       <label class="q-input-label">Ou digite seu orçamento exato (opcional):</label>
       <input class="q-input" id="q-bud-custom" type="number" placeholder="Ex: 5500" min="0" oninput="ST.answers.budCustom=this.value">
-      <div class="qnav"><button class="btn-qb" onclick="goQQ(0)">← Voltar</button><button class="btn-qn" id="qn1" disabled onclick="goQQ(2)">Continuar →</button></div>
+      <div class="qnav"><button type="button" class="btn-qb" onclick="goQQ(0)">← Voltar</button><button type="button" class="btn-qn" id="qn1" disabled onclick="goQQ(2)">Continuar →</button></div>
     </div>
 
     <!-- Q2: Companhia -->
@@ -486,7 +488,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <div class="opt" data-q="comp" data-v="familia" onclick="qpick(this)"><div class="opt-ic">👨‍👩‍👧</div><div class="opt-tx"><div class="opt-lbl">Família</div></div><div class="opt-ck">✓</div></div>
         <div class="opt" data-q="comp" data-v="amigos" onclick="qpick(this)"><div class="opt-ic">🎉</div><div class="opt-tx"><div class="opt-lbl">Amigos</div></div><div class="opt-ck">✓</div></div>
       </div>
-      <div class="qnav"><button class="btn-qb" onclick="goQQ(1)">← Voltar</button><button class="btn-qn" id="qn2" disabled onclick="goQQ(3)">Continuar →</button></div>
+      <div class="qnav"><button type="button" class="btn-qb" onclick="goQQ(1)">← Voltar</button><button type="button" class="btn-qn" id="qn2" disabled onclick="goQQ(3)">Continuar →</button></div>
     </div>
 
     <!-- Q3: Hospedagem -->
@@ -500,7 +502,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <div class="opt" data-q="hosp" data-v="luxo" onclick="qpick(this)"><div class="opt-ic">🥂</div><div class="opt-tx"><div class="opt-lbl">Luxo ou resort 5★</div><div class="opt-desc">Serviço premium e estrutura completa</div></div><div class="opt-ck">✓</div></div>
         <div class="opt" data-q="hosp" data-v="allinclusive" onclick="qpick(this)"><div class="opt-ic">🍹</div><div class="opt-tx"><div class="opt-lbl">All Inclusive</div><div class="opt-desc">Tudo incluso, zero preocupação</div></div><div class="opt-ck">✓</div></div>
       </div>
-      <div class="qnav"><button class="btn-qb" onclick="goQQ(2)">← Voltar</button><button class="btn-qn" id="qn3" disabled onclick="goQQ(4)">Continuar →</button></div>
+      <div class="qnav"><button type="button" class="btn-qb" onclick="goQQ(2)">← Voltar</button><button type="button" class="btn-qn" id="qn3" disabled onclick="goQQ(4)">Continuar →</button></div>
     </div>
 
     <!-- Q4: Objetivo -->
@@ -514,7 +516,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <div class="opt" data-q="goal" data-v="romantico" onclick="qpick(this)"><div class="opt-ic">🥂</div><div class="opt-tx"><div class="opt-lbl">Romântico</div><div class="opt-desc">Momentos especiais</div></div><div class="opt-ck">✓</div></div>
         <div class="opt" data-q="goal" data-v="gastronomia" onclick="qpick(this)"><div class="opt-ic">🍽️</div><div class="opt-tx"><div class="opt-lbl">Gastronomia</div><div class="opt-desc">Sabores e cultura local</div></div><div class="opt-ck">✓</div></div>
       </div>
-      <div class="qnav"><button class="btn-qb" onclick="goQQ(3)">← Voltar</button><button class="btn-qn" id="qn4" disabled onclick="goQQ(5)">Continuar →</button></div>
+      <div class="qnav"><button type="button" class="btn-qb" onclick="goQQ(3)">← Voltar</button><button type="button" class="btn-qn" id="qn4" disabled onclick="goQQ(5)">Continuar →</button></div>
     </div>
 
     <!-- Q5: Datas + Aeroporto -->
@@ -525,7 +527,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <!-- Data -->
       <label class="q-input-label">📅 Período da viagem:</label>
       <div style="margin-top:5px;margin-bottom:8px">
-        <button class="airport-chip on" id="any-date-btn" onclick="toggleAnyDate(this)">🗓️ Qualquer data</button>
+        <button type="button" class="airport-chip on" id="any-date-btn" onclick="toggleAnyDate(this)">🗓️ Qualquer data</button>
       </div>
       <div id="date-inputs-wrap" style="display:none">
       <input class="q-input" id="q-date-from" type="date" oninput="onDateFromChange(this.value)">
@@ -534,18 +536,18 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <!-- Aeroporto -->
       <label class="q-input-label" style="margin-top:10px">✈️ Aeroporto de origem:</label>
       <div class="airport-chips" id="airport-chips">
-        <button class="airport-chip on" data-a="all" onclick="toggleAirportAll(this)">🌍 Qualquer aeroporto</button>
-        <button class="airport-chip" data-a="Congonhas" onclick="toggleAirport(this,'Congonhas')">CGH — Congonhas</button>
-        <button class="airport-chip" data-a="Guarulhos" onclick="toggleAirport(this,'Guarulhos')">GRU — Guarulhos</button>
-        <button class="airport-chip" data-a="Viracopos" onclick="toggleAirport(this,'Viracopos')">VCP — Viracopos</button>
+        <button type="button" class="airport-chip on" data-a="all" onclick="toggleAirportAll(this)">🌍 Qualquer aeroporto</button>
+        <button type="button" class="airport-chip" data-a="Congonhas" onclick="toggleAirport(this,'Congonhas')">CGH — Congonhas</button>
+        <button type="button" class="airport-chip" data-a="Guarulhos" onclick="toggleAirport(this,'Guarulhos')">GRU — Guarulhos</button>
+        <button type="button" class="airport-chip" data-a="Viracopos" onclick="toggleAirport(this,'Viracopos')">VCP — Viracopos</button>
       </div>
 
-      <div class="qnav"><button class="btn-qb" onclick="goQQ(4)">← Voltar</button><button class="btn-qn" id="qn5" onclick="doAnalyze()" style="opacity:1">Ver meus matches ✨</button></div>
+      <div class="qnav"><button type="button" class="btn-qb" onclick="goQQ(4)">← Voltar</button><button type="button" class="btn-qn" id="qn5" onclick="doAnalyze()" style="opacity:1">Ver meus matches ✨</button></div>
     </div>
   </div>
   <!-- Pular quiz — always visible at bottom of quiz screen -->
   <div style="flex-shrink:0;text-align:center;padding:8px 0 10px;background:var(--white);border-top:1px solid var(--border)">
-    <button onclick="skipToResults()" style="background:none;border:none;color:var(--muted-lt);font-family:var(--f);font-size:11px;cursor:pointer;padding:4px 12px;text-decoration:underline">Pular quiz e ver resultados diretamente →</button>
+    <button type="button" onclick="skipToResults()" style="background:none;border:none;color:var(--muted-lt);font-family:var(--f);font-size:11px;cursor:pointer;padding:4px 12px;text-decoration:underline">Pular quiz e ver resultados diretamente →</button>
   </div>
 </div>
 
@@ -565,14 +567,14 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 <!-- ══ RESULTS ══ -->
 <div class="screen" id="s-results">
   <div class="res-hero">
-    <button onclick="goScreen('s-land')" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);border-radius:100px;padding:4px 12px;font-family:var(--f);font-size:11px;font-weight:600;cursor:pointer;margin-bottom:7px;display:inline-flex;align-items:center;gap:4px">← Início</button>
+    <button type="button" onclick="goScreen('s-land')" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);border-radius:100px;padding:4px 12px;font-family:var(--f);font-size:11px;font-weight:600;cursor:pointer;margin-bottom:7px;display:inline-flex;align-items:center;gap:4px">← Início</button>
     <div class="rh-eye">Resultado personalizado · <span id="rh-compat-ct">0</span> compatíveis</div>
     <div class="rh-title" id="rh-title">A viagem te encontrou! ✈️</div>
     <div class="rh-pills" id="rh-pills"></div>
   </div>
   <div class="res-tabs">
-    <button class="rtab on" id="rt-match" onclick="switchView('match')">🎯 Matches<span class="tab-dot" id="match-dot">5</span></button>
-    <button class="rtab" id="rt-explore" onclick="switchView('explore')">🔍 Explorar todos</button>
+    <button type="button" class="rtab on" id="rt-match" onclick="switchView('match')">🎯 Matches<span class="tab-dot" id="match-dot">5</span></button>
+    <button type="button" class="rtab" id="rt-explore" onclick="switchView('explore')">🔍 Explorar todos</button>
   </div>
 
   <!-- MATCH VIEW -->
@@ -581,8 +583,8 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
     <div style="padding:8px 11px 0;font-size:11px;color:var(--muted)" id="match-sub-txt"></div>
     <div id="match-list" style="padding:6px 11px 0"></div>
     <div class="res-btns" style="padding:0 11px">
-      <button class="btn-sec" onclick="switchView('explore')">🔍 Ver todos</button>
-      <button class="btn-sec" onclick="restart()">↺ Refazer</button>
+      <button type="button" class="btn-sec" onclick="switchView('explore')">🔍 Ver todos</button>
+      <button type="button" class="btn-sec" onclick="restart()">↺ Refazer</button>
     </div>
   </div>
 
@@ -597,33 +599,33 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <!-- Tipo -->
       <div class="fchips">
         <span class="fc-lbl">Tipo:</span>
-        <button class="fc on" data-t="all" onclick="setTipo(this,'all')">Todos</button>
-        <button class="fc" data-t="praia" onclick="setTipo(this,'praia')">🏖 Praia</button>
-        <button class="fc" data-t="montanha" onclick="setTipo(this,'montanha')">🏔 Serra</button>
-        <button class="fc" data-t="natureza" onclick="setTipo(this,'natureza')">🌿 Nat.</button>
-        <button class="fc" data-t="cidade" onclick="setTipo(this,'cidade')">🌆 Cidade</button>
+        <button type="button" class="fc on" data-t="all" onclick="setTipo(this,'all')">Todos</button>
+        <button type="button" class="fc" data-t="praia" onclick="setTipo(this,'praia')">🏖 Praia</button>
+        <button type="button" class="fc" data-t="montanha" onclick="setTipo(this,'montanha')">🏔 Serra</button>
+        <button type="button" class="fc" data-t="natureza" onclick="setTipo(this,'natureza')">🌿 Nat.</button>
+        <button type="button" class="fc" data-t="cidade" onclick="setTipo(this,'cidade')">🌆 Cidade</button>
       </div>
       <!-- Região -->
       <div class="fchips">
         <span class="fc-lbl">Região:</span>
-        <button class="fc on" data-rg="all" onclick="setRegE(this,'all')">Todas</button>
-        <button class="fc" data-rg="Internacional" onclick="setRegE(this,'Internacional')">Internacional</button>
-        <button class="fc" data-rg="Nordeste" onclick="setRegE(this,'Nordeste')">Nordeste</button>
-        <button class="fc" data-rg="Norte" onclick="setRegE(this,'Norte')">Norte</button>
-        <button class="fc" data-rg="Sul" onclick="setRegE(this,'Sul')">Sul</button>
-        <button class="fc" data-rg="Sudeste" onclick="setRegE(this,'Sudeste')">Sudeste</button>
-        <button class="fc" data-rg="Centro-Oeste" onclick="setRegE(this,'Centro-Oeste')">Centro-Oeste</button>
+        <button type="button" class="fc on" data-rg="all" onclick="setRegE(this,'all')">Todas</button>
+        <button type="button" class="fc" data-rg="Internacional" onclick="setRegE(this,'Internacional')">Internacional</button>
+        <button type="button" class="fc" data-rg="Nordeste" onclick="setRegE(this,'Nordeste')">Nordeste</button>
+        <button type="button" class="fc" data-rg="Norte" onclick="setRegE(this,'Norte')">Norte</button>
+        <button type="button" class="fc" data-rg="Sul" onclick="setRegE(this,'Sul')">Sul</button>
+        <button type="button" class="fc" data-rg="Sudeste" onclick="setRegE(this,'Sudeste')">Sudeste</button>
+        <button type="button" class="fc" data-rg="Centro-Oeste" onclick="setRegE(this,'Centro-Oeste')">Centro-Oeste</button>
       </div>
       <!-- Ordenar -->
       <div class="sort-row">
         <span class="sort-lbl">Ordenar:</span>
         <div class="sort-btns">
-          <button class="sb" data-s="score" onclick="setSort(this,'score')">⭐ Match</button>
-          <button class="sb on" data-s="preco_asc" onclick="setSort(this,'preco_asc')">💰 Menor preço</button>
-          <button class="sb" data-s="preco_desc" onclick="setSort(this,'preco_desc')">💰 Maior preço</button>
-          <button class="sb" data-s="data" onclick="setSort(this,'data')">📅 Data saída</button>
+          <button type="button" class="sb" data-s="score" onclick="setSort(this,'score')">⭐ Match</button>
+          <button type="button" class="sb on" data-s="preco_asc" onclick="setSort(this,'preco_asc')">💰 Menor preço</button>
+          <button type="button" class="sb" data-s="preco_desc" onclick="setSort(this,'preco_desc')">💰 Maior preço</button>
+          <button type="button" class="sb" data-s="data" onclick="setSort(this,'data')">📅 Data saída</button>
         </div>
-        <button class="sort-dir" id="sort-dir-btn" onclick="toggleDir()">↕</button>
+        <button type="button" class="sort-dir" id="sort-dir-btn" onclick="toggleDir()">↕</button>
       </div>
       <!-- Inputs de filtro do usuário -->
       <div class="fbox-inputs">
@@ -635,25 +637,25 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <div>
           <div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:4px">✈️ Aeroporto:</div>
           <div class="fi-chips-mini">
-            <button class="fi-chip-mini on" data-ap="all" onclick="setAirportFilter(this,'all')">Todos</button>
-            <button class="fi-chip-mini" data-ap="Congonhas" onclick="setAirportFilter(this,'Congonhas')">CGH — Congonhas</button>
-            <button class="fi-chip-mini" data-ap="Guarulhos" onclick="setAirportFilter(this,'Guarulhos')">GRU — Guarulhos</button>
-            <button class="fi-chip-mini" data-ap="Viracopos" onclick="setAirportFilter(this,'Viracopos')">VCP — Viracopos</button>
+            <button type="button" class="fi-chip-mini on" data-ap="all" onclick="setAirportFilter(this,'all')">Todos</button>
+            <button type="button" class="fi-chip-mini" data-ap="Congonhas" onclick="setAirportFilter(this,'Congonhas')">CGH — Congonhas</button>
+            <button type="button" class="fi-chip-mini" data-ap="Guarulhos" onclick="setAirportFilter(this,'Guarulhos')">GRU — Guarulhos</button>
+            <button type="button" class="fi-chip-mini" data-ap="Viracopos" onclick="setAirportFilter(this,'Viracopos')">VCP — Viracopos</button>
           </div>
         </div>
       </div>
     </div>
     <div class="pkg-list" id="pkg-list"></div>
     <div class="res-btns" style="margin-top:9px">
-      <button class="btn-sec" onclick="switchView('match')">← Matches</button>
-      <button class="btn-sec" onclick="restart()">↺ Refazer</button>
+      <button type="button" class="btn-sec" onclick="switchView('match')">← Matches</button>
+      <button type="button" class="btn-sec" onclick="restart()">↺ Refazer</button>
     </div>
   </div>
 </div>
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button type="button" class="lightbox-close" onclick="closeLightbox()">✕</button>
   <img id="lightbox-img" src="" alt="">
   <div class="lightbox-dest" id="lightbox-dest"></div>
 </div>
