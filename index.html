@@ -616,8 +616,8 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <div class="sort-row">
         <span class="sort-lbl">Ordenar:</span>
         <div class="sort-btns">
-          <button class="sb on" data-s="score" onclick="setSort(this,'score')">⭐ Match</button>
-          <button class="sb" data-s="preco_asc" onclick="setSort(this,'preco_asc')">💰 Menor preço</button>
+          <button class="sb" data-s="score" onclick="setSort(this,'score')">⭐ Match</button>
+          <button class="sb on" data-s="preco_asc" onclick="setSort(this,'preco_asc')">💰 Menor preço</button>
           <button class="sb" data-s="preco_desc" onclick="setSort(this,'preco_desc')">💰 Maior preço</button>
           <button class="sb" data-s="data" onclick="setSort(this,'data')">📅 Data saída</button>
         </div>
@@ -765,7 +765,7 @@ const ST={
   queue:[],regFilter:'all',
   hookShown:false,quizDone:false,
   answers:{reg:[],airports:[]},curQ:0,
-  sortKey:'score',sortDir:1,
+  sortKey:'preco_asc',sortDir:1,
   tipoFilter:'all',regExpFilter:'all',
   apFilter:'all',
   scores:{},
@@ -1108,7 +1108,7 @@ Pode me enviar mais informações?`;
       <div class="mc-body">
         <div class="mc-top">
           <div><div class="mc-dest">${p.d}</div><div class="mc-tipo">${p.t} · ${p.r}</div></div>
-          <div class="mc-price-wrap"><div class="mc-pv">R$${p.p.toLocaleString('pt-BR')}</div><div class="mc-pl">por pessoa</div></div>
+          <div class="mc-price-wrap"><div class="mc-pv">R$${p.p.toLocaleString('pt-BR')}</div><div class="mc-pl">para 2 pessoas</div></div>
         </div>
         <div class="compat-row"><span class="compat-lbl">Compatibilidade</span><div class="compat-track"><div class="compat-fill" style="width:${p.score}%"></div></div><span class="compat-pct">${p.score}%</span></div>
         <div class="mc-score-detail">
@@ -1183,7 +1183,7 @@ function renderPkgs(){
   pl.innerHTML=list.map(p=>{
     const sc=ST.scores[p.id]?.score;
     const img=getImg(p);const bg=BG[p.t]||'#1A4F8A';const em=E[p.t]||'✈️';
-    const wamsg=`Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i}→${p.v}) por R$${p.p.toLocaleString('pt-BR')}/pessoa. Pode me enviar mais informações?`;
+    const wamsg=`Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i}→${p.v}) por R$${p.p.toLocaleString('pt-BR')}/2 pessoas. Pode me enviar mais informações?`;
     const imgSafe=img?(img.replace(/'/g,"\\'")):''
     return `<div class="pcard">
       <div class="pc-img" onclick="openLightbox('${imgSafe}','${p.d.replace(/'/g,"\\'")}')">
@@ -1195,7 +1195,7 @@ function renderPkgs(){
       <div class="pc-body">
         <div class="pc-top-row">
           <div><div class="pc-dest">${p.d}</div></div>
-          <div class="pc-price-wrap"><div class="pc-price">R$${p.p.toLocaleString('pt-BR')}</div><div class="pc-pp">por pessoa</div></div>
+          <div class="pc-price-wrap"><div class="pc-price">R$${p.p.toLocaleString('pt-BR')}</div><div class="pc-pp">para 2 pessoas</div></div>
         </div>
         <div class="pc-hotel">🏨 ${p.h}</div>
         <div class="pc-chips">
@@ -1216,7 +1216,7 @@ let _tt;
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),2000);}
 
 function restart(){
-  Object.assign(ST,{likes:[],nopes:[],hookShown:false,quizDone:false,answers:{reg:[],airports:[]},curQ:0,sortKey:'score',sortDir:1,tipoFilter:'all',regExpFilter:'all',apFilter:'all',scores:{},regFilter:'all'});
+  Object.assign(ST,{likes:[],nopes:[],hookShown:false,quizDone:false,answers:{reg:[],airports:[]},curQ:0,sortKey:'preco_asc',sortDir:1,tipoFilter:'all',regExpFilter:'all',apFilter:'all',scores:{},regFilter:'all'});
   document.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
   document.querySelectorAll('.btn-qn').forEach(b=>b.disabled=true);
   document.querySelectorAll('.qblock').forEach(b=>b.classList.remove('active'));
@@ -1224,7 +1224,7 @@ function restart(){
   document.querySelectorAll('.rc').forEach(b=>b.classList.toggle('on',b.dataset.r==='all'));
   document.querySelectorAll('[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==='all'));
   document.querySelectorAll('[data-rg]').forEach(b=>b.classList.toggle('on',b.dataset.rg==='all'));
-  document.querySelectorAll('.sb').forEach(b=>b.classList.toggle('on',b.dataset.s==='score'));
+  document.querySelectorAll('.sb').forEach(b=>b.classList.toggle('on',b.dataset.s==='preco_asc'));
   document.querySelectorAll('.fi-chip-mini').forEach(b=>b.classList.toggle('on',b.dataset.ap==='all'));
   document.querySelectorAll('.airport-chip').forEach(b=>b.classList.remove('on'));
   ['az1','az2','az3','az4'].forEach((id,i)=>{const el=document.getElementById(id);el.classList.remove('done','act');el.querySelector('.az-step-ic').textContent=['❤️','🔍','⚖️','🏆'][i];});
