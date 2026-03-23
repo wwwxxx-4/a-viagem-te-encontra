@@ -831,8 +831,8 @@ function renderStack(){
     _topCard = null; _topData = null;
     document.getElementById('sw-hint').textContent='';return;
   }
-  ST.queue.slice(0,4).reverse().forEach((p,i)=>{
-    const isTop=(i===Math.min(ST.queue.length,4)-1);
+  ST.queue.slice(0,4).forEach((p,i)=>{ // queue[0] = first appended = nth-child(1) = on top
+    const isTop=(i===0); // i=0 = first appended = nth-child(1) = visually on top
     const card=document.createElement('div');card.className='scard';card.setAttribute('data-id', String(p.id));
     const img=getImg(p),bg=BG[p.t]||'#1A4F8A',em=E[p.t]||'✈️';
     card.setAttribute('data-dest', p.d);
