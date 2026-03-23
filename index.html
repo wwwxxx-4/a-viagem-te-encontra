@@ -828,6 +828,7 @@ function renderStack(){
   stack.innerHTML='';
   if(!ST.queue.length){
     stack.innerHTML=`<div class="sw-empty"><span style="font-size:36px">✈️</span><div style="font-size:13px;font-weight:600">${ST.likes.length} curtido${ST.likes.length!==1?'s':''} — hora dos matches!</div><button style="margin-top:8px;padding:10px 22px;border-radius:100px;border:none;background:var(--navy);color:#fff;font-family:var(--f);font-size:13px;font-weight:700;cursor:pointer" onclick="doAnalyze()">Ver meus matches ✨</button></div>`;
+    _topCard = null; _topData = null;
     document.getElementById('sw-hint').textContent='';return;
   }
   ST.queue.slice(0,4).reverse().forEach((p,i)=>{
@@ -847,10 +848,18 @@ function renderStack(){
         <div class="scard-row"><div class="scard-price">R$ ${p.p.toLocaleString('pt-BR')}</div><div class="scard-meta">✈️ ${p.o}</div></div>
       </div>
       <div class="stamp stamp-like">LIKE</div><div class="stamp stamp-nope">NOPE</div>`;
-    if(isTop)setupDrag(card);
+    if(isTop){
+      setupDrag(card);
+      _topCard = card;
+      _topData = {id: String(p.id), d: p.d, t: p.t, r: p.r};
+    }
     stack.appendChild(card);
   });
 }
+// Global top card reference — set by renderStack, read by doSwipe
+let _topCard = null;
+let _topData = null;
+
 // ── DRAG SYSTEM — AbortController ensures clean listener removal ──
 let _dragAbort = null; // tracks current drag controller
 
@@ -904,28 +913,27 @@ function setupDrag(card) {
   document.addEventListener('touchend',   end,  { signal: sig });
 }
 function doSwipe(dir){
-  const stack=document.getElementById('card-stack');
-  const top=stack.lastElementChild;
-  if(!top||!top.classList.contains('scard'))return;
-  // Read directly from card attributes — guaranteed correct for THIS card
-  const cardId   = top.getAttribute('data-id');
-  const cardDest = top.getAttribute('data-dest');
-  const cardTipo = top.getAttribute('data-tipo');
-  const cardReg  = top.getAttribute('data-reg');
-  top.style.transition='transform .34s cubic-bezier(.4,0,.2,1),opacity .34s';
+  // Use _topData — set directly by renderStack, 100% reliable
+  if(!_topData || !_topCard) return;
+  const snap = {..._topData}; // snapshot before any async
+  const cardEl = _topCard;
+  _topCard = null; // prevent double-swipe
+  _topData = null;
+
+  cardEl.style.transition='transform .34s cubic-bezier(.4,0,.2,1),opacity .34s';
   if(dir==='right'){
-    top.style.transform='translateX(150%) rotate(22deg)';
-    top.style.opacity='0';
-    ST.likes.push({id:cardId, d:cardDest, t:cardTipo, r:cardReg});
+    cardEl.style.transform='translateX(150%) rotate(22deg)';
+    cardEl.style.opacity='0';
+    ST.likes.push({id:snap.id, d:snap.d, t:snap.t, r:snap.r});
     document.getElementById('likes-num').textContent=ST.likes.length;
-    showToast('❤️ '+cardDest+' curtido!');
+    showToast('❤️ '+snap.d+' curtido!');
   } else if(dir==='left'){
-    top.style.transform='translateX(-150%) rotate(-22deg)';
-    top.style.opacity='0';
-    ST.nopes.push(cardId);
+    cardEl.style.transform='translateX(-150%) rotate(-22deg)';
+    cardEl.style.opacity='0';
+    ST.nopes.push(snap.id);
   } else {
-    top.style.transform='translateX(-150%) rotate(-12deg)';
-    top.style.opacity='0';
+    cardEl.style.transform='translateX(-150%) rotate(-12deg)';
+    cardEl.style.opacity='0';
   }
   setTimeout(()=>{
     ST.queue.shift();
