@@ -20,6 +20,15 @@
 }
 html,body{height:100%;overflow:hidden}
 body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:flex;align-items:center;justify-content:center}
+/* Desktop layout */
+@media(min-width:768px){
+  body{background:var(--navy-dk);justify-content:center;align-items:center}
+  .phone{width:min(430px,45vw);height:min(900px,96vh);border-radius:32px}
+}
+@media(min-width:1100px){
+  body{padding:0}
+  .phone{width:420px;height:880px}
+}
 .phone{width:min(390px,100vw);height:min(844px,100svh);background:var(--ice);border-radius:min(40px,0px);box-shadow:0 30px 80px rgba(0,0,0,.5);display:flex;flex-direction:column;overflow:hidden;position:relative}
 @media(max-width:390px),(max-height:700px){.phone{border-radius:0;height:100svh;width:100vw}}
 .sb{display:none}
@@ -76,7 +85,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .ls-l{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:1px;text-align:center}
 
 /* ══ SWIPE ══ */
-#s-swipe{background:var(--white);padding-top:38px}
+#s-swipe{background:var(--white);padding-top:0}
 .sw-top{padding:7px 14px 0;flex-shrink:0;background:var(--white);border-bottom:1px solid var(--border)}
 .sw-top-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
 .sw-badge{display:flex;align-items:center;gap:4px;background:var(--sky-pale);border:1px solid rgba(66,174,222,.25);border-radius:100px;padding:4px 10px;font-size:11px;font-weight:600;color:var(--navy)}
@@ -132,7 +141,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .btn-hook-skip:hover{color:rgba(255,255,255,.7)}
 
 /* ══ QUIZ ══ */
-#s-quiz{background:var(--white);padding-top:38px}
+#s-quiz{background:var(--white);padding-top:0}
 .qhdr{padding:7px 14px 0;flex-shrink:0;border-bottom:1px solid var(--border);background:var(--white)}
 .qhdr-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
 .qhdr-step{font-size:10px;color:var(--muted);font-weight:500}
@@ -193,7 +202,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 @keyframes pulse-ic{0%,100%{opacity:1}50%{opacity:.4}}
 
 /* ══ RESULTS — hero MÍNIMO ══ */
-#s-results{background:var(--ice);padding-top:38px}
+#s-results{background:var(--ice);padding-top:0}
 .res-hero{
   background:linear-gradient(135deg,var(--navy-dk) 0%,var(--navy) 55%,#1A7AB5 100%);
   padding:8px 14px 16px;     /* ultra compacto */
@@ -446,6 +455,9 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <div class="opt" data-q="reg" data-v="all" onclick="qpickMulti(this)"><div class="opt-ic">🌍</div><div class="opt-tx"><div class="opt-lbl">Qualquer lugar</div></div><div class="opt-ck">✓</div></div>
       </div>
       <div class="qnav"><div></div><button class="btn-qn" id="qn0" disabled onclick="goQQ(1)">Continuar →</button></div>
+      <div style="text-align:center;margin-top:10px">
+        <button onclick="skipToResults()" style="background:none;border:none;color:var(--muted);font-family:var(--f);font-size:11px;cursor:pointer;padding:6px;text-decoration:underline">Pular quiz e ver resultados →</button>
+      </div>
     </div>
 
     <!-- Q1: Orçamento -->
@@ -513,17 +525,21 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <h2 class="q-title">Datas e aeroporto de origem</h2>
       <p class="q-sub">Informe para refinar ainda mais seus matches.</p>
       <!-- Data -->
-      <label class="q-input-label">📅 Período da viagem (opcional):</label>
+      <label class="q-input-label">📅 Período da viagem:</label>
+      <div style="margin-top:5px;margin-bottom:8px">
+        <button class="airport-chip on" id="any-date-btn" onclick="toggleAnyDate(this)">🗓️ Qualquer data</button>
+      </div>
+      <div id="date-inputs-wrap" style="display:none">
       <input class="q-input" id="q-date-from" type="date" oninput="onDateFromChange(this.value)">
       <input class="q-input" id="q-date-to" type="date" style="margin-top:4px" oninput="ST.answers.dateTo=this.value">
+      </div>
       <!-- Aeroporto -->
       <label class="q-input-label" style="margin-top:10px">✈️ Aeroporto de origem:</label>
       <div class="airport-chips" id="airport-chips">
+        <button class="airport-chip on" data-a="all" onclick="toggleAirportAll(this)">🌍 Qualquer aeroporto</button>
         <button class="airport-chip" data-a="Congonhas" onclick="toggleAirport(this,'Congonhas')">CGH — Congonhas</button>
         <button class="airport-chip" data-a="Guarulhos" onclick="toggleAirport(this,'Guarulhos')">GRU — Guarulhos</button>
         <button class="airport-chip" data-a="Viracopos" onclick="toggleAirport(this,'Viracopos')">VCP — Viracopos</button>
-        <button class="airport-chip" data-a="Confins" onclick="toggleAirport(this,'Confins')">CNF — Confins</button>
-        <button class="airport-chip" data-a="Goiânia" onclick="toggleAirport(this,'Goiânia')">GYN — Goiânia</button>
       </div>
 
       <div class="qnav"><button class="btn-qb" onclick="goQQ(4)">← Voltar</button><button class="btn-qn" id="qn5" onclick="doAnalyze()" style="opacity:1">Ver meus matches ✨</button></div>
@@ -588,13 +604,12 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <div class="fchips">
         <span class="fc-lbl">Região:</span>
         <button class="fc on" data-rg="all" onclick="setRegE(this,'all')">Todas</button>
+        <button class="fc" data-rg="Internacional" onclick="setRegE(this,'Internacional')">Internacional</button>
         <button class="fc" data-rg="Nordeste" onclick="setRegE(this,'Nordeste')">Nordeste</button>
         <button class="fc" data-rg="Norte" onclick="setRegE(this,'Norte')">Norte</button>
-        <button class="fc" data-rg="Bahia" onclick="setRegE(this,'Bahia')">Bahia</button>
         <button class="fc" data-rg="Sul" onclick="setRegE(this,'Sul')">Sul</button>
         <button class="fc" data-rg="Sudeste" onclick="setRegE(this,'Sudeste')">Sudeste</button>
         <button class="fc" data-rg="Centro-Oeste" onclick="setRegE(this,'Centro-Oeste')">Centro-Oeste</button>
-        <button class="fc" data-rg="Internacional" onclick="setRegE(this,'Internacional')">Internacional</button>
       </div>
       <!-- Ordenar -->
       <div class="sort-row">
@@ -788,7 +803,7 @@ function renderStack(){
   }
   ST.queue.slice(0,4).reverse().forEach((p,i)=>{
     const isTop=(i===Math.min(ST.queue.length,4)-1);
-    const card=document.createElement('div');card.className='scard';card.dataset.id=p.id;
+    const card=document.createElement('div');card.className='scard';card.dataset.id=String(p.id);
     const img=getImg(p),bg=BG[p.t]||'#1A4F8A',em=E[p.t]||'✈️';
     card.innerHTML=`${img?`<div class="scard-bg" style="background-image:url('${img}')"></div>`:''}
       <div class="scard-ph" style="background:${bg};${img?'display:none':''}">${em}</div>
@@ -830,7 +845,7 @@ function doSwipe(dir){
   const stack=document.getElementById('card-stack');
   const top=stack.lastElementChild;
   if(!top||!top.classList.contains('scard'))return;
-  const pkg=SWIPE_POOL.find(p=>p.id===top.dataset.id)||PKGS.find(p=>p.id===top.dataset.id);
+  const pkg=SWIPE_POOL.find(p=>String(p.id)===String(top.dataset.id))||PKGS.find(p=>String(p.id)===String(top.dataset.id));
   if(!pkg)return;
   top.style.transition='transform .34s cubic-bezier(.4,0,.2,1),opacity .34s';
   if(dir==='right'){top.style.transform='translateX(150%) rotate(22deg)';top.style.opacity='0';ST.likes.push({id:pkg.id,d:pkg.d,t:pkg.t,r:pkg.r});document.getElementById('likes-num').textContent=ST.likes.length;showToast('❤️ '+pkg.d+' curtido!');}
@@ -1141,6 +1156,34 @@ function clearFilters(){
 }
 
 // INIT
+// Toggle any date
+function toggleAnyDate(btn){
+  const isAny = btn.classList.contains('on');
+  if(!isAny){
+    // Enable "any date" — hide inputs, clear dates
+    btn.classList.add('on');
+    document.getElementById('date-inputs-wrap').style.display='none';
+    ST.answers.dateFrom='';ST.answers.dateTo='';
+    document.getElementById('q-date-from').value='';
+    document.getElementById('q-date-to').value='';
+  } else {
+    // Show date inputs
+    btn.classList.remove('on');
+    document.getElementById('date-inputs-wrap').style.display='block';
+  }
+}
+// Toggle any airport
+function toggleAirportAll(btn){
+  const isAny=btn.classList.contains('on');
+  if(!isAny){
+    document.querySelectorAll('.airport-chip').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    ST.answers.airports=[];
+  } else {
+    btn.classList.remove('on');
+  }
+}
+
 // Date from change — set min 5 days ahead for return date
 function onDateFromChange(val){
   ST.answers.dateFrom=val;
