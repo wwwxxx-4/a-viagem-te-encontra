@@ -662,6 +662,34 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 const SB_URL='https://ngickoakkyxhpjeixzyf.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5naWNrb2Fra3l4aHBqZWl4enlmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcwMDc1MTQsImV4cCI6MjA2MjU4MzUxNH0.VDEwn1ENBOV8GE3ZSf8b-G-CBUhvt0RXQvWSn4SgiRM';
 
+// ── WhatsApp ──────────────────────────────────────────
+function sendWa(btn){
+  const msg = btn.getAttribute('data-msg');
+  window.open(buildWaUrl('5511953967095', msg), '_blank');
+}
+
+// ── WhatsApp URL builder (preserves PT-BR chars) ──────
+function buildWaUrl(phone, msg) {
+  // Encode only what's truly necessary — WhatsApp handles UTF-8 fine
+  // Replace problematic chars manually to avoid double-encoding
+  return 'https://wa.me/' + phone + '?text=' + 
+    encodeURIComponent(msg)
+      .replace(/%C3%A3/g,'ã').replace(/%C3%A7/g,'ç')
+      .replace(/%C3%A9/g,'é').replace(/%C3%AA/g,'ê')
+      .replace(/%C3%A1/g,'á').replace(/%C3%AD/g,'í')
+      .replace(/%C3%B3/g,'ó').replace(/%C3%BA/g,'ú')
+      .replace(/%C3%B5/g,'õ').replace(/%C3%A2/g,'â')
+      .replace(/%C3%B4/g,'ô').replace(/%C3%BC/g,'ü')
+      .replace(/%C3%80/g,'À').replace(/%C3%81/g,'Á')
+      .replace(/%C3%89/g,'É').replace(/%C3%8A/g,'Ê')
+      .replace(/%C3%8D/g,'Í').replace(/%C3%93/g,'Ó')
+      .replace(/%C3%9A/g,'Ú').replace(/%C3%83/g,'Ã')
+      .replace(/%C3%95/g,'Õ').replace(/%C3%82/g,'Â')
+      .replace(/%C3%94/g,'Ô').replace(/%C2%BA/g,'º')
+      .replace(/%E2%80%93/g,'–').replace(/%E2%80%94/g,'—')
+      .replace(/%E2%9D%A4/g,'❤');
+}
+
 // ── Data helpers ──────────────────────
 function parseTipo(d,r){
   d=(d||'').toLowerCase();r=(r||'').toLowerCase();
@@ -803,8 +831,11 @@ function renderStack(){
   }
   ST.queue.slice(0,4).reverse().forEach((p,i)=>{
     const isTop=(i===Math.min(ST.queue.length,4)-1);
-    const card=document.createElement('div');card.className='scard';card.dataset.id=String(p.id);
+    const card=document.createElement('div');card.className='scard';card.setAttribute('data-id', String(p.id));
     const img=getImg(p),bg=BG[p.t]||'#1A4F8A',em=E[p.t]||'✈️';
+    card.setAttribute('data-dest', p.d);
+    card.setAttribute('data-tipo', p.t);
+    card.setAttribute('data-reg', p.r);
     card.innerHTML=`${img?`<div class="scard-bg" style="background-image:url('${img}')"></div>`:''}
       <div class="scard-ph" style="background:${bg};${img?'display:none':''}">${em}</div>
       <div class="scard-grad"></div>
@@ -845,13 +876,33 @@ function doSwipe(dir){
   const stack=document.getElementById('card-stack');
   const top=stack.lastElementChild;
   if(!top||!top.classList.contains('scard'))return;
-  const pkg=SWIPE_POOL.find(p=>String(p.id)===String(top.dataset.id))||PKGS.find(p=>String(p.id)===String(top.dataset.id));
-  if(!pkg)return;
+  // Read directly from card attributes — guaranteed correct for THIS card
+  const cardId   = top.getAttribute('data-id');
+  const cardDest = top.getAttribute('data-dest');
+  const cardTipo = top.getAttribute('data-tipo');
+  const cardReg  = top.getAttribute('data-reg');
   top.style.transition='transform .34s cubic-bezier(.4,0,.2,1),opacity .34s';
-  if(dir==='right'){top.style.transform='translateX(150%) rotate(22deg)';top.style.opacity='0';ST.likes.push({id:pkg.id,d:pkg.d,t:pkg.t,r:pkg.r});document.getElementById('likes-num').textContent=ST.likes.length;showToast('❤️ '+pkg.d+' curtido!');}
-  else if(dir==='left'){top.style.transform='translateX(-150%) rotate(-22deg)';top.style.opacity='0';ST.nopes.push(pkg.id);}
-  else{top.style.transform='translateX(-150%) rotate(-12deg)';top.style.opacity='0';}
-  setTimeout(()=>{ST.queue.shift();renderStack();if(ST.likes.length>=HOOK_AFTER&&!ST.hookShown&&!ST.quizDone){ST.hookShown=true;setTimeout(showHook,500);}},360);
+  if(dir==='right'){
+    top.style.transform='translateX(150%) rotate(22deg)';
+    top.style.opacity='0';
+    ST.likes.push({id:cardId, d:cardDest, t:cardTipo, r:cardReg});
+    document.getElementById('likes-num').textContent=ST.likes.length;
+    showToast('❤️ '+cardDest+' curtido!');
+  } else if(dir==='left'){
+    top.style.transform='translateX(-150%) rotate(-22deg)';
+    top.style.opacity='0';
+    ST.nopes.push(cardId);
+  } else {
+    top.style.transform='translateX(-150%) rotate(-12deg)';
+    top.style.opacity='0';
+  }
+  setTimeout(()=>{
+    ST.queue.shift();
+    renderStack();
+    if(ST.likes.length>=HOOK_AFTER&&!ST.hookShown&&!ST.quizDone){
+      ST.hookShown=true;setTimeout(showHook,500);
+    }
+  },360);
 }
 function setReg(btn,r,ctx){
   if(ctx==='swipe'){document.querySelectorAll('#reg-row-swipe .rc').forEach(b=>b.classList.remove('on'));btn.classList.add('on');ST.regFilter=r;buildQueue();}
@@ -1001,7 +1052,14 @@ function showResults(){
     const img=getImg(p);const bg=BG[p.t]||'#1A4F8A';const em=E[p.t]||'✈️';
     const siPct=Math.min(Math.round((p.si/52)*100),100);
     const sePct=Math.min(Math.round((p.se/65)*100),100);
-    const wamsg=encodeURIComponent(`Olá! Fiz o quiz em A Viagem te Encontra e ${p.d} apareceu com ${p.score}% de compatibilidade!\n\n🏨 ${p.h}\n📅 ${p.i} → ${p.v}\n✈️ ${p.o}\n💰 R$ ${p.p.toLocaleString('pt-BR')}/pessoa\n\nPode me enviar mais informações?`);
+    const wamsg=`Olá! Fiz o quiz em A Viagem te Encontra e ${p.d} apareceu com ${p.score}% de compatibilidade!
+
+🏨 ${p.h}
+📅 ${p.i} → ${p.v}
+✈️ ${p.o}
+💰 R$ ${p.p.toLocaleString('pt-BR')}/pessoa
+
+Pode me enviar mais informações?`;
     return `<div class="mcard">
       <div class="mc-img">
         ${img?`<img src="${img}" alt="${p.d}" loading="lazy" onerror="this.parentNode.style.background='${bg}';this.remove()">`:`<div class="mc-ph" style="background:${bg}">${em}</div>`}
@@ -1026,7 +1084,7 @@ function showResults(){
         ${p.voo_ida?`<div class="mc-hotel" style="font-size:10px">🛫 ${p.voo_ida}</div>`:''}
         ${p.voo_volta?`<div class="mc-hotel" style="font-size:10px;margin-bottom:6px">🛬 ${p.voo_volta}</div>`:''}
         ${p.reasons.length?`<div class="why-tags">${p.reasons.slice(0,3).map(r=>`<div class="wtag">✓ ${r}</div>`).join('')}</div>`:''}
-        <button class="btn-wa" onclick="window.open('https://wa.me/5511953967095?text=${encodeURIComponent(wamsg)}','_blank')">💬 Quero saber mais sobre ${p.d}</button>
+        <button class="btn-wa" onclick="sendWa(this)" data-msg="${wamsg.replace(/"/g,'&quot;')}">💬 Quero saber mais sobre ${p.d}</button>
       </div>
     </div>`;
   }).join('');
@@ -1086,7 +1144,7 @@ function renderPkgs(){
   pl.innerHTML=list.map(p=>{
     const sc=ST.scores[p.id]?.score;
     const img=getImg(p);const bg=BG[p.t]||'#1A4F8A';const em=E[p.t]||'✈️';
-    const wamsg=encodeURIComponent(`Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i}→${p.v}) por R$${p.p.toLocaleString('pt-BR')}/pessoa. Pode me enviar mais informações?`);
+    const wamsg=`Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i}→${p.v}) por R$${p.p.toLocaleString('pt-BR')}/pessoa. Pode me enviar mais informações?`;
     const imgSafe=img?(img.replace(/'/g,"\\'")):''
     return `<div class="pcard">
       <div class="pc-img" onclick="openLightbox('${imgSafe}','${p.d.replace(/'/g,"\\'")}')">
@@ -1108,7 +1166,7 @@ function renderPkgs(){
         </div>
         ${p.voo_ida?`<div class="pc-voo">🛫 ${p.voo_ida}</div>`:''}
         ${p.voo_volta?`<div class="pc-voo" style="margin-bottom:6px">🛬 ${p.voo_volta}</div>`:''}
-        <button class="btn-pc-wa" onclick="window.open('https://wa.me/5511953967095?text=${encodeURIComponent(wamsg)}','_blank')">💬 Quero este pacote</button>
+        <button class="btn-pc-wa" onclick="sendWa(this)" data-msg="${wamsg.replace(/"/g,'&quot;')}">💬 Quero este pacote</button>
       </div>
     </div>`;
   }).join('');
