@@ -746,12 +746,12 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
     <div class="rh-pills" id="rh-pills"></div>
   </div>
   <div class="res-tabs">
-    <button class="rtab on" id="rt-match" onclick="switchView('match')">🎯 Matches<span class="tab-dot" id="match-dot">5</span></button>
-    <button class="rtab" id="rt-explore" onclick="switchView('explore')">🔍 Explorar todos</button>
+    <button class="rtab on" id="rt-explore" onclick="switchView('explore')">🔍 Explorar todos</button>
+    <button class="rtab" id="rt-match" onclick="switchView('match')">🎯 Matches<span class="tab-dot" id="match-dot">5</span></button>
   </div>
 
   <!-- MATCH VIEW -->
-  <div class="res-view" id="v-match">
+  <div class="res-view" id="v-match" style="display:none">
     <!-- Subtítulo só no matches -->
     <div style="padding:8px 11px 0;font-size:11px;color:var(--muted)" id="match-sub-txt"></div>
     <div id="match-list" style="padding:6px 11px 0"></div>
@@ -762,7 +762,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   </div>
 
   <!-- EXPLORE VIEW — sem subtítulo de match -->
-  <div class="res-view" id="v-explore" style="display:none">
+  <div class="res-view" id="v-explore">
     <div class="fbox">
       <div class="fbox-top"><span class="fbox-title">Filtrar pacotes</span><span class="fbox-count" id="pkg-count">—</span></div>
       <div class="fsearch">
@@ -1307,6 +1307,7 @@ Pode me enviar mais informações?`;
   }).join('');
   renderPkgs();
   goScreen('s-results');
+  switchView('match'); // After quiz, show matches
 }
 
 // ── Explorer ──────────────────────────
@@ -1327,23 +1328,30 @@ function setAirportFilter(btn,ap){
 function openLightbox(src,dest){if(!src)return;document.getElementById('lightbox-img').src=src;document.getElementById('lightbox-dest').textContent=dest;document.getElementById('lightbox').classList.add('open');}
 function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
 
+// Mobile explorer pagination state
+let M_page = 0;
+const M_PAGE_SIZE = 8;
+let M_filtered = [];
+
 function renderPkgs(){
   const q=(document.getElementById('search-in')?.value||'').toLowerCase();
   const fDate=document.getElementById('fi-date')?.value||'';
-  let list=PKGS.filter(p=>{
+  M_filtered=PKGS.filter(p=>{
     if(ST.tipoFilter!=='all'&&p.t!==ST.tipoFilter) return false;
     if(ST.regExpFilter!=='all'&&p.r!==ST.regExpFilter) return false;
     if(q&&!p.d.toLowerCase().includes(q)&&!p.h.toLowerCase().includes(q)) return false;
     if(ST.apFilter!=='all'&&p.o!==ST.apFilter) return false;
     if(fDate&&p.i){
-      const pDt=new Date(p.i.split('/').reverse().join('-'));
-      const fDt=new Date(fDate);
-      if(pDt<fDt) return false;
+      try{
+        const pDt=new Date(p.i.split('/').reverse().join('-'));
+        if(pDt<new Date(fDate)) return false;
+      }catch(e){}
     }
     return true;
   });
+
   // Sort
-  list=[...list].sort((a,b)=>{
+  M_filtered=[...M_filtered].sort((a,b)=>{
     const d=ST.sortDir;
     if(ST.sortKey==='score'){const sa=ST.scores[a.id]?.score||0,sb2=ST.scores[b.id]?.score||0;return(sb2-sa)*d;}
     if(ST.sortKey==='preco_asc') return(a.p-b.p)*d;
@@ -1351,20 +1359,42 @@ function renderPkgs(){
     if(ST.sortKey==='data'){const pa=a.i.split('/').reverse().join(''),pb=b.i.split('/').reverse().join('');return pa<pb?-d:d;}
     return 0;
   });
-  document.getElementById('pkg-count').textContent=list.length+' pacotes';
+
+  document.getElementById('pkg-count').textContent=M_filtered.length+' pacotes';
   const pl=document.getElementById('pkg-list');
-  if(!list.length){pl.innerHTML=`<div class="no-res" style="padding:20px 14px;text-align:center;font-size:12px;color:var(--muted);line-height:1.7;background:var(--white);border-radius:var(--r);border:1px solid var(--border);margin:4px 0">
+  pl.innerHTML='';
+  M_page=0;
+
+  if(!M_filtered.length){
+    pl.innerHTML=`<div class="no-res" style="padding:20px 14px;text-align:center;font-size:12px;color:var(--muted);line-height:1.7;background:var(--white);border-radius:var(--r);border:1px solid var(--border);margin:4px 0">
   ✈️ <strong style="display:block;font-size:13px;color:var(--navy);margin-bottom:6px">Nenhum pacote encontrado</strong>
   Os pacotes que aparecem aqui são personalizados com base no seu perfil. Se aparecer vazio, reveja as informações do seu perfil, orçamento e datas — ou explore diretamente os pacotes sem filtros.
   <br><br><button onclick="clearFilters()" style="padding:9px 20px;border-radius:100px;border:none;background:var(--navy);color:#fff;font-family:var(--f);font-size:12px;font-weight:700;cursor:pointer">Limpar filtros</button>
-</div>`;return;}
-  pl.innerHTML=list.map(p=>{
+</div>`;
+    return;
+  }
+
+  M_renderBatch();
+  M_setupScroll();
+}
+
+function M_renderBatch(){
+  const pl=document.getElementById('pkg-list');
+  if(!pl) return;
+  const batch=M_filtered.slice(M_page*M_PAGE_SIZE,(M_page+1)*M_PAGE_SIZE);
+  if(!batch.length) return;
+  M_page++;
+
+  batch.forEach(p=>{
     const sc=ST.scores[p.id]?.score;
-    const img=getImg(p);const bg=BG[p.t]||'#1A4F8A';const em=E[p.t]||'✈️';
-    const wamsg=`Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i}→${p.v}) por R$${p.p.toLocaleString('pt-BR')}/2 pessoas. Pode me enviar mais informações?`;
-    const imgSafe=img?(img.replace(/'/g,"\\'")):''
-    return `<div class="pcard">
-      <div class="pc-img" onclick="openLightbox('${imgSafe}','${p.d.replace(/'/g,"\\'")}')">
+    const img=getImg(p);const bg={praia:'#0077B6',montanha:'#2D6A4F',natureza:'#386641',cidade:'#1A4F8A'}[p.t]||'#1A4F8A';
+    const em={praia:'🏖️',montanha:'🏔️',natureza:'🌿',cidade:'🌆'}[p.t]||'✈️';
+    const wamsg=encodeURIComponent(`Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i}→${p.v}) por R$${p.p.toLocaleString('pt-BR')} para 2 pessoas. Pode me enviar mais informações?`);
+    const imgSafe=img?(img.replace(/'/g,"\'")):''
+    const div=document.createElement('div');
+    div.className='pcard';
+    div.innerHTML=`
+      <div class="pc-img" onclick="openLightbox('${imgSafe}','${p.d.replace(/'/g,"\'")}')">
         ${img?`<img src="${img}" alt="${p.d}" loading="lazy" onerror="this.parentNode.style.background='${bg}';this.remove()">`:`<div class="pc-ph" style="background:${bg}">${em}</div>`}
         <div class="pc-img-overlay"><span class="pc-zoom-ic">🔍</span></div>
         <div class="pc-badge">${p.t} · ${p.r}</div>
@@ -1383,11 +1413,38 @@ function renderPkgs(){
         </div>
         ${p.voo_ida?`<div class="pc-voo">🛫 ${p.voo_ida}</div>`:''}
         ${p.voo_volta?`<div class="pc-voo" style="margin-bottom:6px">🛬 ${p.voo_volta}</div>`:''}
-        <button class="btn-pc-wa" onclick="sendWa(this)" data-msg="${wamsg.replace(/"/g,'&quot;')}">💬 Quero este pacote</button>
-      </div>
-    </div>`;
-  }).join('');
+        <button type="button" class="btn-pc-wa" onclick="window.open('https://api.whatsapp.com/send?phone=5511953967095&text=${wamsg}','_blank')">💬 Quero este pacote</button>
+      </div>`;
+    pl.appendChild(div);
+  });
+
+  // Add load-more button if there are more items
+  const hasMore = M_page * M_PAGE_SIZE < M_filtered.length;
+  const existing = document.getElementById('m-load-more');
+  if(existing) existing.remove();
+  if(hasMore){
+    const btn = document.createElement('button');
+    btn.id = 'm-load-more';
+    btn.type = 'button';
+    btn.textContent = `Carregar mais ${Math.min(M_PAGE_SIZE, M_filtered.length - M_page*M_PAGE_SIZE)} pacotes…`;
+    btn.style.cssText = 'width:100%;padding:14px;margin-top:8px;border-radius:10px;border:2px solid var(--border);background:var(--white);font-family:var(--f);font-size:13px;font-weight:600;color:var(--navy);cursor:pointer';
+    btn.onclick = function(){ M_renderBatch(); };
+    pl.appendChild(btn);
+  }
 }
+
+function M_setupScroll(){
+  // Scroll-based loading for mobile explorer
+  const vExplore = document.getElementById('v-explore');
+  if(!vExplore) return;
+  vExplore.onscroll = function(){
+    if(vExplore.scrollHeight - vExplore.scrollTop - vExplore.clientHeight < 300){
+      const hasMore = M_page * M_PAGE_SIZE < M_filtered.length;
+      if(hasMore){ M_renderBatch(); }
+    }
+  };
+}
+
 
 // ── Toast & Restart ───────────────────
 let _tt;
