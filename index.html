@@ -22,7 +22,7 @@ html,body{height:100%;overflow:hidden}
 body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:flex;align-items:center;justify-content:center}
 .phone{width:min(390px,100vw);height:min(844px,100svh);background:var(--ice);border-radius:min(40px,0px);box-shadow:0 30px 80px rgba(0,0,0,.5);display:flex;flex-direction:column;overflow:hidden;position:relative}
 @media(max-width:390px),(max-height:700px){.phone{border-radius:0;height:100svh;width:100vw}}
-.sb{height:38px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:11px;font-weight:700;flex-shrink:0;z-index:100;background:transparent}
+.sb{display:none}
 .sb.dark{color:#fff}.sb.light{color:var(--navy)}
 .screen{position:absolute;inset:0;display:flex;flex-direction:column;transition:opacity .35s ease,transform .35s cubic-bezier(.4,0,.2,1);pointer-events:none;opacity:0;transform:translateX(26px)}
 .screen.active{pointer-events:all;opacity:1;transform:translateX(0)}
@@ -342,7 +342,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 <!-- ══ LOADING ══ -->
 <div class="screen active" id="s-loading">
   <div class="logo-mark logo-mark-lg" style="margin-bottom:4px">
-    <span class="lm-plane">✈️</span>
     <span class="lm-a">A </span><span class="lm-viagem">Viagem</span>
     <span class="lm-te"> te </span><span class="lm-encontra">Encontra</span>
   </div>
@@ -360,7 +359,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   <div class="land-body">
     <div class="land-logo-wrap">
       <div class="logo-mark logo-mark-lg">
-        <span class="lm-plane">✈️</span>
         <span class="lm-a">A </span><span class="lm-viagem">Viagem</span>
         <span class="lm-te"> te </span><span class="lm-encontra">Encontra</span>
       </div>
@@ -381,7 +379,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   <div class="sw-top">
     <div class="sw-top-row">
       <div class="logo-mark logo-mark-sm logo-light">
-        <span class="lm-plane" style="font-size:12px">✈️</span>
         <span class="lm-a" style="color:var(--sky-dk)">A </span><span class="lm-viagem" style="color:var(--navy)">Viagem</span>
         <span class="lm-te" style="color:var(--sky-dk)"> te </span><span class="lm-encontra" style="color:var(--navy)">Encontra</span>
       </div>
@@ -389,13 +386,12 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
     </div>
     <div class="reg-row" id="reg-row-swipe">
       <button class="rc on" data-r="all" onclick="setReg(this,'all','swipe')">Todos</button>
+      <button class="rc" data-r="Internacional" onclick="setReg(this,'Internacional','swipe')">🌍 Internacional</button>
       <button class="rc" data-r="Nordeste" onclick="setReg(this,'Nordeste','swipe')">🌊 Nordeste</button>
       <button class="rc" data-r="Norte" onclick="setReg(this,'Norte','swipe')">🌿 Norte</button>
-      <button class="rc" data-r="Bahia" onclick="setReg(this,'Bahia','swipe')">🌴 Bahia</button>
       <button class="rc" data-r="Sul" onclick="setReg(this,'Sul','swipe')">🏔 Sul</button>
       <button class="rc" data-r="Sudeste" onclick="setReg(this,'Sudeste','swipe')">🏙 Sudeste</button>
-      <button class="rc" data-r="Centro-Oeste" onclick="setReg(this,'Centro-Oeste','swipe')">🌿 Centro-Oeste</button>
-      <button class="rc" data-r="Internacional" onclick="setReg(this,'Internacional','swipe')">✈️ Internacional</button>
+      <button class="rc" data-r="Centro-Oeste" onclick="setReg(this,'Centro-Oeste','swipe')">🦜 Centro-Oeste</button>
     </div>
   </div>
   <div class="sw-area"><div class="card-stack" id="card-stack"></div></div>
@@ -425,7 +421,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   <div class="qhdr">
     <div class="qhdr-row">
       <div class="logo-mark logo-mark-sm logo-light">
-        <span class="lm-plane" style="font-size:11px">✈️</span>
         <span class="lm-a" style="color:var(--sky-dk)">A </span><span class="lm-viagem" style="color:var(--navy)">Viagem</span>
         <span class="lm-te" style="color:var(--sky-dk)"> te </span><span class="lm-encontra" style="color:var(--navy)">Encontra</span>
       </div>
@@ -442,7 +437,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <p class="q-sub">Selecione uma ou mais regiões de interesse.</p>
       <div class="opts2">
         <div class="opt" data-q="reg" data-v="Nordeste" onclick="qpickMulti(this)"><div class="opt-ic">🌊</div><div class="opt-tx"><div class="opt-lbl">Nordeste</div></div><div class="opt-ck">✓</div></div>
-        <div class="opt" data-q="reg" data-v="Bahia" onclick="qpickMulti(this)"><div class="opt-ic">🌴</div><div class="opt-tx"><div class="opt-lbl">Bahia</div></div><div class="opt-ck">✓</div></div>
+
         <div class="opt" data-q="reg" data-v="Sul" onclick="qpickMulti(this)"><div class="opt-ic">🏔</div><div class="opt-tx"><div class="opt-lbl">Sul</div></div><div class="opt-ck">✓</div></div>
         <div class="opt" data-q="reg" data-v="Sudeste" onclick="qpickMulti(this)"><div class="opt-ic">🏙</div><div class="opt-tx"><div class="opt-lbl">Sudeste</div></div><div class="opt-ck">✓</div></div>
         <div class="opt" data-q="reg" data-v="Norte" onclick="qpickMulti(this)"><div class="opt-ic">🌿</div><div class="opt-tx"><div class="opt-lbl">Norte</div></div><div class="opt-ck">✓</div></div>
@@ -456,7 +451,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
     <!-- Q1: Orçamento -->
     <div class="qblock" id="qq1">
       <div class="q-tag">💰 Orçamento</div>
-      <h2 class="q-title">Qual o seu orçamento por pessoa?</h2>
+      <h2 class="q-title">Qual o seu orçamento total?</h2>
       <p class="q-sub">Hospedagem + passeios, sem passagem aérea.</p>
       <div class="opts">
         <div class="opt" data-q="bud" data-v="b1" onclick="qpick(this)"><div class="opt-ic">💛</div><div class="opt-tx"><div class="opt-lbl">Até R$ 4.000</div><div class="opt-desc">Custo-benefício, pousadas e hotéis simples</div></div><div class="opt-ck">✓</div></div>
@@ -519,7 +514,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <p class="q-sub">Informe para refinar ainda mais seus matches.</p>
       <!-- Data -->
       <label class="q-input-label">📅 Período da viagem (opcional):</label>
-      <input class="q-input" id="q-date-from" type="date" oninput="ST.answers.dateFrom=this.value">
+      <input class="q-input" id="q-date-from" type="date" oninput="onDateFromChange(this.value)">
       <input class="q-input" id="q-date-to" type="date" style="margin-top:4px" oninput="ST.answers.dateTo=this.value">
       <!-- Aeroporto -->
       <label class="q-input-label" style="margin-top:10px">✈️ Aeroporto de origem:</label>
@@ -530,14 +525,8 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <button class="airport-chip" data-a="Confins" onclick="toggleAirport(this,'Confins')">CNF — Confins</button>
         <button class="airport-chip" data-a="Goiânia" onclick="toggleAirport(this,'Goiânia')">GYN — Goiânia</button>
       </div>
-      <!-- Flexibilidade -->
-      <label class="q-input-label" style="margin-top:10px">🗓️ Flexibilidade:</label>
-      <div class="opts" style="margin-top:4px">
-        <div class="opt" data-q="flex" data-v="alta" onclick="qpick(this)"><div class="opt-ic">🗓️</div><div class="opt-tx"><div class="opt-lbl">Muito flexível</div><div class="opt-desc">Qualquer período</div></div><div class="opt-ck">✓</div></div>
-        <div class="opt" data-q="flex" data-v="media" onclick="qpick(this)"><div class="opt-ic">📅</div><div class="opt-tx"><div class="opt-lbl">Parcialmente</div><div class="opt-desc">Posso ajustar alguns dias</div></div><div class="opt-ck">✓</div></div>
-        <div class="opt" data-q="flex" data-v="nao" onclick="qpick(this)"><div class="opt-ic">📌</div><div class="opt-tx"><div class="opt-lbl">Datas fixas</div><div class="opt-desc">Já sei quando quero viajar</div></div><div class="opt-ck">✓</div></div>
-      </div>
-      <div class="qnav"><button class="btn-qb" onclick="goQQ(4)">← Voltar</button><button class="btn-qn" id="qn5" onclick="doAnalyze()">Ver meus matches ✨</button></div>
+
+      <div class="qnav"><button class="btn-qb" onclick="goQQ(4)">← Voltar</button><button class="btn-qn" id="qn5" onclick="doAnalyze()" style="opacity:1">Ver meus matches ✨</button></div>
     </div>
   </div>
 </div>
@@ -620,10 +609,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       </div>
       <!-- Inputs de filtro do usuário -->
       <div class="fbox-inputs">
-        <div class="fi-row">
-          <span class="fi-lbl">💰 Orçamento:</span>
-          <input class="fi-inp" type="number" id="fi-budget" placeholder="Máx R$..." oninput="renderPkgs()">
-        </div>
+
         <div class="fi-row">
           <span class="fi-lbl">📅 Data saída:</span>
           <input class="fi-inp" type="date" id="fi-date" oninput="renderPkgs()">
@@ -631,12 +617,10 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <div>
           <div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:4px">✈️ Aeroporto:</div>
           <div class="fi-chips-mini">
-            <button class="fi-chip-mini" data-ap="all" onclick="setAirportFilter(this,'all')">Todos</button>
-            <button class="fi-chip-mini" data-ap="Congonhas" onclick="setAirportFilter(this,'Congonhas')">CGH</button>
-            <button class="fi-chip-mini" data-ap="Guarulhos" onclick="setAirportFilter(this,'Guarulhos')">GRU</button>
-            <button class="fi-chip-mini" data-ap="Viracopos" onclick="setAirportFilter(this,'Viracopos')">VCP</button>
-            <button class="fi-chip-mini" data-ap="Confins" onclick="setAirportFilter(this,'Confins')">CNF</button>
-            <button class="fi-chip-mini" data-ap="Goiânia" onclick="setAirportFilter(this,'Goiânia')">GYN</button>
+            <button class="fi-chip-mini on" data-ap="all" onclick="setAirportFilter(this,'all')">Todos</button>
+            <button class="fi-chip-mini" data-ap="Congonhas" onclick="setAirportFilter(this,'Congonhas')">CGH — Congonhas</button>
+            <button class="fi-chip-mini" data-ap="Guarulhos" onclick="setAirportFilter(this,'Guarulhos')">GRU — Guarulhos</button>
+            <button class="fi-chip-mini" data-ap="Viracopos" onclick="setAirportFilter(this,'Viracopos')">VCP — Viracopos</button>
           </div>
         </div>
       </div>
@@ -1055,13 +1039,11 @@ function closeLightbox(){document.getElementById('lightbox').classList.remove('o
 
 function renderPkgs(){
   const q=(document.getElementById('search-in')?.value||'').toLowerCase();
-  const fBudget=parseInt(document.getElementById('fi-budget')?.value)||0;
   const fDate=document.getElementById('fi-date')?.value||'';
   let list=PKGS.filter(p=>{
     if(ST.tipoFilter!=='all'&&p.t!==ST.tipoFilter) return false;
     if(ST.regExpFilter!=='all'&&p.r!==ST.regExpFilter) return false;
     if(q&&!p.d.toLowerCase().includes(q)&&!p.h.toLowerCase().includes(q)) return false;
-    if(fBudget>0&&p.p>fBudget) return false;
     if(ST.apFilter!=='all'&&p.o!==ST.apFilter) return false;
     if(fDate&&p.i){
       const pDt=new Date(p.i.split('/').reverse().join('-'));
@@ -1081,7 +1063,11 @@ function renderPkgs(){
   });
   document.getElementById('pkg-count').textContent=list.length+' pacotes';
   const pl=document.getElementById('pkg-list');
-  if(!list.length){pl.innerHTML=`<div class="no-res">🔍 Nenhum pacote encontrado com esses filtros.</div>`;return;}
+  if(!list.length){pl.innerHTML=`<div class="no-res" style="padding:20px 14px;text-align:center;font-size:12px;color:var(--muted);line-height:1.7;background:var(--white);border-radius:var(--r);border:1px solid var(--border);margin:4px 0">
+  ✈️ <strong style="display:block;font-size:13px;color:var(--navy);margin-bottom:6px">Nenhum pacote encontrado</strong>
+  Os pacotes que aparecem aqui são personalizados com base no seu perfil. Se aparecer vazio, reveja as informações do seu perfil, orçamento e datas — ou explore diretamente os pacotes sem filtros.
+  <br><br><button onclick="clearFilters()" style="padding:9px 20px;border-radius:100px;border:none;background:var(--navy);color:#fff;font-family:var(--f);font-size:12px;font-weight:700;cursor:pointer">Limpar filtros</button>
+</div>`;return;}
   pl.innerHTML=list.map(p=>{
     const sc=ST.scores[p.id]?.score;
     const img=getImg(p);const bg=BG[p.t]||'#1A4F8A';const em=E[p.t]||'✈️';
@@ -1131,7 +1117,7 @@ function restart(){
   document.querySelectorAll('.airport-chip').forEach(b=>b.classList.remove('on'));
   ['az1','az2','az3','az4'].forEach((id,i)=>{const el=document.getElementById(id);el.classList.remove('done','act');el.querySelector('.az-step-ic').textContent=['❤️','🔍','⚖️','🏆'][i];});
   document.getElementById('likes-num').textContent='0';
-  ['search-in','fi-budget','fi-date','q-bud-custom','q-date-from','q-date-to'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['search-in','fi-date','q-bud-custom','q-date-from','q-date-to'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active','exit'));
   document.getElementById('s-land').classList.add('active');
   ST.cur='s-land';
@@ -1143,7 +1129,36 @@ function restart(){
 function updateClock(){const n=new Date();document.getElementById('sb-time').textContent=n.getHours()+':'+(n.getMinutes()<10?'0':'')+n.getMinutes();}
 updateClock();setInterval(updateClock,15000);
 
+// Clear all filters
+function clearFilters(){
+  ST.tipoFilter='all';ST.regExpFilter='all';ST.apFilter='all';
+  document.querySelectorAll('[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==='all'));
+  document.querySelectorAll('[data-rg]').forEach(b=>b.classList.toggle('on',b.dataset.rg==='all'));
+  document.querySelectorAll('.fi-chip-mini').forEach(b=>b.classList.toggle('on',b.dataset.ap==='all'));
+  const si=document.getElementById('search-in');if(si)si.value='';
+  const fd=document.getElementById('fi-date');if(fd)fd.value='';
+  renderPkgs();
+}
+
 // INIT
+// Date from change — set min 5 days ahead for return date
+function onDateFromChange(val){
+  ST.answers.dateFrom=val;
+  if(!val) return;
+  const d=new Date(val);
+  d.setDate(d.getDate()+5);
+  const minTo=d.toISOString().split('T')[0];
+  const toEl=document.getElementById('q-date-to');
+  toEl.min=minTo;
+  if(toEl.value && toEl.value < minTo){toEl.value=minTo;ST.answers.dateTo=minTo;}
+}
+
+// Override showResults to check empty matches
+const _origShowResults = showResults;
+showResults = function(){
+  _origShowResults();
+};
+
 loadPkgs();
 </script>
 </body>
