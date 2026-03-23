@@ -767,7 +767,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <div class="fbox-top"><span class="fbox-title">Filtrar pacotes</span><span class="fbox-count" id="pkg-count">—</span></div>
       <div class="fsearch">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4"/><path d="M10.5 10.5L14 14" stroke-linecap="round"/></svg>
-        <input type="text" id="search-in" placeholder="Destino ou hotel…" oninput="renderPkgs()">
+        <input type="text" id="search-in" placeholder="Destino ou hotel…" oninput="renderPkgs()" autocomplete="off">
       </div>
       <!-- Tipo -->
       <div class="fchips">
@@ -805,7 +805,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 
         <div class="fi-row">
           <span class="fi-lbl">📅 Data saída:</span>
-          <input class="fi-inp" type="date" id="fi-date" onchange="renderPkgs()">
+          <input class="fi-inp" type="date" id="fi-date" onchange="renderPkgs()" tabindex="-1" autocomplete="off">
         </div>
         <div>
           <div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:4px">✈️ Aeroporto:</div>
@@ -1394,20 +1394,30 @@ let _tt;
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),2000);}
 
 function goAllPkgs(){
-  // Skip swipe/quiz, go straight to explore tab
   if(!PKGS.length){ showToast('Carregando pacotes...'); return; }
-  // Score with empty profile
-  PKGS.forEach(p=>{ ST.scores[p.id]={score:0,si:0,se:0,reasons:[]}; });
-  document.getElementById('rh-compat-ct').textContent = PKGS.length;
-  document.getElementById('rh-title').textContent = 'Todos os pacotes disponíveis ✈️';
-  document.getElementById('rh-pills').innerHTML = '';
-  document.getElementById('match-sub-txt').textContent = '';
-  document.getElementById('match-list').innerHTML = '<div style="text-align:center;padding:30px 14px;color:var(--muted);font-size:13px">Faça o quiz para ver os seus matches personalizados 🎯<br><br><button onclick="goSwipe()" style="padding:11px 22px;border-radius:100px;border:none;background:var(--navy);color:#fff;font-family:var(--f);font-size:12px;font-weight:700;cursor:pointer">Começar o quiz →</button></div>';
-  document.getElementById('match-dot').textContent = '0';
-  document.getElementById('rt-explore').textContent = `🔍 Explorar todos (${PKGS.length})`;
-  renderPkgs();
+  // Prepare scores
+  PKGS.forEach(p=>{ if(!ST.scores[p.id]) ST.scores[p.id]={score:0,si:0,se:0,reasons:[]}; });
+  // Set up results screen
+  const rhc = document.getElementById('rh-compat-ct');
+  const rht = document.getElementById('rh-title');
+  const rhp = document.getElementById('rh-pills');
+  const mst = document.getElementById('match-sub-txt');
+  const rte = document.getElementById('rt-explore');
+  if(rhc) rhc.textContent = PKGS.length;
+  if(rht) rht.textContent = 'Todos os pacotes ✈️';
+  if(rhp) rhp.innerHTML = '';
+  if(mst) mst.textContent = '';
+  if(rte) rte.textContent = '🔍 Todos (' + PKGS.length + ')';
+  // Navigate first, then render after transition
   goScreen('s-results');
-  switchView('explore');
+  // Use setTimeout to let the screen transition complete
+  // and prevent iOS from auto-focusing any inputs
+  setTimeout(function(){
+    switchView('explore');
+    renderPkgs();
+    // Explicitly blur any focused element to prevent calendar popup
+    if(document.activeElement) document.activeElement.blur();
+  }, 400);
 }
 
 function restart(){
