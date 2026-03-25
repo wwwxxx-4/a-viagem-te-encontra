@@ -1778,7 +1778,7 @@ function W_loadMore(){
 
   const frag = document.createDocumentFragment();
   batch.forEach(p=>{
-    const img  = p.img || FB_W[p.d] || null;
+    const img  = getImg(p);
     const bg   = BG_W[p.t] || '#1A4F8A';
     const em   = EM_W[p.t] || '✈️';
     const msg  = encodeURIComponent(`Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i}→${p.v}) por R$${p.p.toLocaleString('pt-BR')} para 2 pessoas + taxas. Pode me enviar mais informações?`);
