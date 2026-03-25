@@ -945,6 +945,11 @@ function parseRegiao(r,d){
 }
 function parsePrice(v){if(!v)return 0;const n=parseFloat(String(v).replace(/[^0-9.,]/g,'').replace(',','.'));return isNaN(n)?0:Math.round(n)}
 function getFirstImg(img){if(!img)return null;return String(img).split('\n')[0].trim()||null}
+function getAllImgs(img){
+  if(!img) return [];
+  // Suporta quebra de linha e também vírgula como separador
+  return String(img).split(/\n|,/).map(s=>s.trim()).filter(s=>s.startsWith('http'));
+}
 function normalizePost(p){
   const destino=(p.destino||p.title||'').split(',')[0].trim();
   const preco=parsePrice(p.preco);
@@ -958,7 +963,8 @@ function normalizePost(p){
     ai:hotel.toLowerCase().includes('all inclusive')||hotel.toLowerCase().includes('all-inclusive'),
     cm:hotel.toLowerCase().includes('café da manhã')||hotel.toLowerCase().includes('cafe da manha')||hotel.toLowerCase().includes('breakfast'),
     lx:preco>12000,
-    img:getFirstImg(p.imagem_destino||p.cover_image_url),
+    imgs:getAllImgs(p.imagem_destino||p.cover_image_url),
+    img:null,
     voo_ida:p.voo_ida||'',voo_volta:p.voo_volta||'',
   };
 }
@@ -988,17 +994,21 @@ const FB_IMG={
 const BG={praia:'#0077B6',montanha:'#2D6A4F',natureza:'#386641',cidade:'#1A4F8A'};
 const E={praia:'🏖️',montanha:'🏔️',natureza:'🌿',cidade:'🌆'};
 function getImg(pkg){
-  // 1. Imagem real do banco (imagem_destino do Supabase)
-  if(pkg.img && pkg.img.length > 20) return pkg.img;
-  // 2. Fallback por nome do destino
+  // Seed determinístico por id → imagem diferente por pacote, mas consistente
+  const seed = Math.abs(String(pkg.id||pkg.d||'').split('').reduce((a,c)=>((a<<5)-a)+c.charCodeAt(0),0));
+
+  // 1. Imagens reais do banco (campo imagem_destino — múltiplas URLs por linha)
+  if(pkg.imgs && pkg.imgs.length > 0){
+    return pkg.imgs[seed % pkg.imgs.length];
+  }
+  // 2. Fallback por nome do destino (Unsplash curado)
   if(FB_IMG[pkg.d]) return FB_IMG[pkg.d];
-  // 3. Pool por tipo com seed baseado no id do pacote (imagens variadas)
+  // 3. Pool por tipo — variedade garantida mesmo sem imagem no banco
   const POOLS={
     praia:[
       'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=70',
       'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=600&q=70',
       'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=600&q=70',
-      'https://images.unsplash.com/photo-1563284223-333497472a04?w=600&q=70',
       'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=600&q=70',
       'https://images.unsplash.com/photo-1473116763249-2faaef81ccda?w=600&q=70',
       'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&q=70',
@@ -1006,8 +1016,8 @@ function getImg(pkg){
     montanha:[
       'https://images.unsplash.com/photo-1544979590-37e9b47eb705?w=600&q=70',
       'https://images.unsplash.com/photo-1494548162494-384bba4ab999?w=600&q=70',
-      'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=70',
       'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=70',
+      'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=70',
     ],
     natureza:[
       'https://images.unsplash.com/photo-1578894381163-e72c17f2d45f?w=600&q=70',
@@ -1022,9 +1032,7 @@ function getImg(pkg){
     ]
   };
   const pool = POOLS[pkg.t] || POOLS.praia;
-  // Seed determinístico por id → mesma imagem para o mesmo pacote, mas varia entre pacotes
-  const seed = String(pkg.id||pkg.d||'').split('').reduce((a,c)=>((a<<5)-a)+c.charCodeAt(0),0);
-  return pool[Math.abs(seed) % pool.length];
+  return pool[seed % pool.length];
 }
 
 // ── State ─────────────────────────────
