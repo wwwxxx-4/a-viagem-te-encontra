@@ -1044,7 +1044,7 @@ const ST={
   answers:{reg:[],airports:[]},curQ:0,
   sortKey:'preco_asc',sortDir:1,
   tipoFilter:'all',regExpFilter:'all',
-  apFilter:'all',
+  apFilter:'all',monthFilter:'all',
   scores:{},
 };
 const HOOK_AFTER=3;
@@ -1448,7 +1448,7 @@ function renderPkgs(){
     if(ST.regExpFilter!=='all'&&p.r!==ST.regExpFilter) return false;
     if(q&&!p.d.toLowerCase().includes(q)&&!p.h.toLowerCase().includes(q)) return false;
     if(ST.apFilter!=='all'&&p.o!==ST.apFilter) return false;
-    if(ST.monthFilter!=='all'&&p.m!==ST.monthFilter) return false;
+    if((ST.monthFilter||'all')!=='all'&&p.m!==ST.monthFilter) return false;
     if(fDate&&p.i){
       try{
         const pDt=new Date(p.i.split('/').reverse().join('-'));
