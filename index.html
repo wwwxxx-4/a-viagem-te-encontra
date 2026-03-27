@@ -1134,7 +1134,7 @@ const ST={
   answers:{reg:[],airports:[]},curQ:0,
   sortKey:'preco_asc',sortDir:1,
   tipoFilter:'all',regExpFilter:'all',
-  apFilter:'all',
+  apFilter:'all',monthFilter:'all',
   scores:{},
 };
 const HOOK_AFTER=3;
@@ -1671,14 +1671,20 @@ function goAllPkgs(){
   if(rhp) rhp.innerHTML = '';
   if(mst) mst.textContent = '';
   if(rte) rte.textContent = '🔍 Todos (' + PKGS.length + ')';
+  // Reset all explore filters so user sees ALL packages
+  ST.tipoFilter='all'; ST.regExpFilter='all'; ST.apFilter='all'; ST.monthFilter='all';
+  // Reset filter chips visually
+  document.querySelectorAll('[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==='all'));
+  document.querySelectorAll('[data-rg]').forEach(b=>b.classList.toggle('on',b.dataset.rg==='all'));
+  document.querySelectorAll('.fi-chip-mini').forEach(b=>b.classList.toggle('on',b.dataset.ap==='all'));
+  document.querySelectorAll('[data-mf]').forEach(b=>b.classList.toggle('on',b.dataset.mf==='all'));
+  const si=document.getElementById('search-in');if(si)si.value='';
+  const fd=document.getElementById('fi-date');if(fd)fd.value='';
   // Navigate first, then render after transition
   goScreen('s-results');
-  // Use setTimeout to let the screen transition complete
-  // and prevent iOS from auto-focusing any inputs
   setTimeout(function(){
     switchView('explore');
     renderPkgs();
-    // Explicitly blur any focused element to prevent calendar popup
     if(document.activeElement) document.activeElement.blur();
   }, 400);
 }
