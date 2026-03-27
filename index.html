@@ -1464,7 +1464,7 @@ function buildMatchCards(top5){
     const siPct=Math.min(Math.round((p.si/52)*100),100);
     const sePct=Math.min(Math.round((p.se/65)*100),100);
     const _mmp=markupPrice(p.p),_mfp=finalPrice(p.p);
-    const _mdisc=COUPON?`\n🏷️ CUPOM ${COUPON.code}: ${COUPON.label}! Preço com desconto: R$${fmtBRL(_mfp)}`:'';
+    const _mdisc=COUPON?('\n🏷️ CUPOM '+COUPON.code+': '+COUPON.label+'! Preço com desconto: R$'+fmtBRL(_mfp)):'';
     const wamsg=`Olá! Fiz o quiz em A Viagem te Encontra e ${p.d} apareceu com ${p.score}% de compatibilidade!
 
 🏨 ${p.h}
@@ -1594,7 +1594,7 @@ function M_renderBatch(){
     const img=getImg(p);const bg={praia:'#0077B6',montanha:'#2D6A4F',natureza:'#386641',cidade:'#1A4F8A'}[p.t]||'#1A4F8A';
     const em={praia:'🏖️',montanha:'🏔️',natureza:'🌿',cidade:'🌆'}[p.t]||'✈️';
     const _mp=markupPrice(p.p),_fp=finalPrice(p.p);
-    const _disc=COUPON?`\nCUPOM ${COUPON.code} (${COUPON.label}) aplicado! Preço com desconto: R$${fmtBRL(_fp)}`:'';
+    const _disc=COUPON?('\nCUPOM '+COUPON.code+' ('+COUPON.label+') aplicado! Preço com desconto: R$'+fmtBRL(_fp)):'';
     const wamsg=encodeURIComponent(`Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i}→${p.v}) por R$${fmtBRL(_mp)} para 2 pessoas + taxas.${_disc}\nPode me enviar mais informações?`);
     const imgSafe=img?(img.replace(/'/g,"\'")):''
     const div=document.createElement('div');
@@ -1776,7 +1776,7 @@ showResults = function(){
 // Cupons carregados do Supabase (tabela: coupons)
 // ═══════════════════════════════════════════════════════════
 
-const MARKUP = 1.10; // todos os preços exibidos têm +10%
+const MARKUP = 1.11; // todos os preços exibidos têm +11%
 let COUPON = null;   // null ou {code, pct, label}
 let COUPONS_CACHE = {}; // cache dos cupons carregados
 
@@ -2071,7 +2071,7 @@ function W_loadMore(){
     const bg   = BG_W[p.t] || '#1A4F8A';
     const em   = EM_W[p.t] || '✈️';
     const _wmp=markupPrice(p.p),_wfp=finalPrice(p.p);
-    const _wdisc=COUPON?`\nCUPOM ${COUPON.code} (${COUPON.label})! Preço com desconto: R$${fmtBRL(_wfp)}`:'';
+    const _wdisc=COUPON?('\nCUPOM '+COUPON.code+' ('+COUPON.label+')! Preço com desconto: R$'+fmtBRL(_wfp)):'';
     const msg=encodeURIComponent(`Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i}→${p.v}) por R$${fmtBRL(_wmp)} para 2 pessoas + taxas.${_wdisc}\nPode me enviar mais informações?`);
     const waUrl = `https://api.whatsapp.com/send?phone=5511953967095&text=${msg}`;
     const div = document.createElement('div');
