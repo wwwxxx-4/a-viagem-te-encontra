@@ -2140,7 +2140,7 @@ function W_loadMore(){
 
   const frag = document.createDocumentFragment();
   batch.forEach(p=>{
-    const img  = p.img || FB_W[p.d] || null;
+    const img  = getImg(p);
     const bg   = BG_W[p.t] || '#1A4F8A';
     const em   = EM_W[p.t] || '✈️';
     const _wmp=markupPrice(p.p),_wfp=finalPrice(p.p);
