@@ -644,6 +644,10 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#8FA3B4" stroke-width="1.8"><circle cx="7" cy="7" r="4"/><path d="M10.5 10.5L14 14" stroke-linecap="round"/></svg>
       <input type="text" id="w-search" placeholder="Destino ou hotel…" oninput="W_render()">
     </div>
+    <div class="ws-sec">Destino</div>
+    <select class="ws-select" id="w-dest" onchange="W_render()">
+      <option value="all">Todos os destinos</option>
+    </select>
     <div class="ws-sec">Tipo</div>
     <div class="ws-chips" id="w-tipo">
       <button type="button" class="wfc on" data-v="all"       onclick="W_chip('tipo',this)">Todos</button>
@@ -974,6 +978,13 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4"/><path d="M10.5 10.5L14 14" stroke-linecap="round"/></svg>
         <input type="text" id="search-in" placeholder="Destino ou hotel…" oninput="renderPkgs()" autocomplete="off">
       </div>
+      <!-- Destino (dinâmico) -->
+      <div class="fchips" style="margin-top:6px">
+        <span class="fc-lbl">Destino:</span>
+        <select id="m-dest" onchange="setDestFilter(this.value)" style="flex:1;min-width:140px;padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;background:#fff;font-family:var(--f);font-size:11px;color:var(--navy);outline:none;cursor:pointer">
+          <option value="all">Todos os destinos</option>
+        </select>
+      </div>
       <!-- Ordenar (primeiro) -->
       <div class="sort-row" style="margin-top:0">
         <span class="sort-lbl">Ordenar:</span>
@@ -1227,7 +1238,7 @@ const ST={
   answers:{reg:[],airports:[]},curQ:0,
   sortKey:'preco_asc',sortDir:1,
   tipoFilter:'all',regExpFilter:'all',
-  apFilter:'all',monthFilter:'all',
+  apFilter:'all',monthFilter:'all',destFilter:'all',
   scores:{},
 };
 const HOOK_AFTER=3;
@@ -1247,6 +1258,7 @@ async function loadPkgs(){
     }
     if(!all.length) throw new Error('Nenhum pacote publicado encontrado.');
     PKGS=all.map(normalizePost).filter(p=>p.p>0&&p.d&&((p.imgs&&p.imgs.length>0)||p.cover));
+    try{populateDestinoFilter()}catch(e){}
     const seen=new Set();
     SWIPE_POOL=PKGS.filter(p=>{if(seen.has(p.d))return false;seen.add(p.d);return true;});
     const uD=new Set(PKGS.map(p=>p.d)).size;
@@ -1632,9 +1644,11 @@ let M_filtered = [];
 function renderPkgs(){
   const q=(document.getElementById('search-in')?.value||'').toLowerCase();
   const fDate=document.getElementById('fi-date')?.value||'';
+  const md=document.getElementById('m-dest');if(md) ST.destFilter=md.value||'all';
   M_filtered=PKGS.filter(p=>{
     if(ST.tipoFilter!=='all'&&p.t!==ST.tipoFilter) return false;
     if(ST.regExpFilter!=='all'&&p.r!==ST.regExpFilter) return false;
+    if(ST.destFilter!=='all'&&p.d!==ST.destFilter) return false;
     if(q&&!p.d.toLowerCase().includes(q)&&!p.h.toLowerCase().includes(q)) return false;
     if(ST.apFilter!=='all'&&p.o!==ST.apFilter) return false;
     if(ST.monthFilter!=='all'&&p.m!==ST.monthFilter) return false;
@@ -1810,14 +1824,18 @@ updateClock();setInterval(updateClock,15000);
 
 // Clear all filters
 function clearFilters(){
-  ST.tipoFilter='all';ST.regExpFilter='all';ST.apFilter='all';
+  ST.tipoFilter='all';ST.regExpFilter='all';ST.apFilter='all';ST.destFilter='all';ST.monthFilter='all';
+  W_F.tipo='all';W_F.reg='all';W_F.ap='all';W_F.month='all';W_F.dest='all';
   document.querySelectorAll('[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==='all'));
   document.querySelectorAll('[data-mf]').forEach(b=>b.classList.toggle('on',b.dataset.mf==='all'));
   document.querySelectorAll('[data-rg]').forEach(b=>b.classList.toggle('on',b.dataset.rg==='all'));
   document.querySelectorAll('.fi-chip-mini').forEach(b=>b.classList.toggle('on',b.dataset.ap==='all'));
   const si=document.getElementById('search-in');if(si)si.value='';
   const fd=document.getElementById('fi-date');if(fd)fd.value='';
+  const md=document.getElementById('m-dest');if(md)md.value='all';
+  const wd=document.getElementById('w-dest');if(wd)wd.value='all';
   renderPkgs();
+  if(typeof W_render==='function') try{W_render()}catch(e){}
 }
 
 // INIT
@@ -2079,7 +2097,27 @@ loadPkgs();
 // WEB LAYOUT JS — isolated, W_ prefix
 // Uses global PKGS + getImg loaded by mobile
 // ═══════════════════════════════════════════
-const W_F = {tipo:'all', reg:'all', ap:'all', month:'all'};
+const W_F = {tipo:'all', reg:'all', ap:'all', month:'all', dest:'all'};
+
+// Popula os <select> de destino dinamicamente a partir dos pacotes carregados
+function populateDestinoFilter(){
+  if(!PKGS||!PKGS.length) return;
+  const uniq=Array.from(new Set(PKGS.map(p=>p.d).filter(Boolean))).sort((a,b)=>a.localeCompare(b,'pt-BR'));
+  const opts='<option value="all">Todos os destinos</option>'+uniq.map(d=>`<option value="${d.replace(/"/g,'&quot;')}">${d}</option>`).join('');
+  const w=document.getElementById('w-dest');
+  if(w && w.options.length<=1){const cur=w.value;w.innerHTML=opts;w.value=cur||'all';}
+  const m=document.getElementById('m-dest');
+  if(m && m.options.length<=1){const cur=m.value;m.innerHTML=opts;m.value=cur||'all';}
+}
+function setDestFilter(v){
+  ST.destFilter=v;
+  W_F.dest=v;
+  // mantém os dois selects sincronizados
+  const w=document.getElementById('w-dest');if(w&&w.value!==v)w.value=v;
+  const m=document.getElementById('m-dest');if(m&&m.value!==v)m.value=v;
+  if(typeof renderPkgs==='function') try{renderPkgs()}catch(e){}
+  if(typeof W_render==='function') try{W_render()}catch(e){}
+}
 
 function W_chip(type, btn){
   const ids = {tipo:'w-tipo', reg:'w-reg', ap:'w-ap', month:'w-month'};
@@ -2104,11 +2142,14 @@ function W_render(){
   const fd = document.getElementById('w-date')?.value||'';
   const s  = document.getElementById('w-sort')?.value||'preco_asc';
 
+  // Sincroniza valor do select de destino
+  const wd=document.getElementById('w-dest');if(wd) W_F.dest=wd.value||'all';
   W_filtered = PKGS.filter(p=>{
     if(W_F.tipo!=='all' && p.t!==W_F.tipo) return false;
     if(W_F.reg!=='all'  && p.r!==W_F.reg)  return false;
     if(W_F.ap!=='all'   && p.o!==W_F.ap)   return false;
     if(W_F.month!=='all' && p.m!==W_F.month) return false;
+    if(W_F.dest!=='all' && p.d!==W_F.dest) return false;
     if(q && !p.d.toLowerCase().includes(q) && !p.h.toLowerCase().includes(q)) return false;
     if(fd && p.i){
       try{
