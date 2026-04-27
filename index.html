@@ -1648,7 +1648,7 @@ function renderPkgs(){
   M_filtered=PKGS.filter(p=>{
     if(ST.tipoFilter!=='all'&&p.t!==ST.tipoFilter) return false;
     if(ST.regExpFilter!=='all'&&p.r!==ST.regExpFilter) return false;
-    if(ST.destFilter!=='all'&&p.d!==ST.destFilter) return false;
+    if(ST.destFilter!=='all'&&_destNorm(p.d)!==ST.destFilter) return false;
     if(q&&!p.d.toLowerCase().includes(q)&&!p.h.toLowerCase().includes(q)) return false;
     if(ST.apFilter!=='all'&&p.o!==ST.apFilter) return false;
     if(ST.monthFilter!=='all'&&p.m!==ST.monthFilter) return false;
@@ -2099,15 +2099,38 @@ loadPkgs();
 // ═══════════════════════════════════════════
 const W_F = {tipo:'all', reg:'all', ap:'all', month:'all', dest:'all'};
 
-// Popula os <select> de destino dinamicamente a partir dos pacotes carregados
+// Popula os <select> de destino dinamicamente a partir dos pacotes carregados.
+// Une variantes com/sem acento ("Caraiva" vs "Caraíva") sob uma chave canônica.
+function _destNorm(s){
+  return String(s||'').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim().toLowerCase();
+}
 function populateDestinoFilter(){
   if(!PKGS||!PKGS.length) return;
-  const uniq=Array.from(new Set(PKGS.map(p=>p.d).filter(Boolean))).sort((a,b)=>a.localeCompare(b,'pt-BR'));
-  const opts='<option value="all">Todos os destinos</option>'+uniq.map(d=>`<option value="${d.replace(/"/g,'&quot;')}">${d}</option>`).join('');
+  // Agrupa pacotes pela chave normalizada e escolhe o display name mais frequente
+  const groups={};
+  for(const p of PKGS){
+    if(!p.d) continue;
+    const k=_destNorm(p.d);
+    if(!groups[k]) groups[k]={counts:{},total:0};
+    groups[k].counts[p.d]=(groups[k].counts[p.d]||0)+1;
+    groups[k].total++;
+  }
+  const items=Object.keys(groups).map(k=>{
+    // escolhe variante de display name com mais ocorrências; em empate, prefere a com acento
+    const c=groups[k].counts;
+    const variants=Object.keys(c).sort((a,b)=>{
+      if(c[b]!==c[a]) return c[b]-c[a];
+      const aHas=/[áàâãéèêíïóôõúüçÁÀÂÃÉÈÊÍÏÓÔÕÚÜÇ]/.test(a)?1:0;
+      const bHas=/[áàâãéèêíïóôõúüçÁÀÂÃÉÈÊÍÏÓÔÕÚÜÇ]/.test(b)?1:0;
+      return bHas-aHas;
+    });
+    return {key:k,label:variants[0]};
+  }).sort((a,b)=>a.label.localeCompare(b.label,'pt-BR'));
+  const opts='<option value="all">Todos os destinos</option>'+items.map(it=>`<option value="${it.key}">${it.label}</option>`).join('');
   const w=document.getElementById('w-dest');
-  if(w && w.options.length<=1){const cur=w.value;w.innerHTML=opts;w.value=cur||'all';}
+  if(w){const cur=w.value;w.innerHTML=opts;w.value=cur||'all';}
   const m=document.getElementById('m-dest');
-  if(m && m.options.length<=1){const cur=m.value;m.innerHTML=opts;m.value=cur||'all';}
+  if(m){const cur=m.value;m.innerHTML=opts;m.value=cur||'all';}
 }
 function setDestFilter(v){
   ST.destFilter=v;
@@ -2149,7 +2172,7 @@ function W_render(){
     if(W_F.reg!=='all'  && p.r!==W_F.reg)  return false;
     if(W_F.ap!=='all'   && p.o!==W_F.ap)   return false;
     if(W_F.month!=='all' && p.m!==W_F.month) return false;
-    if(W_F.dest!=='all' && p.d!==W_F.dest) return false;
+    if(W_F.dest!=='all' && _destNorm(p.d)!==W_F.dest) return false;
     if(q && !p.d.toLowerCase().includes(q) && !p.h.toLowerCase().includes(q)) return false;
     if(fd && p.i){
       try{
