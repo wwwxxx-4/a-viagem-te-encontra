@@ -452,6 +452,22 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   .wpc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s}
   .wpcard:hover .wpc-img img{transform:scale(1.05)}
   .wpc-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:44px}
+  .crsl{position:relative;width:100%;height:100%}
+  .crsl-track{position:absolute;inset:0;display:flex;transition:transform .35s cubic-bezier(.4,0,.2,1)}
+  .crsl-slide{flex:0 0 100%;height:100%;position:relative}
+  .crsl-slide img{width:100%;height:100%;object-fit:cover;display:block}
+  .crsl-tag{position:absolute;bottom:8px;left:8px;background:rgba(6,14,31,.75);color:#fff;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:100px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:3;pointer-events:none;font-family:'Plus Jakarta Sans',sans-serif}
+  .crsl-tag.hotel{background:rgba(0,194,168,.92)}
+  .crsl-tag.destino{background:rgba(18,70,200,.92)}
+  .crsl-nav{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;border:none;background:rgba(255,255,255,.92);color:#0A1628;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.18);z-index:4;opacity:0;transition:.2s}
+  .crsl-nav:hover{background:#fff;transform:translateY(-50%) scale(1.08)}
+  .crsl-nav.prev{left:8px}.crsl-nav.next{right:8px}
+  .wpc-img:hover .crsl-nav,.pc-img:hover .crsl-nav{opacity:1}
+  @media(max-width:767px){.crsl-nav{opacity:1;width:28px;height:28px;background:rgba(255,255,255,.85)}}
+  .crsl-nav svg{width:14px;height:14px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .crsl-dots{position:absolute;top:8px;right:8px;display:flex;gap:3px;z-index:3;pointer-events:none}
+  .crsl-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5);box-shadow:0 1px 2px rgba(0,0,0,.3);transition:.2s}
+  .crsl-dot.on{background:#fff;width:14px;border-radius:3px}
   .wpc-badge{position:absolute;top:10px;left:10px;background:rgba(0,26,61,.78);
     backdrop-filter:blur(10px);border-radius:100px;padding:3px 10px;
     font-size:9px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.06em}
@@ -482,6 +498,11 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 }
 
 .phone-dev{position:absolute;top:10px;right:10px;z-index:600;font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:#0A1628;font-weight:700;text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;background:rgba(255,255,255,.82);padding:5px 10px;border-radius:100px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 2px 10px rgba(0,0,0,.15);transition:.2s;opacity:.72}
+.btt{position:fixed;bottom:24px;right:24px;width:46px;height:46px;border-radius:50%;border:none;background:#0066FF;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,102,255,.4);opacity:0;visibility:hidden;transform:translateY(8px);transition:.25s cubic-bezier(.4,0,.2,1);z-index:1100}
+.btt.on{opacity:1;visibility:visible;transform:translateY(0)}
+.btt:hover{background:#3385FF;transform:translateY(-2px) scale(1.04)}
+.btt svg{width:20px;height:20px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:767px){.btt{bottom:80px;right:14px;width:42px;height:42px}}
 .phone-dev:hover,.phone-dev:active{opacity:1;transform:translateY(-1px)}
 .price-note{font-size:9px;color:var(--muted);display:block;margin-top:1px;font-style:italic}
 .wpc-pp{font-size:10px;color:#5A6E80;text-align:right;line-height:1.3}
@@ -647,11 +668,9 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
     <select class="ws-select" id="w-sort" onchange="W_render()">
       <option value="preco_asc">Menor preço</option>
       <option value="preco_desc">Maior preço</option>
-      <option value="data">Data de saída</option>
+      <option value="data">Próximas saídas</option>
       <option value="destino">Destino A-Z</option>
     </select>
-    <div class="ws-sec">Data de saída</div>
-    <input type="date" class="ws-date" id="w-date" onchange="W_render()">
     <div class="ws-sec">Aeroporto</div>
     <div class="ws-chips" id="w-ap">
       <button type="button" class="wfc on" data-v="all"        onclick="W_chip('ap',this)">Todos</button>
@@ -957,14 +976,23 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4"/><path d="M10.5 10.5L14 14" stroke-linecap="round"/></svg>
         <input type="text" id="search-in" placeholder="Destino ou hotel…" oninput="renderPkgs()" autocomplete="off">
       </div>
+      <!-- Ordenar (primeiro) -->
+      <div class="sort-row" style="margin-top:0">
+        <span class="sort-lbl">Ordenar:</span>
+        <div class="sort-btns">
+          <button class="sb on" data-s="preco_asc" onclick="setSort(this,'preco_asc')">Menor preço</button>
+          <button class="sb" data-s="preco_desc" onclick="setSort(this,'preco_desc')">Maior preço</button>
+          <button class="sb" data-s="data" onclick="setSort(this,'data')">Próximas saídas</button>
+        </div>
+      </div>
       <!-- Tipo -->
       <div class="fchips">
         <span class="fc-lbl">Tipo:</span>
         <button class="fc on" data-t="all" onclick="setTipo(this,'all')">Todos</button>
-        <button class="fc" data-t="praia" onclick="setTipo(this,'praia')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="9" x2="12.01" y2="9"/><path d="M10.93 4.93a5 5 0 0 1 6.14 0"/><path d="M2 18h20"/></svg> Praia</button>
-        <button class="fc" data-t="montanha" onclick="setTipo(this,'montanha')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l7-14 4 8 2-4 5 10H3z"/></svg> Serra</button>
-        <button class="fc" data-t="natureza" onclick="setTipo(this,'natureza')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg> Nat.</button>
-        <button class="fc" data-t="cidade" onclick="setTipo(this,'cidade')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="4" height="12"/><rect x="10" y="6" width="4" height="15"/><rect x="17" y="3" width="4" height="18"/></svg> Cidade</button>
+        <button class="fc" data-t="praia" onclick="setTipo(this,'praia')">Praia</button>
+        <button class="fc" data-t="montanha" onclick="setTipo(this,'montanha')">Serra</button>
+        <button class="fc" data-t="natureza" onclick="setTipo(this,'natureza')">Natureza</button>
+        <button class="fc" data-t="cidade" onclick="setTipo(this,'cidade')">Cidade</button>
       </div>
       <!-- Região -->
       <div class="fchips">
@@ -977,10 +1005,9 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <button class="fc" data-rg="Sudeste" onclick="setRegE(this,'Sudeste')">Sudeste</button>
         <button class="fc" data-rg="Centro-Oeste" onclick="setRegE(this,'Centro-Oeste')">Centro-Oeste</button>
       </div>
-      <!-- Ordenar -->
       <!-- Mês da viagem -->
       <div class="fchips" style="margin-top:4px">
-        <span class="fc-lbl"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Mês:</span>
+        <span class="fc-lbl">Mês:</span>
         <button type="button" class="fc on" data-mf="all" onclick="setMonthFilter(this,'all')">Todos</button>
         <button type="button" class="fc" data-mf="01" onclick="setMonthFilter(this,'01')">Jan</button>
         <button type="button" class="fc" data-mf="02" onclick="setMonthFilter(this,'02')">Fev</button>
@@ -995,25 +1022,10 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <button type="button" class="fc" data-mf="11" onclick="setMonthFilter(this,'11')">Nov</button>
         <button type="button" class="fc" data-mf="12" onclick="setMonthFilter(this,'12')">Dez</button>
       </div>
-      <div class="sort-row">
-        <span class="sort-lbl">Ordenar:</span>
-        <div class="sort-btns">
-          <button class="sb" data-s="score" onclick="setSort(this,'score')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Match</button>
-          <button class="sb on" data-s="preco_asc" onclick="setSort(this,'preco_asc')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg> Menor preço</button>
-          <button class="sb" data-s="preco_desc" onclick="setSort(this,'preco_desc')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Maior preço</button>
-          <button class="sb" data-s="data" onclick="setSort(this,'data')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Data saída</button>
-        </div>
-        <button class="sort-dir" id="sort-dir-btn" onclick="toggleDir()">↕</button>
-      </div>
       <!-- Inputs de filtro do usuário -->
       <div class="fbox-inputs">
-
-        <div class="fi-row">
-          <span class="fi-lbl"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Data saída:</span>
-          <input class="fi-inp" type="date" id="fi-date" onchange="renderPkgs()" tabindex="-1" autocomplete="off">
-        </div>
         <div>
-          <div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:4px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> Aeroporto:</div>
+          <div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:4px">Aeroporto:</div>
           <div class="fi-chips-mini">
             <button class="fi-chip-mini on" data-ap="all" onclick="setAirportFilter(this,'all')">Todos</button>
             <button class="fi-chip-mini" data-ap="Congonhas" onclick="setAirportFilter(this,'Congonhas')">CGH — Congonhas</button>
@@ -1104,9 +1116,9 @@ function buildWaUrl(phone, msg) {
 // ── Data helpers ──────────────────────
 function parseTipo(d,r){
   d=(d||'').toLowerCase();r=(r||'').toLowerCase();
-  if(['gramado','canela','bariloche','mendoza','são carlos','bariloche'].some(x=>d.includes(x))) return 'montanha';
-  if(['orlando','lisboa','lauderdale','madri','sintra','porto,','miami'].some(x=>d.includes(x))) return 'cidade';
-  if(['bonito','iguaçu','quente','caldas','chapada','pantanal'].some(x=>d.includes(x))) return 'natureza';
+  if(['gramado','canela','bariloche','mendoza','são carlos','sao carlos','ouro preto','tiradentes','campos do jordão','campos do jordao','monte verde','penedo','itatiaia','visconde de mauá','visconde de maua','serra negra','poços de caldas','pocos de caldas','aiuruoca','passa quatro','urubici','são joaquim','sao joaquim'].some(x=>d.includes(x))) return 'montanha';
+  if(['orlando','lisboa','lauderdale','madri','sintra','porto,','miami','paris','roma','dubai','buenos aires','santiago','nova york','new york','los angeles','são paulo','sao paulo','rio de janeiro','curitiba','belo horizonte','brasília','brasilia'].some(x=>d.includes(x))) return 'cidade';
+  if(['bonito','iguaçu','iguacu','quente','caldas','chapada','pantanal','jalapão','jalapao','lençóis','lencois'].some(x=>d.includes(x))) return 'natureza';
   return 'praia';
 }
 function parseRegiao(r,d){
@@ -1140,6 +1152,10 @@ function normalizePost(p){
   const destino=(p.destino||p.title||'').split(',')[0].trim();
   const preco=parsePrice(p.preco);
   const hotel=p.hotel||'';
+  // Imagens preferenciais do post (imagem_destino) + cover como reserva separada
+  const postImgs=getAllImgs(p.imagem_destino);
+  const coverImg=p.cover_image_url?[String(p.cover_image_url).trim()].filter(s=>s.startsWith('http')):[];
+  const allImgs=postImgs;
   return{
     id:p.id,d:destino,h:hotel,p:preco,
     i:p.ida||'',v:p.volta||'',o:parseOrigem(p.origem),
@@ -1149,7 +1165,8 @@ function normalizePost(p){
     ai:hotel.toLowerCase().includes('all inclusive')||hotel.toLowerCase().includes('all-inclusive'),
     cm:hotel.toLowerCase().includes('café da manhã')||hotel.toLowerCase().includes('cafe da manha')||hotel.toLowerCase().includes('breakfast'),
     lx:preco>12000,
-    imgs:getAllImgs(p.imagem_destino||p.cover_image_url),
+    imgs:allImgs,
+    cover:coverImg[0]||'',
     voo_ida:p.voo_ida||'',voo_volta:p.voo_volta||'',
   };
 }
@@ -1231,7 +1248,7 @@ async function loadPkgs(){
       from+=1000;
     }
     if(!all.length) throw new Error('Nenhum pacote publicado encontrado.');
-    PKGS=all.map(normalizePost).filter(p=>p.p>0&&p.d&&p.imgs&&p.imgs.length>0);
+    PKGS=all.map(normalizePost).filter(p=>p.p>0&&p.d&&((p.imgs&&p.imgs.length>0)||p.cover));
     const seen=new Set();
     SWIPE_POOL=PKGS.filter(p=>{if(seen.has(p.d))return false;seen.add(p.d);return true;});
     const uD=new Set(PKGS.map(p=>p.d)).size;
@@ -1678,9 +1695,8 @@ function M_renderBatch(){
     const div=document.createElement('div');
     div.className='pcard';
     div.innerHTML=`
-      <div class="pc-img" onclick="openLightbox('${imgSafe}','${p.d.replace(/'/g,"\'")}')">
-        ${img?`<img src="${img}" alt="${p.d}" loading="lazy" onerror="this.parentNode.style.background='${bg}';this.remove()">`:`<div class="pc-ph" style="background:${bg}">${em}</div>`}
-        <div class="pc-img-overlay"><span class="pc-zoom-ic"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span></div>
+      <div class="pc-img">
+        ${buildCarousel(p,bg)}
         <div class="pc-badge">${p.t} · ${p.r}</div>
         ${sc!=null?`<div class="pc-sc-badge">⭐ ${sc}%</div>`:''}
       </div>
@@ -2177,7 +2193,7 @@ function W_loadMore(){
     div.className = 'wpcard';
     div.innerHTML = `
       <div class="wpc-img">
-        ${img ? `<img src="${img}" alt="${p.d}" loading="lazy" onerror="this.parentNode.style.background='${bg}';this.remove()">` : `<div class="wpc-ph" style="background:${bg}">${em}</div>`}
+        ${buildCarousel(p,bg)}
         <div class="wpc-badge">${p.t} · ${p.r}</div>
       </div>
       <div class="wpc-body">
@@ -2250,6 +2266,151 @@ function W_init(){
   if(el_sub)   el_sub.textContent   = total + ' pacotes · ' + dests + ' destinos';
   W_render();
 }
+
+// ── Destinos image DB (carregado de destinos-images.json) ───
+let DEST_IMG_DB = {byHotel:{}, byDestino:{}};
+let DEST_IMG_LOADED = false;
+(function loadDestImages(){
+  fetch('destinos-images.json').then(r=>r.ok?r.json():null).then(d=>{
+    if(d&&d.byHotel){DEST_IMG_DB=d;DEST_IMG_LOADED=true;
+      // re-render se já estiver com pacotes na tela
+      if(typeof PKGS!=='undefined'&&PKGS.length){
+        if(typeof W_render==='function') try{W_render()}catch(e){}
+        if(typeof renderPkgs==='function') try{renderPkgs()}catch(e){}
+      }
+    }
+  }).catch(()=>{});
+})();
+function _normKey(s){
+  if(!s) return '';
+  s=String(s).normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  s=s.replace(/\s+/g,' ').trim();
+  s=s.replace(/\s*[-–]\s*(café da manhã|cafe da manha|so alojamento|só alojamento|breakfast|all inclusive|all-inclusive|sem refeição|sem refeicao).*$/i,'');
+  return s.trim();
+}
+function _shuffle(arr){
+  const a=arr.slice();
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+function lookupCarouselImgs(p){
+  const hk=_normKey(p.h||'');
+  const ck=_normKey(p.d||'');
+
+  // ═══ Match 1: Cidade + Hotel exatos (CSV byHotel onde cidade casa com post.destino)
+  if(DEST_IMG_LOADED && hk && ck){
+    const e=DEST_IMG_DB.byHotel[hk];
+    if(e && e.c===ck) return _shuffle(e.imgs).slice(0,12);
+    const hkc=hk.replace(/[^a-z0-9]/g,'');
+    if(hkc.length>=6){
+      for(const k of Object.keys(DEST_IMG_DB.byHotel)){
+        if(k.replace(/[^a-z0-9]/g,'')===hkc){
+          const ee=DEST_IMG_DB.byHotel[k];
+          if(ee.c===ck||ee.c.includes(ck)||ck.includes(ee.c)) return _shuffle(ee.imgs).slice(0,12);
+          break;
+        }
+      }
+    }
+  }
+
+  // ═══ Match 2: Cidade + Destino — combina várias fontes pro destino
+  if(DEST_IMG_LOADED && ck){
+    const pool=[];
+    const seen=new Set();
+    function add(arr){for(const u of (arr||[])){if(u&&!seen.has(u)){seen.add(u);pool.push(u);}}}
+    const ckc=ck.replace(/[^a-z0-9]/g,'');
+    // 2a: entradas byDestino com chave igual ou aproximada
+    for(const k of Object.keys(DEST_IMG_DB.byDestino||{})){
+      if(k===ck||k.replace(/[^a-z0-9]/g,'')===ckc||k.includes(ck)||ck.includes(k)) add(DEST_IMG_DB.byDestino[k]);
+    }
+    // 2b: entradas byHotel onde o NOME do hotel é o próprio destino (ex: "Praia Do Forte", "Cambara Do Sul")
+    for(const k of Object.keys(DEST_IMG_DB.byHotel||{})){
+      if(k===ck||k.replace(/[^a-z0-9]/g,'')===ckc) add(DEST_IMG_DB.byHotel[k].imgs);
+    }
+    // 2c: todos os hotéis cuja cidade casa com o destino (genericamente — paisagem/hotel da região)
+    for(const k of Object.keys(DEST_IMG_DB.byHotel||{})){
+      const e=DEST_IMG_DB.byHotel[k];
+      if(e.c===ck||e.c.replace(/[^a-z0-9]/g,'')===ckc||e.c.includes(ck)||ck.includes(e.c)) add(e.imgs);
+    }
+    if(pool.length) return _shuffle(pool).slice(0,12);
+  }
+
+  // ═══ Match 3: cover_image_url (fallback final)
+  if(p.cover) return [p.cover];
+  return [];
+}
+function lookupDestImgs(p){
+  if(!DEST_IMG_LOADED) return [];
+  const hk=_normKey(p.h||'');
+  const ck=_normKey(p.d||'');
+  let imgs=[];
+  // 1) match exato por hotel
+  if(hk && DEST_IMG_DB.byHotel[hk]) imgs=DEST_IMG_DB.byHotel[hk];
+  // 2) match por hotel sem espaços/pontuação (mais tolerante mas seguro)
+  if(!imgs.length && hk){
+    const hkc=hk.replace(/[^a-z0-9]/g,'');
+    if(hkc.length>=6){
+      for(const k of Object.keys(DEST_IMG_DB.byHotel)){
+        if(k.replace(/[^a-z0-9]/g,'')===hkc){imgs=DEST_IMG_DB.byHotel[k];break;}
+      }
+    }
+  }
+  // 3) fallback por cidade — apenas se cidade tem 2+ hotéis (evita "hotel errado")
+  if(!imgs.length && ck){
+    const counts=DEST_IMG_DB.cidadeHotelCount||{};
+    let hit=null;
+    if(DEST_IMG_DB.byCidade[ck]) hit=ck;
+    else {
+      for(const k of Object.keys(DEST_IMG_DB.byCidade)){
+        if(k===ck||k.includes(ck)||ck.includes(k)){hit=k;break;}
+      }
+    }
+    if(hit && (counts[hit]||0)>=2) imgs=DEST_IMG_DB.byCidade[hit];
+  }
+  return imgs.length?_shuffle(imgs).slice(0,12):[];
+}
+
+// ── Carousel helper ─────────────────────
+function buildCarousel(p,bg){
+  // Prioridade: CSV byHotel (exato) + imagem_destino do post → byCidade → cover_image_url
+  const sources=lookupCarouselImgs(p);
+  let imgs=sources;
+  if(!imgs.length) return `<div class="wpc-ph" style="background:${bg||'#1A4F8A'}"></div>`;
+  const cid='c'+Math.random().toString(36).slice(2,9);
+  const alt=(p.d||'').replace(/"/g,'&quot;');
+  const slides=imgs.map(u=>`<div class="crsl-slide"><img src="${u}" alt="${alt}" loading="lazy" onerror="this.style.background='${bg||'#1A4F8A'}'"></div>`).join('');
+  const dots=imgs.length>1?`<div class="crsl-dots">${imgs.map((_,i)=>`<span class="crsl-dot${i===0?' on':''}"></span>`).join('')}</div>`:'';
+  const nav=imgs.length>1?`<button type="button" class="crsl-nav prev" onclick="event.stopPropagation();crslMove('${cid}',-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button><button type="button" class="crsl-nav next" onclick="event.stopPropagation();crslMove('${cid}',1)" aria-label="Próxima"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>`:'';
+  return `<div class="crsl" id="${cid}" data-idx="0" data-total="${imgs.length}"><div class="crsl-track">${slides}</div>${dots}${nav}</div>`;
+}
+function crslMove(id,dir){
+  const el=document.getElementById(id);if(!el)return;
+  const total=parseInt(el.dataset.total)||1;
+  let idx=(parseInt(el.dataset.idx)||0)+dir;
+  if(idx<0)idx=total-1;if(idx>=total)idx=0;
+  el.dataset.idx=idx;
+  const tr=el.querySelector('.crsl-track');if(tr)tr.style.transform=`translateX(-${idx*100}%)`;
+  el.querySelectorAll('.crsl-dot').forEach((d,i)=>d.classList.toggle('on',i===idx));
+}
+
+// ── Back-to-top button ──────────────────
+function _bttScroll(){window.scrollTo({top:0,behavior:'smooth'});const grid=document.getElementById('w-grid');if(grid)grid.scrollTo&&grid.scrollTo({top:0,behavior:'smooth'});const phone=document.querySelector('.phone .screen.active');if(phone)phone.scrollTo&&phone.scrollTo({top:0,behavior:'smooth'});const lists=document.querySelectorAll('.pkg-list,.res-view,#wm');lists.forEach(el=>el.scrollTo&&el.scrollTo({top:0,behavior:'smooth'}));}
+(function(){
+  document.addEventListener('DOMContentLoaded',function(){
+    if(document.getElementById('btt-btn'))return;
+    const btn=document.createElement('button');btn.id='btt-btn';btn.className='btt';btn.type='button';btn.setAttribute('aria-label','Voltar ao topo');
+    btn.innerHTML='<svg viewBox="0 0 24 24"><polyline points="6 15 12 9 18 15"/></svg>';
+    btn.onclick=_bttScroll;document.body.appendChild(btn);
+    function check(){
+      const sources=[window,document.getElementById('wm'),document.querySelector('.phone .screen.active'),...document.querySelectorAll('.pkg-list,.res-view')].filter(Boolean);
+      let y=0;sources.forEach(s=>{const v=s===window?window.scrollY:s.scrollTop;if(v>y)y=v;});
+      btn.classList.toggle('on',y>320);
+    }
+    window.addEventListener('scroll',check,{passive:true});
+    document.addEventListener('scroll',check,{passive:true,capture:true});
+    setInterval(check,800);
+  });
+})();
 
 </script>
 </body>
