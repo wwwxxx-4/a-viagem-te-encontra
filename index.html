@@ -55,8 +55,8 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 }
 .phone{width:min(390px,100vw);height:min(844px,100svh);background:var(--ice);border-radius:min(40px,0px);box-shadow:0 30px 80px rgba(0,0,0,.5);display:flex;flex-direction:column;overflow:hidden;position:relative}
 @media(max-width:390px),(max-height:700px){.phone{border-radius:0;height:100svh;width:100vw}}
-.sb{display:none}
-.sb.dark{color:#fff}.sb.light{color:var(--navy)}
+#sb{display:none}
+#sb.dark{color:#fff}#sb.light{color:var(--navy)}
 .screen{position:absolute;inset:0;display:flex;flex-direction:column;transition:opacity .35s ease,transform .35s cubic-bezier(.4,0,.2,1);pointer-events:none;opacity:0;transform:translateX(26px)}
 .screen.active{pointer-events:all;opacity:1;transform:translateX(0)}
 .screen.exit{opacity:0;transform:translateX(-26px)}
@@ -2335,7 +2335,9 @@ function lookupCarouselImgs(p){
     if(pool.length) return _shuffle(pool).slice(0,12);
   }
 
-  // ═══ Match 3: cover_image_url (fallback final)
+  // ═══ Match 3: imagens próprias do post (imagem_destino) como fallback
+  if(p.imgs && p.imgs.length) return _shuffle(p.imgs).slice(0,12);
+  // ═══ Match 4: cover_image_url (último recurso)
   if(p.cover) return [p.cover];
   return [];
 }
