@@ -2403,7 +2403,7 @@ function _normKey(s){
   if(!s) return '';
   s=String(s).normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
   s=s.replace(/\s+/g,' ').trim();
-  s=s.replace(/\s*[-–]\s*(café da manhã|cafe da manha|so alojamento|só alojamento|breakfast|all inclusive|all-inclusive|sem refeição|sem refeicao).*$/i,'');
+  s=s.replace(/\s*[-–]\s*(cafe da manha|so alojamento|breakfast|all inclusive|all-inclusive|sem refeicao|half board|meia pensao|pensao completa|full board|pernoite|nao reembolsavel|nao-reembolsavel).*$/i,'');
   return s.trim();
 }
 function _shuffle(arr){
