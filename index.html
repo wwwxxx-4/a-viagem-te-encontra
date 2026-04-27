@@ -452,9 +452,9 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   .wpc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s}
   .wpcard:hover .wpc-img img{transform:scale(1.05)}
   .wpc-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:44px}
-  .crsl{position:relative;width:100%;height:100%}
-  .crsl-track{position:absolute;inset:0;display:flex;transition:transform .35s cubic-bezier(.4,0,.2,1)}
-  .crsl-slide{flex:0 0 100%;height:100%;position:relative}
+  .crsl{position:relative;width:100%;height:100%;overflow:hidden}
+  .crsl-track{display:flex;height:100%;transition:transform .35s cubic-bezier(.4,0,.2,1);will-change:transform}
+  .crsl-slide{flex-shrink:0;flex-grow:0;height:100%;position:relative}
   .crsl-slide img{width:100%;height:100%;object-fit:cover;display:block}
   .crsl-tag{position:absolute;bottom:8px;left:8px;background:rgba(6,14,31,.75);color:#fff;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:100px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:3;pointer-events:none;font-family:'Plus Jakarta Sans',sans-serif}
   .crsl-tag.hotel{background:rgba(0,194,168,.92)}
@@ -2374,16 +2374,18 @@ function lookupDestImgs(p){
 
 // ── Carousel helper ─────────────────────
 function buildCarousel(p,bg){
-  // Prioridade: CSV byHotel (exato) + imagem_destino do post → byCidade → cover_image_url
   const sources=lookupCarouselImgs(p);
-  let imgs=sources;
+  const imgs=sources;
   if(!imgs.length) return `<div class="wpc-ph" style="background:${bg||'#1A4F8A'}"></div>`;
+  const n=imgs.length;
   const cid='c'+Math.random().toString(36).slice(2,9);
   const alt=(p.d||'').replace(/"/g,'&quot;');
-  const slides=imgs.map(u=>`<div class="crsl-slide"><img src="${u}" alt="${alt}" loading="lazy" onerror="this.style.background='${bg||'#1A4F8A'}'"></div>`).join('');
-  const dots=imgs.length>1?`<div class="crsl-dots">${imgs.map((_,i)=>`<span class="crsl-dot${i===0?' on':''}"></span>`).join('')}</div>`:'';
-  const nav=imgs.length>1?`<button type="button" class="crsl-nav prev" onclick="event.stopPropagation();crslMove('${cid}',-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button><button type="button" class="crsl-nav next" onclick="event.stopPropagation();crslMove('${cid}',1)" aria-label="Próxima"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>`:'';
-  return `<div class="crsl" id="${cid}" data-idx="0" data-total="${imgs.length}"><div class="crsl-track">${slides}</div>${dots}${nav}</div>`;
+  const slideW=(100/n).toFixed(4);
+  const trackW=(n*100).toFixed(2);
+  const slides=imgs.map(u=>`<div class="crsl-slide" style="width:${slideW}%"><img src="${u}" alt="${alt}" loading="lazy" onerror="this.style.background='${bg||'#1A4F8A'}'"></div>`).join('');
+  const dots=n>1?`<div class="crsl-dots">${imgs.map((_,i)=>`<span class="crsl-dot${i===0?' on':''}"></span>`).join('')}</div>`:'';
+  const nav=n>1?`<button type="button" class="crsl-nav prev" onclick="event.stopPropagation();crslMove('${cid}',-1)" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button><button type="button" class="crsl-nav next" onclick="event.stopPropagation();crslMove('${cid}',1)" aria-label="Próxima"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>`:'';
+  return `<div class="crsl" id="${cid}" data-idx="0" data-total="${n}"><div class="crsl-track" style="width:${trackW}%">${slides}</div>${dots}${nav}</div>`;
 }
 function crslMove(id,dir){
   const el=document.getElementById(id);if(!el)return;
@@ -2391,7 +2393,8 @@ function crslMove(id,dir){
   let idx=(parseInt(el.dataset.idx)||0)+dir;
   if(idx<0)idx=total-1;if(idx>=total)idx=0;
   el.dataset.idx=idx;
-  const tr=el.querySelector('.crsl-track');if(tr)tr.style.transform=`translateX(-${idx*100}%)`;
+  const tr=el.querySelector('.crsl-track');
+  if(tr) tr.style.transform=`translateX(-${(idx*100/total).toFixed(4)}%)`;
   el.querySelectorAll('.crsl-dot').forEach((d,i)=>d.classList.toggle('on',i===idx));
 }
 
