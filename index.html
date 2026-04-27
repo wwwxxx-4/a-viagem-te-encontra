@@ -2416,43 +2416,29 @@ function lookupCarouselImgs(p){
   const ck=_normKey(p.d||'');
 
   if(DEST_IMG_LOADED){
-    // ═══ Match 1: nome do Hotel na coluna "Destinos" do CSV
+    // ═══ Match 1: HOTEL exato — só fotos daquele hotel
     if(hk){
-      const hkc=hk.replace(/[^a-z0-9]/g,'');
-      // 1a: byHotel exato
       if(DEST_IMG_DB.byHotel[hk]) return _shuffle(DEST_IMG_DB.byHotel[hk].imgs).slice(0,12);
-      // 1b: byDestino com mesmo nome (entradas onde Destinos==cidade casa o nome)
-      if(DEST_IMG_DB.byDestino[hk]) return _shuffle(DEST_IMG_DB.byDestino[hk]).slice(0,12);
-      // 1c: tolerância sem pontuação/espaços
+      const hkc=hk.replace(/[^a-z0-9]/g,'');
       if(hkc.length>=6){
         for(const k of Object.keys(DEST_IMG_DB.byHotel||{})){
           if(k.replace(/[^a-z0-9]/g,'')===hkc) return _shuffle(DEST_IMG_DB.byHotel[k].imgs).slice(0,12);
         }
-        for(const k of Object.keys(DEST_IMG_DB.byDestino||{})){
-          if(k.replace(/[^a-z0-9]/g,'')===hkc) return _shuffle(DEST_IMG_DB.byDestino[k]).slice(0,12);
-        }
       }
     }
 
-    // ═══ Match 2: nome da Cidade (== post.destino)
+    // ═══ Match 2: DESTINO genérico — só fotos da entrada Destinos==cidade
+    // (NUNCA mistura com fotos de outros hotéis daquela cidade)
     if(ck){
+      if(DEST_IMG_DB.byDestino[ck]) return _shuffle(DEST_IMG_DB.byDestino[ck]).slice(0,12);
       const ckc=ck.replace(/[^a-z0-9]/g,'');
-      const pool=[];const seen=new Set();
-      const add=arr=>{for(const u of (arr||[])){if(u&&!seen.has(u)){seen.add(u);pool.push(u);}}};
-      // 2a: byDestino[cidade]
       for(const k of Object.keys(DEST_IMG_DB.byDestino||{})){
-        if(k===ck||k.replace(/[^a-z0-9]/g,'')===ckc||k.includes(ck)||ck.includes(k)) add(DEST_IMG_DB.byDestino[k]);
+        if(k.replace(/[^a-z0-9]/g,'')===ckc||k===ck) return _shuffle(DEST_IMG_DB.byDestino[k]).slice(0,12);
       }
-      // 2b: todos os hotéis cuja cidade casa com o destino
-      for(const k of Object.keys(DEST_IMG_DB.byHotel||{})){
-        const e=DEST_IMG_DB.byHotel[k];
-        if(e.c===ck||e.c.replace(/[^a-z0-9]/g,'')===ckc||e.c.includes(ck)||ck.includes(e.c)) add(e.imgs);
-      }
-      if(pool.length) return _shuffle(pool).slice(0,12);
     }
   }
 
-  // ═══ Match 3: cover_image_url (fallback final)
+  // ═══ Match 3: cover_image_url do post (fallback final)
   if(p.cover) return [p.cover];
   return [];
 }
