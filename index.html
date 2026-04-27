@@ -1291,7 +1291,7 @@ function skipToResults(){ST.quizDone=false;doAnalyze()}
 // ── Swipe ─────────────────────────────
 function buildQueue(){
   const likedIds=new Set(ST.likes.map(l=>l.id));
-  const nopedIds=new Set(ST.nopes);
+  const nopedIds=new Set(ST.nopes.map(n=>typeof n==='object'?n.id:n));
   let pool=SWIPE_POOL.filter(p=>!likedIds.has(p.id)&&!nopedIds.has(p.id));
   if(ST.regFilter!=='all') pool=pool.filter(p=>p.r===ST.regFilter);
   ST.queue=[...pool];renderStack();
@@ -1397,13 +1397,13 @@ function doSwipe(dir){
   if(dir==='right'){
     cardEl.style.transform='translateX(150%) rotate(22deg)';
     cardEl.style.opacity='0';
-    ST.likes.push({id:snap.id, d:snap.d, t:snap.t, r:snap.r});
+    ST.likes.push({id:snap.id, d:snap.d, t:snap.t, r:snap.r, ai:!!snap.ai, cm:!!snap.cm, lx:!!snap.lx, p:snap.p});
     document.getElementById('likes-num').textContent=ST.likes.length;
     showToast('❤️ '+snap.d+' curtido!');
   } else if(dir==='left'){
     cardEl.style.transform='translateX(-150%) rotate(-22deg)';
     cardEl.style.opacity='0';
-    ST.nopes.push(snap.id);
+    ST.nopes.push({id:snap.id, d:snap.d, t:snap.t, r:snap.r});
   } else {
     cardEl.style.transform='translateX(-150%) rotate(-12deg)';
     cardEl.style.opacity='0';
@@ -1473,22 +1473,63 @@ function scorePkg(pkg){
   const likedTypes=ST.likes.map(l=>l.t);
   const likedRegs=ST.likes.map(l=>l.r);
   const likedDests=ST.likes.map(l=>l.d.toLowerCase());
+  const nopes=(ST.nopes||[]).filter(n=>typeof n==='object');
+  const nopedTypes=nopes.map(n=>n.t);
+  const nopedRegs=nopes.map(n=>n.r);
+  const nopedDests=nopes.map(n=>(n.d||'').toLowerCase());
+
+  // ── (1) Sinais positivos por likes ──
   const tc=likedTypes.filter(t=>t===pkg.t).length;
   const rc=likedRegs.filter(r=>r===pkg.r).length;
   if(tc>0){const pts=Math.min(20+(tc-1)*5,30);si+=pts;reasons.push(`tipo ${pkg.t} curtido (${tc}x)`);}
   if(rc>0){const pts=Math.min(15+(rc-1)*3,22);si+=pts;reasons.push(`região ${pkg.r} curtida`);}
   if(likedDests.includes(pkg.d.toLowerCase())){si+=10;reasons.push('destino curtido diretamente');}
-  // Região preferida do quiz
-  if(a.reg&&a.reg.length>0&&!a.reg.includes('all')&&a.reg.includes(pkg.r)){si+=8;reasons.push('região preferida no quiz');}
-  // Budget
+
+  // ── (1b) Cross-feature: tipo + região juntos ──
+  if(tc>0 && rc>0){si+=5;reasons.push(`combinação ${pkg.t}+${pkg.r}`);}
+
+  // ── (1c) Penaliza nopes (NOVO Tier 1) ──
+  const ntc=nopedTypes.filter(t=>t===pkg.t).length;
+  const nrc=nopedRegs.filter(r=>r===pkg.r).length;
+  if(ntc>=2 && tc===0){si-=Math.min(5+ntc*3,15);reasons.push(`tipo ${pkg.t} rejeitado (${ntc}x)`);}
+  if(nrc>=2 && rc===0){si-=Math.min(3+nrc*2,10);reasons.push(`região ${pkg.r} rejeitada`);}
+  if(nopedDests.includes(pkg.d.toLowerCase())){si-=15;reasons.push('destino rejeitado anteriormente');}
+
+  // ── (1d) Aprendizado implícito de hospedagem (NOVO Tier 1) ──
+  if(ST.likes.length>=3){
+    const n=ST.likes.length;
+    const aiRatio=ST.likes.filter(l=>l.ai).length/n;
+    const cmRatio=ST.likes.filter(l=>l.cm).length/n;
+    const lxRatio=ST.likes.filter(l=>l.lx).length/n;
+    if(aiRatio>=0.6 && pkg.ai){si+=8;reasons.push('all inclusive (preferência implícita)');}
+    else if(cmRatio>=0.6 && pkg.cm){si+=5;reasons.push('café da manhã (preferência implícita)');}
+    if(lxRatio>=0.5 && pkg.lx){si+=6;reasons.push('luxo (preferência implícita)');}
+  }
+
+  // ── (2) Sinais explícitos do quiz ──
+  if(a.reg&&a.reg.length>0&&!a.reg.includes('all')&&a.reg.includes(pkg.r)){se+=8;reasons.push('região preferida no quiz');}
+
+  // ── (2b) Orçamento com curva suave (NOVO Tier 1) ──
   if(ST.quizDone&&a.bud){
     let lo,hi;
     if(a.budCustom&&parseInt(a.budCustom)>0){hi=parseInt(a.budCustom);lo=0;}
     else{[lo,hi]=BUD_MAP[a.bud]||[0,999999];}
-    if(pkg.p>=lo&&pkg.p<=hi){se+=25;reasons.push('orçamento ideal');}
-    else if(pkg.p>hi&&pkg.p-hi<2000){se+=10;}
-    else if(pkg.p<lo&&lo-pkg.p<1000){se+=12;}
+    if(pkg.p>=lo && pkg.p<=hi){
+      se+=25;reasons.push('orçamento ideal');
+    } else if(pkg.p>hi){
+      // overshoot: decai linear nos primeiros 3000 acima do teto
+      const over=pkg.p-hi;
+      const pts=Math.max(0, Math.round(20*(1-over/3000)));
+      if(pts>0){se+=pts;if(pts>=10)reasons.push('um pouco acima do orçamento');}
+    } else if(pkg.p<lo){
+      // undershoot: decai linear nos primeiros 2000 abaixo
+      const under=lo-pkg.p;
+      const pts=Math.max(0, Math.round(15*(1-under/2000)));
+      if(pts>0)se+=pts;
+    }
   }
+
+  // ── (2c) Hospedagem explícita (mantida) ──
   if(ST.quizDone&&a.hosp){
     if(a.hosp==='allinclusive'&&pkg.ai){se+=15;reasons.push('all inclusive');}
     else if(a.hosp==='conforto'&&pkg.cm){se+=15;reasons.push('café da manhã');}
@@ -1504,16 +1545,31 @@ function scorePkg(pkg){
     const cm={casal:['praia','cidade','montanha'],familia:['praia','natureza'],amigos:['praia','cidade'],solo:['cidade','natureza','montanha']};
     if((cm[a.comp]||[]).includes(pkg.t)){se+=5;reasons.push(`ideal para ${a.comp}`);}
   }
-  // Aeroporto
   if(ST.quizDone&&a.airports&&a.airports.length>0&&a.airports.includes(pkg.o)){se+=8;reasons.push('aeroporto preferido');}
-  // Data
   if(ST.quizDone&&a.dateFrom&&pkg.i){
     const pDt=new Date(pkg.i.split('/').reverse().join('-'));
     const from=new Date(a.dateFrom);
     const to=a.dateTo?new Date(a.dateTo):null;
     if(pDt>=from&&(!to||pDt<=to)){se+=7;reasons.push('dentro do período desejado');}
   }
-  return{score:Math.min(si+se,100),si,se,reasons};
+
+  const raw=si+se;
+  return{score:Math.max(0,Math.min(raw,100)),si,se,reasons,raw};
+}
+
+// Re-ranqueia uma lista já ordenada para promover diversidade de destino:
+// 2º+ pacote do mesmo destino vai sendo demovido progressivamente.
+function diversifyByDestino(scored,maxPerDest){
+  maxPerDest=maxPerDest||1;
+  const seen={};
+  return scored.map(p=>{
+    const k=(p.d||'').toLowerCase();
+    seen[k]=(seen[k]||0)+1;
+    const over=Math.max(0, seen[k]-maxPerDest);
+    // Cada repetição além do limite reduz o score em 10pts (ranking only, score visual mantém)
+    const rankScore=(p.score||0) - over*10;
+    return {...p, _rankScore:rankScore};
+  }).sort((a,b)=>(b._rankScore||0)-(a._rankScore||0));
 }
 
 // ── Analyze ───────────────────────────
@@ -1555,8 +1611,8 @@ function showResults(){
   // Sub em matches
   const lk=ST.likes.length,qd=ST.quizDone&&Object.keys(a).length>0;
   document.getElementById('match-sub-txt').textContent=`${lk} curtido${lk!==1?'s':''}${qd?' + quiz':''}  ·  ${compat} pacotes compatíveis`;
-  // Top 5
-  const top5=scored.slice(0,5);
+  // Top 5 — com diversidade de destino (no máx 1 pacote por destino entre os 5 primeiros)
+  const top5=diversifyByDestino(scored,1).slice(0,5);
   document.getElementById('match-dot').textContent=top5.length;
   buildMatchCards(top5);
 }
@@ -2087,7 +2143,7 @@ function rerenderPrices(){
       const r = ST.scores[p.id]||{score:0,si:0,se:0,reasons:[]};
       return{...p,...r};
     }).sort((a,b)=>b.score-a.score);
-    buildMatchCards(scored.slice(0,5));
+    buildMatchCards(diversifyByDestino(scored,1).slice(0,5));
   }
 }
 
