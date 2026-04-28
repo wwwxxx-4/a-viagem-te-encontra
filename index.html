@@ -2439,11 +2439,13 @@ function _shuffle(arr){
   return a;
 }
 function lookupCarouselImgs(p){
-  const hk=_normKey(p.h||'');
-  const ck=_normKey(p.d||'');
+  // ═══ PRIMÁRIO: imagem_destino do próprio post (Supabase) — embaralhado
+  if(p.imgs && p.imgs.length) return _shuffle(p.imgs).slice(0,12);
 
+  // ═══ Fallback 1: CSV por nome do Hotel (caso post não tenha imagem_destino)
   if(DEST_IMG_LOADED){
-    // ═══ Match 1: HOTEL exato — só fotos daquele hotel
+    const hk=_normKey(p.h||'');
+    const ck=_normKey(p.d||'');
     if(hk){
       if(DEST_IMG_DB.byHotel[hk]) return _shuffle(DEST_IMG_DB.byHotel[hk].imgs).slice(0,12);
       const hkc=hk.replace(/[^a-z0-9]/g,'');
@@ -2453,9 +2455,7 @@ function lookupCarouselImgs(p){
         }
       }
     }
-
-    // ═══ Match 2: DESTINO genérico — só fotos da entrada Destinos==cidade
-    // (NUNCA mistura com fotos de outros hotéis daquela cidade)
+    // ═══ Fallback 2: CSV por destino genérico
     if(ck){
       if(DEST_IMG_DB.byDestino[ck]) return _shuffle(DEST_IMG_DB.byDestino[ck]).slice(0,12);
       const ckc=ck.replace(/[^a-z0-9]/g,'');
@@ -2465,7 +2465,7 @@ function lookupCarouselImgs(p){
     }
   }
 
-  // ═══ Match 3: cover_image_url do post (fallback final)
+  // ═══ Fallback 3: cover_image_url
   if(p.cover) return [p.cover];
   return [];
 }
