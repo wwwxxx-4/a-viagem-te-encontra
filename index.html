@@ -556,6 +556,23 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .fav-tab-btn.on{border-color:#E11D48;background:#FEF2F4;color:#E11D48}
 .fav-tab-btn .fav-ct{background:#E11D48;color:#fff;border-radius:100px;padding:1px 7px;font-size:10px;font-weight:800}
 .fav-tab-btn.on .fav-ct{background:#fff;color:#E11D48}
+.qmm{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:20px}
+.qmm.on{display:flex}
+.qmm-bd{position:absolute;inset:0;background:rgba(6,14,31,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:qmmFade .25s ease}
+.qmm-card{position:relative;background:#fff;border-radius:24px;padding:40px 36px;max-width:440px;width:100%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.3);animation:qmmSlide .35s cubic-bezier(.4,0,.2,1)}
+@keyframes qmmFade{from{opacity:0}to{opacity:1}}
+@keyframes qmmSlide{from{transform:translateY(20px) scale(.96);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+.qmm-ico{width:84px;height:84px;border-radius:24px;background:linear-gradient(135deg,#1246C8,#2B5FE0);margin:0 auto 18px;display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 12px 32px rgba(18,70,200,.3)}
+.qmm-ico svg{width:42px;height:42px}
+.qmm-card h3{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#0D1E30;margin-bottom:10px;letter-spacing:-.01em;line-height:1.2}
+.qmm-card p{font-size:14px;color:#5A6E80;line-height:1.6;margin-bottom:8px}
+.qmm-card p.hint{font-size:12px;color:#7E96AB;margin-top:14px;font-style:italic}
+.qmm-actions{display:flex;gap:10px;justify-content:center;margin-top:24px;flex-wrap:wrap}
+.qmm-btn{padding:11px 22px;border-radius:100px;border:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:.18s}
+.qmm-btn-primary{background:#0066FF;color:#fff;box-shadow:0 6px 16px rgba(0,102,255,.3)}
+.qmm-btn-primary:hover{background:#3385FF;transform:translateY(-1px)}
+.qmm-btn-ghost{background:transparent;border:1.5px solid #DCE4EE;color:#5A6E80}
+.qmm-btn-ghost:hover{border-color:#0066FF;color:#0066FF;background:#F5F9FF}
 .price-range-wrap{display:flex;flex-direction:column;gap:6px}
 .price-range-row{display:flex;gap:6px;align-items:center}
 .price-range-row input{flex:1;width:100%;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;padding:7px 9px;border:1.5px solid #DCE4EE;border-radius:8px;outline:none;color:#0D1E30}
@@ -692,7 +709,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       </div>
     </div>
     <div class="wh-btns">
-      <button type="button" class="wh-btn wh-btn-ghost" onclick="goSwipe()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Fazer quiz</button>
+      <button type="button" class="wh-btn wh-btn-ghost" onclick="notifyQuizMobile()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Fazer quiz</button>
       <button type="button" class="wh-btn wh-btn-sky" onclick="W_render()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Ver pacotes</button>
     </div>
     <a class="wh-dev" href="https://www.mesquitaturismo.com.br" target="_blank" rel="noopener" title="Mesquita Turismo">
@@ -796,6 +813,21 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   </main>
 </div>
 <a class="sticky-wa" id="sticky-wa" href="https://api.whatsapp.com/send?phone=5511953967095&text=Ol%C3%A1!%20Vi%20os%20pacotes%20em%20A%20Viagem%20te%20Encontra%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg> Falar no WhatsApp</a>
+
+<!-- Modal: Quiz disponível só no celular -->
+<div class="qmm" id="quiz-mobile-modal" role="dialog" aria-modal="true" aria-labelledby="qmm-title">
+  <div class="qmm-bd" onclick="closeQuizMobile()"></div>
+  <div class="qmm-card">
+    <div class="qmm-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+    <h3 id="qmm-title">Quiz disponível no celular</h3>
+    <p>Para fazer o quiz e curtir pacotes <strong>estilo Tinder</strong>, abra <em>A Viagem te Encontra</em> no seu celular.</p>
+    <p class="hint">Dica: aponte a câmera do celular pra tela e escaneie o endereço, ou envie o link pra você mesmo no WhatsApp.</p>
+    <div class="qmm-actions">
+      <button class="qmm-btn qmm-btn-ghost" onclick="closeQuizMobile()">Entendi</button>
+      <button class="qmm-btn qmm-btn-primary" onclick="copyLinkAndClose()">Copiar link</button>
+    </div>
+  </div>
+</div>
 <div class="phone">
 <a class="phone-dev" href="https://www.mesquitaturismo.com.br" target="_blank" rel="noopener" aria-label="Desenvolvido por Mesquita Turismo">by Mesquita Turismo</a>
 
@@ -1425,6 +1457,23 @@ function goScreen(id){
   document.getElementById('sb').className='sb '+(['s-loading','s-land','s-hook','s-analyze'].includes(id)?'dark':'light');
 }
 function goSwipe(){buildQueue();goScreen('s-swipe')}
+function notifyQuizMobile(){
+  // No mobile, tenta abrir o quiz/swipe de fato. No desktop, mostra o modal.
+  if(window.innerWidth<768){ goSwipe(); return; }
+  const m=document.getElementById('quiz-mobile-modal'); if(m) m.classList.add('on');
+}
+function closeQuizMobile(){
+  const m=document.getElementById('quiz-mobile-modal'); if(m) m.classList.remove('on');
+}
+async function copyLinkAndClose(){
+  try{
+    await navigator.clipboard.writeText('https://aviagemteencontra.com.br');
+    if(typeof showToast==='function') showToast('🔗 Link copiado! Abra no celular.');
+  }catch(e){
+    if(typeof showToast==='function') showToast('Acesse aviagemteencontra.com.br no celular');
+  }
+  closeQuizMobile();
+}
 function goQuiz(){ST.curQ=0;document.querySelectorAll('.qblock').forEach(b=>b.classList.remove('active'));document.getElementById('qq0').classList.add('active');goScreen('s-quiz')}
 function skipToResults(){ST.quizDone=false;doAnalyze()}
 
