@@ -1125,9 +1125,36 @@ function buildWaUrl(phone, msg) {
 // ── Data helpers ──────────────────────
 function parseTipo(d,r){
   d=(d||'').toLowerCase();r=(r||'').toLowerCase();
-  if(['gramado','canela','bariloche','mendoza','são carlos','sao carlos','ouro preto','tiradentes','campos do jordão','campos do jordao','monte verde','penedo','itatiaia','visconde de mauá','visconde de maua','serra negra','poços de caldas','pocos de caldas','aiuruoca','passa quatro','urubici','são joaquim','sao joaquim'].some(x=>d.includes(x))) return 'montanha';
-  if(['orlando','lisboa','lauderdale','madri','sintra','porto,','miami','paris','roma','dubai','buenos aires','santiago','nova york','new york','los angeles','são paulo','sao paulo','rio de janeiro','curitiba','belo horizonte','brasília','brasilia'].some(x=>d.includes(x))) return 'cidade';
-  if(['bonito','iguaçu','iguacu','quente','caldas','chapada','pantanal','jalapão','jalapao','lençóis','lencois'].some(x=>d.includes(x))) return 'natureza';
+  // Montanha / Serra (RS, SC, MG, SP, países andinos)
+  if([
+    'gramado','canela','bento gonçalves','bento goncalves','garibaldi','carlos barbosa',
+    'caxias do sul','nova petrópolis','nova petropolis','são francisco de paula','sao francisco de paula',
+    'cambará do sul','cambara do sul','urubici','são joaquim','sao joaquim','treze tílias','treze tilias',
+    'bariloche','mendoza','san martín de los andes','san martin de los andes',
+    'são carlos','sao carlos','ouro preto','tiradentes','campos do jordão','campos do jordao',
+    'monte verde','penedo','itatiaia','visconde de mauá','visconde de maua','serra negra',
+    'poços de caldas','pocos de caldas','aiuruoca','passa quatro','aparados da serra'
+  ].some(x=>d.includes(x))) return 'montanha';
+
+  // Natureza (parques, cataratas, chapadas, ecoturismo)
+  if([
+    'bonito','iguaçu','iguacu','quente','caldas','chapada','pantanal','jalapão','jalapao',
+    'lençóis','lencois','presidente figueiredo','alta floresta'
+  ].some(x=>d.includes(x))) return 'natureza';
+
+  // Cidade (capitais, grandes centros, destinos urbanos internacionais)
+  if([
+    'orlando','lisboa','lauderdale','madri','madrid','sintra','porto,','miami','paris','roma','dubai',
+    'buenos aires','santiago','nova york','new york','los angeles','são paulo','sao paulo',
+    'rio de janeiro','curitiba','belo horizonte','brasília','brasilia','goiânia','goiania',
+    'porto alegre','florianópolis','florianopolis','manaus','belém','belem','fortaleza','salvador',
+    'recife','natal','joão pessoa','joao pessoa','aracaju','maceió','maceio','vitória','vitoria'
+  ].some(x=>d.includes(x))) return 'cidade';
+
+  // Default sensível à região: Nordeste/Norte → praia; Internacional → cidade; demais → cidade
+  if(r.includes('nordeste')||r.includes('norte brasil')) return 'praia';
+  if(r.includes('internacional')||r.includes('europa')||r.includes('america')) return 'cidade';
+  if(r.includes('sul')||r.includes('sudeste')||r.includes('centro')) return 'cidade';
   return 'praia';
 }
 function parseRegiao(r,d){
