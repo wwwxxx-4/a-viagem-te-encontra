@@ -22,7 +22,49 @@ src="https://www.facebook.com/tr?id=1660816874953827&ev=PageView&noscript=1"
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Cpath%20d%3D%27M50%2088%20L12%2050%20C4%2042%204%2026%2016%2018%20C28%2010%2040%2014%2050%2028%20C60%2014%2072%2010%2084%2018%20C96%2026%2096%2042%2088%2050%20Z%27%20fill%3D%27%23E11D48%27/%3E%3C/svg%3E">
 
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>A Viagem te Encontra</title>
+<title>A Viagem te Encontra — Pacotes de viagem personalizados</title>
+<meta name="description" content="Plataforma de matching de viagens com algoritmo híbrido (swipe + quiz). Encontre o pacote perfeito entre centenas de destinos no Brasil e exterior.">
+<meta name="keywords" content="pacotes de viagem, viagem nacional, viagem internacional, all inclusive, Porto de Galinhas, Maceió, Gramado, Bento Gonçalves, Mesquita Turismo">
+<meta name="theme-color" content="#1246C8">
+<link rel="preconnect" href="https://baserow-backend-production20240528124524339000000001.s3.amazonaws.com" crossorigin>
+<link rel="preconnect" href="https://lh3.googleusercontent.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="A Viagem te Encontra">
+<meta property="og:title" content="A Viagem te Encontra — Pacotes de viagem personalizados">
+<meta property="og:description" content="Algoritmo híbrido (swipe + quiz) para descobrir o pacote de viagem perfeito pra você. Centenas de destinos.">
+<meta property="og:image" content="https://aviagemteencontra.com.br/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://aviagemteencontra.com.br">
+<meta property="og:locale" content="pt_BR">
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="A Viagem te Encontra">
+<meta name="twitter:description" content="Pacotes de viagem personalizados pelo algoritmo (swipe + quiz).">
+<meta name="twitter:image" content="https://aviagemteencontra.com.br/og-cover.jpg">
+<!-- Schema.org -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"TravelAgency",
+  "name":"A Viagem te Encontra",
+  "url":"https://aviagemteencontra.com.br",
+  "description":"Plataforma de matching de viagens com algoritmo híbrido — swipe + quiz para encontrar o pacote perfeito.",
+  "parentOrganization":{
+    "@type":"TravelAgency",
+    "name":"Mesquita Turismo",
+    "url":"https://www.mesquitaturismo.com.br"
+  },
+  "areaServed":{"@type":"Country","name":"Brasil"},
+  "potentialAction":{
+    "@type":"SearchAction",
+    "target":"https://aviagemteencontra.com.br?q={search_term_string}",
+    "query-input":"required name=search_term_string"
+  }
+}
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,700;1,500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js" defer></script>
 <style>
@@ -495,6 +537,30 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .crsl-dots{position:absolute;top:8px;right:8px;display:flex;gap:3px;z-index:3;pointer-events:none}
 .crsl-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5);box-shadow:0 1px 2px rgba(0,0,0,.3);transition:.2s}
 .crsl-dot.on{background:#fff;width:14px;border-radius:3px}
+.card-actions{position:absolute;top:8px;left:8px;display:flex;gap:6px;z-index:5}
+.card-act{width:32px;height:32px;border-radius:50%;border:none;background:rgba(255,255,255,.92);box-shadow:0 2px 8px rgba(0,0,0,.18);cursor:pointer;display:flex;align-items:center;justify-content:center;color:#0A1628;transition:.18s;backdrop-filter:blur(6px)}
+.card-act:hover{background:#fff;transform:scale(1.08)}
+.card-act svg{width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.card-act.fav.on{background:#E11D48;color:#fff}
+.card-act.fav.on svg{fill:#fff;stroke:#fff}
+.card-act.fav.on:hover{background:#BE123C}
+@keyframes heartPop{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
+.card-act.fav.pop{animation:heartPop .4s ease}
+.sticky-wa{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#25D366;color:#fff;padding:11px 22px;border-radius:100px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;box-shadow:0 8px 24px rgba(37,211,102,.45);cursor:pointer;display:none;align-items:center;gap:8px;text-decoration:none;z-index:1090;border:none;animation:waPulse 2.4s ease-in-out infinite}
+.sticky-wa.on{display:inline-flex}
+.sticky-wa svg{width:18px;height:18px;fill:currentColor}
+@keyframes waPulse{0%,100%{box-shadow:0 8px 24px rgba(37,211,102,.45)}50%{box-shadow:0 8px 32px rgba(37,211,102,.7)}}
+@media(min-width:768px){.sticky-wa{display:none!important}}
+.fav-tab-btn{background:none;border:1.5px solid var(--border);border-radius:100px;padding:6px 12px;font-family:var(--f);font-size:11px;font-weight:600;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:.18s}
+.fav-tab-btn:hover{border-color:#E11D48;color:#E11D48}
+.fav-tab-btn.on{border-color:#E11D48;background:#FEF2F4;color:#E11D48}
+.fav-tab-btn .fav-ct{background:#E11D48;color:#fff;border-radius:100px;padding:1px 7px;font-size:10px;font-weight:800}
+.fav-tab-btn.on .fav-ct{background:#fff;color:#E11D48}
+.price-range-wrap{display:flex;flex-direction:column;gap:6px}
+.price-range-row{display:flex;gap:6px;align-items:center}
+.price-range-row input{flex:1;width:100%;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;padding:7px 9px;border:1.5px solid #DCE4EE;border-radius:8px;outline:none;color:#0D1E30}
+.price-range-row input:focus{border-color:#0066FF}
+.price-range-display{font-size:11px;color:var(--muted);text-align:center;font-weight:600}
 .phone-dev{position:absolute;top:10px;right:10px;z-index:600;font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:#0A1628;font-weight:700;text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;background:rgba(255,255,255,.82);padding:5px 10px;border-radius:100px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 2px 10px rgba(0,0,0,.15);transition:.2s;opacity:.72}
 .btt{position:fixed;bottom:24px;right:24px;width:46px;height:46px;border-radius:50%;border:none;background:#0066FF;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,102,255,.4);opacity:0;visibility:hidden;transform:translateY(8px);transition:.25s cubic-bezier(.4,0,.2,1);z-index:1100}
 .btt.on{opacity:1;visibility:visible;transform:translateY(0)}
@@ -644,10 +710,12 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#8FA3B4" stroke-width="1.8"><circle cx="7" cy="7" r="4"/><path d="M10.5 10.5L14 14" stroke-linecap="round"/></svg>
       <input type="text" id="w-search" placeholder="Destino ou hotel…" oninput="W_render()">
     </div>
-    <div class="ws-sec">Destino</div>
-    <select class="ws-select" id="w-dest" onchange="W_render()">
+    <button type="button" id="w-fav-btn" class="fav-tab-btn" onclick="toggleFavView()" style="margin-top:8px;width:100%;justify-content:center"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> Favoritos <span class="fav-ct" data-fav-count style="display:none">0</span></button>
+    <div class="ws-sec">Destino <span style="font-size:9px;color:var(--muted-lt);font-weight:400;letter-spacing:0;text-transform:none">(segure Ctrl/Cmd para múltiplos)</span></div>
+    <select class="ws-select" id="w-dest" multiple size="6" onchange="onDestSelectChange(this)" style="height:auto;min-height:140px;padding:6px;font-size:11px">
       <option value="all">Todos os destinos</option>
     </select>
+    <button type="button" onclick="clearDestSelection()" style="margin-top:4px;background:none;border:none;color:var(--muted);font-size:10px;cursor:pointer;text-decoration:underline;padding:0">Limpar seleção</button>
     <div class="ws-sec">Tipo</div>
     <div class="ws-chips" id="w-tipo">
       <button type="button" class="wfc on" data-v="all"       onclick="W_chip('tipo',this)">Todos</button>
@@ -673,6 +741,15 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <option value="data">Próximas saídas</option>
       <option value="destino">Destino A-Z</option>
     </select>
+    <div class="ws-sec">Faixa de preço</div>
+    <div class="price-range-wrap">
+      <div class="price-range-display" id="w-price-display">R$ 0 — sem limite</div>
+      <div class="price-range-row">
+        <input type="number" id="w-price-min" placeholder="Mín" min="0" step="100" oninput="onPriceRange()">
+        <span style="color:var(--muted);font-size:11px">—</span>
+        <input type="number" id="w-price-max" placeholder="Máx" min="0" step="100" oninput="onPriceRange()">
+      </div>
+    </div>
     <div class="ws-sec">Aeroporto</div>
     <div class="ws-chips" id="w-ap">
       <button type="button" class="wfc on" data-v="all"        onclick="W_chip('ap',this)">Todos</button>
@@ -718,6 +795,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
     </div>
   </main>
 </div>
+<a class="sticky-wa" id="sticky-wa" href="https://api.whatsapp.com/send?phone=5511953967095&text=Ol%C3%A1!%20Vi%20os%20pacotes%20em%20A%20Viagem%20te%20Encontra%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg> Falar no WhatsApp</a>
 <div class="phone">
 <a class="phone-dev" href="https://www.mesquitaturismo.com.br" target="_blank" rel="noopener" aria-label="Desenvolvido por Mesquita Turismo">by Mesquita Turismo</a>
 
@@ -973,7 +1051,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   <!-- EXPLORE VIEW — sem subtítulo de match -->
   <div class="res-view" id="v-explore">
     <div class="fbox">
-      <div class="fbox-top"><span class="fbox-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg> Filtrar</span><span class="fbox-count" id="pkg-count">—</span></div>
+      <div class="fbox-top"><span class="fbox-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg> Filtrar</span><button type="button" id="m-fav-btn" class="fav-tab-btn" onclick="toggleFavView()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> Favs <span class="fav-ct" data-fav-count style="display:none">0</span></button><span class="fbox-count" id="pkg-count">—</span></div>
       <div class="fsearch">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4"/><path d="M10.5 10.5L14 14" stroke-linecap="round"/></svg>
         <input type="text" id="search-in" placeholder="Destino ou hotel…" oninput="renderPkgs()" autocomplete="off">
@@ -984,6 +1062,13 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <select id="m-dest" onchange="setDestFilter(this.value)" style="flex:1;min-width:140px;padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;background:#fff;font-family:var(--f);font-size:11px;color:var(--navy);outline:none;cursor:pointer">
           <option value="all">Todos os destinos</option>
         </select>
+      </div>
+      <!-- Faixa de preço -->
+      <div class="fchips" style="margin-top:6px;flex-wrap:nowrap">
+        <span class="fc-lbl">Preço:</span>
+        <input type="number" id="m-price-min" placeholder="Mín" min="0" step="100" oninput="onPriceRange()" style="flex:1;width:60px;font-family:var(--f);font-size:11px;padding:6px 8px;border:1.5px solid var(--border);border-radius:8px;outline:none;color:var(--navy)">
+        <span style="color:var(--muted);font-size:11px">—</span>
+        <input type="number" id="m-price-max" placeholder="Máx" min="0" step="100" oninput="onPriceRange()" style="flex:1;width:60px;font-family:var(--f);font-size:11px;padding:6px 8px;border:1.5px solid var(--border);border-radius:8px;outline:none;color:var(--navy)">
       </div>
       <!-- Ordenar (primeiro) -->
       <div class="sort-row" style="margin-top:0">
@@ -1267,11 +1352,38 @@ const ST={
   tipoFilter:'all',regExpFilter:'all',
   apFilter:'all',monthFilter:'all',destFilter:'all',
   scores:{},
+  favorites:[],
 };
 const HOOK_AFTER=3;
 
+// ── localStorage persistence ──────────────
+const LS_KEY='avte_state_v1';
+function saveLS(){
+  try{
+    localStorage.setItem(LS_KEY, JSON.stringify({
+      likes:ST.likes||[],
+      nopes:ST.nopes||[],
+      favorites:ST.favorites||[],
+      ts:Date.now()
+    }));
+  }catch(e){}
+}
+function loadLS(){
+  try{
+    const raw=localStorage.getItem(LS_KEY);
+    if(!raw) return;
+    const d=JSON.parse(raw);
+    // expira em 60 dias pra não acumular pra sempre
+    if(d.ts && Date.now()-d.ts > 60*86400*1000) return;
+    if(Array.isArray(d.likes)) ST.likes=d.likes;
+    if(Array.isArray(d.nopes)) ST.nopes=d.nopes;
+    if(Array.isArray(d.favorites)) ST.favorites=d.favorites;
+  }catch(e){}
+}
+
 // ── Supabase load ─────────────────────
 async function loadPkgs(){
+  loadLS();
   document.getElementById('load-err').style.display='none';
   try{
     let all=[],from=0;
@@ -1286,6 +1398,7 @@ async function loadPkgs(){
     if(!all.length) throw new Error('Nenhum pacote publicado encontrado.');
     PKGS=all.map(normalizePost).filter(p=>p.p>0&&p.d&&((p.imgs&&p.imgs.length>0)||p.cover));
     try{populateDestinoFilter()}catch(e){}
+    try{updateFavCount()}catch(e){}
     const seen=new Set();
     SWIPE_POOL=PKGS.filter(p=>{if(seen.has(p.d))return false;seen.add(p.d);return true;});
     const uD=new Set(PKGS.map(p=>p.d)).size;
@@ -1425,12 +1538,14 @@ function doSwipe(dir){
     cardEl.style.transform='translateX(150%) rotate(22deg)';
     cardEl.style.opacity='0';
     ST.likes.push({id:snap.id, d:snap.d, t:snap.t, r:snap.r, ai:!!snap.ai, cm:!!snap.cm, lx:!!snap.lx, p:snap.p});
+    saveLS();
     document.getElementById('likes-num').textContent=ST.likes.length;
     showToast('❤️ '+snap.d+' curtido!');
   } else if(dir==='left'){
     cardEl.style.transform='translateX(-150%) rotate(-22deg)';
     cardEl.style.opacity='0';
     ST.nopes.push({id:snap.id, d:snap.d, t:snap.t, r:snap.r});
+    saveLS();
   } else {
     cardEl.style.transform='translateX(-150%) rotate(-12deg)';
     cardEl.style.opacity='0';
@@ -1729,9 +1844,16 @@ function renderPkgs(){
   const fDate=document.getElementById('fi-date')?.value||'';
   const md=document.getElementById('m-dest');if(md) ST.destFilter=md.value||'all';
   M_filtered=PKGS.filter(p=>{
+    if(ST.favViewActive && !(ST.favorites||[]).includes(p.id)) return false;
     if(ST.tipoFilter!=='all'&&p.t!==ST.tipoFilter) return false;
     if(ST.regExpFilter!=='all'&&p.r!==ST.regExpFilter) return false;
-    if(ST.destFilter!=='all'&&_destNorm(p.d)!==ST.destFilter) return false;
+    if(ST.priceMin&&p.p<ST.priceMin) return false;
+    if(ST.priceMax&&p.p>ST.priceMax) return false;
+    if(ST.destFilter && ST.destFilter!=='all'){
+      const k=_destNorm(p.d);
+      if(Array.isArray(ST.destFilter)){if(!ST.destFilter.includes(k)) return false;}
+      else if(k!==ST.destFilter) return false;
+    }
     if(q&&!p.d.toLowerCase().includes(q)&&!p.h.toLowerCase().includes(q)) return false;
     if(ST.apFilter!=='all'&&p.o!==ST.apFilter) return false;
     if(ST.monthFilter!=='all'&&p.m!==ST.monthFilter) return false;
@@ -1792,6 +1914,10 @@ function M_renderBatch(){
     div.innerHTML=`
       <div class="pc-img">
         ${buildCarousel(p,bg)}
+        <div class="card-actions">
+          <button type="button" class="card-act fav${isFav(p.id)?' on':''}" onclick="toggleFav('${p.id}',this,event)" aria-label="Favoritar"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <button type="button" class="card-act" onclick='sharePkg(${JSON.stringify({id:p.id,d:p.d,h:p.h,p:p.p,i:p.i,v:p.v}).replace(/"/g,"&quot;")},event)' aria-label="Compartilhar"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+        </div>
         <div class="pc-badge">${p.t} · ${p.r}</div>
         ${sc!=null?`<div class="pc-sc-badge">⭐ ${sc}%</div>`:''}
       </div>
@@ -2218,11 +2344,52 @@ function populateDestinoFilter(){
 function setDestFilter(v){
   ST.destFilter=v;
   W_F.dest=v;
-  // mantém os dois selects sincronizados
-  const w=document.getElementById('w-dest');if(w&&w.value!==v)w.value=v;
-  const m=document.getElementById('m-dest');if(m&&m.value!==v)m.value=v;
+  // mantém o mobile sincronizado (single-select)
+  const m=document.getElementById('m-dest');
+  if(m){
+    const target=Array.isArray(v)?(v[0]||'all'):v;
+    if(m.value!==target) m.value=target;
+  }
   if(typeof renderPkgs==='function') try{renderPkgs()}catch(e){}
   if(typeof W_render==='function') try{W_render()}catch(e){}
+}
+function onDestSelectChange(sel){
+  const vals=Array.from(sel.selectedOptions).map(o=>o.value).filter(v=>v && v!=='all');
+  ST.destFilter = vals.length ? vals : 'all';
+  W_F.dest = ST.destFilter;
+  if(typeof W_render==='function') try{W_render()}catch(e){}
+  if(typeof renderPkgs==='function') try{renderPkgs()}catch(e){}
+}
+function onPriceRange(){
+  const wmin=parseInt(document.getElementById('w-price-min')?.value||'')||0;
+  const wmax=parseInt(document.getElementById('w-price-max')?.value||'')||0;
+  const mmin=parseInt(document.getElementById('m-price-min')?.value||'')||0;
+  const mmax=parseInt(document.getElementById('m-price-max')?.value||'')||0;
+  // O input mais recentemente alterado vence; sincroniza ambos
+  const lo=Math.max(wmin,mmin);
+  const hi=Math.max(wmax,mmax);
+  ST.priceMin=lo; ST.priceMax=hi;
+  // sincroniza inputs vazios pro valor combinado
+  if(wmin!==lo && lo){const e=document.getElementById('w-price-min');if(e)e.value=lo;}
+  if(mmin!==lo && lo){const e=document.getElementById('m-price-min');if(e)e.value=lo;}
+  if(wmax!==hi && hi){const e=document.getElementById('w-price-max');if(e)e.value=hi;}
+  if(mmax!==hi && hi){const e=document.getElementById('m-price-max');if(e)e.value=hi;}
+  // display do desktop
+  const disp=document.getElementById('w-price-display');
+  if(disp){
+    const a=lo?'R$ '+lo.toLocaleString('pt-BR'):'R$ 0';
+    const b=hi?'R$ '+hi.toLocaleString('pt-BR'):'sem limite';
+    disp.textContent=`${a} — ${b}`;
+  }
+  if(typeof renderPkgs==='function') try{renderPkgs()}catch(e){}
+  if(typeof W_render==='function') try{W_render()}catch(e){}
+}
+function clearDestSelection(){
+  const w=document.getElementById('w-dest');
+  if(w){Array.from(w.options).forEach(o=>o.selected=false);}
+  ST.destFilter='all';W_F.dest='all';
+  if(typeof W_render==='function') try{W_render()}catch(e){}
+  if(typeof renderPkgs==='function') try{renderPkgs()}catch(e){}
 }
 
 function W_chip(type, btn){
@@ -2248,14 +2415,25 @@ function W_render(){
   const fd = document.getElementById('w-date')?.value||'';
   const s  = document.getElementById('w-sort')?.value||'preco_asc';
 
-  // Sincroniza valor do select de destino
-  const wd=document.getElementById('w-dest');if(wd) W_F.dest=wd.value||'all';
+  // Sincroniza valor do select de destino (multi)
+  const wd=document.getElementById('w-dest');
+  if(wd){
+    const sels=Array.from(wd.selectedOptions).map(o=>o.value).filter(v=>v && v!=='all');
+    W_F.dest = sels.length ? sels : 'all';
+  }
   W_filtered = PKGS.filter(p=>{
+    if(ST.favViewActive && !(ST.favorites||[]).includes(p.id)) return false;
     if(W_F.tipo!=='all' && p.t!==W_F.tipo) return false;
     if(W_F.reg!=='all'  && p.r!==W_F.reg)  return false;
     if(W_F.ap!=='all'   && p.o!==W_F.ap)   return false;
+    if(ST.priceMin && p.p<ST.priceMin) return false;
+    if(ST.priceMax && p.p>ST.priceMax) return false;
     if(W_F.month!=='all' && p.m!==W_F.month) return false;
-    if(W_F.dest!=='all' && _destNorm(p.d)!==W_F.dest) return false;
+    if(W_F.dest && W_F.dest!=='all'){
+      const k=_destNorm(p.d);
+      if(Array.isArray(W_F.dest)){if(!W_F.dest.includes(k)) return false;}
+      else if(k!==W_F.dest) return false;
+    }
     if(q && !p.d.toLowerCase().includes(q) && !p.h.toLowerCase().includes(q)) return false;
     if(fd && p.i){
       try{
@@ -2339,6 +2517,10 @@ function W_loadMore(){
     div.innerHTML = `
       <div class="wpc-img">
         ${buildCarousel(p,bg)}
+        <div class="card-actions">
+          <button type="button" class="card-act fav${isFav(p.id)?' on':''}" onclick="toggleFav('${p.id}',this,event)" aria-label="Favoritar"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <button type="button" class="card-act" onclick='sharePkg(${JSON.stringify({id:p.id,d:p.d,h:p.h,p:p.p,i:p.i,v:p.v}).replace(/"/g,"&quot;")},event)' aria-label="Compartilhar"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+        </div>
         <div class="wpc-badge">${p.t} · ${p.r}</div>
       </div>
       <div class="wpc-body">
@@ -2500,6 +2682,54 @@ function lookupDestImgs(p){
   return imgs.length?_shuffle(imgs).slice(0,12):[];
 }
 
+// ── Favoritar / Compartilhar ────────────
+function isFav(id){return (ST.favorites||[]).includes(id);}
+function toggleFav(id,btn,event){
+  if(event){event.stopPropagation();event.preventDefault();}
+  ST.favorites=ST.favorites||[];
+  const i=ST.favorites.indexOf(id);
+  if(i>=0){
+    ST.favorites.splice(i,1);
+    if(btn){btn.classList.remove('on');}
+    if(typeof showToast==='function') showToast('Removido dos favoritos');
+  } else {
+    ST.favorites.push(id);
+    if(btn){btn.classList.add('on','pop');setTimeout(()=>btn.classList.remove('pop'),420);}
+    if(typeof showToast==='function') showToast('❤️ Salvo nos favoritos!');
+  }
+  saveLS();
+  updateFavCount();
+  // re-render se a aba "favoritos" estiver ativa
+  if(ST.favViewActive){if(typeof renderPkgs==='function') renderPkgs();if(typeof W_render==='function') W_render();}
+}
+function updateFavCount(){
+  const n=(ST.favorites||[]).length;
+  document.querySelectorAll('.fav-ct').forEach(el=>el.textContent=n);
+  document.querySelectorAll('[data-fav-count]').forEach(el=>{el.textContent=n;el.style.display=n>0?'':'none';});
+}
+function toggleFavView(){
+  ST.favViewActive=!ST.favViewActive;
+  document.querySelectorAll('#w-fav-btn,#m-fav-btn').forEach(b=>b.classList.toggle('on',ST.favViewActive));
+  if(typeof renderPkgs==='function') renderPkgs();
+  if(typeof W_render==='function') W_render();
+}
+async function sharePkg(p,event){
+  if(event){event.stopPropagation();event.preventDefault();}
+  const url='https://aviagemteencontra.com.br';
+  const text=`${p.d} — ${p.h}\nIda: ${p.i} · Volta: ${p.v}\nA partir de R$${(typeof markupPrice==='function'?markupPrice(p.p):p.p).toLocaleString('pt-BR')} p/ 2 pessoas + taxas`;
+  const data={title:'A Viagem te Encontra — '+p.d, text, url};
+  try{
+    if(navigator.share){await navigator.share(data);return;}
+  }catch(e){if(e.name==='AbortError')return;}
+  // Fallback: copy text+URL
+  try{
+    await navigator.clipboard.writeText(text+'\n'+url);
+    if(typeof showToast==='function') showToast('🔗 Link copiado!');
+  }catch(e){
+    if(typeof showToast==='function') showToast('Não foi possível compartilhar');
+  }
+}
+
 // ── Carousel helper ─────────────────────
 function buildCarousel(p,bg){
   const imgs=lookupCarouselImgs(p);
@@ -2530,6 +2760,24 @@ function crslSync(id){
   const dots=document.getElementById(id+'-d');
   if(dots) dots.querySelectorAll('.crsl-dot').forEach((d,i)=>d.classList.toggle('on',i===idx));
 }
+
+// ── Sticky WhatsApp CTA (mobile) ────────
+(function(){
+  document.addEventListener('DOMContentLoaded',function(){
+    const wa=document.getElementById('sticky-wa');if(!wa) return;
+    function check(){
+      // Aparece quando o usuário rolar (qualquer fonte) e está em tela mobile
+      if(window.innerWidth>=768){wa.classList.remove('on');return;}
+      const sources=[window,document.querySelector('.phone .screen.active'),...document.querySelectorAll('.pkg-list,.res-view')].filter(Boolean);
+      let y=0;sources.forEach(s=>{const v=s===window?window.scrollY:s.scrollTop;if(v>y)y=v;});
+      wa.classList.toggle('on', y>180);
+    }
+    window.addEventListener('scroll',check,{passive:true});
+    document.addEventListener('scroll',check,{passive:true,capture:true});
+    setInterval(check,1200);
+    check();
+  });
+})();
 
 // ── Back-to-top button ──────────────────
 function _bttScroll(){window.scrollTo({top:0,behavior:'smooth'});const grid=document.getElementById('w-grid');if(grid)grid.scrollTo&&grid.scrollTo({top:0,behavior:'smooth'});const phone=document.querySelector('.phone .screen.active');if(phone)phone.scrollTo&&phone.scrollTo({top:0,behavior:'smooth'});const lists=document.querySelectorAll('.pkg-list,.res-view,#wm');lists.forEach(el=>el.scrollTo&&el.scrollTo({top:0,behavior:'smooth'}));}
