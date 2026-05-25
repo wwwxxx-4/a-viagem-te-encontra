@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <!-- Meta Pixel Code -->
@@ -1300,11 +1300,10 @@ function getAllImgs(img){
   return String(img).split(/\n/).map(s=>s.trim()).filter(s=>s.startsWith('http'));
 }
 function _detectRegime(hotel){
-  // Extrai último segmento após ' - ' e normaliza sem acentos para match robusto
-  const parts=hotel.split(/\s*[-–]\s*/);
-  const last=(parts[parts.length-1]||'').toLowerCase()
-    .normalize('NFD').replace(/[̀-ͯ]/g,'').trim();
-  const h=hotel.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const strip=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const parts=hotel.split(/\s*[-\u2013]\s*/);
+  const last=strip(parts[parts.length-1]||'').trim();
+  const h=strip(hotel);
   const ai=h.includes('all inclusive')||h.includes('all-inclusive');
   const cm=last.includes('cafe da manha')||last.includes('breakfast')||last==='cafe';
   const mp=last.includes('meia pensao')||last.includes('half board');
