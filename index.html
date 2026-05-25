@@ -769,6 +769,10 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <button type="button" class="wfc"    data-v="Guarulhos"  onclick="W_chip('ap',this)">GRU — Guarulhos</button>
       <button type="button" class="wfc"    data-v="Viracopos"  onclick="W_chip('ap',this)">VCP — Viracopos</button>
     </div>
+    <div class="ws-sec" id="w-regime-sec" style="display:none">Regime</div>
+    <div class="ws-chips" id="w-regime" style="display:none">
+      <button type="button" class="wfc on" data-v="all" onclick="W_chip('regime',this)">Todos</button>
+    </div>
     <div class="ws-sec">Mês da Viagem</div>
     <div class="ws-chips" id="w-month">
       <button type="button" class="wfc on" data-v="all" onclick="W_chip('month',this)">Todos</button>
@@ -1891,25 +1895,47 @@ function setAirportFilter(btn,ap){
   btn.classList.add('on');ST.apFilter=ap;renderPkgs();
 }
 function renderRegimeFilter(){
-  const row=document.getElementById('regime-filter-row');if(!row)return;
-  const opts=[
+  const REGIME_OPTS=[
     {v:'cm',label:'☕ Café da Manhã',check:p=>p.cm},
     {v:'mp',label:'🍽️ Meia Pensão',check:p=>p.mp},
     {v:'pc',label:'🥘 Pensão Completa',check:p=>p.pc},
     {v:'ai',label:'🎉 All Inclusive',check:p=>p.ai},
   ].filter(o=>PKGS.some(o.check));
-  if(!opts.length){row.style.display='none';return;}
-  row.style.display='';
-  const existing=row.querySelectorAll('[data-rm]:not([data-rm="all"])');
-  existing.forEach(b=>b.remove());
-  opts.forEach(o=>{
-    const b=document.createElement('button');
-    b.className='fc';b.dataset.rm=o.v;
-    b.textContent=o.label;
-    b.onclick=function(){setRegime(this,o.v);};
-    row.appendChild(b);
-  });
-  row.querySelectorAll('[data-rm]').forEach(b=>b.classList.toggle('on',b.dataset.rm===ST.regimeFilter));
+
+  // Mobile (phone frame)
+  const row=document.getElementById('regime-filter-row');
+  if(row){
+    if(!REGIME_OPTS.length){row.style.display='none';}
+    else{
+      row.style.display='';
+      row.querySelectorAll('[data-rm]:not([data-rm="all"])').forEach(b=>b.remove());
+      REGIME_OPTS.forEach(o=>{
+        const b=document.createElement('button');
+        b.className='fc';b.dataset.rm=o.v;b.textContent=o.label;
+        b.onclick=function(){setRegime(this,o.v);};
+        row.appendChild(b);
+      });
+      row.querySelectorAll('[data-rm]').forEach(b=>b.classList.toggle('on',b.dataset.rm===ST.regimeFilter));
+    }
+  }
+
+  // Desktop sidebar
+  const wsec=document.getElementById('w-regime-sec');
+  const wrow=document.getElementById('w-regime');
+  if(wsec&&wrow){
+    if(!REGIME_OPTS.length){wsec.style.display='none';wrow.style.display='none';}
+    else{
+      wsec.style.display='';wrow.style.display='';
+      wrow.querySelectorAll('.wfc:not([data-v="all"])').forEach(b=>b.remove());
+      REGIME_OPTS.forEach(o=>{
+        const b=document.createElement('button');
+        b.type='button';b.className='wfc';b.dataset.v=o.v;b.textContent=o.label;
+        b.onclick=function(){W_chip('regime',this);};
+        wrow.appendChild(b);
+      });
+      wrow.querySelectorAll('.wfc').forEach(b=>b.classList.toggle('on',b.dataset.v===W_F.regime));
+    }
+  }
 }
 function setRegime(btn,v){
   document.querySelectorAll('[data-rm]').forEach(b=>b.classList.remove('on'));
@@ -2120,7 +2146,7 @@ updateClock();setInterval(updateClock,15000);
 // Clear all filters
 function clearFilters(){
   ST.tipoFilter='all';ST.regExpFilter='all';ST.apFilter='all';ST.destFilter='all';ST.monthFilter='all';ST.regimeFilter='all';
-  W_F.tipo='all';W_F.reg='all';W_F.ap='all';W_F.month='all';W_F.dest='all';
+  W_F.tipo='all';W_F.reg='all';W_F.ap='all';W_F.month='all';W_F.dest='all';W_F.regime='all';
   document.querySelectorAll('[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==='all'));
   document.querySelectorAll('[data-mf]').forEach(b=>b.classList.toggle('on',b.dataset.mf==='all'));
   document.querySelectorAll('[data-rg]').forEach(b=>b.classList.toggle('on',b.dataset.rg==='all'));
@@ -2393,7 +2419,7 @@ loadPkgs();
 // WEB LAYOUT JS — isolated, W_ prefix
 // Uses global PKGS + getImg loaded by mobile
 // ═══════════════════════════════════════════
-const W_F = {tipo:'all', reg:'all', ap:'all', month:'all', dest:'all'};
+const W_F = {tipo:'all', reg:'all', ap:'all', month:'all', dest:'all', regime:'all'};
 
 // Popula os <select> de destino dinamicamente a partir dos pacotes carregados.
 // Une variantes com/sem acento ("Caraiva" vs "Caraíva") sob uma chave canônica.
@@ -2480,7 +2506,7 @@ function clearDestSelection(){
 }
 
 function W_chip(type, btn){
-  const ids = {tipo:'w-tipo', reg:'w-reg', ap:'w-ap', month:'w-month'};
+  const ids = {tipo:'w-tipo', reg:'w-reg', ap:'w-ap', month:'w-month', regime:'w-regime'};
   document.querySelectorAll('#'+ids[type]+' .wfc').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
   W_F[type] = btn.dataset.v;
@@ -2516,6 +2542,7 @@ function W_render(){
     if(ST.priceMin && p.p<ST.priceMin) return false;
     if(ST.priceMax && p.p>ST.priceMax) return false;
     if(W_F.month!=='all' && p.m!==W_F.month) return false;
+    if(W_F.regime!=='all' && !p[W_F.regime]) return false;
     if(W_F.dest && W_F.dest!=='all'){
       const k=_destNorm(p.d);
       if(Array.isArray(W_F.dest)){if(!W_F.dest.includes(k)) return false;}
