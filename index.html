@@ -2827,21 +2827,172 @@ function toggleFavView(){
   if(typeof renderPkgs==='function') renderPkgs();
   if(typeof W_render==='function') W_render();
 }
-async function sharePkg(p,event){
-  if(event){event.stopPropagation();event.preventDefault();}
-  const url='https://aviagemteencontra.com.br';
-  const text=`${p.d} — ${p.h}\nIda: ${p.i} · Volta: ${p.v}\nA partir de R$${(typeof markupPrice==='function'?markupPrice(p.p):p.p).toLocaleString('pt-BR')} p/ 2 pessoas + taxas`;
-  const data={title:'A Viagem te Encontra — '+p.d, text, url};
-  try{
-    if(navigator.share){await navigator.share(data);return;}
-  }catch(e){if(e.name==='AbortError')return;}
-  // Fallback: copy text+URL
-  try{
-    await navigator.clipboard.writeText(text+'\n'+url);
-    if(typeof showToast==='function') showToast('🔗 Link copiado!');
-  }catch(e){
-    if(typeof showToast==='function') showToast('Não foi possível compartilhar');
+// ── Share card canvas helpers ──────────────────────────────────────────────
+function _wrapText(ctx,text,maxW){
+  const words=text.split(' ');const lines=[];let line='';
+  for(const w of words){const t=line+(line?' ':'')+w;if(ctx.measureText(t).width>maxW&&line){lines.push(line);line=w;}else line=t;}
+  if(line)lines.push(line);return lines;
+}
+function _roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
+}
+async function _loadImgCors(url,timeoutMs){
+  return new Promise((res,rej)=>{
+    const t=setTimeout(()=>rej('timeout'),timeoutMs||4000);
+    const im=new Image();im.crossOrigin='anonymous';
+    im.onload=()=>{clearTimeout(t);res(im);};
+    im.onerror=()=>{clearTimeout(t);rej('err');};
+    im.src=url;
+  });
+}
+async function generateShareCard(pkg){
+  const W=800,HDRH=300,BODH=560,FTCH=68,H=HDRH+BODH+FTCH;
+  const PAD=40,sky='#1246C8',muted='#4E637A',dark='#0A1628',border='#E0E8F5';
+  const typeColors={praia:['#0077B6','#00C2A8'],montanha:['#2D6A4F','#1246C8'],natureza:['#386641','#00C2A8'],cidade:['#1246C8','#7C3AED']};
+  const typeEmoji={praia:'🏖️',montanha:'⛰️',natureza:'🌿',cidade:'🏙️'};
+  const typeLabel={praia:'Praia',montanha:'Serra',natureza:'Natureza',cidade:'Cidade'};
+
+  const cv=document.createElement('canvas');cv.width=W;cv.height=H;
+  const ctx=cv.getContext('2d');
+
+  // ── Header ──
+  const imgUrl=(pkg.imgs&&pkg.imgs.length)?pkg.imgs[0]:(pkg.cover||'');
+  let imgOk=false;
+  if(imgUrl){
+    try{
+      const im=await _loadImgCors(imgUrl,4000);
+      const ratio=im.naturalWidth/im.naturalHeight,target=W/HDRH;
+      let sx=0,sy=0,sw=im.naturalWidth,sh=im.naturalHeight;
+      if(ratio>target){sw=im.naturalHeight*target;sx=(im.naturalWidth-sw)/2;}
+      else{sh=im.naturalWidth/target;sy=(im.naturalHeight-sh)/2;}
+      ctx.drawImage(im,sx,sy,sw,sh,0,0,W,HDRH);imgOk=true;
+    }catch(e){}
   }
+  if(!imgOk){
+    const cols=typeColors[pkg.t]||typeColors.cidade;
+    const g=ctx.createLinearGradient(0,0,W,HDRH);g.addColorStop(0,cols[0]);g.addColorStop(1,cols[1]);
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,HDRH);
+    ctx.font='80px serif';ctx.textAlign='center';ctx.fillText(typeEmoji[pkg.t]||'✈️',W/2,HDRH/2+16);
+  }
+  // Dark gradient overlay for text readability
+  const ov=ctx.createLinearGradient(0,HDRH*0.35,0,HDRH);
+  ov.addColorStop(0,'rgba(0,0,0,0)');ov.addColorStop(1,'rgba(0,0,0,0.7)');
+  ctx.fillStyle=ov;ctx.fillRect(0,0,W,HDRH);
+  // Destination name
+  ctx.textAlign='left';ctx.fillStyle='#fff';
+  ctx.font=`bold 46px 'Plus Jakarta Sans',Arial,sans-serif`;
+  const destLines=_wrapText(ctx,pkg.d,W-PAD*2);
+  destLines.slice(0,2).forEach((l,i)=>ctx.fillText(l,PAD,HDRH-58+i*46));
+  ctx.font=`600 13px 'DM Sans',Arial,sans-serif`;ctx.fillStyle='rgba(255,255,255,.75)';
+  ctx.fillText(((typeLabel[pkg.t]||pkg.t)+' · '+(pkg.r||'')).toUpperCase(),PAD,HDRH-18);
+
+  // ── Body white card ──
+  ctx.fillStyle='#F2F4F8';ctx.fillRect(0,HDRH,W,BODH);
+  ctx.fillStyle='#FFFFFF';_roundRect(ctx,PAD/2,HDRH+14,W-PAD,BODH-28,16);ctx.fill();
+
+  let y=HDRH+52;
+  const price=typeof markupPrice==='function'?markupPrice(pkg.p):pkg.p;
+  const priceStr='R$ '+price.toLocaleString('pt-BR');
+  const hotelClean=(pkg.h||'').replace(/\s*[-–]\s*(café da manhã|cafe da manha|all inclusive|all-inclusive|meia pensão|pensão completa|breakfast|half board|full board).*/gi,'').trim();
+  const regimeLabel=pkg.cm?'☕ Café da Manhã':pkg.ai?'🎉 All Inclusive':pkg.mp?'🍽️ Meia Pensão':pkg.pc?'🥘 Pensão Completa':'';
+
+  // Price block
+  ctx.textAlign='right';
+  ctx.font=`bold 48px 'Plus Jakarta Sans',Arial,sans-serif`;ctx.fillStyle=sky;ctx.fillText(priceStr,W-PAD,y+4);
+  ctx.font=`12px 'DM Sans',Arial,sans-serif`;ctx.fillStyle=muted;ctx.fillText('p/ 2 pessoas + taxas*',W-PAD,y+26);
+  ctx.textAlign='left';
+
+  // Divider
+  y+=48;ctx.fillStyle=border;ctx.fillRect(PAD,y,W-PAD*2,1);y+=18;
+
+  // Hotel + Regime
+  ctx.font=`600 15px 'DM Sans',Arial,sans-serif`;ctx.fillStyle=dark;
+  const hLines=_wrapText(ctx,hotelClean||'—',W-PAD*2-32);
+  ctx.fillText('🏨',PAD,y);
+  hLines.slice(0,2).forEach((l,i)=>ctx.fillText(l,PAD+32,y+i*22));
+  y+=Math.min(hLines.length,2)*22;
+  if(regimeLabel){ctx.font=`13px 'DM Sans',Arial,sans-serif`;ctx.fillStyle=sky;ctx.fillText(regimeLabel,PAD+32,y);y+=22;}
+  y+=12;
+
+  // Divider
+  ctx.fillStyle=border;ctx.fillRect(PAD,y,W-PAD*2,1);y+=18;
+
+  // Airport + Dates
+  ctx.font=`600 15px 'DM Sans',Arial,sans-serif`;ctx.fillStyle=dark;
+  if(pkg.o){ctx.fillText('✈️  Saída: '+pkg.o,PAD,y);y+=28;}
+  if(pkg.i&&pkg.v){ctx.fillText('📅  '+pkg.i+' → '+pkg.v,PAD,y);y+=28;}
+  y+=4;
+
+  // Divider
+  ctx.fillStyle=border;ctx.fillRect(PAD,y,W-PAD*2,1);y+=18;
+
+  // Flights
+  ctx.font=`14px 'DM Sans',Arial,sans-serif`;ctx.fillStyle=muted;
+  if(pkg.voo_ida){const ls=_wrapText(ctx,'🛫 '+pkg.voo_ida,W-PAD*2-8);ls.slice(0,2).forEach((l,i)=>ctx.fillText(l,PAD,y+i*22));y+=Math.min(ls.length,2)*22+6;}
+  if(pkg.voo_volta){const ls=_wrapText(ctx,'🛬 '+pkg.voo_volta,W-PAD*2-8);ls.slice(0,2).forEach((l,i)=>ctx.fillText(l,PAD,y+i*22));y+=Math.min(ls.length,2)*22+6;}
+
+  // ── Footer branding ──
+  const fy=HDRH+BODH;
+  ctx.fillStyle=sky;ctx.fillRect(0,fy,W,FTCH);
+  ctx.textAlign='center';
+  ctx.font=`bold 18px 'Plus Jakarta Sans',Arial,sans-serif`;ctx.fillStyle='#fff';
+  ctx.fillText('A Viagem te Encontra',W/2,fy+26);
+  ctx.font=`12px 'DM Sans',Arial,sans-serif`;ctx.fillStyle='rgba(255,255,255,.65)';
+  ctx.fillText('aviagemteencontra.com.br  ·  Mesquita Turismo',W/2,fy+48);
+
+  return cv;
+}
+
+async function sharePkg(pData,event){
+  if(event){event.stopPropagation();event.preventDefault();}
+  // Resolve pacote completo pelo ID
+  const pkg=(typeof PKGS!=='undefined'&&PKGS.length)?(PKGS.find(pk=>pk.id===pData.id)||pData):pData;
+  const price=typeof markupPrice==='function'?markupPrice(pkg.p):pkg.p;
+  const priceStr='R$'+price.toLocaleString('pt-BR');
+  const siteUrl='https://aviagemteencontra.com.br';
+  const regime=pkg.cm?'☕ Café da Manhã':pkg.ai?'🎉 All Inclusive':pkg.mp?'🍽️ Meia Pensão':pkg.pc?'🥘 Pensão Completa':'';
+  const hotelClean=(pkg.h||'').replace(/\s*[-–]\s*(café da manhã|cafe da manha|all inclusive|all-inclusive|meia pensão|pensão completa|breakfast|half board|full board).*/gi,'').trim();
+  const lines=[
+    `✈️ *${pkg.d}*`,
+    hotelClean?`🏨 ${hotelClean}`:'',
+    regime,
+    `💰 *${priceStr}* p/ 2 pessoas + taxas`,
+    (pkg.i&&pkg.v)?`📅 ${pkg.i} → ${pkg.v}`:'',
+    pkg.o?`🛫 Saída: ${pkg.o}`:'',
+    pkg.voo_ida||'',
+    pkg.voo_volta||'',
+    '',
+    `👉 Ver todos os pacotes: ${siteUrl}`,
+  ].filter(Boolean);
+  const text=lines.join('\n');
+
+  // Tenta compartilhar com imagem (Web Share API Level 2)
+  try{
+    const testFile=new File([''],'t.png',{type:'image/png'});
+    if(navigator.canShare&&navigator.canShare({files:[testFile]})){
+      showToast('⏳ Gerando imagem…');
+      const cv=await generateShareCard(pkg);
+      const blob=await new Promise(res=>cv.toBlob(res,'image/jpeg',0.92));
+      const fname='pacote-'+(pkg.d||'viagem').toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'')+'.jpg';
+      const file=new File([blob],fname,{type:'image/jpeg'});
+      await navigator.share({files:[file],text});
+      return;
+    }
+  }catch(e){if(e.name==='AbortError')return;}
+
+  // Fallback: texto + URL
+  try{
+    if(navigator.share){await navigator.share({title:'A Viagem te Encontra — '+pkg.d,text,url:siteUrl});return;}
+  }catch(e){if(e.name==='AbortError')return;}
+
+  // Fallback final: clipboard
+  try{
+    await navigator.clipboard.writeText(text);
+    showToast('🔗 Copiado! Cole no WhatsApp.');
+  }catch(e){showToast('Não foi possível compartilhar');}
 }
 
 // ── Carousel helper ─────────────────────
