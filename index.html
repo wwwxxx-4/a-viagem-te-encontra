@@ -2849,39 +2849,54 @@ async function _loadImgCors(url,timeoutMs){
   });
 }
 async function generateShareCard(pkg){
-  const W=800,HDRH=300,BODH=560,FTCH=68,H=HDRH+BODH+FTCH;
+  const W=800,HDRH=300,BODH=556,FTCH=92,H=HDRH+BODH+FTCH;
   const PAD=40,sky='#1246C8',muted='#4E637A',dark='#0A1628',border='#E0E8F5';
   const typeColors={praia:['#0077B6','#00C2A8'],montanha:['#2D6A4F','#1246C8'],natureza:['#386641','#00C2A8'],cidade:['#1246C8','#7C3AED']};
   const typeEmoji={praia:'🏖️',montanha:'⛰️',natureza:'🌿',cidade:'🏙️'};
   const typeLabel={praia:'Praia',montanha:'Serra',natureza:'Natureza',cidade:'Cidade'};
 
+  // Carrega imagem do pacote + logo em paralelo
+  const imgUrl=(pkg.imgs&&pkg.imgs.length)?pkg.imgs[0]:(pkg.cover||'');
+  const [pkgImgResult,logoResult]=await Promise.allSettled([
+    imgUrl?_loadImgCors(imgUrl,4000):Promise.reject('no url'),
+    _loadImgCors('/logo-mesquita.png',5000),
+  ]);
+  const pkgImg=pkgImgResult.status==='fulfilled'?pkgImgResult.value:null;
+  const logoImg=logoResult.status==='fulfilled'?logoResult.value:null;
+
   const cv=document.createElement('canvas');cv.width=W;cv.height=H;
   const ctx=cv.getContext('2d');
 
-  // ── Header ──
-  const imgUrl=(pkg.imgs&&pkg.imgs.length)?pkg.imgs[0]:(pkg.cover||'');
-  let imgOk=false;
-  if(imgUrl){
-    try{
-      const im=await _loadImgCors(imgUrl,4000);
-      const ratio=im.naturalWidth/im.naturalHeight,target=W/HDRH;
-      let sx=0,sy=0,sw=im.naturalWidth,sh=im.naturalHeight;
-      if(ratio>target){sw=im.naturalHeight*target;sx=(im.naturalWidth-sw)/2;}
-      else{sh=im.naturalWidth/target;sy=(im.naturalHeight-sh)/2;}
-      ctx.drawImage(im,sx,sy,sw,sh,0,0,W,HDRH);imgOk=true;
-    }catch(e){}
-  }
-  if(!imgOk){
+  // ── Header: foto do pacote ou gradiente ──
+  if(pkgImg){
+    const ratio=pkgImg.naturalWidth/pkgImg.naturalHeight,target=W/HDRH;
+    let sx=0,sy=0,sw=pkgImg.naturalWidth,sh=pkgImg.naturalHeight;
+    if(ratio>target){sw=pkgImg.naturalHeight*target;sx=(pkgImg.naturalWidth-sw)/2;}
+    else{sh=pkgImg.naturalWidth/target;sy=(pkgImg.naturalHeight-sh)/2;}
+    ctx.drawImage(pkgImg,sx,sy,sw,sh,0,0,W,HDRH);
+  }else{
     const cols=typeColors[pkg.t]||typeColors.cidade;
     const g=ctx.createLinearGradient(0,0,W,HDRH);g.addColorStop(0,cols[0]);g.addColorStop(1,cols[1]);
     ctx.fillStyle=g;ctx.fillRect(0,0,W,HDRH);
     ctx.font='80px serif';ctx.textAlign='center';ctx.fillText(typeEmoji[pkg.t]||'✈️',W/2,HDRH/2+16);
   }
-  // Dark gradient overlay for text readability
-  const ov=ctx.createLinearGradient(0,HDRH*0.35,0,HDRH);
-  ov.addColorStop(0,'rgba(0,0,0,0)');ov.addColorStop(1,'rgba(0,0,0,0.7)');
+
+  // Overlay escuro para legibilidade
+  const ov=ctx.createLinearGradient(0,HDRH*0.3,0,HDRH);
+  ov.addColorStop(0,'rgba(0,0,0,0)');ov.addColorStop(1,'rgba(0,0,0,0.72)');
   ctx.fillStyle=ov;ctx.fillRect(0,0,W,HDRH);
-  // Destination name
+
+  // ── Logo Mesquita no canto superior direito ──
+  if(logoImg){
+    const LW=196,LH=Math.round(LW*(logoImg.naturalHeight/logoImg.naturalWidth));
+    const LX=W-LW-16,LY=14,LPad=8;
+    // Pílula branca
+    ctx.fillStyle='rgba(255,255,255,0.93)';
+    _roundRect(ctx,LX-LPad,LY-LPad,LW+LPad*2,LH+LPad*2,10);ctx.fill();
+    ctx.drawImage(logoImg,LX,LY,LW,LH);
+  }
+
+  // Nome do destino (bottom of header)
   ctx.textAlign='left';ctx.fillStyle='#fff';
   ctx.font=`bold 46px 'Plus Jakarta Sans',Arial,sans-serif`;
   const destLines=_wrapText(ctx,pkg.d,W-PAD*2);
@@ -2889,7 +2904,7 @@ async function generateShareCard(pkg){
   ctx.font=`600 13px 'DM Sans',Arial,sans-serif`;ctx.fillStyle='rgba(255,255,255,.75)';
   ctx.fillText(((typeLabel[pkg.t]||pkg.t)+' · '+(pkg.r||'')).toUpperCase(),PAD,HDRH-18);
 
-  // ── Body white card ──
+  // ── Body ──
   ctx.fillStyle='#F2F4F8';ctx.fillRect(0,HDRH,W,BODH);
   ctx.fillStyle='#FFFFFF';_roundRect(ctx,PAD/2,HDRH+14,W-PAD,BODH-28,16);ctx.fill();
 
@@ -2899,13 +2914,11 @@ async function generateShareCard(pkg){
   const hotelClean=(pkg.h||'').replace(/\s*[-–]\s*(café da manhã|cafe da manha|all inclusive|all-inclusive|meia pensão|pensão completa|breakfast|half board|full board).*/gi,'').trim();
   const regimeLabel=pkg.cm?'☕ Café da Manhã':pkg.ai?'🎉 All Inclusive':pkg.mp?'🍽️ Meia Pensão':pkg.pc?'🥘 Pensão Completa':'';
 
-  // Price block
+  // Preço
   ctx.textAlign='right';
   ctx.font=`bold 48px 'Plus Jakarta Sans',Arial,sans-serif`;ctx.fillStyle=sky;ctx.fillText(priceStr,W-PAD,y+4);
   ctx.font=`12px 'DM Sans',Arial,sans-serif`;ctx.fillStyle=muted;ctx.fillText('p/ 2 pessoas + taxas*',W-PAD,y+26);
   ctx.textAlign='left';
-
-  // Divider
   y+=48;ctx.fillStyle=border;ctx.fillRect(PAD,y,W-PAD*2,1);y+=18;
 
   // Hotel + Regime
@@ -2915,33 +2928,42 @@ async function generateShareCard(pkg){
   hLines.slice(0,2).forEach((l,i)=>ctx.fillText(l,PAD+32,y+i*22));
   y+=Math.min(hLines.length,2)*22;
   if(regimeLabel){ctx.font=`13px 'DM Sans',Arial,sans-serif`;ctx.fillStyle=sky;ctx.fillText(regimeLabel,PAD+32,y);y+=22;}
-  y+=12;
+  y+=12;ctx.fillStyle=border;ctx.fillRect(PAD,y,W-PAD*2,1);y+=18;
 
-  // Divider
-  ctx.fillStyle=border;ctx.fillRect(PAD,y,W-PAD*2,1);y+=18;
-
-  // Airport + Dates
+  // Aeroporto + Datas
   ctx.font=`600 15px 'DM Sans',Arial,sans-serif`;ctx.fillStyle=dark;
   if(pkg.o){ctx.fillText('✈️  Saída: '+pkg.o,PAD,y);y+=28;}
   if(pkg.i&&pkg.v){ctx.fillText('📅  '+pkg.i+' → '+pkg.v,PAD,y);y+=28;}
-  y+=4;
+  y+=4;ctx.fillStyle=border;ctx.fillRect(PAD,y,W-PAD*2,1);y+=18;
 
-  // Divider
-  ctx.fillStyle=border;ctx.fillRect(PAD,y,W-PAD*2,1);y+=18;
-
-  // Flights
+  // Voos
   ctx.font=`14px 'DM Sans',Arial,sans-serif`;ctx.fillStyle=muted;
   if(pkg.voo_ida){const ls=_wrapText(ctx,'🛫 '+pkg.voo_ida,W-PAD*2-8);ls.slice(0,2).forEach((l,i)=>ctx.fillText(l,PAD,y+i*22));y+=Math.min(ls.length,2)*22+6;}
   if(pkg.voo_volta){const ls=_wrapText(ctx,'🛬 '+pkg.voo_volta,W-PAD*2-8);ls.slice(0,2).forEach((l,i)=>ctx.fillText(l,PAD,y+i*22));y+=Math.min(ls.length,2)*22+6;}
 
-  // ── Footer branding ──
+  // ── Footer: branco com logo + WhatsApp ──
   const fy=HDRH+BODH;
-  ctx.fillStyle=sky;ctx.fillRect(0,fy,W,FTCH);
-  ctx.textAlign='center';
-  ctx.font=`bold 18px 'Plus Jakarta Sans',Arial,sans-serif`;ctx.fillStyle='#fff';
-  ctx.fillText('A Viagem te Encontra',W/2,fy+26);
-  ctx.font=`12px 'DM Sans',Arial,sans-serif`;ctx.fillStyle='rgba(255,255,255,.65)';
-  ctx.fillText('aviagemteencontra.com.br  ·  Mesquita Turismo',W/2,fy+48);
+  // Faixa azul fina no topo do footer
+  ctx.fillStyle=sky;ctx.fillRect(0,fy,W,4);
+  // Fundo branco
+  ctx.fillStyle='#FFFFFF';ctx.fillRect(0,fy+4,W,FTCH-4);
+
+  // Logo Mesquita (esquerda)
+  if(logoImg){
+    const LW=180,LH=Math.round(LW*(logoImg.naturalHeight/logoImg.naturalWidth));
+    ctx.drawImage(logoImg,PAD,fy+4+(FTCH-4-LH)/2,LW,LH);
+  }else{
+    ctx.font=`bold 14px 'Plus Jakarta Sans',Arial,sans-serif`;ctx.fillStyle=sky;
+    ctx.textAlign='left';ctx.fillText('MESQUITA TURISMO',PAD,fy+40);
+  }
+
+  // WhatsApp (direita)
+  const waCenterY=fy+4+(FTCH-4)/2;
+  ctx.textAlign='right';
+  ctx.font=`bold 15px 'Plus Jakarta Sans',Arial,sans-serif`;ctx.fillStyle='#25D366';
+  ctx.fillText('📱 (11) 9 5396-7095',W-PAD,waCenterY-4);
+  ctx.font=`11px 'DM Sans',Arial,sans-serif`;ctx.fillStyle=muted;
+  ctx.fillText('aviagemteencontra.com.br',W-PAD,waCenterY+16);
 
   return cv;
 }

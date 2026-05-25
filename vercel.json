@@ -1,20 +1,20 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "destinos-images.json",
-      "use": "@vercel/static"
-    }
+    { "src": "index.html",           "use": "@vercel/static" },
+    { "src": "destinos-images.json", "use": "@vercel/static" },
+    { "src": "logo-mesquita.png",    "use": "@vercel/static" }
   ],
   "routes": [
     {
       "src": "/destinos-images.json",
       "dest": "/destinos-images.json",
       "headers": { "cache-control": "public, max-age=86400" }
+    },
+    {
+      "src": "/logo-mesquita.png",
+      "dest": "/logo-mesquita.png",
+      "headers": { "cache-control": "public, max-age=2592000" }
     },
     {
       "src": "/(.*)",
