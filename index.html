@@ -1299,10 +1299,23 @@ function getAllImgs(img){
   if(!img)return [];
   return String(img).split(/\n/).map(s=>s.trim()).filter(s=>s.startsWith('http'));
 }
+function _detectRegime(hotel){
+  // Extrai último segmento após ' - ' e normaliza sem acentos para match robusto
+  const parts=hotel.split(/\s*[-–]\s*/);
+  const last=(parts[parts.length-1]||'').toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g,'').trim();
+  const h=hotel.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const ai=h.includes('all inclusive')||h.includes('all-inclusive');
+  const cm=last.includes('cafe da manha')||last.includes('breakfast')||last==='cafe';
+  const mp=last.includes('meia pensao')||last.includes('half board');
+  const pc=last.includes('pensao completa')||last.includes('full board');
+  return{ai,cm,mp,pc};
+}
 function normalizePost(p){
   const destino=(p.destino||p.title||'').split(',')[0].trim();
   const preco=parsePrice(p.preco);
   const hotel=p.hotel||'';
+  const _r=_detectRegime(hotel);
   // Imagens preferenciais do post (imagem_destino) + cover como reserva separada
   const postImgs=getAllImgs(p.imagem_destino);
   const coverImg=p.cover_image_url?[String(p.cover_image_url).trim()].filter(s=>s.startsWith('http')):[];
@@ -1313,10 +1326,7 @@ function normalizePost(p){
     m:(p.ida||'').split('/')[1]||'',
     t:parseTipo(destino,p.regiao||''),
     r:parseRegiao(p.regiao,destino),
-    ai:hotel.toLowerCase().includes('all inclusive')||hotel.toLowerCase().includes('all-inclusive'),
-    cm:hotel.toLowerCase().includes('café da manhã')||hotel.toLowerCase().includes('cafe da manha')||hotel.toLowerCase().includes('breakfast'),
-    mp:hotel.toLowerCase().includes('meia pensão')||hotel.toLowerCase().includes('meia pensao')||hotel.toLowerCase().includes('half board'),
-    pc:hotel.toLowerCase().includes('pensão completa')||hotel.toLowerCase().includes('pensao completa')||hotel.toLowerCase().includes('full board'),
+    ai:_r.ai,cm:_r.cm,mp:_r.mp,pc:_r.pc,
     lx:preco>12000,
     imgs:allImgs,
     cover:coverImg[0]||'',
