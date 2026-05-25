@@ -1124,6 +1124,11 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <button class="fc" data-rg="Sudeste" onclick="setRegE(this,'Sudeste')">Sudeste</button>
         <button class="fc" data-rg="Centro-Oeste" onclick="setRegE(this,'Centro-Oeste')">Centro-Oeste</button>
       </div>
+      <!-- Regime alimentar -->
+      <div class="fchips" id="regime-filter-row" style="display:none">
+        <span class="fc-lbl">Regime:</span>
+        <button class="fc on" data-rm="all" onclick="setRegime(this,'all')">Todos</button>
+      </div>
       <!-- Mês da viagem -->
       <div class="fchips" style="margin-top:4px">
         <span class="fc-lbl">Mês:</span>
@@ -1310,6 +1315,8 @@ function normalizePost(p){
     r:parseRegiao(p.regiao,destino),
     ai:hotel.toLowerCase().includes('all inclusive')||hotel.toLowerCase().includes('all-inclusive'),
     cm:hotel.toLowerCase().includes('café da manhã')||hotel.toLowerCase().includes('cafe da manha')||hotel.toLowerCase().includes('breakfast'),
+    mp:hotel.toLowerCase().includes('meia pensão')||hotel.toLowerCase().includes('meia pensao')||hotel.toLowerCase().includes('half board'),
+    pc:hotel.toLowerCase().includes('pensão completa')||hotel.toLowerCase().includes('pensao completa')||hotel.toLowerCase().includes('full board'),
     lx:preco>12000,
     imgs:allImgs,
     cover:coverImg[0]||'',
@@ -1370,7 +1377,7 @@ function getImg(pkg){
 let PKGS=[],SWIPE_POOL=[];
 const ST={
   likes:[],nopes:[],cur:'s-loading',
-  queue:[],regFilter:'all',
+  queue:[],regFilter:'all',regimeFilter:'all',
   hookShown:false,quizDone:false,
   answers:{reg:[],airports:[]},curQ:0,
   sortKey:'preco_asc',sortDir:1,
@@ -1423,6 +1430,7 @@ async function loadPkgs(){
     if(!all.length) throw new Error('Nenhum pacote publicado encontrado.');
     PKGS=all.map(normalizePost).filter(p=>p.p>0&&p.d&&((p.imgs&&p.imgs.length>0)||p.cover));
     try{populateDestinoFilter()}catch(e){}
+    try{renderRegimeFilter()}catch(e){}
     try{updateFavCount()}catch(e){}
     const seen=new Set();
     SWIPE_POOL=PKGS.filter(p=>{if(seen.has(p.d))return false;seen.add(p.d);return true;});
@@ -1873,6 +1881,31 @@ function setAirportFilter(btn,ap){
   document.querySelectorAll('.fi-chip-mini').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');ST.apFilter=ap;renderPkgs();
 }
+function renderRegimeFilter(){
+  const row=document.getElementById('regime-filter-row');if(!row)return;
+  const opts=[
+    {v:'cm',label:'☕ Café da Manhã',check:p=>p.cm},
+    {v:'mp',label:'🍽️ Meia Pensão',check:p=>p.mp},
+    {v:'pc',label:'🥘 Pensão Completa',check:p=>p.pc},
+    {v:'ai',label:'🎉 All Inclusive',check:p=>p.ai},
+  ].filter(o=>PKGS.some(o.check));
+  if(!opts.length){row.style.display='none';return;}
+  row.style.display='';
+  const existing=row.querySelectorAll('[data-rm]:not([data-rm="all"])');
+  existing.forEach(b=>b.remove());
+  opts.forEach(o=>{
+    const b=document.createElement('button');
+    b.className='fc';b.dataset.rm=o.v;
+    b.textContent=o.label;
+    b.onclick=function(){setRegime(this,o.v);};
+    row.appendChild(b);
+  });
+  row.querySelectorAll('[data-rm]').forEach(b=>b.classList.toggle('on',b.dataset.rm===ST.regimeFilter));
+}
+function setRegime(btn,v){
+  document.querySelectorAll('[data-rm]').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');ST.regimeFilter=v;renderPkgs();
+}
 function openLightbox(src,dest){if(!src)return;document.getElementById('lightbox-img').src=src;document.getElementById('lightbox-dest').textContent=dest;document.getElementById('lightbox').classList.add('open');}
 function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
 
@@ -1899,6 +1932,7 @@ function renderPkgs(){
     if(q&&!p.d.toLowerCase().includes(q)&&!p.h.toLowerCase().includes(q)) return false;
     if(ST.apFilter!=='all'&&p.o!==ST.apFilter) return false;
     if(ST.monthFilter!=='all'&&p.m!==ST.monthFilter) return false;
+    if(ST.regimeFilter!=='all'&&!p[ST.regimeFilter]) return false;
     if(fDate&&p.i){
       try{
         const pDt=new Date(p.i.split('/').reverse().join('-'));
@@ -2029,12 +2063,13 @@ function goAllPkgs(){
   if(mst) mst.textContent = '';
   if(rte) rte.textContent = ' Todos (' + PKGS.length + ')';
   // Reset all explore filters so user sees ALL packages
-  ST.tipoFilter='all'; ST.regExpFilter='all'; ST.apFilter='all'; ST.monthFilter='all';
+  ST.tipoFilter='all'; ST.regExpFilter='all'; ST.apFilter='all'; ST.monthFilter='all'; ST.regimeFilter='all';
   // Reset filter chips visually
   document.querySelectorAll('[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==='all'));
   document.querySelectorAll('[data-rg]').forEach(b=>b.classList.toggle('on',b.dataset.rg==='all'));
   document.querySelectorAll('.fi-chip-mini').forEach(b=>b.classList.toggle('on',b.dataset.ap==='all'));
   document.querySelectorAll('[data-mf]').forEach(b=>b.classList.toggle('on',b.dataset.mf==='all'));
+  document.querySelectorAll('[data-rm]').forEach(b=>b.classList.toggle('on',b.dataset.rm==='all'));
   const si=document.getElementById('search-in');if(si)si.value='';
   const fd=document.getElementById('fi-date');if(fd)fd.value='';
   // Navigate first, then render after transition
@@ -2047,7 +2082,7 @@ function goAllPkgs(){
 }
 
 function restart(){
-  Object.assign(ST,{likes:[],nopes:[],hookShown:false,quizDone:false,answers:{reg:[],airports:[]},curQ:0,sortKey:'preco_asc',sortDir:1,tipoFilter:'all',regExpFilter:'all',apFilter:'all',monthFilter:'all',scores:{},regFilter:'all'});
+  Object.assign(ST,{likes:[],nopes:[],hookShown:false,quizDone:false,answers:{reg:[],airports:[]},curQ:0,sortKey:'preco_asc',sortDir:1,tipoFilter:'all',regExpFilter:'all',apFilter:'all',monthFilter:'all',scores:{},regFilter:'all',regimeFilter:'all'});
   document.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
   document.querySelectorAll('.btn-qn').forEach(b=>b.disabled=true);
   document.querySelectorAll('.qblock').forEach(b=>b.classList.remove('active'));
@@ -2075,12 +2110,13 @@ updateClock();setInterval(updateClock,15000);
 
 // Clear all filters
 function clearFilters(){
-  ST.tipoFilter='all';ST.regExpFilter='all';ST.apFilter='all';ST.destFilter='all';ST.monthFilter='all';
+  ST.tipoFilter='all';ST.regExpFilter='all';ST.apFilter='all';ST.destFilter='all';ST.monthFilter='all';ST.regimeFilter='all';
   W_F.tipo='all';W_F.reg='all';W_F.ap='all';W_F.month='all';W_F.dest='all';
   document.querySelectorAll('[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==='all'));
   document.querySelectorAll('[data-mf]').forEach(b=>b.classList.toggle('on',b.dataset.mf==='all'));
   document.querySelectorAll('[data-rg]').forEach(b=>b.classList.toggle('on',b.dataset.rg==='all'));
   document.querySelectorAll('.fi-chip-mini').forEach(b=>b.classList.toggle('on',b.dataset.ap==='all'));
+  document.querySelectorAll('[data-rm]').forEach(b=>b.classList.toggle('on',b.dataset.rm==='all'));
   const si=document.getElementById('search-in');if(si)si.value='';
   const fd=document.getElementById('fi-date');if(fd)fd.value='';
   const md=document.getElementById('m-dest');if(md)md.value='all';
