@@ -1856,7 +1856,7 @@ function buildMatchCards(top5){
     const wamsg=`Olá! Fiz o quiz em A Viagem te Encontra e ${p.d} apareceu com ${p.score}% de compatibilidade!
 
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v18h16V4a2 2 0 0 0-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><rect x="9" y="8" width="6" height="4"/></svg> ${p.h}
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> ${p.i} → ${p.v}
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Ida: ${p.i} → Volta: ${p.v}${_calcDias(p.i,p.v)}
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> ${p.o}
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> R$ ${fmtBRL(_mmp)} para 2 pessoas + taxas${_mdisc}
 
@@ -2062,12 +2062,12 @@ function M_renderBatch(){
         <div class="pc-hotel"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v18h16V4a2 2 0 0 0-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><rect x="9" y="8" width="6" height="4"/></svg> ${p.h}</div>
         <div class="pc-chips">
           <div class="pc-chip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> ${p.o}</div>
-          <div class="pc-chip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> ${p.i} → ${p.v}</div>
+          <div class="pc-chip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Ida: ${p.i} → Volta: ${p.v}${_calcDias(p.i,p.v)}</div>
           ${p.cm?'<div class="pc-chip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg> Café</div>':''}${p.ai?'<div class="pc-chip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22h8"/><path d="M12 11v11"/><path d="m19 3-7 8-7-8z"/></svg> All Inc.</div>':''}${p.lx?'<div class="pc-chip">⭐ Luxo</div>':''}
         </div>
         ${p.voo_ida?`<div class="pc-voo"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/><line x1="2" y1="20" x2="22" y2="20"/></svg> ${p.voo_ida}</div>`:''}
         ${p.voo_volta?`<div class="pc-voo" style="margin-bottom:6px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/><line x1="22" y1="20" x2="2" y2="20"/></svg> ${p.voo_volta}</div>`:''}
-        <button type="button" class="btn-pc-wa" onclick="window.open('https://api.whatsapp.com/send?phone=5511953967095&text=${wamsg}','_blank')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Quero este pacote</button>
+        <button type="button" class="btn-pc-wa" onclick="requestPackage('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Quero este pacote</button>
       </div>`;
     pl.appendChild(div);
   });
@@ -2589,10 +2589,15 @@ function W_render(){
   });
 
   const n = W_filtered.length;
+  const nDests = new Set(W_filtered.map(p=>p.d)).size;
   const cnt = document.getElementById('w-count');
   const bdg = document.getElementById('w-badge');
-  if(cnt) cnt.textContent = n+' pacotes';
+  if(cnt) cnt.textContent = n+' pacote'+(n===1?'':'s');
   if(bdg) bdg.textContent = n+' pacotes';
+  // Atualiza header dinâmico
+  const elT=document.getElementById('w-stat-total'),elD=document.getElementById('w-stat-dests');
+  if(elT) elT.textContent=n;
+  if(elD) elD.textContent=nDests;
 
   // Reset pagination and clear grid
   W_page = 0;
@@ -2667,14 +2672,14 @@ function W_loadMore(){
         <div class="wpc-hotel"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v18h16V4a2 2 0 0 0-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><rect x="9" y="8" width="6" height="4"/></svg> ${p.h}</div>
         <div class="wpc-chips">
           <span class="wpc-chip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> ${p.o}</span>
-          <span class="wpc-chip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> ${p.i} → ${p.v}</span>
+          <span class="wpc-chip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Ida: ${p.i} → Volta: ${p.v}${_calcDias(p.i,p.v)}</span>
           ${p.cm?'<span class="wpc-chip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg> Café</span>':''}
           ${p.ai?'<span class="wpc-chip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22h8"/><path d="M12 11v11"/><path d="m19 3-7 8-7-8z"/></svg> All Inc.</span>':''}
           ${p.lx?'<span class="wpc-chip">⭐ Luxo</span>':''}
         </div>
         ${p.voo_ida?`<div class="wpc-voo"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/><line x1="2" y1="20" x2="22" y2="20"/></svg> ${p.voo_ida}</div>`:''}
         ${p.voo_volta?`<div class="wpc-voo"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/><line x1="22" y1="20" x2="2" y2="20"/></svg> ${p.voo_volta}</div>`:''}
-        <button type="button" class="wpc-btn" onclick="window.open('${waUrl}','_blank')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Quero este pacote</button>
+        <button type="button" class="wpc-btn" onclick="requestPackage('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Quero este pacote</button>
       </div>`;
     frag.appendChild(div);
   });
@@ -2849,6 +2854,16 @@ function toggleFavView(){
   if(typeof renderPkgs==='function') renderPkgs();
   if(typeof W_render==='function') W_render();
 }
+// ── Helpers de data ───────────────────────────────────────────────────────
+function _calcDias(ida,volta){
+  try{
+    const[di,mi,ai]=ida.split('/').map(Number);
+    const[dv,mv,av]=volta.split('/').map(Number);
+    const diff=Math.round((new Date(av,mv-1,dv)-new Date(ai,mi-1,di))/864e5);
+    return diff>0?' · '+diff+' dia'+(diff===1?'':'s'):'';
+  }catch(e){return '';}
+}
+
 // ── Share card canvas helpers ──────────────────────────────────────────────
 function _wrapText(ctx,text,maxW){
   const words=text.split(' ');const lines=[];let line='';
@@ -3037,6 +3052,47 @@ async function sharePkg(pData,event){
     await navigator.clipboard.writeText(text);
     showToast('🔗 Copiado! Cole no WhatsApp.');
   }catch(e){showToast('Não foi possível compartilhar');}
+}
+
+// ── Quero este pacote — com imagem para o agente ────────────────────────
+async function requestPackage(pkgId,event){
+  if(event){event.stopPropagation();event.preventDefault();}
+  const pkg=(typeof PKGS!=='undefined'&&PKGS.length)?(PKGS.find(p=>p.id===pkgId)||null):null;
+  if(!pkg){window.open('https://api.whatsapp.com/send?phone=5511953967095','_blank');return;}
+  const price=markupPrice(pkg.p);
+  const hotelClean=(pkg.h||'').replace(/\s*[-–]\s*(café da manhã|cafe da manha|all inclusive|all-inclusive|meia pensão|pensão completa|breakfast|half board|full board).*/gi,'').trim();
+  const dias=_calcDias(pkg.i,pkg.v);
+  const disc=COUPON?'\n🏷️ Cupom '+COUPON.code+' ('+COUPON.label+')! Desconto: R$'+fmtBRL(finalPrice(pkg.p)):'';
+  const regime=pkg.cm?'☕ Café da Manhã':pkg.ai?'🎉 All Inclusive':pkg.mp?'🍽️ Meia Pensão':pkg.pc?'🥘 Pensão Completa':'';
+  const agentMsg=[
+    'Olá! Tenho interesse no pacote abaixo 👇',
+    '',
+    '✈️ *'+pkg.d+'*',
+    hotelClean?'🏨 '+hotelClean:'',
+    regime,
+    '💰 *R$'+price.toLocaleString('pt-BR')+'* p/ 2 pessoas + taxas',
+    (pkg.i&&pkg.v)?'📅 Ida: '+pkg.i+' → Volta: '+pkg.v+dias:'',
+    pkg.o?'🛫 Saída: '+pkg.o:'',
+    pkg.voo_ida||'',
+    pkg.voo_volta||'',
+    disc,
+    '',
+    'Pode me enviar mais informações?',
+  ].filter(Boolean).join('\n');
+  // Tenta compartilhar com imagem (Web Share API com arquivo)
+  try{
+    const testFile=new File([''],'t.png',{type:'image/png'});
+    if(navigator.canShare&&navigator.canShare({files:[testFile]})){
+      showToast('⏳ Gerando imagem…');
+      const cv=await generateShareCard(pkg);
+      const blob=await new Promise(res=>cv.toBlob(res,'image/jpeg',0.92));
+      const fname='pacote-'+(pkg.d||'viagem').toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'')+'.jpg';
+      await navigator.share({files:[new File([blob],fname,{type:'image/jpeg'})],text:agentMsg});
+      return;
+    }
+  }catch(e){if(e.name==='AbortError')return;}
+  // Fallback: abre WhatsApp direto com texto
+  window.open('https://api.whatsapp.com/send?phone=5511953967095&text='+encodeURIComponent(agentMsg),'_blank');
 }
 
 // ── Carousel helper ─────────────────────
