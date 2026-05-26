@@ -3054,45 +3054,32 @@ async function sharePkg(pData,event){
   }catch(e){showToast('Não foi possível compartilhar');}
 }
 
-// ── Quero este pacote — com imagem para o agente ────────────────────────
-async function requestPackage(pkgId,event){
+// ── Quero este pacote — abre WhatsApp do agente com mensagem completa ───
+function requestPackage(pkgId,event){
   if(event){event.stopPropagation();event.preventDefault();}
   const pkg=(typeof PKGS!=='undefined'&&PKGS.length)?(PKGS.find(p=>p.id===pkgId)||null):null;
   if(!pkg){window.open('https://api.whatsapp.com/send?phone=5511953967095','_blank');return;}
   const price=markupPrice(pkg.p);
   const hotelClean=(pkg.h||'').replace(/\s*[-–]\s*(café da manhã|cafe da manha|all inclusive|all-inclusive|meia pensão|pensão completa|breakfast|half board|full board).*/gi,'').trim();
   const dias=_calcDias(pkg.i,pkg.v);
-  const disc=COUPON?'\n🏷️ Cupom '+COUPON.code+' ('+COUPON.label+')! Desconto: R$'+fmtBRL(finalPrice(pkg.p)):'';
-  const regime=pkg.cm?'☕ Café da Manhã':pkg.ai?'🎉 All Inclusive':pkg.mp?'🍽️ Meia Pensão':pkg.pc?'🥘 Pensão Completa':'';
-  const agentMsg=[
-    'Olá! Tenho interesse no pacote abaixo 👇',
+  const disc=COUPON?'\n🏷️ Cupom '+COUPON.code+' ('+COUPON.label+')! Preço com desconto: R$'+fmtBRL(finalPrice(pkg.p)):'';
+  const regime=pkg.cm?'Café da Manhã':pkg.ai?'All Inclusive':pkg.mp?'Meia Pensão':pkg.pc?'Pensão Completa':'';
+  const msg=[
+    'Olá! Tenho interesse no seguinte pacote:',
     '',
     '✈️ *'+pkg.d+'*',
     hotelClean?'🏨 '+hotelClean:'',
-    regime,
-    '💰 *R$'+price.toLocaleString('pt-BR')+'* p/ 2 pessoas + taxas',
+    regime?'🍽️ Regime: '+regime:'',
+    '💰 *R$ '+price.toLocaleString('pt-BR')+'* p/ 2 pessoas + taxas',
     (pkg.i&&pkg.v)?'📅 Ida: '+pkg.i+' → Volta: '+pkg.v+dias:'',
-    pkg.o?'🛫 Saída: '+pkg.o:'',
-    pkg.voo_ida||'',
-    pkg.voo_volta||'',
+    pkg.o?'🛫 Saída de: '+pkg.o:'',
+    pkg.voo_ida?'➡️ '+pkg.voo_ida:'',
+    pkg.voo_volta?'⬅️ '+pkg.voo_volta:'',
     disc,
     '',
     'Pode me enviar mais informações?',
   ].filter(Boolean).join('\n');
-  // Tenta compartilhar com imagem (Web Share API com arquivo)
-  try{
-    const testFile=new File([''],'t.png',{type:'image/png'});
-    if(navigator.canShare&&navigator.canShare({files:[testFile]})){
-      showToast('⏳ Gerando imagem…');
-      const cv=await generateShareCard(pkg);
-      const blob=await new Promise(res=>cv.toBlob(res,'image/jpeg',0.92));
-      const fname='pacote-'+(pkg.d||'viagem').toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'')+'.jpg';
-      await navigator.share({files:[new File([blob],fname,{type:'image/jpeg'})],text:agentMsg});
-      return;
-    }
-  }catch(e){if(e.name==='AbortError')return;}
-  // Fallback: abre WhatsApp direto com texto
-  window.open('https://api.whatsapp.com/send?phone=5511953967095&text='+encodeURIComponent(agentMsg),'_blank');
+  window.open(buildWaUrl('5511953967095',msg),'_blank');
 }
 
 // ── Carousel helper ─────────────────────
