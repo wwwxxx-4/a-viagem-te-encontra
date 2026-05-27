@@ -3083,6 +3083,16 @@ function requestPackage(pkgId,event){
     '',
     'Pode me enviar mais informações?',
   ].filter(Boolean).join('\n');
+  // Rastreamento Google Ads — conversão "Quero este pacote"
+  if(typeof gtag === 'function'){
+    gtag('event', 'conversion', {
+      'send_to': 'AW-1064534352/Zw6cNqQubQcEKyxodMD'
+    });
+  }
+  // Rastreamento Meta Pixel — evento Lead
+  if(typeof fbq === 'function'){
+    fbq('track', 'Lead', {content_name: pkg ? pkg.d : 'Pacote'});
+  }
   window.open(buildWaUrl('5511953967095',msg),'_blank');
 }
 
