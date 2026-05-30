@@ -1457,7 +1457,7 @@ async function loadPkgs(){
   try{
     let all=[],from=0;
     while(true){
-      const res=await fetch(`${SB_URL}/rest/v1/posts?select=id,destino,hotel,preco,ida,volta,origem,regiao,imagem_destino,cover_image_url,voo_ida,voo_volta,status&status=eq.published&order=id.asc&limit=1000&offset=${from}`,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
+      const res=await fetch(`${SB_URL}/rest/v1/posts?select=id,destino,hotel,preco,ida,volta,origem,regiao,imagem_destino,cover_image_url,voo_ida,voo_volta,fornecedor,transfer,status&status=eq.published&order=id.asc&limit=1000&offset=${from}`,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
       if(!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
       const data=await res.json();
       all=all.concat(data);
