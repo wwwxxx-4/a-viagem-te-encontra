@@ -1465,7 +1465,7 @@ async function loadPkgs(){
       from+=1000;
     }
     if(!all.length) throw new Error('Nenhum pacote publicado encontrado.');
-    PKGS=all.map(normalizePost).filter(p=>p.p>0&&p.d&&((p.imgs&&p.imgs.length>0)||p.cover));
+    PKGS=all.map(normalizePost).filter(p=>p.p>0&&p.d);
     try{populateDestinoFilter()}catch(e){}
     try{renderRegimeFilter()}catch(e){}
     try{updateFavCount()}catch(e){}
