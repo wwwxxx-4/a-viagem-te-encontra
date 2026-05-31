@@ -1469,6 +1469,7 @@ async function loadPkgs(){
     try{populateDestinoFilter()}catch(e){}
     try{renderRegimeFilter()}catch(e){}
     try{updateFavCount()}catch(e){}
+    try{_applyUrlParams()}catch(e){} // aplica filtros URL no mobile também
     const seen=new Set();
     SWIPE_POOL=PKGS.filter(p=>{if(seen.has(p.d))return false;seen.add(p.d);return true;});
     const uD=new Set(PKGS.map(p=>p.d)).size;
@@ -2734,73 +2735,93 @@ function W_setupScroll(){
 
 // ── Filtros via URL params ─────────────────────────────────────
 // Suporte: ?destino=Porto+de+Galinhas  ?regiao=nordeste
-//          ?aeroporto=CGH  ?tipo=praia  ?regime=cm
+//          ?aeroporto=CGH  ?tipo=praia  ?regime=cm  ?mes=07
 //          múltiplos destinos: ?destino=Recife&destino=Maragogi
 function _applyUrlParams(){
   const params = new URLSearchParams(window.location.search);
   if(!params.toString()) return; // nenhum parâmetro, sai rápido
 
-  // helper: atualiza chips de um container (marca .on no botão correto)
-  function _setChip(containerId, value){
-    const wrap = document.getElementById(containerId);
-    if(!wrap || !value) return;
-    wrap.querySelectorAll('.wfc').forEach(b=>{
-      b.classList.toggle('on', b.dataset.v && b.dataset.v.toLowerCase()===value.toLowerCase());
-    });
-  }
-
   // mapa de siglas de aeroporto → nome usado em p.o
   const AP_MAP = {'cgh':'Congonhas','gru':'Guarulhos','vcp':'Viracopos',
                   'congonhas':'Congonhas','guarulhos':'Guarulhos','viracopos':'Viracopos'};
+  const MES_MAP = {'jan':'01','fev':'02','mar':'03','abr':'04','mai':'05','jun':'06',
+                   'jul':'07','ago':'08','set':'09','out':'10','nov':'11','dez':'12'};
 
-  // destino (um ou mais)
+  // helper: marca .on no botão com o data-attr correto dentro de um seletor
+  function _markChip(selector, attrName, value){
+    document.querySelectorAll(selector).forEach(b=>{
+      const v = b.dataset[attrName]||'';
+      b.classList.toggle('on', v.toLowerCase() === value.toLowerCase());
+    });
+  }
+
+  // ── DESTINO ──────────────────────────────────────────────────
   const dests = params.getAll('destino').map(d=>_destNorm(d)).filter(Boolean);
-  if(dests.length === 1) W_F.dest = dests[0];
-  else if(dests.length > 1) W_F.dest = dests;
+  if(dests.length === 1){ W_F.dest = dests[0]; ST.destFilter = dests[0]; }
+  else if(dests.length > 1){ W_F.dest = dests; ST.destFilter = dests; }
   if(dests.length){
+    // desktop: listbox múltiplo
     const lb = document.querySelector('select[multiple]');
     if(lb) Array.from(lb.options).forEach(o=>{ o.selected = dests.includes(_destNorm(o.value||'')); });
+    // mobile: <select id="m-dest"> (valor único — usa o primeiro)
+    const md = document.getElementById('m-dest');
+    if(md){
+      // tenta achar a opção que bate com o primeiro destino
+      const match = Array.from(md.options).find(o=>_destNorm(o.value)===dests[0]);
+      if(match) md.value = match.value;
+    }
   }
 
-  // regiao — aceita "nordeste" ou "Nordeste"
+  // ── REGIÃO ───────────────────────────────────────────────────
   const reg = params.get('regiao');
   if(reg){
-    // capitaliza primeira letra para bater com data-v dos chips
     const regVal = reg.trim().charAt(0).toUpperCase() + reg.trim().slice(1).toLowerCase();
     W_F.reg = regVal;
-    _setChip('w-reg', regVal);
+    ST.regExpFilter = regVal;
+    // desktop chips
+    document.querySelectorAll('#w-reg .wfc').forEach(b=>b.classList.toggle('on', b.dataset.v===regVal));
+    // mobile chips
+    _markChip('[data-rg]','rg', regVal);
   }
 
-  // aeroporto — aceita "CGH", "cgh", "Congonhas"
+  // ── AEROPORTO ────────────────────────────────────────────────
   const ap = params.get('aeroporto');
   if(ap){
     const apVal = AP_MAP[ap.trim().toLowerCase()] || ap.trim();
     W_F.ap = apVal;
-    _setChip('w-ap', apVal);
+    ST.apFilter = apVal;
+    document.querySelectorAll('#w-ap .wfc').forEach(b=>b.classList.toggle('on', b.dataset.v===apVal));
+    _markChip('[data-ap]','ap', apVal);
   }
 
-  // tipo — aceita "praia", "cidade", "montanha", "natureza"
+  // ── TIPO ─────────────────────────────────────────────────────
   const tipo = params.get('tipo');
   if(tipo){
-    W_F.tipo = tipo.toLowerCase().trim();
-    _setChip('w-tipo', W_F.tipo);
+    const tipoVal = tipo.toLowerCase().trim();
+    W_F.tipo = tipoVal;
+    ST.tipoFilter = tipoVal;
+    document.querySelectorAll('#w-tipo .wfc').forEach(b=>b.classList.toggle('on', b.dataset.v===tipoVal));
+    _markChip('[data-t]','t', tipoVal);
   }
 
-  // regime — aceita "cm", "ai", "mp", "pc"
+  // ── REGIME ───────────────────────────────────────────────────
   const regime = params.get('regime');
   if(regime){
-    W_F.regime = regime.toLowerCase().trim();
-    _setChip('w-regime', W_F.regime);
+    const regimeVal = regime.toLowerCase().trim();
+    W_F.regime = regimeVal;
+    ST.regimeFilter = regimeVal;
+    document.querySelectorAll('#w-regime .wfc').forEach(b=>b.classList.toggle('on', b.dataset.v===regimeVal));
+    _markChip('[data-rm]','rm', regimeVal);
   }
 
-  // mes — aceita "07", "7", "jul"
-  const MES_MAP = {'jan':'01','fev':'02','mar':'03','abr':'04','mai':'05','jun':'06',
-                   'jul':'07','ago':'08','set':'09','out':'10','nov':'11','dez':'12'};
+  // ── MÊS ──────────────────────────────────────────────────────
   const mes = params.get('mes');
   if(mes){
     const mesVal = MES_MAP[mes.toLowerCase()] || mes.padStart(2,'0');
     W_F.month = mesVal;
-    _setChip('w-month', mesVal);
+    ST.monthFilter = mesVal;
+    document.querySelectorAll('#w-month .wfc').forEach(b=>b.classList.toggle('on', b.dataset.v===mesVal));
+    _markChip('[data-mf]','mf', mesVal);
   }
 }
 
