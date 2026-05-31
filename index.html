@@ -2732,6 +2732,78 @@ function W_setupScroll(){
   wm.addEventListener('scroll', W_observer, { passive: true });
 }
 
+// ── Filtros via URL params ─────────────────────────────────────
+// Suporte: ?destino=Porto+de+Galinhas  ?regiao=nordeste
+//          ?aeroporto=CGH  ?tipo=praia  ?regime=cm
+//          múltiplos destinos: ?destino=Recife&destino=Maragogi
+function _applyUrlParams(){
+  const params = new URLSearchParams(window.location.search);
+  if(!params.toString()) return; // nenhum parâmetro, sai rápido
+
+  // helper: atualiza chips de um container (marca .on no botão correto)
+  function _setChip(containerId, value){
+    const wrap = document.getElementById(containerId);
+    if(!wrap || !value) return;
+    wrap.querySelectorAll('.wfc').forEach(b=>{
+      b.classList.toggle('on', b.dataset.v && b.dataset.v.toLowerCase()===value.toLowerCase());
+    });
+  }
+
+  // mapa de siglas de aeroporto → nome usado em p.o
+  const AP_MAP = {'cgh':'Congonhas','gru':'Guarulhos','vcp':'Viracopos',
+                  'congonhas':'Congonhas','guarulhos':'Guarulhos','viracopos':'Viracopos'};
+
+  // destino (um ou mais)
+  const dests = params.getAll('destino').map(d=>_destNorm(d)).filter(Boolean);
+  if(dests.length === 1) W_F.dest = dests[0];
+  else if(dests.length > 1) W_F.dest = dests;
+  if(dests.length){
+    const lb = document.querySelector('select[multiple]');
+    if(lb) Array.from(lb.options).forEach(o=>{ o.selected = dests.includes(_destNorm(o.value||'')); });
+  }
+
+  // regiao — aceita "nordeste" ou "Nordeste"
+  const reg = params.get('regiao');
+  if(reg){
+    // capitaliza primeira letra para bater com data-v dos chips
+    const regVal = reg.trim().charAt(0).toUpperCase() + reg.trim().slice(1).toLowerCase();
+    W_F.reg = regVal;
+    _setChip('w-reg', regVal);
+  }
+
+  // aeroporto — aceita "CGH", "cgh", "Congonhas"
+  const ap = params.get('aeroporto');
+  if(ap){
+    const apVal = AP_MAP[ap.trim().toLowerCase()] || ap.trim();
+    W_F.ap = apVal;
+    _setChip('w-ap', apVal);
+  }
+
+  // tipo — aceita "praia", "cidade", "montanha", "natureza"
+  const tipo = params.get('tipo');
+  if(tipo){
+    W_F.tipo = tipo.toLowerCase().trim();
+    _setChip('w-tipo', W_F.tipo);
+  }
+
+  // regime — aceita "cm", "ai", "mp", "pc"
+  const regime = params.get('regime');
+  if(regime){
+    W_F.regime = regime.toLowerCase().trim();
+    _setChip('w-regime', W_F.regime);
+  }
+
+  // mes — aceita "07", "7", "jul"
+  const MES_MAP = {'jan':'01','fev':'02','mar':'03','abr':'04','mai':'05','jun':'06',
+                   'jul':'07','ago':'08','set':'09','out':'10','nov':'11','dez':'12'};
+  const mes = params.get('mes');
+  if(mes){
+    const mesVal = MES_MAP[mes.toLowerCase()] || mes.padStart(2,'0');
+    W_F.month = mesVal;
+    _setChip('w-month', mesVal);
+  }
+}
+
 // Called once after mobile loadPkgs finishes
 function W_init(){
   const total = PKGS.length;
@@ -2742,6 +2814,7 @@ function W_init(){
   if(el_total) el_total.textContent = total;
   if(el_dests) el_dests.textContent = dests;
   if(el_sub)   el_sub.textContent   = total + ' pacotes · ' + dests + ' destinos';
+  _applyUrlParams();
   W_render();
 }
 
