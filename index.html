@@ -1477,7 +1477,8 @@ async function loadPkgs(){
     document.getElementById('stat-dests').textContent=uD;
     document.getElementById('az-total-ct').textContent=PKGS.length;
     document.getElementById('rt-explore').textContent=`Explorar todos (${PKGS.length})`;
-    buildQueue();goScreen('s-land');
+    buildQueue();goScreen('s-results');
+    try{renderPkgs()}catch(e){}
     W_init();
   }catch(err){
     document.getElementById('load-err').style.display='block';
