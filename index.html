@@ -1406,8 +1406,8 @@ function getImg(pkg){
   if(ck&&CIDADE_IMGS[ck]&&CIDADE_IMGS[ck].length)return pick(CIDADE_IMGS[ck]);
   // 4. Fallback Unsplash
   if(FB_IMG[pkg.d])return FB_IMG[pkg.d];
-  const P={praia:['https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=70','https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=600&q=70','https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=600&q=70'],montanha:['https://images.unsplash.com/photo-1544979590-37e9b47eb705?w=600&q=70','https://images.unsplash.com/photo-1494548162494-384bba4ab999?w=600&q=70'],natureza:['https://images.unsplash.com/photo-1578894381163-e72c17f2d45f?w=600&q=70','https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=70'],cidade:['https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=600&q=70','https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600&q=70']};
-  return pick(P[pkg.t]||P.praia);
+  // 5. Fallback final: avião
+  return 'https://cdn.panrotas.com.br/portal-panrotas-statics/media-files-cache/411873/de20aa321c10e10cb4be48856da24305copiadea320neoazulfotoluisneves31/0,0,2560,1528/1206,720,0.30/0/default.jpg';
 }
 
 // ── State ─────────────────────────────
