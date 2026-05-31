@@ -2800,7 +2800,8 @@ function lookupCarouselImgs(p){
 
   // ═══ Fallback 3: cover_image_url
   if(p.cover) return [p.cover];
-  return [];
+  // ═══ Fallback 4: avião
+  return ['/aviao-fallback.jpg'];
 }
 function lookupDestImgs(p){
   if(!DEST_IMG_LOADED) return [];
