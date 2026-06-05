@@ -745,18 +745,21 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <input type="text" id="w-search" placeholder="Destino ou hotel…" oninput="W_render()">
     </div>
     <button type="button" id="w-fav-btn" class="fav-tab-btn" onclick="toggleFavView()" style="margin-top:8px;width:100%;justify-content:center"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> Favoritos <span class="fav-ct" data-fav-count style="display:none">0</span></button>
+    <div class="ws-sec">Ordenar</div>
+    <select class="ws-select" id="w-sort" onchange="W_render()">
+      <option value="preco_asc">Menor preço</option>
+      <option value="preco_desc">Maior preço</option>
+      <option value="data">Próximas saídas</option>
+      <option value="destino">Destino A-Z</option>
+    </select>
     <div class="ws-sec">Destino <span style="font-size:9px;color:var(--muted-lt);font-weight:400;letter-spacing:0;text-transform:none">(segure Ctrl/Cmd para múltiplos)</span></div>
     <select class="ws-select" id="w-dest" multiple size="6" onchange="onDestSelectChange(this)" style="height:auto;min-height:140px;padding:6px;font-size:11px">
       <option value="all">Todos os destinos</option>
     </select>
     <button type="button" onclick="clearDestSelection()" style="margin-top:4px;background:none;border:none;color:var(--muted);font-size:10px;cursor:pointer;text-decoration:underline;padding:0">Limpar seleção</button>
-    <div class="ws-sec">Tipo</div>
-    <div class="ws-chips" id="w-tipo">
-      <button type="button" class="wfc on" data-v="all"       onclick="W_chip('tipo',this)">Todos</button>
-      <button type="button" class="wfc"    data-v="praia"     onclick="W_chip('tipo',this)">Praia</button>
-      <button type="button" class="wfc"    data-v="montanha"  onclick="W_chip('tipo',this)">Serra</button>
-      <button type="button" class="wfc"    data-v="natureza"  onclick="W_chip('tipo',this)">Natureza</button>
-      <button type="button" class="wfc"    data-v="cidade"    onclick="W_chip('tipo',this)">Cidade</button>
+    <div class="ws-sec" id="w-regime-sec" style="display:none">Regime</div>
+    <div class="ws-chips" id="w-regime" style="display:none">
+      <button type="button" class="wfc on" data-v="all" onclick="W_chip('regime',this)">Todos</button>
     </div>
     <div class="ws-sec">Região</div>
     <div class="ws-chips" id="w-reg">
@@ -767,33 +770,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <button type="button" class="wfc"    data-v="Sul"           onclick="W_chip('reg',this)">Sul</button>
       <button type="button" class="wfc"    data-v="Sudeste"       onclick="W_chip('reg',this)">Sudeste</button>
       <button type="button" class="wfc"    data-v="Centro-Oeste"  onclick="W_chip('reg',this)">Centro-Oeste</button>
-    </div>
-    <div class="ws-sec">Ordenar</div>
-    <select class="ws-select" id="w-sort" onchange="W_render()">
-      <option value="preco_asc">Menor preço</option>
-      <option value="preco_desc">Maior preço</option>
-      <option value="data">Próximas saídas</option>
-      <option value="destino">Destino A-Z</option>
-    </select>
-    <div class="ws-sec">Faixa de preço</div>
-    <div class="price-range-wrap">
-      <div class="price-range-display" id="w-price-display">R$ 0 — sem limite</div>
-      <div class="price-range-row">
-        <input type="number" id="w-price-min" placeholder="Mín" min="0" step="100" oninput="onPriceRange()">
-        <span style="color:var(--muted);font-size:11px">—</span>
-        <input type="number" id="w-price-max" placeholder="Máx" min="0" step="100" oninput="onPriceRange()">
-      </div>
-    </div>
-    <div class="ws-sec">Aeroporto</div>
-    <div class="ws-chips" id="w-ap">
-      <button type="button" class="wfc on" data-v="all"        onclick="W_chip('ap',this)">Todos</button>
-      <button type="button" class="wfc"    data-v="Congonhas"  onclick="W_chip('ap',this)">CGH — Congonhas</button>
-      <button type="button" class="wfc"    data-v="Guarulhos"  onclick="W_chip('ap',this)">GRU — Guarulhos</button>
-      <button type="button" class="wfc"    data-v="Viracopos"  onclick="W_chip('ap',this)">VCP — Viracopos</button>
-    </div>
-    <div class="ws-sec" id="w-regime-sec" style="display:none">Regime</div>
-    <div class="ws-chips" id="w-regime" style="display:none">
-      <button type="button" class="wfc on" data-v="all" onclick="W_chip('regime',this)">Todos</button>
     </div>
     <div class="ws-sec">Mês da Viagem</div>
     <div class="ws-chips" id="w-month">
@@ -810,6 +786,23 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <button type="button" class="wfc" data-v="10" onclick="W_chip('month',this)">Out</button>
       <button type="button" class="wfc" data-v="11" onclick="W_chip('month',this)">Nov</button>
       <button type="button" class="wfc" data-v="12" onclick="W_chip('month',this)">Dez</button>
+    </div>
+    <div class="ws-sec">Faixa de preço</div>
+    <div class="price-range-wrap">
+      <div class="price-range-display" id="w-price-display">R$ 0 — sem limite</div>
+      <div class="price-range-row">
+        <input type="number" id="w-price-min" placeholder="Mín" min="0" step="100" oninput="onPriceRange()">
+        <span style="color:var(--muted);font-size:11px">—</span>
+        <input type="number" id="w-price-max" placeholder="Máx" min="0" step="100" oninput="onPriceRange()">
+      </div>
+    </div>
+    <div class="ws-sec">Tipo</div>
+    <div class="ws-chips" id="w-tipo">
+      <button type="button" class="wfc on" data-v="all"       onclick="W_chip('tipo',this)">Todos</button>
+      <button type="button" class="wfc"    data-v="praia"     onclick="W_chip('tipo',this)">Praia</button>
+      <button type="button" class="wfc"    data-v="montanha"  onclick="W_chip('tipo',this)">Serra</button>
+      <button type="button" class="wfc"    data-v="natureza"  onclick="W_chip('tipo',this)">Natureza</button>
+      <button type="button" class="wfc"    data-v="cidade"    onclick="W_chip('tipo',this)">Cidade</button>
     </div>
     <div class="ws-count" id="w-count">— pacotes</div>
   </aside>
