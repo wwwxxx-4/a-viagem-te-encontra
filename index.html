@@ -1274,14 +1274,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   </div>
 </div>
 
-<!-- Modal: Roteiro completo do pacote -->
-<div class="rt-modal" id="roteiro-modal" onclick="closeRoteiroModal(event)">
-  <div class="rt-sheet" id="roteiro-sheet" onclick="event.stopPropagation()">
-    <button type="button" class="rt-close" onclick="closeRoteiroModal()" aria-label="Fechar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    <div id="rt-content"></div>
-  </div>
-</div>
-
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <button class="lightbox-close" onclick="closeLightbox()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
@@ -1290,6 +1282,14 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 </div>
 
 <div class="toast" id="toast"></div>
+</div>
+
+<!-- Modal: Roteiro completo do pacote (fora de .phone para funcionar em mobile E desktop) -->
+<div class="rt-modal" id="roteiro-modal" onclick="closeRoteiroModal(event)">
+  <div class="rt-sheet" id="roteiro-sheet" onclick="event.stopPropagation()">
+    <button type="button" class="rt-close" onclick="closeRoteiroModal()" aria-label="Fechar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div id="rt-content"></div>
+  </div>
 </div>
 
 <script>
