@@ -4,7 +4,8 @@
     { "src": "index.html",           "use": "@vercel/static" },
     { "src": "destinos-images.json", "use": "@vercel/static" },
     { "src": "logo-mesquita.png",    "use": "@vercel/static" },
-    { "src": "aviao-fallback.jpg",   "use": "@vercel/static" }
+    { "src": "aviao-fallback.jpg",   "use": "@vercel/static" },
+    { "src": "api/*.js",             "use": "@vercel/node" }
   ],
   "routes": [
     {
@@ -21,6 +22,10 @@
       "src": "/aviao-fallback.jpg",
       "dest": "/aviao-fallback.jpg",
       "headers": { "cache-control": "public, max-age=2592000" }
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
     },
     {
       "src": "/(.*)",

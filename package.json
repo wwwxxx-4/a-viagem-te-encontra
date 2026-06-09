@@ -5,5 +5,10 @@
   "scripts": {
     "start": "npx serve ."
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "mercadopago": "^2.0.15",
+    "resend": "^3.2.0"
+  }
 }

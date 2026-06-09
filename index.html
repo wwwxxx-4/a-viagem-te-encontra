@@ -393,6 +393,8 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .btn-pc-roteiro{width:100%;padding:11px;border-radius:100px;border:1.5px solid var(--border);background:var(--white);color:var(--navy);font-family:var(--f);font-size:12.5px;font-weight:700;cursor:pointer;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px}
 .btn-pc-roteiro:hover{border-color:var(--sky);color:var(--sky);background:var(--ice)}
 .btn-pc-wa:hover{opacity:.9}
+.btn-pc-buy{width:100%;padding:13px;border-radius:100px;border:none;background:linear-gradient(135deg,#0066FF,#1A4F8A);color:#fff;font-family:var(--f);font-size:13px;font-weight:700;cursor:pointer;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:5px;box-shadow:0 4px 14px rgba(26,79,138,.25);margin-top:8px}
+.btn-pc-buy:hover{opacity:.9}
 .no-res{text-align:center;padding:30px 14px;color:var(--muted);font-size:12px}
 .res-btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
 .btn-sec{flex:1;min-width:95px;padding:9px 10px;border-radius:100px;border:2px solid var(--border);background:var(--white);font-family:var(--f);font-size:11px;font-weight:600;color:var(--muted);cursor:pointer;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:4px}
@@ -530,6 +532,12 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   .wpc-btn:hover{background:#3385FF;box-shadow:0 6px 20px rgba(0,102,255,.36)}
   .btn-pc-roteiro{width:100%;padding:11px;border-radius:100px;border:1.5px solid #DCE4EE;background:#fff;color:#0D2840;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;font-weight:700;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:6px}
   .btn-pc-roteiro:hover{border-color:#0066FF;color:#0066FF;background:#EBF3FF}
+  .btn-pc-buy{margin-top:8px;padding:13px;border-radius:100px;border:none;
+    background:linear-gradient(135deg,#0066FF,#1A4F8A);color:#fff;
+    font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;
+    cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px;
+    box-shadow:0 4px 16px rgba(26,79,138,.28);letter-spacing:.01em}
+  .btn-pc-buy:hover{opacity:.9}
   .w-skel{background:#fff;border-radius:18px;height:320px;border:1px solid #DCE4EE;
     animation:wsk 1.4s ease infinite}
   @keyframes wsk{0%,100%{opacity:1}50%{opacity:.45}}
@@ -723,6 +731,31 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   transition:var(--tr);
 }
 .rt-cta:hover{filter:brightness(1.06)}
+/* Modal: Checkout (Comprar Pacote) */
+.ck-sheet{max-width:460px}
+.ck-summary{
+  background:var(--ice);border:1px solid var(--border);border-radius:12px;
+  padding:12px 14px;margin-bottom:16px;font-size:13px;line-height:1.6;color:var(--text);
+}
+.ck-summary strong{color:var(--navy)}
+.ck-label{
+  display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:700;
+  color:var(--navy);margin-bottom:12px;
+}
+.ck-input{
+  font-family:var(--f);font-size:14px;padding:11px 13px;border-radius:10px;
+  border:1px solid var(--border);background:var(--white);color:var(--text);
+  outline:none;transition:var(--tr);
+}
+.ck-input:focus{border-color:var(--sky)}
+.ck-cta{background:linear-gradient(135deg,#0066FF,#1A4F8A)}
+.ck-cta:disabled{opacity:.7;cursor:default}
+.ck-secure{margin-top:10px;text-align:center;font-size:11px;color:var(--muted)}
+.ck-error{
+  background:#FEECEC;border:1px solid #F5C2C2;color:#B42318;
+  border-radius:10px;padding:9px 12px;font-size:12.5px;margin-bottom:12px;
+}
+
 @media (max-width:560px){
   .rt-sheet{max-height:92vh;border-radius:16px}
   .rt-hero{height:160px;border-radius:16px 16px 0 0}
@@ -1289,6 +1322,33 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   <div class="rt-sheet" id="roteiro-sheet" onclick="event.stopPropagation()">
     <button type="button" class="rt-close" onclick="closeRoteiroModal()" aria-label="Fechar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     <div id="rt-content"></div>
+  </div>
+</div>
+
+<!-- Modal: Checkout (Comprar Pacote) — fora de .phone para funcionar em mobile E desktop -->
+<div class="rt-modal" id="checkout-modal" onclick="closeCheckoutModal(event)">
+  <div class="rt-sheet ck-sheet" id="checkout-sheet" onclick="event.stopPropagation()">
+    <button type="button" class="rt-close" onclick="closeCheckoutModal()" aria-label="Fechar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div class="rt-body">
+      <div class="rt-section-title">💳 Finalizar compra</div>
+      <div id="ck-summary" class="ck-summary"></div>
+      <form id="ck-form" onsubmit="submitCheckout(event)">
+        <label class="ck-label">Nome completo
+          <input type="text" id="ck-nome" class="ck-input" required placeholder="Seu nome">
+        </label>
+        <label class="ck-label">E-mail
+          <input type="email" id="ck-email" class="ck-input" required placeholder="seuemail@exemplo.com">
+        </label>
+        <label class="ck-label">Telefone / WhatsApp
+          <input type="tel" id="ck-telefone" class="ck-input" required placeholder="(11) 91234-5678">
+        </label>
+        <button type="submit" class="rt-cta ck-cta" id="ck-submit">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Pagar com Mercado Pago
+        </button>
+        <div class="ck-secure">🔒 Pagamento seguro processado pelo Mercado Pago</div>
+      </form>
+    </div>
   </div>
 </div>
 
@@ -2165,6 +2225,7 @@ function M_renderBatch(){
         ${p.voo_volta?`<div class="pc-voo" style="margin-bottom:6px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/><line x1="22" y1="20" x2="2" y2="20"/></svg> ${p.voo_volta}</div>`:''}
         ${p.roteiro?`<button type="button" class="btn-pc-roteiro" onclick="openRoteiroModal('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Ver roteiro completo</button>`:''}
         <button type="button" class="btn-pc-wa" onclick="requestPackage('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Quero este pacote</button>
+        <button type="button" class="btn-pc-buy" onclick="openCheckoutModal('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Comprar Pacote</button>
       </div>`;
     pl.appendChild(div);
   });
@@ -2449,6 +2510,97 @@ function closeRoteiroModal(e){
   const modal=document.getElementById('roteiro-modal');
   if(modal) modal.classList.remove('open');
   document.body.style.overflow='';
+}
+
+// ── Checkout (Comprar Pacote / Mercado Pago) ────────────────────
+let CHECKOUT_PKG=null;
+function openCheckoutModal(pkgId,event){
+  if(event){event.stopPropagation();event.preventDefault();}
+  const pkg=(typeof PKGS!=='undefined'&&PKGS.length)?(PKGS.find(p=>p.id===pkgId)||null):null;
+  if(!pkg){window.open('https://api.whatsapp.com/send?phone=5511953967095','_blank');return;}
+  CHECKOUT_PKG=pkg;
+  const modal=document.getElementById('checkout-modal');
+  const sum=document.getElementById('ck-summary');
+  if(!modal||!sum) return;
+  const hotelClean=(pkg.h||'').replace(/\s*[-–]\s*(café da manhã|cafe da manha|all inclusive|all-inclusive|meia pensão|pensão completa|breakfast|half board|full board).*/gi,'').trim();
+  const valor=finalPrice(pkg.p);
+  sum.innerHTML=`
+    <div><strong>${_escHtml(pkg.d||'')}</strong></div>
+    ${hotelClean?`<div>🏨 ${_escHtml(hotelClean)}</div>`:''}
+    <div style="margin-top:6px;font-size:18px;font-weight:800;color:var(--navy)">R$ ${fmtBRL(valor)}</div>
+  `;
+  const errEl=document.getElementById('ck-error');
+  if(errEl) errEl.remove();
+  const submitBtn=document.getElementById('ck-submit');
+  if(submitBtn){submitBtn.disabled=false;submitBtn.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Pagar com Mercado Pago';}
+  modal.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCheckoutModal(e){
+  if(e && e.target && e.target.id!=='checkout-modal') return;
+  const modal=document.getElementById('checkout-modal');
+  if(modal) modal.classList.remove('open');
+  document.body.style.overflow='';
+}
+async function submitCheckout(event){
+  event.preventDefault();
+  if(!CHECKOUT_PKG) return;
+  const nome=document.getElementById('ck-nome').value.trim();
+  const email=document.getElementById('ck-email').value.trim();
+  const telefone=document.getElementById('ck-telefone').value.trim();
+  if(!nome||!email||!telefone) return;
+  const submitBtn=document.getElementById('ck-submit');
+  const form=document.getElementById('ck-form');
+  let errEl=document.getElementById('ck-error');
+  if(errEl) errEl.remove();
+  submitBtn.disabled=true;
+  submitBtn.innerHTML='Processando...';
+  try{
+    const pkg=CHECKOUT_PKG;
+    const hotelClean=(pkg.h||'').replace(/\s*[-–]\s*(café da manhã|cafe da manha|all inclusive|all-inclusive|meia pensão|pensão completa|breakfast|half board|full board).*/gi,'').trim();
+    const resp=await fetch('/api/pagamento',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        pacoteId:pkg.id,
+        pacoteDestino:pkg.d,
+        pacoteHotel:hotelClean,
+        preco:finalPrice(pkg.p),
+        clienteNome:nome,
+        clienteEmail:email,
+        clienteTelefone:telefone,
+      })
+    });
+    const data=await resp.json();
+    if(!resp.ok || !data.initPoint) throw new Error(data.error||'Erro ao gerar pagamento');
+    window.location.href=data.initPoint;
+  }catch(err){
+    errEl=document.createElement('div');
+    errEl.id='ck-error';
+    errEl.className='ck-error';
+    errEl.textContent='Não foi possível iniciar o pagamento. Tente novamente em instantes.';
+    form.insertBefore(errEl,form.firstChild);
+    submitBtn.disabled=false;
+    submitBtn.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Pagar com Mercado Pago';
+  }
+}
+// ── Confirmação de pagamento (retorno do Mercado Pago via ?status=&pedido=) ──
+function checkPaymentReturnStatus(){
+  const params=new URLSearchParams(window.location.search);
+  const status=params.get('status');
+  const pedido=params.get('pedido');
+  if(!status||!pedido) return;
+  const msgs={
+    approved:'✅ Pagamento aprovado! Em breve entraremos em contato para finalizar sua viagem.',
+    pending:'⏳ Pagamento em análise. Avisaremos assim que for confirmado.',
+    failure:'❌ Pagamento não concluído. Você pode tentar novamente quando quiser.',
+  };
+  showToast(msgs[status]||'Recebemos o retorno do pagamento.');
+  // Limpa os parâmetros da URL sem recarregar a página
+  params.delete('status');
+  params.delete('pedido');
+  const newUrl=window.location.pathname+(params.toString()?'?'+params.toString():'')+window.location.hash;
+  window.history.replaceState({},'',newUrl);
 }
 
 // Confete ao aplicar cupom válido
@@ -2834,6 +2986,7 @@ function W_loadMore(){
         ${p.voo_volta?`<div class="wpc-voo"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/><line x1="22" y1="20" x2="2" y2="20"/></svg> ${p.voo_volta}</div>`:''}
         ${p.roteiro?`<button type="button" class="btn-pc-roteiro" onclick="openRoteiroModal('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Ver roteiro completo</button>`:''}
         <button type="button" class="wpc-btn" onclick="requestPackage('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Quero este pacote</button>
+        <button type="button" class="btn-pc-buy" onclick="openCheckoutModal('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Comprar Pacote</button>
       </div>`;
     frag.appendChild(div);
   });
@@ -3370,6 +3523,8 @@ function crslSync(id){
   const dots=document.getElementById(id+'-d');
   if(dots) dots.querySelectorAll('.crsl-dot').forEach((d,i)=>d.classList.toggle('on',i===idx));
 }
+
+document.addEventListener('DOMContentLoaded',checkPaymentReturnStatus);
 
 // ── Back-to-top button ──────────────────
 function _bttScroll(){window.scrollTo({top:0,behavior:'smooth'});const grid=document.getElementById('w-grid');if(grid)grid.scrollTo&&grid.scrollTo({top:0,behavior:'smooth'});const phone=document.querySelector('.phone .screen.active');if(phone)phone.scrollTo&&phone.scrollTo({top:0,behavior:'smooth'});const lists=document.querySelectorAll('.pkg-list,.res-view,#wm');lists.forEach(el=>el.scrollTo&&el.scrollTo({top:0,behavior:'smooth'}));}
