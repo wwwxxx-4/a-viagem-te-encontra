@@ -763,6 +763,16 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .ck-input:focus{border-color:var(--sky)}
 .ck-cta{background:linear-gradient(135deg,#0066FF,#1A4F8A)}
 .ck-cta:disabled{opacity:.7;cursor:default}
+.ck-or{display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.ck-or::before,.ck-or::after{content:'';flex:1;height:1px;background:var(--border)}
+.ck-cta-alt{background:#fff;border:1.5px solid var(--sky);color:var(--sky)}
+.ck-cta-alt:hover{background:var(--ice)}
+.ck-cta-alt:disabled{opacity:.7;cursor:default}
+.ck-reserva-ok{
+  margin-top:12px;padding:12px 14px;border-radius:10px;
+  background:#EAFBF1;border:1px solid #BDEBD2;color:#0F7A47;
+  font-size:12.5px;line-height:1.5;font-weight:600;
+}
 .ck-secure{margin-top:10px;text-align:center;font-size:11px;color:var(--muted)}
 .ck-error{
   background:#FEECEC;border:1px solid #F5C2C2;color:#B42318;
@@ -1394,9 +1404,21 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         </label>
         <button type="submit" class="rt-cta ck-cta" id="ck-submit">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-          Pagar com Mercado Pago
+          Pagar com Mercado Pago em até 12x com juros
         </button>
         <div class="ck-secure">🔒 Pagamento seguro processado pelo Mercado Pago</div>
+
+        <div class="ck-or"><span>ou</span></div>
+
+        <button type="button" class="rt-cta ck-cta-alt" id="ck-reserva" onclick="submitReserva(event)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Fazer reserva e pagar via link em até 12x sem juros
+        </button>
+        <div class="ck-secure">Você receberá o link de pagamento por e-mail/WhatsApp em até 24h</div>
+
+        <div id="ck-reserva-ok" class="ck-reserva-ok" style="display:none">
+          ✅ Reserva solicitada com sucesso! Em breve nossa equipe vai te enviar o link de pagamento (em até 12x sem juros) por e-mail ou WhatsApp.
+        </div>
       </form>
     </div>
   </div>
@@ -2589,11 +2611,43 @@ function openCheckoutModal(pkgId,event){
   const errEl=document.getElementById('ck-error');
   if(errEl) errEl.remove();
   const submitBtn=document.getElementById('ck-submit');
-  if(submitBtn){submitBtn.disabled=false;submitBtn.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Pagar com Mercado Pago';}
+  if(submitBtn){submitBtn.disabled=false;submitBtn.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Pagar com Mercado Pago em até 12x com juros';}
+  const reservaBtn=document.getElementById('ck-reserva');
+  if(reservaBtn){reservaBtn.disabled=false;reservaBtn.style.display='';reservaBtn.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Fazer reserva e pagar via link em até 12x sem juros';}
+  const okEl=document.getElementById('ck-reserva-ok');
+  if(okEl) okEl.style.display='none';
   const form=document.getElementById('ck-form');
-  if(form) form.reset();
+  if(form){form.reset();form.style.display='';}
   modal.classList.add('open');
   document.body.style.overflow='hidden';
+}
+// Coleta e valida os dados do formulário de checkout (passageiros + contato)
+function _collectCheckoutData(){
+  const val=id=>document.getElementById(id).value.trim();
+  const passageiros=[
+    {nome:val('ck-p1-nome'),sobrenome:val('ck-p1-sobrenome'),nascimento:val('ck-p1-nascimento'),cpf:val('ck-p1-cpf')},
+    {nome:val('ck-p2-nome'),sobrenome:val('ck-p2-sobrenome'),nascimento:val('ck-p2-nascimento'),cpf:val('ck-p2-cpf')},
+  ];
+  const telefone=val('ck-telefone');
+  const email=val('ck-email');
+  const ok=passageiros.every(p=>p.nome&&p.sobrenome&&p.nascimento&&p.cpf)&&telefone;
+  if(!ok) return null;
+  return {passageiros,telefone,email};
+}
+function _checkoutPayloadBase(data){
+  const pkg=CHECKOUT_PKG;
+  const hotelClean=(pkg.h||'').replace(/\s*[-–]\s*(café da manhã|cafe da manha|all inclusive|all-inclusive|meia pensão|pensão completa|breakfast|half board|full board).*/gi,'').trim();
+  const nomeCompleto=`${data.passageiros[0].nome} ${data.passageiros[0].sobrenome}`.trim();
+  return {
+    pacoteId:pkg.id,
+    pacoteDestino:pkg.d,
+    pacoteHotel:hotelClean,
+    preco:finalPrice(pkg.p),
+    clienteNome:nomeCompleto,
+    clienteEmail:data.email,
+    clienteTelefone:data.telefone,
+    passageiros:data.passageiros,
+  };
 }
 function closeCheckoutModal(e){
   if(e && e.target && e.target.id!=='checkout-modal') return;
@@ -2604,42 +2658,25 @@ function closeCheckoutModal(e){
 async function submitCheckout(event){
   event.preventDefault();
   if(!CHECKOUT_PKG) return;
-  const val=id=>document.getElementById(id).value.trim();
-  const passageiros=[
-    {nome:val('ck-p1-nome'),sobrenome:val('ck-p1-sobrenome'),nascimento:val('ck-p1-nascimento'),cpf:val('ck-p1-cpf')},
-    {nome:val('ck-p2-nome'),sobrenome:val('ck-p2-sobrenome'),nascimento:val('ck-p2-nascimento'),cpf:val('ck-p2-cpf')},
-  ];
-  const telefone=val('ck-telefone');
-  const email=val('ck-email');
-  const camposOk=passageiros.every(p=>p.nome&&p.sobrenome&&p.nascimento&&p.cpf)&&telefone;
-  if(!camposOk) return;
+  const data=_collectCheckoutData();
+  if(!data) return;
   const submitBtn=document.getElementById('ck-submit');
+  const reservaBtn=document.getElementById('ck-reserva');
   const form=document.getElementById('ck-form');
   let errEl=document.getElementById('ck-error');
   if(errEl) errEl.remove();
   submitBtn.disabled=true;
+  if(reservaBtn) reservaBtn.disabled=true;
   submitBtn.innerHTML='Processando...';
   try{
-    const pkg=CHECKOUT_PKG;
-    const hotelClean=(pkg.h||'').replace(/\s*[-–]\s*(café da manhã|cafe da manha|all inclusive|all-inclusive|meia pensão|pensão completa|breakfast|half board|full board).*/gi,'').trim();
-    const nomeCompleto=`${passageiros[0].nome} ${passageiros[0].sobrenome}`.trim();
     const resp=await fetch('/api/pagamento',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        pacoteId:pkg.id,
-        pacoteDestino:pkg.d,
-        pacoteHotel:hotelClean,
-        preco:finalPrice(pkg.p),
-        clienteNome:nomeCompleto,
-        clienteEmail:email,
-        clienteTelefone:telefone,
-        passageiros,
-      })
+      body:JSON.stringify(_checkoutPayloadBase(data))
     });
-    const data=await resp.json();
-    if(!resp.ok || !data.initPoint) throw new Error(data.error||'Erro ao gerar pagamento');
-    window.location.href=data.initPoint;
+    const result=await resp.json();
+    if(!resp.ok || !result.initPoint) throw new Error(result.error||'Erro ao gerar pagamento');
+    window.location.href=result.initPoint;
   }catch(err){
     errEl=document.createElement('div');
     errEl.id='ck-error';
@@ -2647,7 +2684,48 @@ async function submitCheckout(event){
     errEl.textContent='Não foi possível iniciar o pagamento. Tente novamente em instantes.';
     form.insertBefore(errEl,form.firstChild);
     submitBtn.disabled=false;
-    submitBtn.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Pagar com Mercado Pago';
+    if(reservaBtn) reservaBtn.disabled=false;
+    submitBtn.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Pagar com Mercado Pago em até 12x com juros';
+  }
+}
+async function submitReserva(event){
+  event.preventDefault();
+  if(!CHECKOUT_PKG) return;
+  const data=_collectCheckoutData();
+  if(!data){
+    const form=document.getElementById('ck-form');
+    if(form && typeof form.reportValidity==='function') form.reportValidity();
+    return;
+  }
+  const submitBtn=document.getElementById('ck-submit');
+  const reservaBtn=document.getElementById('ck-reserva');
+  const form=document.getElementById('ck-form');
+  let errEl=document.getElementById('ck-error');
+  if(errEl) errEl.remove();
+  reservaBtn.disabled=true;
+  submitBtn.disabled=true;
+  reservaBtn.innerHTML='Enviando...';
+  try{
+    const resp=await fetch('/api/reserva',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(_checkoutPayloadBase(data))
+    });
+    const result=await resp.json();
+    if(!resp.ok) throw new Error(result.error||'Erro ao solicitar reserva');
+    // Sucesso: esconde o formulário e mostra mensagem de confirmação
+    form.style.display='none';
+    const okEl=document.getElementById('ck-reserva-ok');
+    if(okEl) okEl.style.display='block';
+  }catch(err){
+    errEl=document.createElement('div');
+    errEl.id='ck-error';
+    errEl.className='ck-error';
+    errEl.textContent='Não foi possível solicitar a reserva. Tente novamente em instantes.';
+    form.insertBefore(errEl,form.firstChild);
+    submitBtn.disabled=false;
+    reservaBtn.disabled=false;
+    reservaBtn.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Fazer reserva e pagar via link em até 12x sem juros';
   }
 }
 // ── Confirmação de pagamento (retorno do Mercado Pago via ?status=&pedido=) ──

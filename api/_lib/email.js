@@ -85,6 +85,86 @@ function passageirosHtml(passageiros) {
   `;
 }
 
+// E-mail interno para o financeiro quando o cliente pede para "Fazer reserva
+// e pagar via link" (sem juros) — alguém do time gera a reserva offline e
+// manda o link de pagamento (ex: link de pagamento do Mercado Pago/maquininha
+// sem parcelamento via Checkout Pro) para o cliente por e-mail/WhatsApp.
+async function sendReservaNotification(pedido) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.warn('[email] RESEND_API_KEY não configurada — pulando envio de e-mail de reserva');
+    return { skipped: true };
+  }
+
+  const resend = new Resend(apiKey);
+  const fromAddress = process.env.RESEND_FROM || 'A Viagem te Encontra <pedidos@aviagemteencontra.com.br>';
+  const toAddress = process.env.RESERVA_NOTIFY_EMAIL || 'financeiro@mesquitaturismo.com.br';
+
+  const html = `
+    <div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;color:#1a1a1a">
+      <h2 style="color:#0d6efd">Nova solicitação de reserva (pagamento via link, sem juros)</h2>
+      <p>O cliente abaixo pediu para reservar o pacote e pagar via link (em até 12x sem juros, fora o Mercado Pago Checkout Pro).</p>
+      <p><strong>Gere a reserva offline e envie o link de pagamento para o cliente por e-mail e/ou WhatsApp.</strong></p>
+
+      <table style="width:100%;border-collapse:collapse;margin:16px 0">
+        <tr>
+          <td style="padding:8px 0;border-bottom:1px solid #eee"><strong>Pacote</strong></td>
+          <td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right">${escapeHtml(pedido.pacote_destino || '')}</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 0;border-bottom:1px solid #eee"><strong>Hotel</strong></td>
+          <td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right">${escapeHtml(pedido.pacote_hotel || '')}</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 0;border-bottom:1px solid #eee"><strong>Valor</strong></td>
+          <td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right">${formatBRL(pedido.valor)}</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 0;border-bottom:1px solid #eee"><strong>ID do pacote</strong></td>
+          <td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right">${escapeHtml(pedido.pacote_id || '-')}</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 0;border-bottom:1px solid #eee"><strong>Pedido</strong></td>
+          <td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right">#${escapeHtml(String(pedido.id).slice(0, 8))}</td>
+        </tr>
+      </table>
+
+      <p style="margin:18px 0 6px;font-weight:bold">Cliente</p>
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <tr>
+          <td style="padding:6px 0;border-bottom:1px solid #eee"><strong>Nome</strong></td>
+          <td style="padding:6px 0;border-bottom:1px solid #eee;text-align:right">${escapeHtml(pedido.cliente_nome || '')}</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0;border-bottom:1px solid #eee"><strong>Telefone</strong></td>
+          <td style="padding:6px 0;border-bottom:1px solid #eee;text-align:right">${escapeHtml(pedido.cliente_telefone || '')}</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0"><strong>E-mail</strong></td>
+          <td style="padding:6px 0;text-align:right">${escapeHtml(pedido.cliente_email || '-')}</td>
+        </tr>
+      </table>
+
+      ${passageirosHtml(pedido.passageiros)}
+
+      <p style="margin-top:24px;color:#666;font-size:13px">A Viagem te Encontra — Mesquita Turismo</p>
+    </div>
+  `;
+
+  try {
+    const result = await resend.emails.send({
+      from: fromAddress,
+      to: toAddress,
+      subject: `Nova reserva (link sem juros) — ${pedido.pacote_destino || 'pacote'} — ${pedido.cliente_nome || ''}`,
+      html,
+    });
+    return result;
+  } catch (err) {
+    console.error('[email] erro ao enviar notificação de reserva:', err);
+    return { error: String(err) };
+  }
+}
+
 function escapeHtml(s) {
   return String(s || '')
     .replace(/&/g, '&amp;')
@@ -92,4 +172,4 @@ function escapeHtml(s) {
     .replace(/>/g, '&gt;');
 }
 
-module.exports = { sendConfirmationEmail };
+module.exports = { sendConfirmationEmail, sendReservaNotification };
