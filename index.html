@@ -742,6 +742,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   padding:12px 14px;margin-bottom:16px;font-size:13px;line-height:1.6;color:var(--text);
 }
 .ck-summary strong{color:var(--navy)}
+.ck-sum-row{font-size:12px;color:var(--text);margin-top:4px}
 .ck-disclaimer{
   margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);
   font-size:11px;line-height:1.5;color:var(--muted);
@@ -1345,10 +1346,10 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   <div class="rt-sheet ck-sheet" id="checkout-sheet" onclick="event.stopPropagation()">
     <button type="button" class="rt-close" onclick="closeCheckoutModal()" aria-label="Fechar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     <div class="rt-body">
-      <div class="rt-section-title">💳 Finalizar compra</div>
+      <div class="rt-section-title">Finalizar compra</div>
       <div id="ck-summary" class="ck-summary"></div>
       <form id="ck-form" onsubmit="submitCheckout(event)">
-        <div class="ck-section-title">👤 Passageiro 1</div>
+        <div class="ck-section-title">Passageiro 1</div>
         <div class="ck-row2">
           <label class="ck-label">Nome
             <input type="text" id="ck-p1-nome" class="ck-input" required placeholder="Nome">
@@ -1366,7 +1367,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
           </label>
         </div>
 
-        <div class="ck-section-title">👤 Passageiro 2</div>
+        <div class="ck-section-title">Passageiro 2</div>
         <div class="ck-row2">
           <label class="ck-label">Nome
             <input type="text" id="ck-p2-nome" class="ck-input" required placeholder="Nome">
@@ -1384,7 +1385,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
           </label>
         </div>
 
-        <div class="ck-section-title">📞 Contato</div>
+        <div class="ck-section-title">Contato</div>
         <label class="ck-label">Telefone / WhatsApp
           <input type="tel" id="ck-telefone" class="ck-input" required placeholder="(11) 91234-5678">
         </label>
@@ -2071,7 +2072,7 @@ Pode me enviar mais informações?`;
       <div class="mc-body">
         <div class="mc-top">
           <div><div class="mc-dest">${p.d}</div><div class="mc-tipo">${p.t} · ${p.r}</div></div>
-          <div class="mc-price-wrap">${priceHtml(p.p,'mc-pv')}<div class="mc-pl">p/ 2 pessoas + taxas*</div></div>
+          <div class="mc-price-wrap">${priceHtml(p.p,'mc-pv')}<div class="mc-pl">p/ 2 pessoas já com taxas*</div></div>
         </div>
         <div class="compat-row"><span class="compat-lbl">Compatibilidade</span><div class="compat-track"><div class="compat-fill" style="width:${p.score}%"></div></div><span class="compat-pct">${p.score}%</span></div>
         <div class="mc-score-detail">
@@ -2259,7 +2260,7 @@ function M_renderBatch(){
       <div class="pc-body">
         <div class="pc-top-row">
           <div><div class="pc-dest">${p.d}</div></div>
-          <div class="pc-price-wrap">${priceHtml(p.p,'pc-price')}<div class="pc-pp">p/ 2 pessoas + taxas*</div></div>
+          <div class="pc-price-wrap">${priceHtml(p.p,'pc-price')}<div class="pc-pp">p/ 2 pessoas já com taxas*</div></div>
         </div>
         <div class="pc-hotel"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v18h16V4a2 2 0 0 0-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><rect x="9" y="8" width="6" height="4"/></svg> ${p.h}</div>
         <div class="pc-chips">
@@ -2542,7 +2543,7 @@ function openRoteiroModal(pkgId,event){
     </div>
     <div class="rt-body">
       <div class="rt-row">
-        <div><div class="rt-price">R$ ${fmtBRL(_mp)}</div><div class="rt-pp">por 2 pessoas + taxas*</div></div>
+        <div><div class="rt-price">R$ ${fmtBRL(_mp)}</div><div class="rt-pp">por 2 pessoas já com taxas*</div></div>
       </div>
       <div class="rt-chips">${chips}</div>
       <div class="rt-divider"></div>
@@ -2573,11 +2574,17 @@ function openCheckoutModal(pkgId,event){
   if(!modal||!sum) return;
   const hotelClean=(pkg.h||'').replace(/\s*[-–]\s*(café da manhã|cafe da manha|all inclusive|all-inclusive|meia pensão|pensão completa|breakfast|half board|full board).*/gi,'').trim();
   const valor=finalPrice(pkg.p);
+  const regimeLabel=pkg.regime&&REGIME_LABELS[pkg.regime]?REGIME_LABELS[pkg.regime]:'';
+  const dias=_calcDias(pkg.i,pkg.v);
   sum.innerHTML=`
     <div><strong>${_escHtml(pkg.d||'')}</strong></div>
-    ${hotelClean?`<div>🏨 ${_escHtml(hotelClean)}</div>`:''}
-    <div style="margin-top:6px;font-size:18px;font-weight:800;color:var(--navy)">R$ ${fmtBRL(valor)}</div>
-    <div class="ck-disclaimer">⚠️ Os valores exibidos estão sujeitos a alteração e disponibilidade até a confirmação da emissão. O preço final será confirmado no momento da emissão e, caso haja qualquer diferença, você será avisado antes de qualquer cobrança extra.</div>
+    ${(pkg.i&&pkg.v)?`<div class="ck-sum-row">Ida: ${_escHtml(pkg.i)} → Volta: ${_escHtml(pkg.v)}${dias?_escHtml(dias):''}</div>`:''}
+    ${pkg.voo_ida?`<div class="ck-sum-row">${_escHtml(pkg.voo_ida)}</div>`:''}
+    ${pkg.voo_volta?`<div class="ck-sum-row">${_escHtml(pkg.voo_volta)}</div>`:''}
+    ${(hotelClean||regimeLabel)?`<div class="ck-sum-row">${_escHtml(hotelClean)}${hotelClean&&regimeLabel?' · ':''}${_escHtml(regimeLabel)}</div>`:''}
+    <div class="ck-sum-row">${pkg.transf?'Transporte incluso':'Sem transporte incluso'}</div>
+    <div style="margin-top:8px;font-size:18px;font-weight:800;color:var(--navy)">R$ ${fmtBRL(valor)} <span style="font-size:11px;font-weight:600;color:var(--muted)">para 2 pessoas com taxas</span></div>
+    <div class="ck-disclaimer">Os valores exibidos estão sujeitos a alteração e disponibilidade até a confirmação da emissão. O preço final será confirmado no momento da emissão e, caso haja qualquer diferença, você será avisado antes de qualquer cobrança extra.</div>
   `;
   const errEl=document.getElementById('ck-error');
   if(errEl) errEl.remove();
@@ -3029,7 +3036,7 @@ function W_loadMore(){
       <div class="wpc-body">
         <div class="wpc-top">
           <div><div class="wpc-dest">${p.d}</div><div class="wpc-tipo">${p.t} · ${p.r}</div></div>
-          <div>${wPriceHtml(p.p)}<div class="wpc-pp">p/ 2 pessoas + taxas*</div></div>
+          <div>${wPriceHtml(p.p)}<div class="wpc-pp">p/ 2 pessoas já com taxas*</div></div>
         </div>
         <div class="wpc-hotel"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v18h16V4a2 2 0 0 0-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><rect x="9" y="8" width="6" height="4"/></svg> ${p.h}</div>
         <div class="wpc-chips">
@@ -3414,7 +3421,7 @@ async function generateShareCard(pkg){
   // Preço
   ctx.textAlign='right';
   ctx.font=`bold 48px 'Plus Jakarta Sans',Arial,sans-serif`;ctx.fillStyle=sky;ctx.fillText(priceStr,W-PAD,y+4);
-  ctx.font=`12px 'DM Sans',Arial,sans-serif`;ctx.fillStyle=muted;ctx.fillText('p/ 2 pessoas + taxas*',W-PAD,y+26);
+  ctx.font=`12px 'DM Sans',Arial,sans-serif`;ctx.fillStyle=muted;ctx.fillText('p/ 2 pessoas já com taxas*',W-PAD,y+26);
   ctx.textAlign='left';
   y+=48;ctx.fillStyle=border;ctx.fillRect(PAD,y,W-PAD*2,1);y+=18;
 
