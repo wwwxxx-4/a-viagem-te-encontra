@@ -742,6 +742,10 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   padding:12px 14px;margin-bottom:16px;font-size:13px;line-height:1.6;color:var(--text);
 }
 .ck-summary strong{color:var(--navy)}
+.ck-disclaimer{
+  margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);
+  font-size:11px;line-height:1.5;color:var(--muted);
+}
 .ck-label{
   display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:700;
   color:var(--navy);margin-bottom:12px;
@@ -2573,6 +2577,7 @@ function openCheckoutModal(pkgId,event){
     <div><strong>${_escHtml(pkg.d||'')}</strong></div>
     ${hotelClean?`<div>🏨 ${_escHtml(hotelClean)}</div>`:''}
     <div style="margin-top:6px;font-size:18px;font-weight:800;color:var(--navy)">R$ ${fmtBRL(valor)}</div>
+    <div class="ck-disclaimer">⚠️ Os valores exibidos estão sujeitos a alteração e disponibilidade até a confirmação da emissão. O preço final será confirmado no momento da emissão e, caso haja qualquer diferença, você será avisado antes de qualquer cobrança extra.</div>
   `;
   const errEl=document.getElementById('ck-error');
   if(errEl) errEl.remove();
