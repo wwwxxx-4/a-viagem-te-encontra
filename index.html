@@ -1402,24 +1402,23 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
         <label class="ck-label">E-mail <span class="ck-opt">(opcional)</span>
           <input type="email" id="ck-email" class="ck-input" placeholder="seuemail@exemplo.com">
         </label>
-        <button type="submit" class="rt-cta ck-cta" id="ck-submit">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-          Pagar com Mercado Pago em até 12x com juros
-        </button>
-        <div class="ck-secure">🔒 Pagamento seguro processado pelo Mercado Pago</div>
-
-        <div class="ck-or"><span>ou</span></div>
-
-        <button type="button" class="rt-cta ck-cta-alt" id="ck-reserva" onclick="submitReserva(event)">
+        <button type="button" class="rt-cta ck-cta" id="ck-reserva" onclick="submitReserva(event)">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           Fazer reserva e pagar via link em até 12x sem juros
         </button>
         <div class="ck-secure">Você receberá o link de pagamento por e-mail/WhatsApp em até 24h</div>
 
-        <div id="ck-reserva-ok" class="ck-reserva-ok" style="display:none">
-          ✅ Reserva solicitada com sucesso! Você receberá sua reserva e o link de pagamento (em até 12x sem juros) em até 24 horas, por e-mail ou WhatsApp. Fique tranquilo, sua viagem está garantida.
-        </div>
+        <div class="ck-or"><span>ou</span></div>
+
+        <button type="submit" class="rt-cta ck-cta-alt" id="ck-submit">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Pagar com Mercado Pago em até 12x com juros
+        </button>
+        <div class="ck-secure">🔒 Pagamento seguro processado pelo Mercado Pago</div>
       </form>
+      <div id="ck-reserva-ok" class="ck-reserva-ok" style="display:none">
+        ✅ Reserva solicitada com sucesso! Você receberá sua reserva e o link de pagamento (em até 12x sem juros) em até 24 horas, por e-mail ou WhatsApp. Fique tranquilo, sua viagem está garantida.
+      </div>
     </div>
   </div>
 </div>
