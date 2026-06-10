@@ -13,6 +13,10 @@ async function sendConfirmationEmail(pedido) {
     console.warn('[email] RESEND_API_KEY não configurada — pulando envio de e-mail');
     return { skipped: true };
   }
+  if (!pedido.cliente_email) {
+    console.warn('[email] pedido sem e-mail de contato — pulando envio de e-mail');
+    return { skipped: true };
+  }
 
   const resend = new Resend(apiKey);
 
@@ -46,6 +50,7 @@ async function sendConfirmationEmail(pedido) {
           <td style="padding:8px 0;text-align:right">${escapeHtml(pedido.pacote_id || '-')}</td>
         </tr>
       </table>
+      ${passageirosHtml(pedido.passageiros)}
 
       <p>Qualquer dúvida, é só responder este e-mail ou falar com a gente pelo WhatsApp.</p>
       <p style="margin-top:24px;color:#666;font-size:13px">A Viagem te Encontra — Mesquita Turismo</p>
@@ -64,6 +69,20 @@ async function sendConfirmationEmail(pedido) {
     console.error('[email] erro ao enviar e-mail de confirmação:', err);
     return { error: String(err) };
   }
+}
+
+function passageirosHtml(passageiros) {
+  if (!Array.isArray(passageiros) || !passageiros.length) return '';
+  const rows = passageiros.map((p, i) => `
+    <tr>
+      <td style="padding:6px 0;border-bottom:1px solid #eee">${i + 1}. ${escapeHtml(p.nome || '')} ${escapeHtml(p.sobrenome || '')}</td>
+      <td style="padding:6px 0;border-bottom:1px solid #eee;text-align:right">CPF ${escapeHtml(p.cpf || '')} · Nasc. ${escapeHtml(p.nascimento || '')}</td>
+    </tr>
+  `).join('');
+  return `
+    <p style="margin:18px 0 6px;font-weight:bold">Passageiros</p>
+    <table style="width:100%;border-collapse:collapse;font-size:13px">${rows}</table>
+  `;
 }
 
 function escapeHtml(s) {

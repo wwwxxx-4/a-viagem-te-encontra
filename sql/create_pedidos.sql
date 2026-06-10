@@ -12,8 +12,11 @@ create table if not exists public.pedidos (
 
   -- Dados do cliente
   cliente_nome text not null,
-  cliente_email text not null,
-  cliente_telefone text,
+  cliente_email text,
+  cliente_telefone text not null,
+
+  -- Dados dos passageiros: [{ nome, sobrenome, nascimento, cpf }, ...]
+  passageiros jsonb,
 
   -- Status do pedido: pending | approved | rejected | cancelled | in_process | refunded
   status text not null default 'pending',

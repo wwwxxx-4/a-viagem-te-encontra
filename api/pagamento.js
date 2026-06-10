@@ -22,10 +22,20 @@ module.exports = async function handler(req, res) {
       clienteNome,
       clienteEmail,
       clienteTelefone,
+      passageiros,
     } = body;
 
-    if (!preco || !clienteNome || !clienteEmail) {
-      return res.status(400).json({ error: 'Dados obrigatórios ausentes (preco, clienteNome, clienteEmail)' });
+    if (!preco || !clienteNome || !clienteTelefone) {
+      return res.status(400).json({ error: 'Dados obrigatórios ausentes (preco, clienteNome, clienteTelefone)' });
+    }
+
+    if (!Array.isArray(passageiros) || passageiros.length < 1) {
+      return res.status(400).json({ error: 'Dados dos passageiros ausentes' });
+    }
+    for (const p of passageiros) {
+      if (!p || !p.nome || !p.sobrenome || !p.nascimento || !p.cpf) {
+        return res.status(400).json({ error: 'Preencha nome, sobrenome, data de nascimento e CPF de todos os passageiros' });
+      }
     }
 
     const valor = Number(preco);
@@ -44,8 +54,9 @@ module.exports = async function handler(req, res) {
         pacote_hotel: pacoteHotel || null,
         valor,
         cliente_nome: clienteNome,
-        cliente_email: clienteEmail,
-        cliente_telefone: clienteTelefone || null,
+        cliente_email: clienteEmail || null,
+        cliente_telefone: clienteTelefone,
+        passageiros,
         status: 'pending',
       })
       .select()
@@ -76,7 +87,7 @@ module.exports = async function handler(req, res) {
         ],
         payer: {
           name: clienteNome,
-          email: clienteEmail,
+          email: clienteEmail || undefined,
           phone: clienteTelefone ? { number: String(clienteTelefone) } : undefined,
         },
         back_urls: {

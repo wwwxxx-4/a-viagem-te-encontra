@@ -746,6 +746,10 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:700;
   color:var(--navy);margin-bottom:12px;
 }
+.ck-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ck-section-title{font-size:13px;font-weight:800;color:var(--navy);margin:4px 0 10px;padding-top:6px;border-top:1px solid var(--border)}
+.ck-section-title:first-child{padding-top:0;border-top:none}
+.ck-opt{font-weight:500;color:var(--muted);text-transform:none;font-size:11px}
 .ck-input{
   font-family:var(--f);font-size:14px;padding:11px 13px;border-radius:10px;
   border:1px solid var(--border);background:var(--white);color:var(--text);
@@ -760,6 +764,9 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   border-radius:10px;padding:9px 12px;font-size:12.5px;margin-bottom:12px;
 }
 
+@media (max-width:380px){
+  .ck-row2{grid-template-columns:1fr}
+}
 @media (max-width:560px){
   .rt-sheet{max-height:92vh;border-radius:16px}
   .rt-hero{height:160px;border-radius:16px 16px 0 0}
@@ -1337,14 +1344,48 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       <div class="rt-section-title">💳 Finalizar compra</div>
       <div id="ck-summary" class="ck-summary"></div>
       <form id="ck-form" onsubmit="submitCheckout(event)">
-        <label class="ck-label">Nome completo
-          <input type="text" id="ck-nome" class="ck-input" required placeholder="Seu nome">
-        </label>
-        <label class="ck-label">E-mail
-          <input type="email" id="ck-email" class="ck-input" required placeholder="seuemail@exemplo.com">
-        </label>
+        <div class="ck-section-title">👤 Passageiro 1</div>
+        <div class="ck-row2">
+          <label class="ck-label">Nome
+            <input type="text" id="ck-p1-nome" class="ck-input" required placeholder="Nome">
+          </label>
+          <label class="ck-label">Sobrenome
+            <input type="text" id="ck-p1-sobrenome" class="ck-input" required placeholder="Sobrenome">
+          </label>
+        </div>
+        <div class="ck-row2">
+          <label class="ck-label">Data de nascimento
+            <input type="date" id="ck-p1-nascimento" class="ck-input" required>
+          </label>
+          <label class="ck-label">CPF
+            <input type="text" id="ck-p1-cpf" class="ck-input" required placeholder="000.000.000-00" inputmode="numeric" maxlength="14">
+          </label>
+        </div>
+
+        <div class="ck-section-title">👤 Passageiro 2</div>
+        <div class="ck-row2">
+          <label class="ck-label">Nome
+            <input type="text" id="ck-p2-nome" class="ck-input" required placeholder="Nome">
+          </label>
+          <label class="ck-label">Sobrenome
+            <input type="text" id="ck-p2-sobrenome" class="ck-input" required placeholder="Sobrenome">
+          </label>
+        </div>
+        <div class="ck-row2">
+          <label class="ck-label">Data de nascimento
+            <input type="date" id="ck-p2-nascimento" class="ck-input" required>
+          </label>
+          <label class="ck-label">CPF
+            <input type="text" id="ck-p2-cpf" class="ck-input" required placeholder="000.000.000-00" inputmode="numeric" maxlength="14">
+          </label>
+        </div>
+
+        <div class="ck-section-title">📞 Contato</div>
         <label class="ck-label">Telefone / WhatsApp
           <input type="tel" id="ck-telefone" class="ck-input" required placeholder="(11) 91234-5678">
+        </label>
+        <label class="ck-label">E-mail <span class="ck-opt">(opcional)</span>
+          <input type="email" id="ck-email" class="ck-input" placeholder="seuemail@exemplo.com">
         </label>
         <button type="submit" class="rt-cta ck-cta" id="ck-submit">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
@@ -2537,6 +2578,8 @@ function openCheckoutModal(pkgId,event){
   if(errEl) errEl.remove();
   const submitBtn=document.getElementById('ck-submit');
   if(submitBtn){submitBtn.disabled=false;submitBtn.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Pagar com Mercado Pago';}
+  const form=document.getElementById('ck-form');
+  if(form) form.reset();
   modal.classList.add('open');
   document.body.style.overflow='hidden';
 }
@@ -2549,10 +2592,15 @@ function closeCheckoutModal(e){
 async function submitCheckout(event){
   event.preventDefault();
   if(!CHECKOUT_PKG) return;
-  const nome=document.getElementById('ck-nome').value.trim();
-  const email=document.getElementById('ck-email').value.trim();
-  const telefone=document.getElementById('ck-telefone').value.trim();
-  if(!nome||!email||!telefone) return;
+  const val=id=>document.getElementById(id).value.trim();
+  const passageiros=[
+    {nome:val('ck-p1-nome'),sobrenome:val('ck-p1-sobrenome'),nascimento:val('ck-p1-nascimento'),cpf:val('ck-p1-cpf')},
+    {nome:val('ck-p2-nome'),sobrenome:val('ck-p2-sobrenome'),nascimento:val('ck-p2-nascimento'),cpf:val('ck-p2-cpf')},
+  ];
+  const telefone=val('ck-telefone');
+  const email=val('ck-email');
+  const camposOk=passageiros.every(p=>p.nome&&p.sobrenome&&p.nascimento&&p.cpf)&&telefone;
+  if(!camposOk) return;
   const submitBtn=document.getElementById('ck-submit');
   const form=document.getElementById('ck-form');
   let errEl=document.getElementById('ck-error');
@@ -2562,6 +2610,7 @@ async function submitCheckout(event){
   try{
     const pkg=CHECKOUT_PKG;
     const hotelClean=(pkg.h||'').replace(/\s*[-–]\s*(café da manhã|cafe da manha|all inclusive|all-inclusive|meia pensão|pensão completa|breakfast|half board|full board).*/gi,'').trim();
+    const nomeCompleto=`${passageiros[0].nome} ${passageiros[0].sobrenome}`.trim();
     const resp=await fetch('/api/pagamento',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
@@ -2570,9 +2619,10 @@ async function submitCheckout(event){
         pacoteDestino:pkg.d,
         pacoteHotel:hotelClean,
         preco:finalPrice(pkg.p),
-        clienteNome:nome,
+        clienteNome:nomeCompleto,
         clienteEmail:email,
         clienteTelefone:telefone,
+        passageiros,
       })
     });
     const data=await resp.json();
