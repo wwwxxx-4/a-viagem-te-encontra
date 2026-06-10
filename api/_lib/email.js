@@ -38,8 +38,12 @@ async function sendConfirmationEmail(pedido) {
           <td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right">${formatBRL(pedido.valor)}</td>
         </tr>
         <tr>
-          <td style="padding:8px 0"><strong>Pedido</strong></td>
-          <td style="padding:8px 0;text-align:right">#${escapeHtml(String(pedido.id).slice(0, 8))}</td>
+          <td style="padding:8px 0;border-bottom:1px solid #eee"><strong>Pedido</strong></td>
+          <td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right">#${escapeHtml(String(pedido.id).slice(0, 8))}</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 0"><strong>ID do pacote</strong></td>
+          <td style="padding:8px 0;text-align:right">${escapeHtml(pedido.pacote_id || '-')}</td>
         </tr>
       </table>
 

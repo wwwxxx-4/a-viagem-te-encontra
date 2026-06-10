@@ -67,7 +67,8 @@ module.exports = async function handler(req, res) {
         items: [
           {
             id: String(pacoteId || pedido.id),
-            title: `${pacoteDestino || 'Pacote de viagem'}${pacoteHotel ? ' - ' + pacoteHotel : ''}`,
+            title: `${pacoteDestino || 'Pacote de viagem'}${pacoteHotel ? ' - ' + pacoteHotel : ''}${pacoteId ? ` (Pacote #${pacoteId})` : ''}`,
+            description: pacoteId ? `ID do pacote: ${pacoteId}` : undefined,
             quantity: 1,
             unit_price: valor,
             currency_id: 'BRL',
