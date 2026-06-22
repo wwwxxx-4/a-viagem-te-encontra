@@ -333,6 +333,8 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .btn-wa:hover{opacity:.9}
 
 /* ══ EXPLORER — 1 coluna, sem score detail ══ */
+.m-prod-toggle-btn{width:100%;padding:11px;margin-bottom:7px;border-radius:var(--r);border:1.5px solid #0066FF;background:#fff;color:#0066FF;font-family:var(--f);font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:var(--tr)}
+.m-prod-toggle-btn.on{background:#0066FF;color:#fff}
 .fbox{background:var(--white);border-radius:var(--r);border:1px solid var(--border);padding:9px;margin-bottom:7px;box-shadow:var(--sh)}
 .fbox-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
 .fbox-title{font-size:12px;font-weight:700;color:var(--text)}
@@ -378,6 +380,8 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .pc-img:hover .pc-zoom-ic{opacity:1}
 .pc-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:38px}
 .pc-badge{position:absolute;top:9px;left:9px;background:rgba(0,26,61,.78);backdrop-filter:blur(10px);border-radius:100px;padding:3px 10px;font-size:9px;font-weight:700;color:#fff;letter-spacing:.05em;text-transform:uppercase}
+.pc-badge-flight{background:rgba(0,102,255,.92)}
+.pc-flight-tag{font-size:10px;color:#0066FF;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
 .pc-sc-badge{position:absolute;top:7px;right:7px;background:rgba(66,174,222,.9);backdrop-filter:blur(8px);border-radius:5px;padding:2px 7px;font-size:9px;font-weight:700;color:#fff}
 .pc-body{padding:11px 13px}
 .pc-top-row{display:flex;align-items:flex-start;justify-content:space-between;gap:7px;margin-bottom:5px}
@@ -443,9 +447,9 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   .wh-logo em{font-family:'Playfair Display',serif;font-style:italic;color:#0066FF;font-weight:600}
   .wh-center{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
   .wh-page-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#0D1E30;letter-spacing:-.01em;line-height:1}
-  .wh-tabs{display:flex;gap:6px;background:#F1F4F8;border-radius:100px;padding:3px}
-  .wh-tab{padding:6px 16px;border-radius:100px;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;color:#5A6E80;cursor:pointer;transition:.2s;white-space:nowrap}
-  .wh-tab.on{background:#0066FF;color:#fff;box-shadow:0 2px 8px rgba(0,102,255,.3)}
+  .wh-btn-flight{background:#fff;border:1.5px solid #0066FF;color:#0066FF}
+  .wh-btn-flight:hover{background:#EAF2FF}
+  .wh-btn-flight.on{background:#0066FF;color:#fff}
   .wh-stats{display:flex;gap:24px;justify-content:center}
   .wh-stat{text-align:center}
   .wh-stat-n{font-size:16px;font-weight:800;color:#001A3D}
@@ -519,10 +523,12 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   .wpc-badge{position:absolute;top:10px;left:10px;background:rgba(0,26,61,.78);
     backdrop-filter:blur(10px);border-radius:100px;padding:3px 10px;
     font-size:9px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.06em}
+  .wpc-badge-flight{background:rgba(0,102,255,.92)}
   .wpc-body{padding:16px 18px;flex:1;display:flex;flex-direction:column;gap:6px}
   .wpc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
   .wpc-dest{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#0D1E30;line-height:1.15}
   .wpc-tipo{font-size:10px;color:#5A6E80;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;font-weight:600}
+  .wpc-flight-tag{color:#0066FF!important}
   .wpc-pv{font-size:20px;font-weight:800;color:#0066FF;text-align:right}
   .wpc-pp{font-size:10px;color:#5A6E80;text-align:right}
   .wpc-hotel{font-size:12px;color:#5A6E80}
@@ -844,10 +850,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   <header id="wh">
     <div class="wh-logo" onclick="goScreen('s-land')" style="cursor:pointer" title="Voltar ao início">A <em>Viagem</em> te <em>Encontra</em></div>
     <div class="wh-center">
-      <div class="wh-tabs">
-        <button type="button" class="wh-tab on" data-prod="pacote" onclick="setProdutoTab('pacote')">Pacotes</button>
-        <button type="button" class="wh-tab" data-prod="passagem" onclick="setProdutoTab('passagem')">Somente Passagens Aéreas</button>
-      </div>
+      <div class="wh-page-title" id="wh-page-title">Pacotes disponíveis</div>
       <div class="wh-stats">
         <div class="wh-stat"><div class="wh-stat-n" id="w-stat-total">—</div><div class="wh-stat-l">Pacotes</div></div>
         <div class="wh-stat"><div class="wh-stat-n" id="w-stat-dests">—</div><div class="wh-stat-l">Destinos</div></div>
@@ -855,6 +858,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       </div>
     </div>
     <div class="wh-btns">
+      <button type="button" class="wh-btn wh-btn-flight" id="wh-prod-toggle" onclick="toggleProdutoView()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> Ver Somente Passagens Aéreas</button>
       <button type="button" class="wh-btn wh-btn-ghost" onclick="notifyQuizMobile()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Fazer quiz</button>
       <button type="button" class="wh-btn wh-btn-sky" onclick="W_render()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Ver pacotes</button>
     </div>
@@ -1223,6 +1227,7 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 
   <!-- EXPLORE VIEW — sem subtítulo de match -->
   <div class="res-view" id="v-explore">
+    <button type="button" id="m-prod-toggle" class="m-prod-toggle-btn" onclick="toggleProdutoView()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> Ver Somente Passagens Aéreas</button>
     <div class="fbox">
       <div class="fbox-top"><span class="fbox-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg> Filtrar</span><button type="button" id="m-fav-btn" class="fav-tab-btn" onclick="toggleFavView()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> Favs <span class="fav-ct" data-fav-count style="display:none">0</span></button><span class="fbox-count" id="pkg-count">—</span></div>
       <div class="fsearch">
@@ -1251,12 +1256,6 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
           <button class="sb" data-s="preco_desc" onclick="setSort(this,'preco_desc')">Maior preço</button>
           <button class="sb" data-s="data" onclick="setSort(this,'data')">Próximas saídas</button>
         </div>
-      </div>
-      <!-- Produto -->
-      <div class="fchips">
-        <span class="fc-lbl">Produto:</span>
-        <button class="fc on" data-prod="pacote" onclick="setProdutoTab('pacote')">Pacotes</button>
-        <button class="fc" data-prod="passagem" onclick="setProdutoTab('passagem')">Somente Passagens</button>
       </div>
       <!-- Tipo -->
       <div class="fchips">
@@ -1644,10 +1643,26 @@ function getImg(pkg){
 
 // ── State ─────────────────────────────
 let PKGS=[],SWIPE_POOL=[];
-let PRODUTO_VIEW='pacote'; // 'pacote' | 'passagem' — aba ativa (preço total p/ 2 vs por pessoa)
-function setProdutoTab(val){
-  PRODUTO_VIEW=val;
-  document.querySelectorAll('[data-prod]').forEach(b=>b.classList.toggle('on',b.dataset.prod===val));
+let PRODUTO_VIEW='pacote'; // 'pacote' | 'passagem' — view ativa (preço total p/ 2 vs por pessoa)
+function toggleProdutoView(){
+  PRODUTO_VIEW = PRODUTO_VIEW==='pacote' ? 'passagem' : 'pacote';
+  const isFlight = PRODUTO_VIEW==='passagem';
+  const wBtn=document.getElementById('wh-prod-toggle');
+  if(wBtn){
+    wBtn.classList.toggle('on',isFlight);
+    wBtn.innerHTML = isFlight
+      ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Ver Pacotes Completos'
+      : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> Ver Somente Passagens Aéreas';
+  }
+  const mBtn=document.getElementById('m-prod-toggle');
+  if(mBtn){
+    mBtn.classList.toggle('on',isFlight);
+    mBtn.innerHTML = isFlight
+      ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Ver Pacotes Completos'
+      : '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> Ver Somente Passagens Aéreas';
+  }
+  const title=document.getElementById('wh-page-title');
+  if(title) title.textContent = isFlight ? 'Passagens aéreas disponíveis' : 'Pacotes disponíveis';
   if(typeof renderPkgs==='function') try{renderPkgs()}catch(e){}
   if(typeof W_render==='function') try{W_render()}catch(e){}
 }
@@ -2289,7 +2304,9 @@ function M_renderBatch(){
     const em='';
     const _mp=markupPrice(p.p),_fp=finalPrice(p.p);
     const _disc=COUPON?('\nCUPOM '+COUPON.code+' ('+COUPON.label+') aplicado! Preço com desconto: R$'+fmtBRL(_fp)):'';
-    const wamsg=encodeURIComponent(`Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i}→${p.v}) por R$${fmtBRL(_mp)} ${_isPassagem(p)?'por pessoa':'para 2 pessoas'} + taxas.${_disc}\nPode me enviar mais informações?`);
+    const wamsg=encodeURIComponent(_isPassagem(p)
+      ?`Olá! Tenho interesse na passagem aérea para ${p.d} (${p.i}→${p.v}) por R$${fmtBRL(_mp)} por pessoa + taxas.${_disc}\nPode me enviar mais informações?`
+      :`Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i}→${p.v}) por R$${fmtBRL(_mp)} para 2 pessoas + taxas.${_disc}\nPode me enviar mais informações?`);
     const imgSafe=img?(img.replace(/'/g,"\'")):''
     const div=document.createElement('div');
     div.className='pcard';
@@ -2300,27 +2317,26 @@ function M_renderBatch(){
           <button type="button" class="card-act fav${isFav(p.id)?' on':''}" onclick="toggleFav('${p.id}',this,event)" aria-label="Favoritar"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
           <button type="button" class="card-act" onclick='sharePkg(${JSON.stringify({id:p.id,d:p.d,h:p.h,p:p.p,i:p.i,v:p.v,pr:p.pr}).replace(/"/g,"&quot;")},event)' aria-label="Compartilhar"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
         </div>
-        <div class="pc-badge">${p.t} · ${p.r}</div>
+        <div class="pc-badge${_isPassagem(p)?' pc-badge-flight':''}">${_isPassagem(p)?'✈️ Somente Passagem':`${p.t} · ${p.r}`}</div>
         ${sc!=null?`<div class="pc-sc-badge">⭐ ${sc}%</div>`:''}
       </div>
       <div class="pc-body">
         <div class="pc-top-row">
-          <div><div class="pc-dest">${p.d}</div></div>
+          <div><div class="pc-dest">${p.d}</div>${_isPassagem(p)?'<div class="pc-flight-tag">✈️ Passagem aérea · ida e volta</div>':''}</div>
           <div class="pc-price-wrap">${priceHtml(p.p,'pc-price')}<div class="pc-pp">${_isPassagem(p)?'por pessoa já com taxas*':'p/ 2 pessoas já com taxas*'}</div></div>
         </div>
-        <div class="pc-hotel"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v18h16V4a2 2 0 0 0-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><rect x="9" y="8" width="6" height="4"/></svg> ${p.h}</div>
+        ${_isPassagem(p)?'':`<div class="pc-hotel"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v18h16V4a2 2 0 0 0-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><rect x="9" y="8" width="6" height="4"/></svg> ${p.h}</div>`}
         <div class="pc-chips">
           <div class="pc-chip" style="flex-basis:100%"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Ida: ${p.i} → Volta: ${p.v}</div>
           <div class="pc-chip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> ${p.o}</div>
           ${_calcDias(p.i,p.v)?`<div class="pc-chip">${_calcDias(p.i,p.v).replace(' · ','')}</div>`:''}
-          ${p.regime&&REGIME_LABELS[p.regime]?`<div class="pc-chip">${REGIME_LABELS[p.regime]}</div>`:''}${p.lx?'<div class="pc-chip">⭐ Luxo</div>':''}
-          ${p.transf?'<div class="pc-chip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Transporte Incluso</div>':''}
+          ${_isPassagem(p)?'':`${p.regime&&REGIME_LABELS[p.regime]?`<div class="pc-chip">${REGIME_LABELS[p.regime]}</div>`:''}${p.lx?'<div class="pc-chip">⭐ Luxo</div>':''}${p.transf?'<div class="pc-chip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Transporte Incluso</div>':''}`}
           ${p.forn?`<div class="pc-chip">Forn. ${p.forn}</div>`:''}
         </div>
         ${p.voo_ida?`<div class="pc-voo"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/><line x1="2" y1="20" x2="22" y2="20"/></svg> ${p.voo_ida}</div>`:''}
         ${p.voo_volta?`<div class="pc-voo" style="margin-bottom:6px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/><line x1="22" y1="20" x2="2" y2="20"/></svg> ${p.voo_volta}</div>`:''}
-        ${p.roteiro?`<button type="button" class="btn-pc-roteiro" onclick="openRoteiroModal('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Ver roteiro completo</button>`:''}
-        <button type="button" class="btn-pc-buy" onclick="openCheckoutModal('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Comprar Pacote</button>
+        ${(p.roteiro&&!_isPassagem(p))?`<button type="button" class="btn-pc-roteiro" onclick="openRoteiroModal('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Ver roteiro completo</button>`:''}
+        <button type="button" class="btn-pc-buy" onclick="openCheckoutModal('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> ${_isPassagem(p)?'Comprar Passagem':'Comprar Pacote'}</button>
         <button type="button" class="btn-pc-wa-sm" onclick="requestPackage('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Falar com Atendente</button>
       </div>`;
     pl.appendChild(div);
@@ -2626,10 +2642,11 @@ function openCheckoutModal(pkgId,event){
   const dias=_calcDias(pkg.i,pkg.v);
   sum.innerHTML=`
     <div><strong>${_escHtml(pkg.d||'')}</strong></div>
+    ${passagem?`<div class="ck-sum-row" style="color:#0066FF;font-weight:700">✈️ Somente passagem aérea · ida e volta</div>`:''}
     ${(pkg.i&&pkg.v)?`<div class="ck-sum-row">Ida: ${_escHtml(pkg.i)} → Volta: ${_escHtml(pkg.v)}${dias?_escHtml(dias):''}</div>`:''}
     ${pkg.voo_ida?`<div class="ck-sum-row">${_escHtml(pkg.voo_ida)}</div>`:''}
     ${pkg.voo_volta?`<div class="ck-sum-row">${_escHtml(pkg.voo_volta)}</div>`:''}
-    ${(hotelClean||regimeLabel)?`<div class="ck-sum-row">${_escHtml(hotelClean)}${hotelClean&&regimeLabel?' · ':''}${_escHtml(regimeLabel)}</div>`:''}
+    ${(passagem||!(hotelClean||regimeLabel))?'':`<div class="ck-sum-row">${_escHtml(hotelClean)}${hotelClean&&regimeLabel?' · ':''}${_escHtml(regimeLabel)}</div>`}
     ${passagem?'':`<div class="ck-sum-row">${pkg.transf?'Transporte incluso':'Sem transporte incluso'}</div>`}
     ${passagem?`<div class="ck-sum-row">R$ ${fmtBRL(valorPorPessoa)} por pessoa</div>`:''}
     <div style="margin-top:8px;font-size:18px;font-weight:800;color:var(--navy)">R$ ${fmtBRL(valor)} <span style="font-size:11px;font-weight:600;color:var(--muted)">para 2 pessoas com taxas</span></div>
@@ -3126,7 +3143,9 @@ function W_loadMore(){
     const em   = '';
     const _wmp=markupPrice(p.p),_wfp=finalPrice(p.p);
     const _wdisc=COUPON?('\nCUPOM '+COUPON.code+' ('+COUPON.label+')! Preço com desconto: R$'+fmtBRL(_wfp)):'';
-    const msg=encodeURIComponent(`Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i}→${p.v}) por R$${fmtBRL(_wmp)} ${_isPassagem(p)?'por pessoa':'para 2 pessoas'} + taxas.${_wdisc}\nPode me enviar mais informações?`);
+    const msg=encodeURIComponent(_isPassagem(p)
+      ?`Olá! Tenho interesse na passagem aérea para ${p.d} (${p.i}→${p.v}) por R$${fmtBRL(_wmp)} por pessoa + taxas.${_wdisc}\nPode me enviar mais informações?`
+      :`Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i}→${p.v}) por R$${fmtBRL(_wmp)} para 2 pessoas + taxas.${_wdisc}\nPode me enviar mais informações?`);
     const waUrl = `https://api.whatsapp.com/send?phone=5511953967095&text=${msg}`;
     const div = document.createElement('div');
     div.className = 'wpcard';
@@ -3137,27 +3156,25 @@ function W_loadMore(){
           <button type="button" class="card-act fav${isFav(p.id)?' on':''}" onclick="toggleFav('${p.id}',this,event)" aria-label="Favoritar"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
           <button type="button" class="card-act" onclick='sharePkg(${JSON.stringify({id:p.id,d:p.d,h:p.h,p:p.p,i:p.i,v:p.v,pr:p.pr}).replace(/"/g,"&quot;")},event)' aria-label="Compartilhar"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
         </div>
-        <div class="wpc-badge">${p.t} · ${p.r}</div>
+        <div class="wpc-badge${_isPassagem(p)?' wpc-badge-flight':''}">${_isPassagem(p)?'✈️ Somente Passagem':`${p.t} · ${p.r}`}</div>
       </div>
       <div class="wpc-body">
         <div class="wpc-top">
-          <div><div class="wpc-dest">${p.d}</div><div class="wpc-tipo">${p.t} · ${p.r}</div></div>
+          <div><div class="wpc-dest">${p.d}</div><div class="wpc-tipo${_isPassagem(p)?' wpc-flight-tag':''}">${_isPassagem(p)?'✈️ Passagem aérea · ida e volta':`${p.t} · ${p.r}`}</div></div>
           <div>${wPriceHtml(p.p)}<div class="wpc-pp">${_isPassagem(p)?'por pessoa já com taxas*':'p/ 2 pessoas já com taxas*'}</div></div>
         </div>
-        <div class="wpc-hotel"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v18h16V4a2 2 0 0 0-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><rect x="9" y="8" width="6" height="4"/></svg> ${p.h}</div>
+        ${_isPassagem(p)?'':`<div class="wpc-hotel"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v18h16V4a2 2 0 0 0-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><rect x="9" y="8" width="6" height="4"/></svg> ${p.h}</div>`}
         <div class="wpc-chips">
           <span class="wpc-chip" style="flex-basis:100%"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Ida: ${p.i} → Volta: ${p.v}</span>
           <span class="wpc-chip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> ${p.o}</span>
           ${_calcDias(p.i,p.v)?`<span class="wpc-chip">${_calcDias(p.i,p.v).replace(' · ','')}</span>`:''}
-          ${p.regime&&REGIME_LABELS[p.regime]?`<span class="wpc-chip">${REGIME_LABELS[p.regime]}</span>`:''}
-          ${p.lx?'<span class="wpc-chip">⭐ Luxo</span>':''}
-          ${p.transf?'<span class="wpc-chip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Transporte Incluso</span>':''}
+          ${_isPassagem(p)?'':`${p.regime&&REGIME_LABELS[p.regime]?`<span class="wpc-chip">${REGIME_LABELS[p.regime]}</span>`:''}${p.lx?'<span class="wpc-chip">⭐ Luxo</span>':''}${p.transf?'<span class="wpc-chip"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Transporte Incluso</span>':''}`}
           ${p.forn?`<span class="wpc-chip">Forn. ${p.forn}</span>`:''}
         </div>
         ${p.voo_ida?`<div class="wpc-voo"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/><line x1="2" y1="20" x2="22" y2="20"/></svg> ${p.voo_ida}</div>`:''}
         ${p.voo_volta?`<div class="wpc-voo"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/><line x1="22" y1="20" x2="2" y2="20"/></svg> ${p.voo_volta}</div>`:''}
-        ${p.roteiro?`<button type="button" class="btn-pc-roteiro" onclick="openRoteiroModal('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Ver roteiro completo</button>`:''}
-        <button type="button" class="btn-pc-buy" onclick="openCheckoutModal('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Comprar Pacote</button>
+        ${(p.roteiro&&!_isPassagem(p))?`<button type="button" class="btn-pc-roteiro" onclick="openRoteiroModal('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Ver roteiro completo</button>`:''}
+        <button type="button" class="btn-pc-buy" onclick="openCheckoutModal('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> ${_isPassagem(p)?'Comprar Passagem':'Comprar Pacote'}</button>
         <button type="button" class="btn-pc-wa-sm" onclick="requestPackage('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Falar com Atendente</button>
       </div>`;
     frag.appendChild(div);
@@ -3638,11 +3655,11 @@ function requestPackage(pkgId,event){
   const disc=COUPON?'\n🏷️ Cupom '+COUPON.code+' ('+COUPON.label+')! Preço com desconto: R$'+fmtBRL(finalPrice(pkg.p)):'';
   const regime=pkg.cm?'Café da Manhã':pkg.ai?'All Inclusive':pkg.mp?'Meia Pensão':pkg.pc?'Pensão Completa':'';
   const msg=[
-    'Olá! Tenho interesse no seguinte pacote:',
+    _isPassagem(pkg)?'Olá! Tenho interesse na seguinte passagem aérea:':'Olá! Tenho interesse no seguinte pacote:',
     '',
     '✈️ *'+pkg.d+'*',
-    hotelClean?'🏨 '+hotelClean:'',
-    regime?'🍽️ Regime: '+regime:'',
+    _isPassagem(pkg)?'':(hotelClean?'🏨 '+hotelClean:''),
+    _isPassagem(pkg)?'':(regime?'🍽️ Regime: '+regime:''),
     '💰 *R$ '+price.toLocaleString('pt-BR')+'* '+(_isPassagem(pkg)?'por pessoa':'p/ 2 pessoas')+' + taxas',
     (pkg.i&&pkg.v)?'📅 Ida: '+pkg.i+' → Volta: '+pkg.v+dias:'',
     pkg.o?'🛫 Saída de: '+pkg.o:'',
