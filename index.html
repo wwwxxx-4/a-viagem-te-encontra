@@ -333,8 +333,10 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .btn-wa:hover{opacity:.9}
 
 /* ══ EXPLORER — 1 coluna, sem score detail ══ */
-.m-prod-toggle-btn{width:100%;padding:11px;margin-bottom:7px;border-radius:var(--r);border:1.5px solid #0066FF;background:#fff;color:#0066FF;font-family:var(--f);font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:var(--tr)}
+.m-prod-row{display:flex;gap:7px;margin-bottom:7px}
+.m-prod-toggle-btn{flex:1;padding:11px 6px;border-radius:var(--r);border:1.5px solid #0066FF;background:#fff;color:#0066FF;font-family:var(--f);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:var(--tr);text-decoration:none;white-space:nowrap}
 .m-prod-toggle-btn.on{background:#0066FF;color:#fff}
+.m-prod-buy-flight{background:#0066FF;color:#fff;border-color:#0066FF}
 .fbox{background:var(--white);border-radius:var(--r);border:1px solid var(--border);padding:9px;margin-bottom:7px;box-shadow:var(--sh)}
 .fbox-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
 .fbox-title{font-size:12px;font-weight:700;color:var(--text)}
@@ -450,6 +452,8 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
   .wh-btn-flight{background:#fff;border:1.5px solid #0066FF;color:#0066FF}
   .wh-btn-flight:hover{background:#EAF2FF}
   .wh-btn-flight.on{background:#0066FF;color:#fff}
+  .wh-btn-buy-flight{background:#0066FF;color:#fff;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+  .wh-btn-buy-flight:hover{background:#0052CC}
   .wh-stats{display:flex;gap:24px;justify-content:center}
   .wh-stat{text-align:center}
   .wh-stat-n{font-size:16px;font-weight:800;color:#001A3D}
@@ -858,7 +862,8 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
       </div>
     </div>
     <div class="wh-btns">
-      <button type="button" class="wh-btn wh-btn-flight" id="wh-prod-toggle" onclick="toggleProdutoView()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> Ver Somente Passagens Aéreas</button>
+      <button type="button" class="wh-btn wh-btn-flight" id="wh-prod-toggle" onclick="toggleProdutoView()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> Ofertas Passagens</button>
+      <a class="wh-btn wh-btn-buy-flight" href="https://www.comprarviagem.com.br/mesquitaturismo/home" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Comprar Passagens</a>
       <button type="button" class="wh-btn wh-btn-ghost" onclick="notifyQuizMobile()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Fazer quiz</button>
       <button type="button" class="wh-btn wh-btn-sky" onclick="W_render()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Ver pacotes</button>
     </div>
@@ -1227,7 +1232,10 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 
   <!-- EXPLORE VIEW — sem subtítulo de match -->
   <div class="res-view" id="v-explore">
-    <button type="button" id="m-prod-toggle" class="m-prod-toggle-btn" onclick="toggleProdutoView()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> Ver Somente Passagens Aéreas</button>
+    <div class="m-prod-row">
+      <button type="button" id="m-prod-toggle" class="m-prod-toggle-btn" onclick="toggleProdutoView()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> Ofertas Passagens</button>
+      <a class="m-prod-toggle-btn m-prod-buy-flight" href="https://www.comprarviagem.com.br/mesquitaturismo/home" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Comprar Passagens</a>
+    </div>
     <div class="fbox">
       <div class="fbox-top"><span class="fbox-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg> Filtrar</span><button type="button" id="m-fav-btn" class="fav-tab-btn" onclick="toggleFavView()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> Favs <span class="fav-ct" data-fav-count style="display:none">0</span></button><span class="fbox-count" id="pkg-count">—</span></div>
       <div class="fsearch">
@@ -1652,14 +1660,14 @@ function toggleProdutoView(){
     wBtn.classList.toggle('on',isFlight);
     wBtn.innerHTML = isFlight
       ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Ver Pacotes Completos'
-      : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> Ver Somente Passagens Aéreas';
+      : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> Ofertas Passagens';
   }
   const mBtn=document.getElementById('m-prod-toggle');
   if(mBtn){
     mBtn.classList.toggle('on',isFlight);
     mBtn.innerHTML = isFlight
       ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Ver Pacotes Completos'
-      : '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> Ver Somente Passagens Aéreas';
+      : '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> Ofertas Passagens';
   }
   const title=document.getElementById('wh-page-title');
   if(title) title.textContent = isFlight ? 'Passagens aéreas disponíveis' : 'Pacotes disponíveis';
