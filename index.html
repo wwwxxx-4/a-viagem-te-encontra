@@ -284,8 +284,9 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 .rh-pill{display:inline-flex;align-items:center;gap:3px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:100px;padding:3px 8px;font-size:10px;font-weight:500;color:rgba(255,255,255,.85)}
 /* Tabs */
 .res-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--white);flex-shrink:0}
-.rtab{flex:1;padding:10px 6px;border:none;background:transparent;font-family:var(--f);font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:var(--tr);border-bottom:2px solid transparent}
+.rtab{flex:1;padding:10px 6px;border:none;background:transparent;font-family:var(--f);font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:var(--tr);border-bottom:2px solid transparent;text-align:center}
 .rtab.on{color:var(--navy);border-bottom-color:var(--navy)}
+a.rtab{text-decoration:none;display:flex;align-items:center;justify-content:center}
 .tab-dot{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:var(--sky);color:#fff;font-size:8px;font-weight:800;margin-left:3px;vertical-align:middle}
 .res-view{flex:1;overflow-y:auto;scrollbar-width:none}
 .res-view::-webkit-scrollbar{display:none}
@@ -628,45 +629,56 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 
 /* ═══════════ SISTEMA DE CUPONS ═══════════ */
 
-/* Botão flutuante */
-#coupon-fab{
+/* Barra de cupom inline (mobile) */
+.m-coupon-bar{
+  display:flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,#fff9e6,#fffbef);
+  border:2px solid #f5c518;border-radius:12px;
+  padding:9px 11px;margin-bottom:7px;
+}
+.m-coupon-bar.active{background:linear-gradient(135deg,#ECFDF5,#f0fdf4);border-color:#86efac}
+.m-quick-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+
+/* ═══════════ BOTÃO FLUTUANTE DE FILTROS ═══════════ */
+#filters-fab{
   position:fixed;bottom:86px;left:16px;z-index:9998;
   display:flex;align-items:center;gap:0;
-  background:linear-gradient(135deg,#f5c518,#e8a80c);
-  color:#0D2840;border-radius:100px;
+  background:linear-gradient(135deg,#0066FF,#1A4F8A);
+  color:#fff;border-radius:100px;
   padding:10px 10px;
-  box-shadow:0 4px 18px rgba(245,197,24,.5);
+  box-shadow:0 4px 18px rgba(0,102,255,.45);
   font-family:var(--f);font-size:13px;font-weight:800;
   cursor:pointer;border:none;
   transition:all .3s cubic-bezier(.4,0,.2,1);
   overflow:hidden;max-width:42px;white-space:nowrap;
 }
-#coupon-fab:hover,#coupon-fab.expanded{max-width:200px;padding:10px 16px 10px 12px;gap:7px}
-#coupon-fab .fab-label{opacity:0;width:0;transition:all .3s ease;flex-shrink:0}
-#coupon-fab:hover .fab-label,#coupon-fab.expanded .fab-label{opacity:1;width:auto}
-#coupon-fab.has-coupon{background:linear-gradient(135deg,#27AE60,#1e8449);color:#fff;
-  box-shadow:0 4px 18px rgba(39,174,96,.5);max-width:200px;padding:10px 14px 10px 11px;gap:6px}
-#coupon-fab.has-coupon .fab-label{opacity:1;width:auto}
+#filters-fab:hover,#filters-fab.expanded{max-width:160px;padding:10px 16px 10px 12px;gap:7px}
+#filters-fab .fab-label{opacity:0;width:0;transition:all .3s ease;flex-shrink:0}
+#filters-fab:hover .fab-label,#filters-fab.expanded .fab-label{opacity:1;width:auto}
+#filters-fab.has-active{max-width:160px;padding:10px 14px 10px 11px;gap:6px}
+#filters-fab.has-active .fab-label{opacity:1;width:auto}
+.fab-badge{position:absolute;top:6px;right:8px;width:9px;height:9px;border-radius:50%;background:#E11D48;border:2px solid #fff}
 
-/* Modal de cupom */
-#coupon-modal{
+/* Modal de filtros */
+#filters-modal{
   position:fixed;inset:0;z-index:9999;
   background:rgba(0,0,0,.55);backdrop-filter:blur(6px);
   display:none;align-items:flex-end;justify-content:center;
   padding-bottom:0;
 }
-#coupon-modal.open{display:flex}
-#coupon-sheet{
+#filters-modal.open{display:flex}
+#filters-sheet{
   background:var(--white);border-radius:22px 22px 0 0;
   padding:20px 20px 36px;width:100%;max-width:430px;
+  max-height:80vh;overflow-y:auto;
   animation:sheetUp .32s cubic-bezier(.4,0,.2,1);
   box-shadow:0 -8px 40px rgba(0,0,0,.18);
 }
 @keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .sheet-handle{width:36px;height:4px;border-radius:2px;background:var(--border);margin:0 auto 16px}
-.sheet-title{font-size:17px;font-weight:800;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:7px}
-.sheet-sub{font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.5}
-.coupon-field{display:flex;gap:8px;margin-bottom:10px}
+.sheet-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sheet-title{font-size:17px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:7px}
+.filters-clear-btn{background:none;border:none;color:#0066FF;font-family:var(--f);font-size:12px;font-weight:700;cursor:pointer;padding:0;text-decoration:underline}
 .coupon-input{
   flex:1;border:2px solid var(--border);border-radius:10px;
   padding:12px 14px;font-family:var(--f);font-size:14px;
@@ -1215,8 +1227,10 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
     <div class="rh-pills" id="rh-pills"></div>
   </div>
   <div class="res-tabs">
-    <button class="rtab on" id="rt-explore" onclick="switchView('explore')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Explorar todos</button>
-    <button class="rtab" id="rt-match" onclick="switchView('match')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Matches<span class="tab-dot" id="match-dot">5</span></button>
+    <button class="rtab on" id="rt-explore" onclick="setMobileTab('pacote')">Todos Pacotes</button>
+    <button class="rtab" id="rt-voos" onclick="setMobileTab('passagem')">Ofertas voos</button>
+    <a class="rtab" id="rt-comprar" href="https://www.comprarviagem.com.br/mesquitaturismo/home" target="_blank" rel="noopener">Comprar Passagens</a>
+    <button class="rtab" id="rt-match" onclick="switchView('match')" style="display:none"><span class="tab-dot" id="match-dot">5</span></button>
   </div>
 
   <!-- MATCH VIEW -->
@@ -1232,123 +1246,126 @@ body{font-family:var(--f);background:var(--navy-dk);color:var(--text);display:fl
 
   <!-- EXPLORE VIEW — sem subtítulo de match -->
   <div class="res-view" id="v-explore">
-    <div class="m-prod-row">
-      <button type="button" id="m-prod-toggle" class="m-prod-toggle-btn" onclick="toggleProdutoView()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> Ofertas Passagens</button>
-      <a class="m-prod-toggle-btn m-prod-buy-flight" href="https://www.comprarviagem.com.br/mesquitaturismo/home" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Comprar Passagens</a>
-    </div>
-    <div class="fbox">
-      <div class="fbox-top"><span class="fbox-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg> Filtrar</span><button type="button" id="m-fav-btn" class="fav-tab-btn" onclick="toggleFavView()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> Favs <span class="fav-ct" data-fav-count style="display:none">0</span></button><span class="fbox-count" id="pkg-count">—</span></div>
-      <div class="fsearch">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4"/><path d="M10.5 10.5L14 14" stroke-linecap="round"/></svg>
-        <input type="text" id="search-in" placeholder="Destino ou hotel…" oninput="renderPkgs()" autocomplete="off">
-      </div>
-      <!-- Destino (dinâmico) -->
-      <div class="fchips" style="margin-top:6px">
-        <span class="fc-lbl">Destino:</span>
-        <select id="m-dest" onchange="setDestFilter(this.value)" style="flex:1;min-width:140px;padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;background:#fff;font-family:var(--f);font-size:11px;color:var(--navy);outline:none;cursor:pointer">
-          <option value="all">Todos os destinos</option>
-        </select>
-      </div>
-      <!-- Faixa de preço -->
-      <div class="fchips" style="margin-top:6px;flex-wrap:nowrap">
-        <span class="fc-lbl">Preço:</span>
-        <input type="number" id="m-price-min" placeholder="Mín" min="0" step="100" oninput="onPriceRange()" style="flex:1;width:60px;font-family:var(--f);font-size:11px;padding:6px 8px;border:1.5px solid var(--border);border-radius:8px;outline:none;color:var(--navy)">
-        <span style="color:var(--muted);font-size:11px">—</span>
-        <input type="number" id="m-price-max" placeholder="Máx" min="0" step="100" oninput="onPriceRange()" style="flex:1;width:60px;font-family:var(--f);font-size:11px;padding:6px 8px;border:1.5px solid var(--border);border-radius:8px;outline:none;color:var(--navy)">
-      </div>
-      <!-- Ordenar (primeiro) -->
-      <div class="sort-row" style="margin-top:0">
-        <span class="sort-lbl">Ordenar:</span>
-        <div class="sort-btns">
-          <button class="sb on" data-s="preco_asc" onclick="setSort(this,'preco_asc')">Menor preço</button>
-          <button class="sb" data-s="preco_desc" onclick="setSort(this,'preco_desc')">Maior preço</button>
-          <button class="sb" data-s="data" onclick="setSort(this,'data')">Próximas saídas</button>
-        </div>
-      </div>
-      <!-- Tipo -->
-      <div class="fchips">
-        <span class="fc-lbl">Tipo:</span>
-        <button class="fc on" data-t="all" onclick="setTipo(this,'all')">Todos</button>
-        <button class="fc" data-t="praia" onclick="setTipo(this,'praia')">Praia</button>
-        <button class="fc" data-t="montanha" onclick="setTipo(this,'montanha')">Serra</button>
-        <button class="fc" data-t="natureza" onclick="setTipo(this,'natureza')">Natureza</button>
-        <button class="fc" data-t="cidade" onclick="setTipo(this,'cidade')">Cidade</button>
-      </div>
-      <!-- Região -->
-      <div class="fchips">
-        <span class="fc-lbl">Região:</span>
-        <button class="fc on" data-rg="all" onclick="setRegE(this,'all')">Todas</button>
-        <button class="fc" data-rg="Internacional" onclick="setRegE(this,'Internacional')">Internacional</button>
-        <button class="fc" data-rg="Nordeste" onclick="setRegE(this,'Nordeste')">Nordeste</button>
-        <button class="fc" data-rg="Norte" onclick="setRegE(this,'Norte')">Norte</button>
-        <button class="fc" data-rg="Sul" onclick="setRegE(this,'Sul')">Sul</button>
-        <button class="fc" data-rg="Sudeste" onclick="setRegE(this,'Sudeste')">Sudeste</button>
-        <button class="fc" data-rg="Centro-Oeste" onclick="setRegE(this,'Centro-Oeste')">Centro-Oeste</button>
-      </div>
-      <!-- Regime alimentar -->
-      <div class="fchips" id="regime-filter-row" style="display:none">
-        <span class="fc-lbl">Regime:</span>
-        <button class="fc on" data-rm="all" onclick="setRegime(this,'all')">Todos</button>
-      </div>
-      <!-- Mês da viagem -->
-      <div class="fchips" style="margin-top:4px">
-        <span class="fc-lbl">Mês:</span>
-        <button type="button" class="fc on" data-mf="all" onclick="setMonthFilter(this,'all')">Todos</button>
-        <button type="button" class="fc" data-mf="01" onclick="setMonthFilter(this,'01')">Jan</button>
-        <button type="button" class="fc" data-mf="02" onclick="setMonthFilter(this,'02')">Fev</button>
-        <button type="button" class="fc" data-mf="03" onclick="setMonthFilter(this,'03')">Mar</button>
-        <button type="button" class="fc" data-mf="04" onclick="setMonthFilter(this,'04')">Abr</button>
-        <button type="button" class="fc" data-mf="05" onclick="setMonthFilter(this,'05')">Mai</button>
-        <button type="button" class="fc" data-mf="06" onclick="setMonthFilter(this,'06')">Jun</button>
-        <button type="button" class="fc" data-mf="07" onclick="setMonthFilter(this,'07')">Jul</button>
-        <button type="button" class="fc" data-mf="08" onclick="setMonthFilter(this,'08')">Ago</button>
-        <button type="button" class="fc" data-mf="09" onclick="setMonthFilter(this,'09')">Set</button>
-        <button type="button" class="fc" data-mf="10" onclick="setMonthFilter(this,'10')">Out</button>
-        <button type="button" class="fc" data-mf="11" onclick="setMonthFilter(this,'11')">Nov</button>
-        <button type="button" class="fc" data-mf="12" onclick="setMonthFilter(this,'12')">Dez</button>
-      </div>
-      <!-- Inputs de filtro do usuário -->
-      <div class="fbox-inputs">
-        <div>
-          <div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:4px">Aeroporto:</div>
-          <div class="fi-chips-mini">
-            <button class="fi-chip-mini on" data-ap="all" onclick="setAirportFilter(this,'all')">Todos</button>
-            <button class="fi-chip-mini" data-ap="Congonhas" onclick="setAirportFilter(this,'Congonhas')">CGH — Congonhas</button>
-            <button class="fi-chip-mini" data-ap="Guarulhos" onclick="setAirportFilter(this,'Guarulhos')">GRU — Guarulhos</button>
-            <button class="fi-chip-mini" data-ap="Viracopos" onclick="setAirportFilter(this,'Viracopos')">VCP — Viracopos</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pkg-list" id="pkg-list"></div>
-    <div class="res-btns" style="margin-top:9px">
-      <button class="btn-sec" onclick="switchView('match')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Matches</button>
-      <button class="btn-sec" onclick="restart()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> Refazer</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══ BOTÃO FLUTUANTE CUPOM ══ -->
-<button type="button" id="coupon-fab" onclick="openCouponModal()" title="Tenho cupom de desconto">
-  <span style="flex-shrink:0;display:flex;align-items:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span>
-  <span class="fab-label" id="fab-label">Tenho cupom</span>
-</button>
-
-<!-- ══ MODAL CUPOM ══ -->
-<div id="coupon-modal" onclick="closeCouponModal(event)">
-  <div id="coupon-sheet">
-    <div class="sheet-handle"></div>
-    <div class="sheet-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> Cupom de desconto</div>
-    <p class="sheet-sub">Digite seu código e economize na sua próxima viagem. Os preços já incluem a margem da agência — o cupom devolve parte dela para você!</p>
-    <div class="coupon-field">
-      <input class="coupon-input" id="coupon-input" type="text"
-             placeholder="Ex: PROMO10" maxlength="20"
+    <!-- Cupom inline -->
+    <div class="m-coupon-bar" id="m-coupon-bar">
+      <span style="flex-shrink:0;display:flex;align-items:center;color:#9a7a06"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span>
+      <input class="coupon-input" id="coupon-input" type="text" placeholder="Código de desconto" maxlength="20"
              oninput="this.value=this.value.toUpperCase()"
              onkeydown="if(event.key==='Enter')applyCoupon()">
       <button type="button" class="coupon-apply-btn" onclick="applyCoupon()">Aplicar</button>
     </div>
     <div class="coupon-feedback" id="coupon-feedback"></div>
     <button type="button" class="coupon-remove" id="coupon-remove-btn" style="display:none" onclick="removeCoupon()">✕ Remover cupom</button>
+
+    <!-- Barra rápida: Favs + contagem -->
+    <div class="m-quick-bar">
+      <button type="button" id="m-fav-btn" class="fav-tab-btn" onclick="toggleFavView()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> Favs <span class="fav-ct" data-fav-count style="display:none">0</span></button>
+      <span class="fbox-count" id="pkg-count">—</span>
+    </div>
+
+    <!-- Ordenar (fica fora do filtro flutuante) -->
+    <div class="sort-row" style="margin-top:0">
+      <span class="sort-lbl">Ordenar:</span>
+      <div class="sort-btns">
+        <button class="sb on" data-s="preco_asc" onclick="setSort(this,'preco_asc')">Menor preço</button>
+        <button class="sb" data-s="preco_desc" onclick="setSort(this,'preco_desc')">Maior preço</button>
+        <button class="sb" data-s="data" onclick="setSort(this,'data')">Próximas saídas</button>
+      </div>
+    </div>
+    <div class="pkg-list" id="pkg-list"></div>
+    <div class="res-btns" style="margin-top:9px">
+      <button class="btn-sec" onclick="restart()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> Refazer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BOTÃO FLUTUANTE FILTROS ══ -->
+<button type="button" id="filters-fab" onclick="openFiltersModal()" title="Filtrar pacotes">
+  <span style="flex-shrink:0;display:flex;align-items:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></span>
+  <span class="fab-label" id="filters-fab-label">Filtros</span>
+  <span class="fab-badge" id="filters-fab-badge" style="display:none"></span>
+</button>
+
+<!-- ══ MODAL FILTROS ══ -->
+<div id="filters-modal" onclick="closeFiltersModal(event)">
+  <div id="filters-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title-row">
+      <div class="sheet-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg> Filtrar pacotes</div>
+      <button type="button" class="filters-clear-btn" id="filters-clear-btn" onclick="clearFilters()" style="display:none">Limpar filtros</button>
+    </div>
+    <div class="fsearch">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4"/><path d="M10.5 10.5L14 14" stroke-linecap="round"/></svg>
+      <input type="text" id="search-in" placeholder="Destino ou hotel…" oninput="renderPkgs()" autocomplete="off">
+    </div>
+    <!-- Destino (dinâmico) -->
+    <div class="fchips" style="margin-top:6px">
+      <span class="fc-lbl">Destino:</span>
+      <select id="m-dest" onchange="setDestFilter(this.value)" style="flex:1;min-width:140px;padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;background:#fff;font-family:var(--f);font-size:11px;color:var(--navy);outline:none;cursor:pointer">
+        <option value="all">Todos os destinos</option>
+      </select>
+    </div>
+    <!-- Faixa de preço -->
+    <div class="fchips" style="margin-top:6px;flex-wrap:nowrap">
+      <span class="fc-lbl">Preço:</span>
+      <input type="number" id="m-price-min" placeholder="Mín" min="0" step="100" oninput="onPriceRange()" style="flex:1;width:60px;font-family:var(--f);font-size:11px;padding:6px 8px;border:1.5px solid var(--border);border-radius:8px;outline:none;color:var(--navy)">
+      <span style="color:var(--muted);font-size:11px">—</span>
+      <input type="number" id="m-price-max" placeholder="Máx" min="0" step="100" oninput="onPriceRange()" style="flex:1;width:60px;font-family:var(--f);font-size:11px;padding:6px 8px;border:1.5px solid var(--border);border-radius:8px;outline:none;color:var(--navy)">
+    </div>
+    <!-- Tipo -->
+    <div class="fchips">
+      <span class="fc-lbl">Tipo:</span>
+      <button class="fc on" data-t="all" onclick="setTipo(this,'all')">Todos</button>
+      <button class="fc" data-t="praia" onclick="setTipo(this,'praia')">Praia</button>
+      <button class="fc" data-t="montanha" onclick="setTipo(this,'montanha')">Serra</button>
+      <button class="fc" data-t="natureza" onclick="setTipo(this,'natureza')">Natureza</button>
+      <button class="fc" data-t="cidade" onclick="setTipo(this,'cidade')">Cidade</button>
+    </div>
+    <!-- Região -->
+    <div class="fchips">
+      <span class="fc-lbl">Região:</span>
+      <button class="fc on" data-rg="all" onclick="setRegE(this,'all')">Todas</button>
+      <button class="fc" data-rg="Internacional" onclick="setRegE(this,'Internacional')">Internacional</button>
+      <button class="fc" data-rg="Nordeste" onclick="setRegE(this,'Nordeste')">Nordeste</button>
+      <button class="fc" data-rg="Norte" onclick="setRegE(this,'Norte')">Norte</button>
+      <button class="fc" data-rg="Sul" onclick="setRegE(this,'Sul')">Sul</button>
+      <button class="fc" data-rg="Sudeste" onclick="setRegE(this,'Sudeste')">Sudeste</button>
+      <button class="fc" data-rg="Centro-Oeste" onclick="setRegE(this,'Centro-Oeste')">Centro-Oeste</button>
+    </div>
+    <!-- Regime alimentar -->
+    <div class="fchips" id="regime-filter-row" style="display:none">
+      <span class="fc-lbl">Regime:</span>
+      <button class="fc on" data-rm="all" onclick="setRegime(this,'all')">Todos</button>
+    </div>
+    <!-- Mês da viagem -->
+    <div class="fchips" style="margin-top:4px">
+      <span class="fc-lbl">Mês:</span>
+      <button type="button" class="fc on" data-mf="all" onclick="setMonthFilter(this,'all')">Todos</button>
+      <button type="button" class="fc" data-mf="01" onclick="setMonthFilter(this,'01')">Jan</button>
+      <button type="button" class="fc" data-mf="02" onclick="setMonthFilter(this,'02')">Fev</button>
+      <button type="button" class="fc" data-mf="03" onclick="setMonthFilter(this,'03')">Mar</button>
+      <button type="button" class="fc" data-mf="04" onclick="setMonthFilter(this,'04')">Abr</button>
+      <button type="button" class="fc" data-mf="05" onclick="setMonthFilter(this,'05')">Mai</button>
+      <button type="button" class="fc" data-mf="06" onclick="setMonthFilter(this,'06')">Jun</button>
+      <button type="button" class="fc" data-mf="07" onclick="setMonthFilter(this,'07')">Jul</button>
+      <button type="button" class="fc" data-mf="08" onclick="setMonthFilter(this,'08')">Ago</button>
+      <button type="button" class="fc" data-mf="09" onclick="setMonthFilter(this,'09')">Set</button>
+      <button type="button" class="fc" data-mf="10" onclick="setMonthFilter(this,'10')">Out</button>
+      <button type="button" class="fc" data-mf="11" onclick="setMonthFilter(this,'11')">Nov</button>
+      <button type="button" class="fc" data-mf="12" onclick="setMonthFilter(this,'12')">Dez</button>
+    </div>
+    <!-- Aeroporto -->
+    <div class="fbox-inputs">
+      <div>
+        <div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:4px">Aeroporto:</div>
+        <div class="fi-chips-mini">
+          <button class="fi-chip-mini on" data-ap="all" onclick="setAirportFilter(this,'all')">Todos</button>
+          <button class="fi-chip-mini" data-ap="Congonhas" onclick="setAirportFilter(this,'Congonhas')">CGH — Congonhas</button>
+          <button class="fi-chip-mini" data-ap="Guarulhos" onclick="setAirportFilter(this,'Guarulhos')">GRU — Guarulhos</button>
+          <button class="fi-chip-mini" data-ap="Viracopos" onclick="setAirportFilter(this,'Viracopos')">VCP — Viracopos</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1652,9 +1669,9 @@ function getImg(pkg){
 // ── State ─────────────────────────────
 let PKGS=[],SWIPE_POOL=[];
 let PRODUTO_VIEW='pacote'; // 'pacote' | 'passagem' — view ativa (preço total p/ 2 vs por pessoa)
-function toggleProdutoView(){
-  PRODUTO_VIEW = PRODUTO_VIEW==='pacote' ? 'passagem' : 'pacote';
-  const isFlight = PRODUTO_VIEW==='passagem';
+function setProdutoView(view){
+  PRODUTO_VIEW = view;
+  const isFlight = view==='passagem';
   const wBtn=document.getElementById('wh-prod-toggle');
   if(wBtn){
     wBtn.classList.toggle('on',isFlight);
@@ -1662,18 +1679,16 @@ function toggleProdutoView(){
       ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Ver Pacotes Completos'
       : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> Ofertas Passagens';
   }
-  const mBtn=document.getElementById('m-prod-toggle');
-  if(mBtn){
-    mBtn.classList.toggle('on',isFlight);
-    mBtn.innerHTML = isFlight
-      ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Ver Pacotes Completos'
-      : '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> Ofertas Passagens';
-  }
+  const rtP=document.getElementById('rt-explore'), rtV=document.getElementById('rt-voos');
+  if(rtP) rtP.classList.toggle('on', !isFlight);
+  if(rtV) rtV.classList.toggle('on', isFlight);
   const title=document.getElementById('wh-page-title');
   if(title) title.textContent = isFlight ? 'Passagens aéreas disponíveis' : 'Pacotes disponíveis';
   if(typeof renderPkgs==='function') try{renderPkgs()}catch(e){}
   if(typeof W_render==='function') try{W_render()}catch(e){}
 }
+function toggleProdutoView(){ setProdutoView(PRODUTO_VIEW==='pacote'?'passagem':'pacote'); }
+function setMobileTab(view){ switchView('explore'); setProdutoView(view); }
 function _isPassagem(pkg){return pkg&&pkg.pr==='passagem';}
 function _priceLabel(pkg,withTaxas){
   return _isPassagem(pkg)?('por pessoa'+(withTaxas?' já com taxas*':'')):('para 2 pessoas'+(withTaxas?' já com taxas*':''));
@@ -1742,7 +1757,7 @@ async function loadPkgs(){
     document.getElementById('stat-total').textContent=PKGS.length;
     document.getElementById('stat-dests').textContent=uD;
     document.getElementById('az-total-ct').textContent=PKGS.length;
-    document.getElementById('rt-explore').textContent=`Explorar todos (${PKGS.length})`;
+    document.getElementById('rt-explore').textContent=`Todos Pacotes (${PKGS.length})`;
     buildQueue();goScreen('s-results');
     try{renderPkgs()}catch(e){}
     W_init();
@@ -2243,6 +2258,7 @@ const M_PAGE_SIZE = 8;
 let M_filtered = [];
 
 function renderPkgs(){
+  if(typeof _updateFiltersFab==='function') try{_updateFiltersFab()}catch(e){}
   const q=(document.getElementById('search-in')?.value||'').toLowerCase();
   const fDate=document.getElementById('fi-date')?.value||'';
   const md=document.getElementById('m-dest');if(md) ST.destFilter=md.value||'all';
@@ -2396,7 +2412,7 @@ function goAllPkgs(){
   if(rht) rht.textContent = 'Todos os pacotes';
   if(rhp) rhp.innerHTML = '';
   if(mst) mst.textContent = '';
-  if(rte) rte.textContent = ' Todos (' + PKGS.length + ')';
+  if(rte) rte.textContent = 'Todos Pacotes (' + PKGS.length + ')';
   // Reset all explore filters so user sees ALL packages
   ST.tipoFilter='all'; ST.regExpFilter='all'; ST.apFilter='all'; ST.monthFilter='all'; ST.regimeFilter='all';
   // Reset filter chips visually
@@ -2446,6 +2462,7 @@ updateClock();setInterval(updateClock,15000);
 // Clear all filters
 function clearFilters(){
   ST.tipoFilter='all';ST.regExpFilter='all';ST.apFilter='all';ST.destFilter='all';ST.monthFilter='all';ST.regimeFilter='all';
+  ST.priceMin=0;ST.priceMax=0;
   W_F.tipo='all';W_F.reg='all';W_F.ap='all';W_F.month='all';W_F.dest='all';W_F.regime='all';
   document.querySelectorAll('[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==='all'));
   document.querySelectorAll('[data-mf]').forEach(b=>b.classList.toggle('on',b.dataset.mf==='all'));
@@ -2456,6 +2473,11 @@ function clearFilters(){
   const fd=document.getElementById('fi-date');if(fd)fd.value='';
   const md=document.getElementById('m-dest');if(md)md.value='all';
   const wd=document.getElementById('w-dest');if(wd)wd.value='all';
+  const mpmin=document.getElementById('m-price-min');if(mpmin)mpmin.value='';
+  const mpmax=document.getElementById('m-price-max');if(mpmax)mpmax.value='';
+  const wpmin=document.getElementById('w-price-min');if(wpmin)wpmin.value='';
+  const wpmax=document.getElementById('w-price-max');if(wpmax)wpmax.value='';
+  const wpd=document.getElementById('w-price-display');if(wpd)wpd.textContent='R$ 0 — sem limite';
   renderPkgs();
   if(typeof W_render==='function') try{W_render()}catch(e){}
 }
@@ -2568,14 +2590,29 @@ async function fetchCoupon(code){
   return {code: c.code, pct: c.pct, label: c.label};
 }
 
-// Abrir/fechar modal
-function openCouponModal(){
-  document.getElementById('coupon-modal').classList.add('open');
-  setTimeout(()=>document.getElementById('coupon-input')?.focus(), 350);
+// Abrir/fechar modal de filtros (mobile)
+function openFiltersModal(){
+  document.getElementById('filters-modal').classList.add('open');
 }
-function closeCouponModal(e){
-  if(e && e.target !== document.getElementById('coupon-modal')) return;
-  document.getElementById('coupon-modal').classList.remove('open');
+function closeFiltersModal(e){
+  if(e && e.target !== document.getElementById('filters-modal')) return;
+  document.getElementById('filters-modal').classList.remove('open');
+}
+// Verifica se algum filtro está ativo (fora o Ordenar) p/ destacar o FAB
+function _hasActiveFilters(){
+  const si=(document.getElementById('search-in')?.value||'').trim();
+  return !!si || ST.tipoFilter!=='all' || ST.regExpFilter!=='all' || ST.apFilter!=='all' ||
+    ST.monthFilter!=='all' || ST.regimeFilter!=='all' || (ST.destFilter&&ST.destFilter!=='all') ||
+    !!ST.priceMin || !!ST.priceMax;
+}
+function _updateFiltersFab(){
+  const active=_hasActiveFilters();
+  const fab=document.getElementById('filters-fab');
+  const badge=document.getElementById('filters-fab-badge');
+  const clearBtn=document.getElementById('filters-clear-btn');
+  if(fab) fab.classList.toggle('has-active',active);
+  if(badge) badge.style.display = active?'block':'none';
+  if(clearBtn) clearBtn.style.display = active?'inline':'none';
 }
 
 // ── Modal: Roteiro completo do pacote ──
@@ -2844,7 +2881,6 @@ async function applyCoupon(){
   COUPONS_CACHE[code] = result;
   if(fb){ fb.className='coupon-feedback ok'; fb.textContent=`✅ ${result.label} aplicado! Todos os preços foram atualizados.`; }
   document.getElementById('coupon-remove-btn').style.display='block';
-  setTimeout(()=>document.getElementById('coupon-modal').classList.remove('open'), 1400);
   updateFab();
   rerenderPrices();
   fireConfetti();
@@ -2859,7 +2895,6 @@ function removeCoupon(){
   if(fb){fb.className='coupon-feedback';fb.style.display='none';}
   document.getElementById('coupon-remove-btn').style.display='none';
   updateFab(); rerenderPrices();
-  document.getElementById('coupon-modal').classList.remove('open');
   showToast('Cupom removido.');
 }
 
@@ -2907,18 +2942,11 @@ function removeCouponWeb(){
   W_render();
 }
 
-// Atualizar visual do FAB
+// Atualizar visual da barra de cupom inline (mobile)
 function updateFab(){
-  const fab = document.getElementById('coupon-fab');
-  const lbl = document.getElementById('fab-label');
-  if(!fab) return;
-  if(COUPON){
-    fab.classList.add('has-coupon');
-    lbl.textContent = COUPON.label + ' ativo';
-  } else {
-    fab.classList.remove('has-coupon');
-    lbl.textContent = 'Tenho cupom';
-  }
+  const bar = document.getElementById('m-coupon-bar');
+  if(!bar) return;
+  bar.classList.toggle('active', !!COUPON);
 }
 
 // Re-renderizar preços em todos os cards visíveis
