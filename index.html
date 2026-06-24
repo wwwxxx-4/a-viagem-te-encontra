@@ -1444,13 +1444,16 @@ a.rtab{text-decoration:none;display:flex;align-items:center;justify-content:cent
         </button>
         <div class="ck-secure">Você receberá o link de pagamento por e-mail/WhatsApp em até 24h</div>
 
-        <div class="ck-or"><span>ou</span></div>
+        <!-- Mercado Pago temporariamente oculto: para reativar, volte type="submit" no #ck-submit, remova o disabled e este style="display:none" -->
+        <div id="ck-mp-section" style="display:none">
+          <div class="ck-or"><span>ou</span></div>
 
-        <button type="submit" class="rt-cta ck-cta-alt" id="ck-submit">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-          Pagar com Mercado Pago em até 12x com juros
-        </button>
-        <div class="ck-secure">🔒 Pagamento seguro processado pelo Mercado Pago</div>
+          <button type="button" class="rt-cta ck-cta-alt" id="ck-submit" disabled>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            Pagar com Mercado Pago em até 12x com juros
+          </button>
+          <div class="ck-secure">🔒 Pagamento seguro processado pelo Mercado Pago</div>
+        </div>
       </form>
       <div id="ck-reserva-ok" class="ck-reserva-ok" style="display:none">
         ✅ Reserva solicitada com sucesso! Você receberá sua reserva e o link de pagamento (em até 12x sem juros) em até 24 horas, por e-mail ou WhatsApp. Fique tranquilo, sua viagem logo estará confirmada.
@@ -1691,7 +1694,7 @@ function toggleProdutoView(){ setProdutoView(PRODUTO_VIEW==='pacote'?'passagem':
 function setMobileTab(view){ switchView('explore'); setProdutoView(view); }
 function _isPassagem(pkg){return pkg&&pkg.pr==='passagem';}
 function _priceLabel(pkg,withTaxas){
-  return _isPassagem(pkg)?('por pessoa'+(withTaxas?' já com taxas*':'')):('para 2 pessoas'+(withTaxas?' já com taxas*':''));
+  return _isPassagem(pkg)?('por pessoa'+(withTaxas?' + taxas*':'')):('para 2 pessoas'+(withTaxas?' + taxas*':''));
 }
 const ST={
   likes:[],nopes:[],cur:'s-loading',
@@ -2155,7 +2158,7 @@ Pode me enviar mais informações?`;
       <div class="mc-body">
         <div class="mc-top">
           <div><div class="mc-dest">${p.d}</div><div class="mc-tipo">${p.t} · ${p.r}</div></div>
-          <div class="mc-price-wrap">${priceHtml(p.p,'mc-pv')}<div class="mc-pl">${_isPassagem(p)?'por pessoa já com taxas*':'p/ 2 pessoas já com taxas*'}</div></div>
+          <div class="mc-price-wrap">${priceHtml(p.p,'mc-pv')}<div class="mc-pl">${_isPassagem(p)?'por pessoa + taxas*':'p/ 2 pessoas + taxas*'}</div></div>
         </div>
         <div class="compat-row"><span class="compat-lbl">Compatibilidade</span><div class="compat-track"><div class="compat-fill" style="width:${p.score}%"></div></div><span class="compat-pct">${p.score}%</span></div>
         <div class="mc-score-detail">
@@ -2347,7 +2350,7 @@ function M_renderBatch(){
       <div class="pc-body">
         <div class="pc-top-row">
           <div><div class="pc-dest">${p.d}</div>${_isPassagem(p)?'<div class="pc-flight-tag">✈️ Passagem aérea · ida e volta</div>':''}</div>
-          <div class="pc-price-wrap">${priceHtml(p.p,'pc-price')}<div class="pc-pp">${_isPassagem(p)?'por pessoa já com taxas*':'p/ 2 pessoas já com taxas*'}</div></div>
+          <div class="pc-price-wrap">${priceHtml(p.p,'pc-price')}<div class="pc-pp">${_isPassagem(p)?'por pessoa + taxas*':'p/ 2 pessoas + taxas*'}</div></div>
         </div>
         ${_isPassagem(p)?'':`<div class="pc-hotel"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v18h16V4a2 2 0 0 0-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><rect x="9" y="8" width="6" height="4"/></svg> ${p.h}</div>`}
         <div class="pc-chips">
@@ -2650,7 +2653,7 @@ function openRoteiroModal(pkgId,event){
     </div>
     <div class="rt-body">
       <div class="rt-row">
-        <div><div class="rt-price">R$ ${fmtBRL(_mp)}</div><div class="rt-pp">${_isPassagem(pkg)?'por pessoa já com taxas*':'por 2 pessoas já com taxas*'}</div></div>
+        <div><div class="rt-price">R$ ${fmtBRL(_mp)}</div><div class="rt-pp">${_isPassagem(pkg)?'por pessoa + taxas*':'por 2 pessoas + taxas*'}</div></div>
       </div>
       <div class="rt-chips">${chips}</div>
       <div class="rt-divider"></div>
@@ -3197,7 +3200,7 @@ function W_loadMore(){
       <div class="wpc-body">
         <div class="wpc-top">
           <div><div class="wpc-dest">${p.d}</div><div class="wpc-tipo${_isPassagem(p)?' wpc-flight-tag':''}">${_isPassagem(p)?'✈️ Passagem aérea · ida e volta':`${p.t} · ${p.r}`}</div></div>
-          <div>${wPriceHtml(p.p)}<div class="wpc-pp">${_isPassagem(p)?'por pessoa já com taxas*':'p/ 2 pessoas já com taxas*'}</div></div>
+          <div>${wPriceHtml(p.p)}<div class="wpc-pp">${_isPassagem(p)?'por pessoa + taxas*':'p/ 2 pessoas + taxas*'}</div></div>
         </div>
         ${_isPassagem(p)?'':`<div class="wpc-hotel"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v18h16V4a2 2 0 0 0-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><rect x="9" y="8" width="6" height="4"/></svg> ${p.h}</div>`}
         <div class="wpc-chips">
@@ -3580,7 +3583,7 @@ async function generateShareCard(pkg){
   // Preço
   ctx.textAlign='right';
   ctx.font=`bold 48px 'Plus Jakarta Sans',Arial,sans-serif`;ctx.fillStyle=sky;ctx.fillText(priceStr,W-PAD,y+4);
-  ctx.font=`12px 'DM Sans',Arial,sans-serif`;ctx.fillStyle=muted;ctx.fillText(_isPassagem(pkg)?'por pessoa já com taxas*':'p/ 2 pessoas já com taxas*',W-PAD,y+26);
+  ctx.font=`12px 'DM Sans',Arial,sans-serif`;ctx.fillStyle=muted;ctx.fillText(_isPassagem(pkg)?'por pessoa + taxas*':'p/ 2 pessoas + taxas*',W-PAD,y+26);
   ctx.textAlign='left';
   y+=48;ctx.fillStyle=border;ctx.fillRect(PAD,y,W-PAD*2,1);y+=18;
 
