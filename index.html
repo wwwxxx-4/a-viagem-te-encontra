@@ -1556,9 +1556,15 @@ function parseOrigem(o){
 }
 function parsePrice(v){if(!v)return 0;const n=parseFloat(String(v).replace(/[^0-9.,]/g,'').replace(',','.'));return isNaN(n)?0:Math.round(n)}
 function getFirstImg(img){if(!img)return null;return String(img).split('\n')[0].trim()||null}
+function _isSupplierBrandImg(url){
+  // Filtra imagens de fornecedores que mostram banners promocionais em vez de fotos reais
+  return url.includes('azulviagens.com.br');
+}
 function getAllImgs(img){
   if(!img)return [];
-  return String(img).split(/\n/).map(s=>s.trim()).filter(s=>s.startsWith('http'));
+  return String(img).split(/\n/).map(s=>s.trim())
+    .filter(s=>s.startsWith('http'))
+    .filter(s=>!_isSupplierBrandImg(s));
 }
 function _detectRegime(hotel){
   const strip=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
@@ -1599,7 +1605,7 @@ function normalizePost(p){
   }
   // Imagens preferenciais do post (imagem_destino) + cover como reserva separada
   const postImgs=getAllImgs(p.imagem_destino);
-  const coverImg=p.cover_image_url?[String(p.cover_image_url).trim()].filter(s=>s.startsWith('http')):[];
+  const coverImg=p.cover_image_url?[String(p.cover_image_url).trim()].filter(s=>s.startsWith('http')&&!_isSupplierBrandImg(s)):[];
   const allImgs=postImgs;
   return{
     id:p.id,d:destino,h:hotel,p:preco,
