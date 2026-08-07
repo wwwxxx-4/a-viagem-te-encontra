@@ -2214,8 +2214,12 @@ function setMonthFilter(btn,m){
 }
 
 function setAirportFilter(btn,ap){
-  document.querySelectorAll('.fi-chip-mini').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');ST.apFilter=ap;renderPkgs();
+  document.querySelectorAll('.fi-chip-mini[data-ap]').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  ST.apFilter=ap;
+  if(typeof W_F!=='undefined') W_F.ap=ap;
+  renderPkgs();
+  if(typeof W_render==='function') try{W_render()}catch(e){}
 }
 function renderRegimeFilter(){
   const REGIME_OPTS=[
