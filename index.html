@@ -958,9 +958,14 @@ a.rtab{text-decoration:none;display:flex;align-items:center;justify-content:cent
     <div class="ws-sec">Aeroporto de origem</div>
     <div class="ws-chips" id="w-ap">
       <button type="button" class="wfc on" data-v="all"        onclick="W_chip('ap',this)">Todos</button>
-      <button type="button" class="wfc"    data-v="Congonhas"  onclick="W_chip('ap',this)">CGH — Congonhas</button>
-      <button type="button" class="wfc"    data-v="Guarulhos"  onclick="W_chip('ap',this)">GRU — Guarulhos</button>
-      <button type="button" class="wfc"    data-v="Viracopos"  onclick="W_chip('ap',this)">VCP — Viracopos</button>
+      <button type="button" class="wfc"    data-v="Congonhas"      onclick="W_chip('ap',this)">CGH — Congonhas</button>
+      <button type="button" class="wfc"    data-v="Guarulhos"      onclick="W_chip('ap',this)">GRU — Guarulhos</button>
+      <button type="button" class="wfc"    data-v="Viracopos"      onclick="W_chip('ap',this)">VCP — Viracopos</button>
+      <button type="button" class="wfc"    data-v="Confins"        onclick="W_chip('ap',this)">CNF — Confins (BH)</button>
+      <button type="button" class="wfc"    data-v="Ribeirão Preto" onclick="W_chip('ap',this)">RAO — Ribeirão Preto</button>
+      <button type="button" class="wfc"    data-v="Goiânia"        onclick="W_chip('ap',this)">GYN — Goiânia</button>
+      <button type="button" class="wfc"    data-v="São J. Rio Preto" onclick="W_chip('ap',this)">SJP — S. J. Rio Preto</button>
+      <button type="button" class="wfc"    data-v="Uberlândia"     onclick="W_chip('ap',this)">UDI — Uberlândia</button>
     </div>
     <div class="ws-count" id="w-count">— pacotes</div>
   </aside>
@@ -1199,9 +1204,14 @@ a.rtab{text-decoration:none;display:flex;align-items:center;justify-content:cent
       <label class="q-input-label" style="margin-top:10px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> Aeroporto de origem:</label>
       <div class="airport-chips" id="airport-chips">
         <button class="airport-chip on" data-a="all" onclick="toggleAirportAll(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Qualquer aeroporto</button>
-        <button class="airport-chip" data-a="Congonhas" onclick="toggleAirport(this,'Congonhas')">CGH — Congonhas</button>
-        <button class="airport-chip" data-a="Guarulhos" onclick="toggleAirport(this,'Guarulhos')">GRU — Guarulhos</button>
-        <button class="airport-chip" data-a="Viracopos" onclick="toggleAirport(this,'Viracopos')">VCP — Viracopos</button>
+        <button class="airport-chip" data-a="Congonhas"      onclick="toggleAirport(this,'Congonhas')">CGH — Congonhas</button>
+        <button class="airport-chip" data-a="Guarulhos"      onclick="toggleAirport(this,'Guarulhos')">GRU — Guarulhos</button>
+        <button class="airport-chip" data-a="Viracopos"      onclick="toggleAirport(this,'Viracopos')">VCP — Viracopos</button>
+        <button class="airport-chip" data-a="Confins"        onclick="toggleAirport(this,'Confins')">CNF — Confins (BH)</button>
+        <button class="airport-chip" data-a="Ribeirão Preto" onclick="toggleAirport(this,'Ribeirão Preto')">RAO — Ribeirão Preto</button>
+        <button class="airport-chip" data-a="Goiânia"        onclick="toggleAirport(this,'Goiânia')">GYN — Goiânia</button>
+        <button class="airport-chip" data-a="São J. Rio Preto" onclick="toggleAirport(this,'São J. Rio Preto')">SJP — S. J. Rio Preto</button>
+        <button class="airport-chip" data-a="Uberlândia"     onclick="toggleAirport(this,'Uberlândia')">UDI — Uberlândia</button>
       </div>
 
       <div class="qnav"><button class="btn-qb" onclick="goQQ(4)">← Voltar</button><button class="btn-qn" id="qn5" onclick="doAnalyze()" style="opacity:1">Ver meus matches</button></div>
@@ -1369,9 +1379,14 @@ a.rtab{text-decoration:none;display:flex;align-items:center;justify-content:cent
         <div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:4px">Aeroporto:</div>
         <div class="fi-chips-mini">
           <button class="fi-chip-mini on" data-ap="all" onclick="setAirportFilter(this,'all')">Todos</button>
-          <button class="fi-chip-mini" data-ap="Congonhas" onclick="setAirportFilter(this,'Congonhas')">CGH — Congonhas</button>
-          <button class="fi-chip-mini" data-ap="Guarulhos" onclick="setAirportFilter(this,'Guarulhos')">GRU — Guarulhos</button>
-          <button class="fi-chip-mini" data-ap="Viracopos" onclick="setAirportFilter(this,'Viracopos')">VCP — Viracopos</button>
+          <button class="fi-chip-mini" data-ap="Congonhas"      onclick="setAirportFilter(this,'Congonhas')">CGH — Congonhas</button>
+          <button class="fi-chip-mini" data-ap="Guarulhos"      onclick="setAirportFilter(this,'Guarulhos')">GRU — Guarulhos</button>
+          <button class="fi-chip-mini" data-ap="Viracopos"      onclick="setAirportFilter(this,'Viracopos')">VCP — Viracopos</button>
+          <button class="fi-chip-mini" data-ap="Confins"        onclick="setAirportFilter(this,'Confins')">CNF — Confins (BH)</button>
+          <button class="fi-chip-mini" data-ap="Ribeirão Preto" onclick="setAirportFilter(this,'Ribeirão Preto')">RAO — Ribeirão Preto</button>
+          <button class="fi-chip-mini" data-ap="Goiânia"        onclick="setAirportFilter(this,'Goiânia')">GYN — Goiânia</button>
+          <button class="fi-chip-mini" data-ap="São J. Rio Preto" onclick="setAirportFilter(this,'São J. Rio Preto')">SJP — S. J. Rio Preto</button>
+          <button class="fi-chip-mini" data-ap="Uberlândia"     onclick="setAirportFilter(this,'Uberlândia')">UDI — Uberlândia</button>
         </div>
       </div>
     </div>
@@ -3351,7 +3366,12 @@ function _applyUrlParams(){
 
   // mapa de siglas de aeroporto → nome usado em p.o
   const AP_MAP = {'cgh':'Congonhas','gru':'Guarulhos','vcp':'Viracopos',
-                  'congonhas':'Congonhas','guarulhos':'Guarulhos','viracopos':'Viracopos'};
+                  'congonhas':'Congonhas','guarulhos':'Guarulhos','viracopos':'Viracopos',
+                  'cnf':'Confins','confins':'Confins','rao':'Ribeirão Preto','ribeirão preto':'Ribeirão Preto','ribeirao preto':'Ribeirão Preto',
+                  'gyn':'Goiânia','goiânia':'Goiânia','goiania':'Goiânia',
+                  'sjp':'São J. Rio Preto','são j. rio preto':'São J. Rio Preto','sao j. rio preto':'São J. Rio Preto',
+                  'udi':'Uberlândia','uberlândia':'Uberlândia','uberlandia':'Uberlândia',
+                  'poa':'Porto Alegre','porto alegre':'Porto Alegre'};
   const MES_MAP = {'jan':'01','fev':'02','mar':'03','abr':'04','mai':'05','jun':'06',
                    'jul':'07','ago':'08','set':'09','out':'10','nov':'11','dez':'12'};
 
