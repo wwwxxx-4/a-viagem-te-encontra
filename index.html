@@ -428,7 +428,7 @@ a.rtab{text-decoration:none;display:flex;align-items:center;justify-content:cent
   #web-layout{display:none!important}
 }
 @media(min-width:768px){
-  body{background:#E8EDF2;align-items:flex-start;justify-content:flex-start}
+  body{background:#F2F4F8;align-items:flex-start;justify-content:flex-start}
   .phone{display:none!important}
   #web-layout{
     display:grid;width:100%;min-height:100vh;
@@ -439,89 +439,94 @@ a.rtab{text-decoration:none;display:flex;align-items:center;justify-content:cent
   }
   #wh{
     grid-area:wh;
-    background:#FFFFFF;
-    border-bottom:1px solid #CDD4DF;
+    background:#0B1831;
+    border-bottom:none;
     display:flex;align-items:center;justify-content:space-between;
     padding:0 32px;gap:16px;
     position:sticky;top:0;z-index:200;
-    box-shadow:0 2px 12px rgba(0,26,61,.07);
+    box-shadow:0 2px 16px rgba(0,0,0,.3);
   }
-  .wh-logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:#0A1628;white-space:nowrap;letter-spacing:-.02em}
-  .wh-logo em{font-family:'Playfair Display',serif;font-style:italic;color:#0066FF;font-weight:600}
+  .wh-logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:#fff;white-space:nowrap;letter-spacing:-.02em}
+  .wh-logo em{font-family:'Playfair Display',serif;font-style:italic;color:#5BA3E6;font-weight:600}
   .wh-center{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
-  .wh-page-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#0D1E30;letter-spacing:-.01em;line-height:1}
-  .wh-btn-flight{background:#fff;border:1.5px solid #0066FF;color:#0066FF}
-  .wh-btn-flight:hover{background:#EAF2FF}
-  .wh-btn-flight.on{background:#0066FF;color:#fff}
-  .wh-btn-buy-flight{background:#0066FF;color:#fff;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
-  .wh-btn-buy-flight:hover{background:#0052CC}
+  .wh-page-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:-.01em;line-height:1}
+  .wh-btn-flight{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);color:#fff}
+  .wh-btn-flight:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.6)}
+  .wh-btn-flight.on{background:#25D366;border-color:#25D366;color:#fff}
+  .wh-btn-buy-flight{background:#1a73e8;color:#fff;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+  .wh-btn-buy-flight:hover{background:#1557b0}
   .wh-stats{display:flex;gap:24px;justify-content:center}
   .wh-stat{text-align:center}
-  .wh-stat-n{font-size:16px;font-weight:800;color:#001A3D}
-  .wh-stat-l{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#8FA3B4}
-  .wh-btns{display:flex;gap:10px;flex-shrink:0}
-  .wh-btn{padding:9px 20px;border-radius:100px;border:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap}
-  .wh-btn-ghost{background:transparent;border:1.5px solid #DCE4EE;color:#5A6E80}
-  .wh-btn-ghost:hover{background:#F5F7FA;border-color:#0066FF;color:#0066FF}
-  .wh-btn-sky{background:#0066FF;color:#fff;box-shadow:0 4px 16px rgba(0,102,255,.3)}
-  .wh-btn-sky:hover{background:#3385FF}
-  .wh-dev{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:2px;text-decoration:none;flex-shrink:0;padding-left:14px;margin-left:4px;border-left:1px solid #E5EAF0;transition:opacity .2s}
+  .wh-stat-n{font-size:16px;font-weight:800;color:#fff}
+  .wh-stat-l{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45)}
+  .wh-btns{display:flex;gap:8px;flex-shrink:0;align-items:center}
+  .wh-btn{padding:9px 18px;border-radius:6px;border:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap}
+  .wh-btn-ghost{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.25);color:rgba(255,255,255,.8)}
+  .wh-btn-ghost:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.5);color:#fff}
+  .wh-btn-sky{background:#1a73e8;color:#fff;box-shadow:0 4px 16px rgba(26,115,232,.4)}
+  .wh-btn-sky:hover{background:#1557b0}
+  .wh-btn-wester,.wh-btn-bruno{display:inline-flex;align-items:center;gap:6px;text-decoration:none;padding:9px 16px;border-radius:6px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:.2s;border:none;white-space:nowrap}
+  .wh-btn-wester{background:#25D366;color:#fff}
+  .wh-btn-wester:hover{background:#1fba59}
+  .wh-btn-bruno{background:#128C7E;color:#fff}
+  .wh-btn-bruno:hover{background:#0e7267}
+  .wh-dev{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:2px;text-decoration:none;flex-shrink:0;padding-left:14px;margin-left:4px;border-left:1px solid rgba(255,255,255,.12);transition:opacity .2s}
   .wh-dev:hover{opacity:.85}
-  .wh-dev-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#7B8DA0;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;line-height:1}
-  .wh-dev-logo{height:26px;width:auto;display:block;transition:transform .25s cubic-bezier(.4,0,.2,1)}
+  .wh-dev-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;line-height:1}
+  .wh-dev-logo{height:26px;width:auto;display:block;transition:transform .25s cubic-bezier(.4,0,.2,1);filter:brightness(0) invert(1)}
   .wh-dev:hover .wh-dev-logo{transform:scale(1.05)}
   @media (max-width:900px){.wh-dev{display:none}}
   .phone-dev{display:none}
   #ws{
-    grid-area:ws;background:#0052CC;border-right:none;
+    grid-area:ws;background:#fff;border-right:1px solid #E5EAF0;
     overflow-y:auto;padding:16px 14px;
     display:flex;flex-direction:column;gap:8px;
     position:sticky;top:64px;height:calc(100vh - 64px);
-    scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.2) transparent;
+    scrollbar-width:thin;scrollbar-color:#CDD4DF transparent;
   }
   #ws::-webkit-scrollbar{width:4px}
-  #ws::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:4px}
+  #ws::-webkit-scrollbar-thumb{background:#CDD4DF;border-radius:4px}
   .ws-sec{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-    color:rgba(255,255,255,.85);margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.12)}
+    color:#7E96AB;margin-top:10px;padding-top:10px;border-top:1px solid #E5EAF0}
   .ws-sec:first-child{margin-top:0;padding-top:0;border-top:none}
   .ws-search{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.22);border-radius:10px;padding:0 12px}
-  .ws-search svg{flex-shrink:0;stroke:rgba(255,255,255,.6)}
-  .ws-search input{flex:1;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;padding:10px 0;color:#fff;outline:none}
-  .ws-search input::placeholder{color:rgba(255,255,255,.70)}
+  .ws-search svg{flex-shrink:0;stroke:#8FA3B4}
+  .ws-search input{flex:1;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;padding:10px 0;color:#0A1628;outline:none}
+  .ws-search input::placeholder{color:#8FA3B4}
   .ws-chips{display:flex;flex-wrap:wrap;gap:4px}
-  .wfc{padding:5px 12px;border-radius:100px;border:1.5px solid rgba(255,255,255,.6);background:transparent;
-    font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:600;color:#ffffff;cursor:pointer;transition:.18s}
-  .wfc:hover{border-color:#fff;color:#fff;background:rgba(255,255,255,.12)}
-  .wfc.on{border-color:#fff;background:#fff;color:#0052CC}
-  .ws-select{width:100%;padding:9px 11px;border:1.5px solid rgba(255,255,255,.25);border-radius:8px;
-    font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;color:#fff;background:rgba(255,255,255,.12);outline:none;cursor:pointer}
+  .wfc{padding:5px 12px;border-radius:100px;border:1.5px solid #CDD4DF;background:#fff;
+    font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:600;color:#4E637A;cursor:pointer;transition:.18s}
+  .wfc:hover{border-color:#0B1831;color:#0B1831;background:#F5F7FA}
+  .wfc.on{border-color:#0B1831;background:#0B1831;color:#fff}
+  .ws-select{width:100%;padding:9px 11px;border:1.5px solid #CDD4DF;border-radius:8px;
+    font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;color:#0A1628;background:#F5F7FA;outline:none;cursor:pointer}
   .ws-select option{color:#0D1E30;background:#fff}
-  .ws-select:focus{border-color:rgba(255,255,255,.7)}
-  .ws-date{width:100%;padding:9px 11px;border:1.5px solid rgba(255,255,255,.25);border-radius:8px;
-    font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;color:#fff;background:rgba(255,255,255,.12);outline:none}
-  .ws-date:focus{border-color:rgba(255,255,255,.7)}
-  .ws-count{font-size:12px;color:rgba(255,255,255,.7);font-weight:600;margin-top:auto;padding-top:10px;border-top:1px solid rgba(255,255,255,.15)}
-  /* Favoritos dentro da sidebar azul */
-  #ws .fav-tab-btn{border-color:rgba(255,255,255,.35);color:rgba(255,255,255,.85);background:transparent}
-  #ws .fav-tab-btn:hover{border-color:#fff;color:#fff;background:rgba(255,255,255,.12)}
-  #ws .fav-tab-btn.on{border-color:#fff;background:#fff;color:#E11D48}
-  #ws .fav-tab-btn .fav-ct{background:rgba(255,255,255,.25);color:#fff}
-  #ws .fav-tab-btn.on .fav-ct{background:#E11D48;color:#fff}
+  .ws-select:focus{border-color:#0B1831}
+  .ws-date{width:100%;padding:9px 11px;border:1.5px solid #CDD4DF;border-radius:8px;
+    font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;color:#0A1628;background:#F5F7FA;outline:none}
+  .ws-date:focus{border-color:#0B1831}
+  .ws-count{font-size:12px;color:#5A6E80;font-weight:600;margin-top:auto;padding-top:10px;border-top:1px solid #E5EAF0}
+  /* Favoritos dentro da sidebar */
+  #ws .fav-tab-btn{border-color:#CDD4DF;color:#4E637A;background:#fff}
+  #ws .fav-tab-btn:hover{border-color:#0B1831;color:#0B1831;background:#F5F7FA}
+  #ws .fav-tab-btn.on{border-color:#E11D48;background:#E11D48;color:#fff}
+  #ws .fav-tab-btn .fav-ct{background:#E5EAF0;color:#4E637A}
+  #ws .fav-tab-btn.on .fav-ct{background:rgba(255,255,255,.25);color:#fff}
   /* Link "Limpar seleção" */
-  #ws button[onclick="clearDestSelection()"]{color:rgba(255,255,255,.5)!important}
-  #ws button[onclick="clearDestSelection()"]:hover{color:#fff!important}
+  #ws button[onclick="clearDestSelection()"]{color:#8FA3B4!important}
+  #ws button[onclick="clearDestSelection()"]:hover{color:#0B1831!important}
   #wm{grid-area:wm;overflow-y:auto;overflow-x:hidden;padding:32px 36px 56px;background:#F2F4F8;height:calc(100vh - 64px)}
   .wm-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px}
   .wm-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#0D1E30;letter-spacing:-.01em}
   .wm-sub{font-size:12px;color:#5A6E80;margin-top:4px}
   .wm-badge{background:#EBF3FF;border:1px solid rgba(0,102,255,.2);border-radius:100px;
     padding:5px 16px;font-size:12px;font-weight:700;color:#0066FF;white-space:nowrap}
-  .w-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:20px}
-  .wpcard{background:#fff;border-radius:18px;border:1px solid #DCE4EE;
+  .w-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+  .wpcard{background:#fff;border-radius:8px;border:1px solid #DCE4EE;
     box-shadow:0 2px 12px rgba(0,26,61,.07);overflow:hidden;
     display:flex;flex-direction:column;transition:.25s}
-  .wpcard:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,26,61,.14)}
-  .wpc-img{position:relative;height:175px;overflow:hidden;flex-shrink:0}
+  .wpcard:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,26,61,.14)}
+  .wpc-img{position:relative;height:220px;overflow:hidden;flex-shrink:0}
   .wpc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s}
   .wpcard:hover .wpc-img img{transform:scale(1.05)}
   .wpc-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:44px}
@@ -531,7 +536,7 @@ a.rtab{text-decoration:none;display:flex;align-items:center;justify-content:cent
   .wpc-badge-flight{background:rgba(0,102,255,.92)}
   .wpc-body{padding:16px 18px;flex:1;display:flex;flex-direction:column;gap:6px}
   .wpc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-  .wpc-dest{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#0D1E30;line-height:1.15}
+  .wpc-dest{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:#0D1E30;line-height:1.15}
   .wpc-tipo{font-size:10px;color:#5A6E80;text-transform:uppercase;letter-spacing:.08em;margin-top:3px;font-weight:600}
   .wpc-flight-tag{color:#0066FF!important}
   .wpc-pv{font-size:20px;font-weight:800;color:#0066FF;text-align:right}
@@ -555,6 +560,13 @@ a.rtab{text-decoration:none;display:flex;align-items:center;justify-content:cent
     box-shadow:0 4px 16px rgba(26,79,138,.28);letter-spacing:.01em}
   .btn-pc-buy:hover{opacity:.9}
   .btn-pc-wa-sm{width:100%;padding:9px;border-radius:100px;border:none;background:#25D366;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:11.5px;font-weight:700;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:5px;margin-top:6px}
+  .wpc-cta-label{font-size:11px;font-weight:700;color:#8FA3B4;letter-spacing:.08em;text-transform:uppercase;text-align:center;margin-top:10px;margin-bottom:6px}
+  .wpc-wa-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:0}
+  .wpc-wa-btn{display:flex;align-items:center;justify-content:center;gap:5px;padding:11px 8px;border-radius:6px;border:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;font-weight:700;cursor:pointer;transition:.2s;text-decoration:none;color:#fff}
+  .wpc-wa-btn-wester{background:#25D366}
+  .wpc-wa-btn-wester:hover{background:#1fba59}
+  .wpc-wa-btn-bruno{background:#128C7E}
+  .wpc-wa-btn-bruno:hover{background:#0e7267}
   .btn-pc-wa-sm:hover{opacity:.9}
   .w-skel{background:#fff;border-radius:18px;height:320px;border:1px solid #DCE4EE;
     animation:wsk 1.4s ease infinite}
@@ -562,8 +574,8 @@ a.rtab{text-decoration:none;display:flex;align-items:center;justify-content:cent
   .w-no-res{grid-column:1/-1;text-align:center;padding:64px 20px;color:#5A6E80;font-size:14px}
 }
 @media(min-width:1200px){
-  #web-layout{grid-template-columns:280px 1fr}
-  .w-grid{grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
+  #web-layout{grid-template-columns:260px 1fr}
+  .w-grid{grid-template-columns:repeat(2,1fr)}
 }
 
 .crsl{position:relative;width:100%;height:100%;overflow:hidden}
@@ -874,10 +886,15 @@ a.rtab{text-decoration:none;display:flex;align-items:center;justify-content:cent
       </div>
     </div>
     <div class="wh-btns">
-      <button type="button" class="wh-btn wh-btn-flight" id="wh-prod-toggle" onclick="toggleProdutoView()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> Ofertas Passagens</button>
-      <a class="wh-btn wh-btn-buy-flight" href="https://www.comprarviagem.com.br/mesquitaturismo/home" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Comprar Passagens</a>
-      <button type="button" class="wh-btn wh-btn-ghost" onclick="notifyQuizMobile()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Fazer quiz</button>
-      <button type="button" class="wh-btn wh-btn-sky" onclick="W_render()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Ver pacotes</button>
+      <button type="button" class="wh-btn wh-btn-flight" id="wh-prod-toggle" onclick="toggleProdutoView()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> Passagens</button>
+      <a class="wh-btn-wester" href="https://api.whatsapp.com/send?phone=5511953967095" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.732.447 3.36 1.232 4.782L2.076 21.5l4.878-1.278A9.944 9.944 0 0012 21.999c5.523 0 10-4.477 10-10s-4.477-9.999-10-9.999z" fill-rule="evenodd" clip-rule="evenodd"/></svg>
+        Wester (11) 9 5396-7095
+      </a>
+      <a class="wh-btn-bruno" href="https://api.whatsapp.com/send?phone=5511981104018" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.732.447 3.36 1.232 4.782L2.076 21.5l4.878-1.278A9.944 9.944 0 0012 21.999c5.523 0 10-4.477 10-10s-4.477-9.999-10-9.999z" fill-rule="evenodd" clip-rule="evenodd"/></svg>
+        Bruno (11) 9 8110-4018
+      </a>
     </div>
     <a class="wh-dev" href="https://www.mesquitaturismo.com.br" target="_blank" rel="noopener" title="Mesquita Turismo">
       <span class="wh-dev-label">Desenvolvido por</span>
@@ -1731,7 +1748,7 @@ function toggleProdutoView(){ setProdutoView(PRODUTO_VIEW==='pacote'?'passagem':
 function setMobileTab(view){ switchView('explore'); setProdutoView(view); }
 function _isPassagem(pkg){return pkg&&pkg.pr==='passagem';}
 function _priceLabel(pkg,withTaxas){
-  return _isPassagem(pkg)?('por pessoa'+(withTaxas?' + taxas*':'')):('para 2 pessoas'+(withTaxas?' + taxas*':''));
+  return _isPassagem(pkg)?('por pessoa'+(withTaxas?' com taxas':'')):('para 2 pessoas'+(withTaxas?' + taxas*':''));
 }
 const ST={
   likes:[],nopes:[],cur:'s-loading',
@@ -2183,7 +2200,7 @@ function buildMatchCards(top5){
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v18h16V4a2 2 0 0 0-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><rect x="9" y="8" width="6" height="4"/></svg> ${p.h}
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> ${_fmtDatas(p.i,p.v)}${_calcDias(p.i,p.v)}
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/></svg> ${p.o}
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> R$ ${fmtBRL(_mmp)} ${_isPassagem(p)?'por pessoa':'para 2 pessoas'} + taxas${_mdisc}
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> R$ ${fmtBRL(_mmp)} ${_isPassagem(p)?'por pessoa com taxas':'para 2 pessoas + taxas'}${_mdisc}
 
 Pode me enviar mais informações?`;
     return `<div class="mcard">
@@ -2195,7 +2212,7 @@ Pode me enviar mais informações?`;
       <div class="mc-body">
         <div class="mc-top">
           <div><div class="mc-dest">${p.d}</div><div class="mc-tipo">${p.t} · ${p.r}</div></div>
-          <div class="mc-price-wrap">${priceHtml(p.p,'mc-pv')}<div class="mc-pl">${_isPassagem(p)?'por pessoa + taxas*':'p/ 2 pessoas + taxas*'}</div></div>
+          <div class="mc-price-wrap">${priceHtml(p.p,'mc-pv')}<div class="mc-pl">${_isPassagem(p)?'por pessoa com taxas':'p/ 2 pessoas + taxas*'}</div></div>
         </div>
         <div class="compat-row"><span class="compat-lbl">Compatibilidade</span><div class="compat-track"><div class="compat-fill" style="width:${p.score}%"></div></div><span class="compat-pct">${p.score}%</span></div>
         <div class="mc-score-detail">
@@ -2395,7 +2412,7 @@ function M_renderBatch(){
       <div class="pc-body">
         <div class="pc-top-row">
           <div><div class="pc-dest">${p.d}</div>${_isPassagem(p)?'<div class="pc-flight-tag">✈️ Passagem aérea · ida e volta</div>':''}</div>
-          <div class="pc-price-wrap">${priceHtml(p.p,'pc-price')}<div class="pc-pp">${_isPassagem(p)?'por pessoa + taxas*':'p/ 2 pessoas + taxas*'}</div></div>
+          <div class="pc-price-wrap">${priceHtml(p.p,'pc-price')}<div class="pc-pp">${_isPassagem(p)?'por pessoa com taxas':'p/ 2 pessoas + taxas*'}</div></div>
         </div>
         ${_isPassagem(p)?'':`<div class="pc-hotel"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v18h16V4a2 2 0 0 0-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><rect x="9" y="8" width="6" height="4"/></svg> ${p.h}</div>`}
         <div class="pc-chips">
@@ -2751,7 +2768,7 @@ function openRoteiroModal(pkgId,event){
     </div>
     <div class="rt-body">
       <div class="rt-row">
-        <div><div class="rt-price">R$ ${fmtBRL(_mp)}</div><div class="rt-pp">${_isPassagem(pkg)?'por pessoa + taxas*':'por 2 pessoas + taxas*'}</div></div>
+        <div><div class="rt-price">R$ ${fmtBRL(_mp)}</div><div class="rt-pp">${_isPassagem(pkg)?'por pessoa com taxas':'por 2 pessoas + taxas*'}</div></div>
       </div>
       <div class="rt-chips">${chips}</div>
       <div class="rt-divider"></div>
@@ -3285,6 +3302,7 @@ function W_loadMore(){
       ?`Olá! Tenho interesse na passagem aérea para ${p.d} (${p.i===p.v?p.i:p.i+'→'+p.v}) por R$${fmtBRL(_wmp)} por pessoa + taxas.${_wdisc}\nPode me enviar mais informações?`
       :`Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i===p.v?p.i:p.i+'→'+p.v}) por R$${fmtBRL(_wmp)} para 2 pessoas + taxas.${_wdisc}\nPode me enviar mais informações?`);
     const waUrl = `https://api.whatsapp.com/send?phone=5511953967095&text=${msg}`;
+    const waUrlBruno = `https://api.whatsapp.com/send?phone=5511981104018&text=${msg}`;
     const div = document.createElement('div');
     div.className = 'wpcard';
     div.innerHTML = `
@@ -3299,7 +3317,7 @@ function W_loadMore(){
       <div class="wpc-body">
         <div class="wpc-top">
           <div><div class="wpc-dest">${p.d}</div><div class="wpc-tipo${_isPassagem(p)?' wpc-flight-tag':''}">${_isPassagem(p)?'✈️ Passagem aérea · ida e volta':`${p.t} · ${p.r}`}</div></div>
-          <div>${wPriceHtml(p.p)}<div class="wpc-pp">${_isPassagem(p)?'por pessoa + taxas*':'p/ 2 pessoas + taxas*'}</div></div>
+          <div>${wPriceHtml(p.p)}<div class="wpc-pp">${_isPassagem(p)?'por pessoa com taxas':'p/ 2 pessoas + taxas*'}</div></div>
         </div>
         ${_isPassagem(p)?'':`<div class="wpc-hotel"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v18h16V4a2 2 0 0 0-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><rect x="9" y="8" width="6" height="4"/></svg> ${p.h}</div>`}
         <div class="wpc-chips">
@@ -3312,8 +3330,17 @@ function W_loadMore(){
         ${p.voo_ida?`<div class="wpc-voo"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/><line x1="2" y1="20" x2="22" y2="20"/></svg> ${p.voo_ida}</div>`:''}
         ${p.voo_volta?`<div class="wpc-voo"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5A1.5 1.5 0 0 0 17.4 5L4.1 10.3a1.5 1.5 0 0 0 .1 2.8l5.4 1.6 1.6 5.4a1.5 1.5 0 0 0 2.8.1z"/><line x1="22" y1="20" x2="2" y2="20"/></svg> ${p.voo_volta}</div>`:''}
         ${(p.roteiro&&!_isPassagem(p))?`<button type="button" class="btn-pc-roteiro" onclick="openRoteiroModal('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Ver roteiro completo</button>`:''}
-        <button type="button" class="btn-pc-buy" onclick="openCheckoutModal('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> ${_isPassagem(p)?'Comprar Passagem':'Comprar Pacote'}</button>
-        <button type="button" class="btn-pc-wa-sm" onclick="requestPackage('${p.id}',event)"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Falar com Atendente</button>
+        <div class="wpc-cta-label">QUERO ESTE ${_isPassagem(p)?'VOO':'PACOTE'} · FALE COM</div>
+        <div class="wpc-wa-row">
+          <a class="wpc-wa-btn wpc-wa-btn-wester" href="${waUrl}" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.732.447 3.36 1.232 4.782L2.076 21.5l4.878-1.278A9.944 9.944 0 0012 21.999c5.523 0 10-4.477 10-10s-4.477-9.999-10-9.999z" fill-rule="evenodd" clip-rule="evenodd"/></svg>
+            Wester
+          </a>
+          <a class="wpc-wa-btn wpc-wa-btn-bruno" href="${waUrlBruno}" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.732.447 3.36 1.232 4.782L2.076 21.5l4.878-1.278A9.944 9.944 0 0012 21.999c5.523 0 10-4.477 10-10s-4.477-9.999-10-9.999z" fill-rule="evenodd" clip-rule="evenodd"/></svg>
+            Bruno
+          </a>
+        </div>
       </div>`;
     frag.appendChild(div);
   });
@@ -3690,7 +3717,7 @@ async function generateShareCard(pkg){
   // Preço
   ctx.textAlign='right';
   ctx.font=`bold 48px 'Plus Jakarta Sans',Arial,sans-serif`;ctx.fillStyle=sky;ctx.fillText(priceStr,W-PAD,y+4);
-  ctx.font=`12px 'DM Sans',Arial,sans-serif`;ctx.fillStyle=muted;ctx.fillText(_isPassagem(pkg)?'por pessoa + taxas*':'p/ 2 pessoas + taxas*',W-PAD,y+26);
+  ctx.font=`12px 'DM Sans',Arial,sans-serif`;ctx.fillStyle=muted;ctx.fillText(_isPassagem(pkg)?'por pessoa com taxas':'p/ 2 pessoas + taxas*',W-PAD,y+26);
   ctx.textAlign='left';
   y+=48;ctx.fillStyle=border;ctx.fillRect(PAD,y,W-PAD*2,1);y+=18;
 
