@@ -1627,6 +1627,21 @@ function _normalizeRegimeCol(v){
   return null;
 }
 const REGIME_LABELS={sc:'Sem Caf\u00e9',cm:'Com Caf\u00e9',mp:'Meia Pens\u00e3o',pc:'Pens\u00e3o Completa',ai:'All Inclusive'};
+// Saída a menos de PRAZO_MIN_DIAS não dá tempo de emitir: some da vitrine.
+// O mesmo pacote (hotel, datas, origem) publicado duas vezes fica só o mais barato.
+const PRAZO_MIN_DIAS=7;
+function _limparLista(pkgs){
+  const lim=new Date();lim.setHours(0,0,0,0);lim.setDate(lim.getDate()+PRAZO_MIN_DIAS);
+  const melhor=new Map();
+  for(const p of pkgs){
+    const m=String(p.i).match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if(m&&new Date(+m[3],m[2]-1,+m[1])<lim)continue;
+    const k=[p.pr,_chaveImg(p.d),_chaveImg(p.h),p.i,p.v,p.o].join('|');
+    const a=melhor.get(k);
+    if(!a||p.p<a.p)melhor.set(k,p);
+  }
+  return [...melhor.values()];
+}
 function normalizePost(p){
   const destino=(p.destino||p.title||'').split(',')[0].trim();
   const preco=parsePrice(p.preco);
@@ -1701,6 +1716,25 @@ function _nk(s){
     .replace(/ - café/g,'').replace(/ café da manhã/g,'')
     .replace(/ - breakfast/g,'').replace(/ - tamandaré/g,'').trim();
 }
+function _chaveImg(s){
+  return String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()
+    .replace(/[^a-z0-9]+/g,' ').trim();
+}
+const _IMG_IDX={};
+// índice sem acento de uma tabela {nome: [fotos]}; refeito quando a tabela cresce
+function _imgIdx(tab,nome){
+  const n=Object.keys(tab).length,c=_IMG_IDX[nome];
+  if(c&&c.n===n)return c.m;
+  const m={};for(const k in tab){if(tab[k]&&tab[k].length)m[_chaveImg(k)]=tab[k];}
+  _IMG_IDX[nome]={n,m};return m;
+}
+function _imgIdxPkgs(){
+  const n=PKGS.length,c=_IMG_IDX.p;
+  if(c&&c.n===n)return c.m;
+  const m={};for(const p of PKGS){if(p.imgs&&p.imgs.length){const k=_chaveImg(p.d);(m[k]=m[k]||[]).push(...p.imgs);}}
+  _IMG_IDX.p={n,m};return m;
+}
+function _semAcento(m,k){const v=k&&m[_chaveImg(k)];return v&&v.length?v:null;}
 function getImg(pkg){
   const seed=Math.abs(String(pkg.id||'').split('').reduce((a,c)=>((a<<5)-a)+c.charCodeAt(0),0));
   function pick(arr){return arr[seed%arr.length];}
@@ -1709,11 +1743,16 @@ function getImg(pkg){
   // 2. Busca pelo hotel na tabela Destinos
   const hk=_nk(pkg.h||'');
   if(hk&&HOTEL_IMGS[hk]&&HOTEL_IMGS[hk].length)return pick(HOTEL_IMGS[hk]);
+  const hs=_semAcento(_imgIdx(HOTEL_IMGS,'h'),hk);if(hs)return pick(hs);
   // 3. Busca pela cidade/destino na tabela Destinos
   const ck=_nk(pkg.d||'');
   if(ck&&CIDADE_IMGS[ck]&&CIDADE_IMGS[ck].length)return pick(CIDADE_IMGS[ck]);
+  // o robô grava "Joao Pessoa" e a tabela tem "joão pessoa": compara sem acento
+  const cs=_semAcento(_imgIdx(CIDADE_IMGS,'c'),ck);if(cs)return pick(cs);
   // 4. Fallback Unsplash
   if(FB_IMG[pkg.d])return FB_IMG[pkg.d];
+  // 4b. Foto de outro pacote do mesmo destino
+  const ds=_semAcento(_imgIdxPkgs(),ck);if(ds)return pick(ds);
   // 5. Fallback final: avião
   return '/aviao-fallback.jpg';
 }
@@ -1798,7 +1837,7 @@ async function loadPkgs(){
       from+=1000;
     }
     if(!all.length) throw new Error('Nenhum pacote publicado encontrado.');
-    PKGS=all.map(normalizePost).filter(p=>p.p>0&&p.d);
+    PKGS=_limparLista(all.map(normalizePost).filter(p=>p.p>0&&p.d));
     try{populateDestinoFilter()}catch(e){}
     try{renderRegimeFilter()}catch(e){}
     try{updateFavCount()}catch(e){}
