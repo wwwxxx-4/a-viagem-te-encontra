@@ -5,6 +5,7 @@
 // link de pagamento (parcelado sem juros) seja enviado ao cliente depois.
 
 const { getSupabaseAdmin } = require('./_lib/supabase');
+const { conferirCupom, registrarUso } = require('./_lib/cupom');
 const { sendReservaNotification } = require('./_lib/email');
 
 module.exports = async function handler(req, res) {
@@ -24,6 +25,7 @@ module.exports = async function handler(req, res) {
       clienteEmail,
       clienteTelefone,
       passageiros,
+      cupom,
     } = body;
 
     if (!preco || !clienteNome || !clienteTelefone) {
@@ -46,6 +48,14 @@ module.exports = async function handler(req, res) {
 
     const supabase = getSupabaseAdmin();
 
+    // Cupom: o servidor confere de novo (fornecedor, destino, hotel, validade, valor)
+    let cupomOk = null;
+    if (cupom) {
+      const c = await conferirCupom(supabase, cupom, pacoteId, valor);
+      if (c.erro) return res.status(400).json({ error: c.erro, cupom: true });
+      cupomOk = c.cupom;
+    }
+
     const { data: pedido, error: insertErr } = await supabase
       .from('pedidos')
       .insert({
@@ -57,12 +67,14 @@ module.exports = async function handler(req, res) {
         cliente_email: clienteEmail || null,
         cliente_telefone: clienteTelefone,
         passageiros,
+        cupom: cupomOk,
         status: 'reserva_solicitada',
       })
       .select()
       .single();
 
     if (insertErr) throw insertErr;
+    if (cupomOk) await registrarUso(supabase, cupomOk);
 
     // Notifica o financeiro para gerar a reserva offline e enviar o link de pagamento
     await sendReservaNotification(pedido);

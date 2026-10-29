@@ -5,6 +5,7 @@
 
 const { MercadoPagoConfig, Preference } = require('mercadopago');
 const { getSupabaseAdmin } = require('./_lib/supabase');
+const { conferirCupom, registrarUso } = require('./_lib/cupom');
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -23,6 +24,7 @@ module.exports = async function handler(req, res) {
       clienteEmail,
       clienteTelefone,
       passageiros,
+      cupom,
     } = body;
 
     if (!preco || !clienteNome || !clienteTelefone) {
@@ -45,6 +47,14 @@ module.exports = async function handler(req, res) {
 
     const supabase = getSupabaseAdmin();
 
+    // Cupom: o servidor confere de novo (fornecedor, destino, hotel, validade, valor)
+    let cupomOk = null;
+    if (cupom) {
+      const c = await conferirCupom(supabase, cupom, pacoteId, valor);
+      if (c.erro) return res.status(400).json({ error: c.erro, cupom: true });
+      cupomOk = c.cupom;
+    }
+
     // 1) Cria o pedido como "pending"
     const { data: pedido, error: insertErr } = await supabase
       .from('pedidos')
@@ -57,12 +67,14 @@ module.exports = async function handler(req, res) {
         cliente_email: clienteEmail || null,
         cliente_telefone: clienteTelefone,
         passageiros,
+        cupom: cupomOk,
         status: 'pending',
       })
       .select()
       .single();
 
     if (insertErr) throw insertErr;
+    if (cupomOk) await registrarUso(supabase, cupomOk);
 
     // 2) Cria a Preferência no Mercado Pago
     const accessToken = process.env.MP_ACCESS_TOKEN;

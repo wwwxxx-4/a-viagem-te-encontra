@@ -2227,8 +2227,8 @@ function buildMatchCards(top5){
     const img=getImg(p);const bg=BG[p.t]||'#1A4F8A';const em='';
     const siPct=Math.min(Math.round((p.si/52)*100),100);
     const sePct=Math.min(Math.round((p.se/65)*100),100);
-    const _mmp=markupPrice(p.p),_mfp=finalPrice(p.p);
-    const _mdisc=COUPON?('\nCUPOM '+COUPON.code+': '+COUPON.label+'! Preço com desconto: R$'+fmtBRL(_mfp)):'';
+    const _mmp=markupPrice(p.p),_mfp=finalPrice(p.p,p);
+    const _mdisc=cupomVale(p)?('\nCUPOM '+COUPON.code+': '+COUPON.label+'! Preço com desconto: R$'+fmtBRL(_mfp)):'';
     const wamsg=`Olá! Fiz o quiz em A Viagem te Encontra e ${p.d} apareceu com ${p.score}% de compatibilidade!
 
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v18h16V4a2 2 0 0 0-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><rect x="9" y="8" width="6" height="4"/></svg> ${p.h}
@@ -2246,7 +2246,7 @@ Pode me enviar mais informações?`;
       <div class="mc-body">
         <div class="mc-top">
           <div><div class="mc-dest">${p.d}</div><div class="mc-tipo">${p.t} · ${p.r}</div></div>
-          <div class="mc-price-wrap">${priceHtml(p.p,'mc-pv')}<div class="mc-pl">${_isPassagem(p)?'por pessoa com taxas':'p/ 2 pessoas + taxas*'}</div></div>
+          <div class="mc-price-wrap">${priceHtml(p.p,'mc-pv',p)}<div class="mc-pl">${_isPassagem(p)?'por pessoa com taxas':'p/ 2 pessoas + taxas*'}</div></div>
         </div>
         <div class="compat-row"><span class="compat-lbl">Compatibilidade</span><div class="compat-track"><div class="compat-fill" style="width:${p.score}%"></div></div><span class="compat-pct">${p.score}%</span></div>
         <div class="mc-score-detail">
@@ -2425,8 +2425,8 @@ function M_renderBatch(){
     const sc=ST.scores[p.id]?.score;
     const img=getImg(p);const bg={praia:'#0077B6',montanha:'#2D6A4F',natureza:'#386641',cidade:'#1A4F8A'}[p.t]||'#1A4F8A';
     const em='';
-    const _mp=markupPrice(p.p),_fp=finalPrice(p.p);
-    const _disc=COUPON?('\nCUPOM '+COUPON.code+' ('+COUPON.label+') aplicado! Preço com desconto: R$'+fmtBRL(_fp)):'';
+    const _mp=markupPrice(p.p),_fp=finalPrice(p.p,p);
+    const _disc=cupomVale(p)?('\nCUPOM '+COUPON.code+' ('+COUPON.label+') aplicado! Preço com desconto: R$'+fmtBRL(_fp)):'';
     const wamsg=encodeURIComponent(_isPassagem(p)
       ?`Olá! Tenho interesse na passagem aérea para ${p.d} (${p.i===p.v?p.i:p.i+'→'+p.v}) por R$${fmtBRL(_mp)} por pessoa + taxas.${_disc}\nPode me enviar mais informações?`
       :`Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i===p.v?p.i:p.i+'→'+p.v}) por R$${fmtBRL(_mp)} para 2 pessoas + taxas.${_disc}\nPode me enviar mais informações?`);
@@ -2446,7 +2446,7 @@ function M_renderBatch(){
       <div class="pc-body">
         <div class="pc-top-row">
           <div><div class="pc-dest">${p.d}</div>${_isPassagem(p)?'<div class="pc-flight-tag">✈️ Passagem aérea · ida e volta</div>':''}</div>
-          <div class="pc-price-wrap">${priceHtml(p.p,'pc-price')}<div class="pc-pp">${_isPassagem(p)?'por pessoa com taxas':'p/ 2 pessoas + taxas*'}</div></div>
+          <div class="pc-price-wrap">${priceHtml(p.p,'pc-price',p)}<div class="pc-pp">${_isPassagem(p)?'por pessoa com taxas':'p/ 2 pessoas + taxas*'}</div></div>
         </div>
         ${_isPassagem(p)?'':`<div class="pc-hotel"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v18h16V4a2 2 0 0 0-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><rect x="9" y="8" width="6" height="4"/></svg> ${p.h}</div>`}
         <div class="pc-chips">
@@ -2695,20 +2695,44 @@ let COUPONS_CACHE = {}; // cache dos cupons carregados
 // Preço com markup (exibido ao usuário)
 function markupPrice(p){ return Math.round(p * MARKUP); }
 
+// O cupom pode valer só para alguns fornecedores, destinos, hotéis ou datas de
+// embarque (regras de cupom_validar, migration 066). Espelho da regra do banco,
+// só para mostrar o desconto nos pacotes certos: quem decide é o servidor.
+const _normCupom=s=>String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+function cupomVale(pkg){
+  if(!COUPON) return false;
+  const r=COUPON.regras||{};
+  if(!pkg) return true;
+  if((r.fornecedores||[]).length && !r.fornecedores.some(f=>_normCupom(f).replace(/^forn(ecedor)?\.?\s*/,'')===_normCupom(pkg.forn))) return false;
+  if((r.destinos||[]).length && !r.destinos.some(d=>_normCupom(d)===_normCupom(pkg.d))) return false;
+  if((r.hoteis||[]).length && !r.hoteis.some(h=>h===String(pkg.id)||(_normCupom(h)&&_normCupom(pkg.h).includes(_normCupom(h))))) return false;
+  if(r.viagem_de||r.viagem_ate){
+    const m=String(pkg.i).match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if(!m) return false;
+    const ida=m[3]+'-'+m[2].padStart(2,'0')+'-'+m[1].padStart(2,'0');
+    if((r.viagem_de&&ida<r.viagem_de)||(r.viagem_ate&&ida>r.viagem_ate)) return false;
+  }
+  return true;
+}
+function _cupomRestrito(){
+  const r=(COUPON&&COUPON.regras)||{};
+  return !!((r.fornecedores||[]).length||(r.destinos||[]).length||(r.hoteis||[]).length||r.viagem_de||r.viagem_ate);
+}
+
 // Preço final após cupom
-function finalPrice(p){
+function finalPrice(p,pkg){
   const mp = markupPrice(p);
-  if(!COUPON) return mp;
+  if(!COUPON || (pkg && !cupomVale(pkg))) return mp;
   return Math.round(mp * (1 - COUPON.pct / 100));
 }
 
 function fmtBRL(n){ return Number(n).toLocaleString('pt-BR'); }
 
 // HTML de preço — riscado se coupon ativo
-function priceHtml(originalP, cls){
+function priceHtml(originalP, cls, pkg){
   const mp = markupPrice(originalP);
-  const fp = finalPrice(originalP);
-  if(COUPON){
+  const fp = finalPrice(originalP, pkg);
+  if(COUPON && (!pkg || cupomVale(pkg))){
     return `<span class="price-strike">R$${fmtBRL(mp)}</span>
             <span class="${cls} price-disc">R$${fmtBRL(fp)} <span class="price-badge">${COUPON.label}</span></span>`;
   }
@@ -2716,10 +2740,10 @@ function priceHtml(originalP, cls){
 }
 
 // HTML preço para web cards
-function wPriceHtml(originalP){
+function wPriceHtml(originalP, pkg){
   const mp = markupPrice(originalP);
-  const fp = finalPrice(originalP);
-  if(COUPON){
+  const fp = finalPrice(originalP, pkg);
+  if(COUPON && (!pkg || cupomVale(pkg))){
     return `<div class="wpc-strike">R$${fmtBRL(mp)}</div><div class="wpc-pv-disc">R$${fmtBRL(fp)} <span class="price-badge">${COUPON.label}</span></div>`;
   }
   return `<div class="wpc-pv">R$${fmtBRL(mp)}</div>`;
@@ -2727,19 +2751,19 @@ function wPriceHtml(originalP){
 
 // Carregar cupom do Supabase
 async function fetchCoupon(code){
-  const url = `${SB_URL}/rest/v1/coupons?code=eq.${encodeURIComponent(code)}&active=eq.true&select=code,pct,label,expires_at,max_uses,used_count`;
-  const res = await fetch(url, {
-    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}
+  const res = await fetch(`${SB_URL}/rest/v1/rpc/cupom_validar`, {
+    method:'POST',
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({p_code:code})
   });
   if(!res.ok) return null;
-  const data = await res.json();
-  if(!data || !data.length) return null;
-  const c = data[0];
-  // Check expiry
-  if(c.expires_at && new Date(c.expires_at) < new Date()) return 'expired';
-  // Check uses
-  if(c.max_uses && c.used_count >= c.max_uses) return 'exhausted';
-  return {code: c.code, pct: c.pct, label: c.label};
+  const c = await res.json();
+  if(!c || !c.ok){
+    if(c && c.motivo==='expirado') return 'expired';
+    if(c && c.motivo==='esgotado') return 'exhausted';
+    return null;
+  }
+  return {code: c.code, pct: c.pct, label: c.label, regras: c.regras||{}};
 }
 
 // Abrir/fechar modal de filtros (mobile)
@@ -2779,7 +2803,7 @@ function openRoteiroModal(pkgId,event){
   const ct=document.getElementById('rt-content');
   if(!modal||!ct) return;
   const img=getImg(pkg);
-  const _mp=markupPrice(pkg.p),_fp=finalPrice(pkg.p);
+  const _mp=markupPrice(pkg.p),_fp=finalPrice(pkg.p,pkg);
   const dias=_calcDias(pkg.i,pkg.v);
   const regimeLabel=pkg.regime&&REGIME_LABELS[pkg.regime]?REGIME_LABELS[pkg.regime]:'';
   const chips=[
@@ -2833,7 +2857,7 @@ function openCheckoutModal(pkgId,event){
   if(!modal||!sum) return;
   const hotelClean=(pkg.h||'').replace(/\s*[-–]\s*(café da manhã|cafe da manha|all inclusive|all-inclusive|meia pensão|pensão completa|breakfast|half board|full board).*/gi,'').trim();
   const passagem=_isPassagem(pkg);
-  const valorPorPessoa=finalPrice(pkg.p);
+  const valorPorPessoa=finalPrice(pkg.p,pkg);
   const valor=passagem?valorPorPessoa*2:valorPorPessoa;
   const regimeLabel=pkg.regime&&REGIME_LABELS[pkg.regime]?REGIME_LABELS[pkg.regime]:'';
   const dias=_calcDias(pkg.i,pkg.v);
@@ -2883,11 +2907,12 @@ function _checkoutPayloadBase(data){
     pacoteId:pkg.id,
     pacoteDestino:pkg.d,
     pacoteHotel:hotelClean,
-    preco:_isPassagem(pkg)?finalPrice(pkg.p)*2:finalPrice(pkg.p),
+    preco:_isPassagem(pkg)?finalPrice(pkg.p,pkg)*2:finalPrice(pkg.p,pkg),
     clienteNome:nomeCompleto,
     clienteEmail:data.email,
     clienteTelefone:data.telefone,
     passageiros:data.passageiros,
+    cupom:cupomVale(pkg)?COUPON.code:null,
   };
 }
 function closeCheckoutModal(e){
@@ -2916,13 +2941,13 @@ async function submitCheckout(event){
       body:JSON.stringify(_checkoutPayloadBase(data))
     });
     const result=await resp.json();
-    if(!resp.ok || !result.initPoint) throw new Error(result.error||'Erro ao gerar pagamento');
+    if(!resp.ok || !result.initPoint) throw Object.assign(new Error(result.error||'Erro ao gerar pagamento'),{cupom:!!result.cupom});
     window.location.href=result.initPoint;
   }catch(err){
     errEl=document.createElement('div');
     errEl.id='ck-error';
     errEl.className='ck-error';
-    errEl.textContent='Não foi possível iniciar o pagamento. Tente novamente em instantes.';
+    errEl.textContent=err.cupom?err.message:'Não foi possível iniciar o pagamento. Tente novamente em instantes.';
     form.insertBefore(errEl,form.firstChild);
     submitBtn.disabled=false;
     if(reservaBtn) reservaBtn.disabled=false;
@@ -2953,7 +2978,7 @@ async function submitReserva(event){
       body:JSON.stringify(_checkoutPayloadBase(data))
     });
     const result=await resp.json();
-    if(!resp.ok) throw new Error(result.error||'Erro ao solicitar reserva');
+    if(!resp.ok) throw Object.assign(new Error(result.error||'Erro ao solicitar reserva'),{cupom:!!result.cupom});
     // Sucesso: esconde o formulário e mostra mensagem de confirmação
     form.style.display='none';
     const okEl=document.getElementById('ck-reserva-ok');
@@ -2962,7 +2987,7 @@ async function submitReserva(event){
     errEl=document.createElement('div');
     errEl.id='ck-error';
     errEl.className='ck-error';
-    errEl.textContent='Não foi possível solicitar a reserva. Tente novamente em instantes.';
+    errEl.textContent=err.cupom?err.message:'Não foi possível solicitar a reserva. Tente novamente em instantes.';
     form.insertBefore(errEl,form.firstChild);
     submitBtn.disabled=false;
     reservaBtn.disabled=false;
@@ -3031,7 +3056,7 @@ async function applyCoupon(){
 
   COUPON = result;
   COUPONS_CACHE[code] = result;
-  if(fb){ fb.className='coupon-feedback ok'; fb.textContent=`✅ ${result.label} aplicado! Todos os preços foram atualizados.`; }
+  if(fb){ fb.className='coupon-feedback ok'; fb.textContent=_cupomRestrito()?`✅ ${result.label} aplicado nos pacotes participantes.`:`✅ ${result.label} aplicado! Todos os preços foram atualizados.`; }
   document.getElementById('coupon-remove-btn').style.display='block';
   updateFab();
   rerenderPrices();
@@ -3330,8 +3355,8 @@ function W_loadMore(){
     const img  = getImg(p);
     const bg   = BG_W[p.t] || '#1A4F8A';
     const em   = '';
-    const _wmp=markupPrice(p.p),_wfp=finalPrice(p.p);
-    const _wdisc=COUPON?('\nCUPOM '+COUPON.code+' ('+COUPON.label+')! Preço com desconto: R$'+fmtBRL(_wfp)):'';
+    const _wmp=markupPrice(p.p),_wfp=finalPrice(p.p,p);
+    const _wdisc=cupomVale(p)?('\nCUPOM '+COUPON.code+' ('+COUPON.label+')! Preço com desconto: R$'+fmtBRL(_wfp)):'';
     const msg=encodeURIComponent(_isPassagem(p)
       ?`Olá! Tenho interesse na passagem aérea para ${p.d} (${p.i===p.v?p.i:p.i+'→'+p.v}) por R$${fmtBRL(_wmp)} por pessoa + taxas.${_wdisc}\nPode me enviar mais informações?`
       :`Olá! Tenho interesse no pacote ${p.d} – ${p.h} (${p.i===p.v?p.i:p.i+'→'+p.v}) por R$${fmtBRL(_wmp)} para 2 pessoas + taxas.${_wdisc}\nPode me enviar mais informações?`);
@@ -3350,7 +3375,7 @@ function W_loadMore(){
       <div class="wpc-body">
         <div class="wpc-top">
           <div><div class="wpc-dest">${p.d}</div><div class="wpc-tipo${_isPassagem(p)?' wpc-flight-tag':''}">${_isPassagem(p)?'✈️ Passagem aérea · ida e volta':`${p.t} · ${p.r}`}</div></div>
-          <div>${wPriceHtml(p.p)}<div class="wpc-pp">${_isPassagem(p)?'por pessoa com taxas':'p/ 2 pessoas + taxas*'}</div></div>
+          <div>${wPriceHtml(p.p,p)}<div class="wpc-pp">${_isPassagem(p)?'por pessoa com taxas':'p/ 2 pessoas + taxas*'}</div></div>
         </div>
         ${_isPassagem(p)?'':`<div class="wpc-hotel"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v18h16V4a2 2 0 0 0-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><rect x="9" y="8" width="6" height="4"/></svg> ${p.h}</div>`}
         <div class="wpc-chips">
@@ -3852,7 +3877,7 @@ function requestPackage(pkgId,event){
   const price=markupPrice(pkg.p);
   const hotelClean=(pkg.h||'').replace(/\s*[-–]\s*(café da manhã|cafe da manha|all inclusive|all-inclusive|meia pensão|pensão completa|breakfast|half board|full board).*/gi,'').trim();
   const dias=_calcDias(pkg.i,pkg.v);
-  const disc=COUPON?'\n🏷️ Cupom '+COUPON.code+' ('+COUPON.label+')! Preço com desconto: R$'+fmtBRL(finalPrice(pkg.p)):'';
+  const disc=cupomVale(pkg)?'\n🏷️ Cupom '+COUPON.code+' ('+COUPON.label+')! Preço com desconto: R$'+fmtBRL(finalPrice(pkg.p,pkg)):'';
   const regime=pkg.cm?'Café da Manhã':pkg.ai?'All Inclusive':pkg.mp?'Meia Pensão':pkg.pc?'Pensão Completa':'';
   const msg=[
     _isPassagem(pkg)?'Olá! Tenho interesse na seguinte passagem aérea:':'Olá! Tenho interesse no seguinte pacote:',
